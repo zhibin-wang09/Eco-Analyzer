@@ -17,12 +17,6 @@ import {
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3.0.1/states-10m.json";
 
-interface CountyGeometry {
-  id: string;
-  [key: string]: any;
-}
-
-
 const USMap = ({
   onStateSelect,
 }: {
@@ -60,7 +54,7 @@ const USMap = ({
   };
 
   const handleZoomIn = () => {
-    if (position.zoom >= 20) return;
+    if (position.zoom >= 50) return;
     setPosition((pos) =>({ ...pos, zoom: pos.zoom * 2 }));
   };
 
@@ -110,7 +104,7 @@ const USMap = ({
           <ZoomableGroup
             zoom={position.zoom}
             center={position.coordinates as [number, number]}
-            maxZoom={35}
+            maxZoom={50}
             onMoveEnd={handleMoveEnd}
           >
             <Geographies geography={geoUrl}>
