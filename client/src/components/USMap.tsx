@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import {
   Box,
   Text,
@@ -22,14 +22,6 @@ interface CountyGeometry {
   [key: string]: any;
 }
 
-interface CountyData {
-  objects: {
-    counties: {
-      geometries: CountyGeometry[];
-    };
-  };
-  [key: string]: any;
-}
 
 const USMap = ({
   onStateSelect,
@@ -39,7 +31,6 @@ const USMap = ({
   const [selectedState, setSelectedState] = useState<string | null>(null);
   const [position, setPosition] = useState({ coordinates: [-97, 38], zoom: 1 });
   const [showCounties, setShowCounties] = useState(false);
-  const [countyData, setCountyData] = useState<CountyData | null>(null);
 
   const mapWidth = useBreakpointValue({
     base: "100%",
@@ -69,8 +60,8 @@ const USMap = ({
   };
 
   const handleZoomIn = () => {
-    if (position.zoom >= 4) return;
-    setPosition((pos) => ({ ...pos, zoom: pos.zoom * 2 }));
+    if (position.zoom >= 20) return;
+    setPosition((pos) =>({ ...pos, zoom: pos.zoom * 2 }));
   };
 
   const handleZoomOut = () => {
@@ -119,6 +110,7 @@ const USMap = ({
           <ZoomableGroup
             zoom={position.zoom}
             center={position.coordinates as [number, number]}
+            maxZoom={35}
             onMoveEnd={handleMoveEnd}
           >
             <Geographies geography={geoUrl}>
@@ -204,11 +196,6 @@ const USMap = ({
           <Text>Arkansas (Republican)</Text>
         </HStack>
       </HStack>
-      {selectedState && (
-        <Box p={4} bg="gray.100" borderRadius="md">
-          <Text fontWeight="bold">Selected State: {selectedState}</Text>
-        </Box>
-      )}
     </VStack>
   );
 };
