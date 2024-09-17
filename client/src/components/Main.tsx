@@ -3,23 +3,10 @@ import { Box, Flex, useBreakpointValue, ResponsiveValue } from '@chakra-ui/react
 import USMap from './USMap';
 import Sidebar from './SideBar';
 
-import BarChart from './BarChart';
-import {AR_IncomeVotingData} from '../chartData';
+import BaseChart from './BaseChart';
 
 const MainLayout = () => {
   const [selectedState, setSelectedState] = useState<string | null>(null);
-  const [userData, setUserData] = useState(
-    {
-      labels: AR_IncomeVotingData.map((data) => data.income),
-      datasets: [
-        {
-          label: "Voting Percentage",
-          data: AR_IncomeVotingData.map((data) => data.percentage),
-          backgroundColor: ["blue", "red"]
-        }
-      ]
-    }
-  );
   
   const direction = useBreakpointValue({ 
     base: "column", 
@@ -39,9 +26,7 @@ const MainLayout = () => {
       </Box>
       <Sidebar selectedState={selectedState} />
 
-      <div style={{width: 600}}>
-        <BarChart chartData={userData}/>
-      </div>
+      <BaseChart />
       
     </Flex>
 
