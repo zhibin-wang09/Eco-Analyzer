@@ -9,6 +9,8 @@ import {
     NY_AgeVotingData 
 } from '../chartData';
 
+import '../Chart.css';
+
 export default function BaseChart(){
 
     const [AR_IncomeData, setAR_IncomeData] = useState(
@@ -119,25 +121,12 @@ export default function BaseChart(){
 
     return(
         <div>
-            <div>
-                <button onClick={setAR}>
-                    AR
-                </button>
-                <button onClick={setNY}>
-                    NY
-                </button>
-                <button onClick={setToIncome}>
-                    Income
-                </button>
-                <button onClick={setToRace}>
-                    Race
-                </button>
-                <button onClick={setToAge}>
-                    Age
-                </button>
-            </div>
+            <div style={{width: 800}}>
 
-            <div style={{width: 600}}>
+                <p className='chart_title_font'>
+                    {AR_or_NY} {dataType}
+                </p>
+
                 {(AR_or_NY == 'AR' && dataType == 'income') && (
                     <BarChart chartData={AR_IncomeData}/>
                 )}
@@ -161,6 +150,57 @@ export default function BaseChart(){
                 {(AR_or_NY == 'NY' && dataType == 'age') && (
                     <BarChart chartData={NY_AgeData}/>
                 )}
+            </div>
+
+            <div>
+                <div>
+                    <button 
+                        className='chart_button'
+                        onClick={setAR}
+                    >
+                        AR
+                    </button>
+                </div>
+
+                <div>
+                    <button
+                        className='chart_button'
+                        onClick={setNY}
+                    >
+                        NY
+                    </button>
+                </div>
+
+                <p>
+                    ------
+                </p>
+
+                <div>
+                    <button
+                        className='chart_button'
+                        onClick={setToIncome}
+                    >
+                        Income
+                    </button>
+                </div>
+
+                <div>
+                    <button
+                        className='chart_button'
+                        onClick={setToRace}
+                    >
+                        Race
+                    </button>
+                </div>
+
+                <div>
+                    <button
+                        className='chart_button'
+                        onClick={setToAge}
+                    >
+                        Age
+                    </button>
+                </div>
             </div>
         </div>
         
