@@ -1,0 +1,14 @@
+.chart_title_font{
+    font-weight: bold;
+    font-size: 50px;
+}
+
+.chart_button{
+    height:30px;
+    width:100px;
+    background-color:rgba(0,0,255,0.7);
+    color: white;
+    border-color:rgba(0,0,255,0.7);
+    cursor:pointer;
+    margin: 10px;
+}

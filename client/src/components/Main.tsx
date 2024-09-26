@@ -8,6 +8,8 @@ import {
 import USMap from "./USMap";
 import Sidebar from "./SideBar";
 
+import BaseChart from "./BaseChart";
+
 const MainLayout = () => {
   const [selectedState, setSelectedState] = useState<string | null>(null);
 
@@ -17,18 +19,24 @@ const MainLayout = () => {
   }) as ResponsiveValue<"column" | "row">;
 
   return (
-    <Flex
-      direction={direction}
-      width="100%"
-      height={{ base: "auto", md: "100vh" }}
-      p={4}
-      gap={4}
-    >
-      <Box flex={1}>
-        <USMap onStateSelect={setSelectedState} />
-      </Box>
-      <Sidebar selectedState={selectedState} />
-    </Flex>
+    <div>
+      <Flex
+        direction={direction}
+        width="100%"
+        height={{ base: "auto", md: "100vh" }}
+        p={4}
+        gap={4}
+      >
+        <Box flex={1}>
+          <USMap onStateSelect={setSelectedState} />
+        </Box>
+        <Sidebar selectedState={selectedState} />
+        
+      </Flex>
+
+      <BaseChart />
+    </div>
+    
   );
 };
 
