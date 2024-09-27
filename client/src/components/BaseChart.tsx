@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import BarChart from './BarChart';
 import { 
     AR_IncomeVotingData,
@@ -10,8 +10,13 @@ import {
 } from '../chartData';
 
 import '../Chart.css';
+import { Box, Text, Button, ButtonGroup } from '@chakra-ui/react';
 
-export default function BaseChart(){
+interface BaseChartProps{
+    selectedState: string | null;
+}
+
+export default function BaseChart({selectedState} : BaseChartProps){
 
     const [AR_IncomeData, setAR_IncomeData] = useState(
         {
@@ -91,118 +96,59 @@ export default function BaseChart(){
         }
     );
 
-    const [AR_or_NY, setAR_or_NY] = useState('AR');
-    const [dataType, setDataType] = useState('income');
-
-    // const handleStateChange = (event) => {
-    //     setWhichState(event.target.value);
-    // }
-
-    const setAR = () => {
-        setAR_or_NY('AR');
-    }
-
-    const setNY = () => {
-        setAR_or_NY('NY');
-    }
+    const [dataType, setDataType] = useState('Income');
 
     const setToIncome = () => {
-        setDataType('income');
+        setDataType('Income');
     }
 
     const setToRace = () => {
-        setDataType('race');
+        setDataType('Race');
     }
 
     const setToAge = () => {
-        setDataType('age');
+        setDataType('Age');
     }
 
-
     return(
-        <div>
-            <div style={{width: 800}}>
+        (selectedState !== null ? <Box>
+            <Box style={{width: 800}}>
 
-                <p className='chart_title_font'>
-                    {AR_or_NY} {dataType}
-                </p>
+                <Text className='chart_title_font' fontSize="6xl">
+                    {selectedState} {dataType}
+                </Text>
 
-                {(AR_or_NY == 'AR' && dataType == 'income') && (
+                {(selectedState === 'Arkansas' && dataType === 'Income') && (
                     <BarChart chartData={AR_IncomeData}/>
                 )}
 
-                {(AR_or_NY == 'AR' && dataType == 'race') && (
+                {(selectedState === 'Arkansas' && dataType === 'Race') && (
                     <BarChart chartData={AR_RaceData}/>
                 )}
 
-                {(AR_or_NY == 'AR' && dataType == 'age') && (
+                {(selectedState === 'Arkansas' && dataType === 'Age') && (
                     <BarChart chartData={AR_AgeData}/>
                 )}
 
-                {(AR_or_NY == 'NY' && dataType == 'income') && (
+                {(selectedState === 'New York' && dataType === 'Income') && (
                     <BarChart chartData={NY_IncomeData}/>
                 )}
 
-                {(AR_or_NY == 'NY' && dataType == 'race') && (
+                {(selectedState === 'New York' && dataType === 'Race') && (
                     <BarChart chartData={NY_RaceData}/>
                 )}
 
-                {(AR_or_NY == 'NY' && dataType == 'age') && (
+                {(selectedState === 'New York' && dataType === 'Age') && (
                     <BarChart chartData={NY_AgeData}/>
                 )}
-            </div>
+            </Box>
 
-            <div>
-                <div>
-                    <button 
-                        className='chart_button'
-                        onClick={setAR}
-                    >
-                        AR
-                    </button>
-                </div>
-
-                <div>
-                    <button
-                        className='chart_button'
-                        onClick={setNY}
-                    >
-                        NY
-                    </button>
-                </div>
-
-                <p>
-                    ------
-                </p>
-
-                <div>
-                    <button
-                        className='chart_button'
-                        onClick={setToIncome}
-                    >
-                        Income
-                    </button>
-                </div>
-
-                <div>
-                    <button
-                        className='chart_button'
-                        onClick={setToRace}
-                    >
-                        Race
-                    </button>
-                </div>
-
-                <div>
-                    <button
-                        className='chart_button'
-                        onClick={setToAge}
-                    >
-                        Age
-                    </button>
-                </div>
-            </div>
-        </div>
+            <ButtonGroup pt='5'>
+                <Button onClick={setToIncome}>Income</Button>
+                <Button onClick={setToAge}>Age</Button>
+                <Button onClick={setToRace}>Race</Button>
+            </ButtonGroup>
+        </Box> : <></>)
         
     )
 }

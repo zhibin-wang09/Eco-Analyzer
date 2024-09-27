@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Box,
   Flex,
   useBreakpointValue,
   ResponsiveValue,
+  Center
 } from "@chakra-ui/react";
 import USMap from "./USMap";
 import Sidebar from "./SideBar";
@@ -17,9 +18,8 @@ const MainLayout = () => {
     base: "column",
     md: "row",
   }) as ResponsiveValue<"column" | "row">;
-
   return (
-    <div>
+    <Box>
       <Flex
         direction={direction}
         width="100%"
@@ -27,15 +27,12 @@ const MainLayout = () => {
         p={4}
         gap={4}
       >
-        <Box flex={1}>
+        <Center flex={1}>
           <USMap onStateSelect={setSelectedState} />
-        </Box>
-        <Sidebar selectedState={selectedState} />
-        
+        </Center>
+          <BaseChart selectedState ={selectedState} /> 
       </Flex>
-
-      <BaseChart />
-    </div>
+    </Box>  
     
   );
 };
