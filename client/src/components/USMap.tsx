@@ -65,7 +65,7 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect }) => {
       .catch((error) => console.error("Error fetching states data:", error));
 
     // Fetch New York precincts data
-    if (!nyPrecincts) {
+    if (nyPrecincts == null) {
       fetch("/newyork_precincts.json")
         .then((response) => response.json())
         .then((data) => {
@@ -76,16 +76,17 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect }) => {
     }
 
     // Fetch Arkansas precincts data
-    if (!arPrecincts) {
+    if (arPrecincts == null) {
       fetch("/arkansas_precincts.json")
         .then((response) => response.json())
         .then((data) => {
+          console.log(data);
           const processedData = processGeoData(data, "Arkansas");
           if (processedData) setArPrecincts(processedData);
         })
         .catch((error) => console.error("Error fetching AR precincts:", error));
     }
-  }, []);
+  }, [setArPrecincts, setNyPrecincts]);
 
   const getStateColor = (stateName: string) => {
     if (stateName === "New York") return "#0000FF";
