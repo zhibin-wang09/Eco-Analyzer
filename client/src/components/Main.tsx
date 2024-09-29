@@ -30,9 +30,14 @@ const MainLayout = () => {
         <Center flex={1}>
           <USMap onStateSelect={setSelectedState} />
         </Center>
-        <Center flex={1}>
-          <BaseChart selectedState={selectedState} />
-        </Center>
+        {selectedState == null ? (
+          <>
+          </>
+        ) : (
+          <Center flex = {1} >
+            <BaseChart selectedState={selectedState} />
+          </Center>
+        )}
       </Flex>
     </Box>
   );
