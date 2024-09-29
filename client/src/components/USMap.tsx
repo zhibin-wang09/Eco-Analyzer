@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, GeoJSON, ZoomControl } from 'react-leaflet';
-import { LatLngTuple, LatLngBoundsExpression } from 'leaflet';
-import { feature } from 'topojson-client';
+import React, { useState, useEffect, useMemo } from "react";
+import { MapContainer, TileLayer, GeoJSON, ZoomControl } from "react-leaflet";
+import { LatLngTuple, LatLngBoundsExpression } from "leaflet";
+import { feature } from "topojson-client";
 import {
   Box,
   Text,
@@ -65,22 +65,26 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect }) => {
       .catch((error) => console.error("Error fetching states data:", error));
 
     // Fetch New York precincts data
-    fetch("/newyork_precincts.json")
-      .then((response) => response.json())
-      .then((data) => {
-        const processedData = processGeoData(data, "New York");
-        if (processedData) setNyPrecincts(processedData);
-      })
-      .catch((error) => console.error("Error fetching NY precincts:", error));
+    if (!nyPrecincts) {
+      fetch("/newyork_precincts.json")
+        .then((response) => response.json())
+        .then((data) => {
+          const processedData = processGeoData(data, "New York");
+          if (processedData) setNyPrecincts(processedData);
+        })
+        .catch((error) => console.error("Error fetching NY precincts:", error));
+    }
 
     // Fetch Arkansas precincts data
-    fetch("/arkansas_precincts.json")
-      .then((response) => response.json())
-      .then((data) => {
-        const processedData = processGeoData(data, "Arkansas");
-        if (processedData) setArPrecincts(processedData);
-      })
-      .catch((error) => console.error("Error fetching AR precincts:", error));
+    if (!arPrecincts) {
+      fetch("/arkansas_precincts.json")
+        .then((response) => response.json())
+        .then((data) => {
+          const processedData = processGeoData(data, "Arkansas");
+          if (processedData) setArPrecincts(processedData);
+        })
+        .catch((error) => console.error("Error fetching AR precincts:", error));
+    }
   }, []);
 
   const getStateColor = (stateName: string) => {
@@ -112,7 +116,7 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect }) => {
       fillColor: getStateColor(stateName),
       weight: 1,
       opacity: 1,
-      color: 'white',
+      color: "white",
       fillOpacity: 0.7,
     };
   };
@@ -122,7 +126,7 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect }) => {
       fillColor: getPrecinctColor(feature.properties.state),
       weight: 1,
       opacity: 1,
-      color: 'white',
+      color: "white",
       fillOpacity: 0.7,
     };
   };
@@ -133,8 +137,8 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect }) => {
 
   const center: LatLngTuple = [39.8283, -98.5795];
   const bounds: LatLngBoundsExpression = [
-    [24.396308, -125.000000], // Southwest coordinates
-    [49.384358, -66.934570]   // Northeast coordinates
+    [24.396308, -125.0], // Southwest coordinates
+    [49.384358, -66.93457], // Northeast coordinates
   ];
 
   return (
@@ -159,7 +163,7 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect }) => {
           <MapContainer
             center={center}
             zoom={4}
-            style={{ height: '100%', width: '100%' }}
+            style={{ height: "100%", width: "100%" }}
             zoomControl={false}
             bounds={bounds}
           >
@@ -167,12 +171,24 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect }) => {
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
-            <GeoJSON data={statesData} style={stateStyle} onEachFeature={onEachState} />
+            <GeoJSON
+              data={statesData}
+              style={stateStyle}
+              onEachFeature={onEachState}
+            />
             {showPrecincts && (
-              <GeoJSON key="ny-precincts" data={nyPrecincts} style={precinctStyle} />
+              <GeoJSON
+                key="ny-precincts"
+                data={nyPrecincts}
+                style={precinctStyle}
+              />
             )}
             {showPrecincts && (
-              <GeoJSON key="ar-precincts" data={arPrecincts} style={precinctStyle} />
+              <GeoJSON
+                key="ar-precincts"
+                data={arPrecincts}
+                style={precinctStyle}
+              />
             )}
             <ZoomControl position="bottomright" />
           </MapContainer>
