@@ -2,7 +2,15 @@ import React, { useEffect, useRef, useCallback } from "react";
 import L from "leaflet";
 import { GeoJsonObject, Geometry, Feature } from "geojson";
 import statesData from "./state";
-import { Box, Text, VStack, Heading, HStack, Center } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  VStack,
+  Heading,
+  HStack,
+  Center,
+  Button,
+} from "@chakra-ui/react";
 
 // Import Leaflet CSS
 import "leaflet/dist/leaflet.css";
@@ -25,14 +33,20 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect }) => {
     layer.bringToFront();
   }, []);
 
-  const resetHighlight = useCallback((e: L.LeafletMouseEvent, geojson: L.GeoJSON) => {
-    geojson.resetStyle(e.target);
-  }, []);
+  const resetHighlight = useCallback(
+    (e: L.LeafletMouseEvent, geojson: L.GeoJSON) => {
+      geojson.resetStyle(e.target);
+    },
+    []
+  );
 
-  const onClick = useCallback((e: L.LeafletMouseEvent, map: L.Map, feature: Feature) => {
-    const stateName = feature.properties?.name || null;
-    onStateSelect(stateName);
-  }, [onStateSelect]);
+  const onClick = useCallback(
+    (e: L.LeafletMouseEvent, map: L.Map, feature: Feature) => {
+      const stateName = feature.properties?.name || null;
+      onStateSelect(stateName);
+    },
+    [onStateSelect]
+  );
 
   useEffect(() => {
     if (mapRef.current) {
@@ -40,7 +54,7 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect }) => {
 
       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         minZoom: 3,
-        maxZoom: 8,
+        maxZoom: 24,
         attribution:
           '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       }).addTo(map);
@@ -70,6 +84,18 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect }) => {
         onEachFeature: onEachFeature,
       }).addTo(map);
 
+      fetch("/arkansas_precincts.json")
+        .then((response) => response.json())
+        .then((geojson) => {
+          L.geoJSON(geojson as GeoJsonObject).addTo(map);
+        });
+
+        fetch("/newyork_precincts.json")
+        .then((response) => response.json())
+        .then((geojson) => {
+          L.geoJSON(geojson as GeoJsonObject).addTo(map);
+        });
+
       return () => {
         map.remove();
       };
@@ -81,6 +107,9 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect }) => {
       <Heading as="h1" size="xl" textAlign="center">
         US Political Map
       </Heading>
+      <Center>
+        <Button>Show Precinct</Button>
+      </Center>
       <Center id="map" ref={mapRef} height="400px" width="100%" />
       <HStack justifyContent="center" spacing={4}>
         <HStack>
