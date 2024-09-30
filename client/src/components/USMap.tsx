@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from "react";
+import React, { useEffect, useRef, useCallback, useState } from "react";
 import L from "leaflet";
 import { GeoJsonObject, Geometry, Feature } from "geojson";
 import statesData from "./state";
@@ -17,9 +17,14 @@ import "leaflet/dist/leaflet.css";
 
 interface USMapProps {
   onStateSelect: (state: string | null) => void;
+  selectedState: string | null;
 }
 
-const USMap: React.FC<USMapProps> = ({ onStateSelect }) => {
+const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState }) => {
+  const [arkansasPrecincts, setArkansasPercincts] = useState();
+  const [newyorkPrecincts, setNewyorkPrecincts] = useState();
+  const [showPrecinct, setShowPrecinct] = useState(false);
+  const [map, setMap] = useState<L.Map | null>(null);
   const mapRef = useRef<HTMLDivElement>(null);
 
   const highlightFeatures = useCallback((e: L.LeafletMouseEvent) => {
@@ -47,6 +52,10 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect }) => {
     },
     [onStateSelect]
   );
+
+  const clickShowPrecinct = function () {
+    setShowPrecinct(!showPrecinct);
+  };
 
   useEffect(() => {
     if (mapRef.current) {
@@ -87,20 +96,31 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect }) => {
       fetch("/arkansas_precincts.json")
         .then((response) => response.json())
         .then((geojson) => {
-          L.geoJSON(geojson as GeoJsonObject).addTo(map);
+          setArkansasPercincts(geojson);
         });
 
-        fetch("/newyork_precincts.json")
+      fetch("/newyork_precincts.json")
         .then((response) => response.json())
         .then((geojson) => {
-          L.geoJSON(geojson as GeoJsonObject).addTo(map);
+          setNewyorkPrecincts(geojson);
         });
-
+      setMap(map);
       return () => {
         map.remove();
       };
     }
   }, [highlightFeatures, resetHighlight, onClick]);
+
+  useEffect(() => {
+    if (showPrecinct) {
+      if (selectedState === "New York" && newyorkPrecincts && map) {
+        L.geoJson(newyorkPrecincts! as GeoJsonObject).addTo(map);
+        console.log("show precinct");
+      } else if (selectedState === "Arkansas" && arkansasPrecincts && map) {
+        L.geoJson(arkansasPrecincts! as GeoJsonObject).addTo(map);
+      }
+    }
+  }, [arkansasPrecincts, newyorkPrecincts, showPrecinct, selectedState]);
 
   return (
     <VStack spacing={4} align="stretch" width="100%">
@@ -108,7 +128,7 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect }) => {
         US Political Map
       </Heading>
       <Center>
-        <Button>Show Precinct</Button>
+        <Button onClick={clickShowPrecinct}>Show Precinct</Button>
       </Center>
       <Center id="map" ref={mapRef} height="400px" width="100%" />
       <HStack justifyContent="center" spacing={4}>
