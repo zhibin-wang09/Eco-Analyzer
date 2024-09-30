@@ -48,7 +48,9 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState }) => {
   const onClick = useCallback(
     (e: L.LeafletMouseEvent, map: L.Map, feature: Feature) => {
       const stateName = feature.properties?.name || null;
-      onStateSelect(stateName);
+      if(stateName === 'New York' || stateName === 'Arkansas' ){
+        onStateSelect(stateName);
+      }
     },
     [onStateSelect]
   );
@@ -115,7 +117,6 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState }) => {
     if (showPrecinct) {
       if (selectedState === "New York" && newyorkPrecincts && map) {
         L.geoJson(newyorkPrecincts! as GeoJsonObject).addTo(map);
-        console.log("show precinct");
       } else if (selectedState === "Arkansas" && arkansasPrecincts && map) {
         L.geoJson(arkansasPrecincts! as GeoJsonObject).addTo(map);
       }
