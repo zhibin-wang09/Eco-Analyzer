@@ -12,7 +12,6 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-// Import Leaflet CSS
 import "leaflet/dist/leaflet.css";
 
 interface USMapProps {
@@ -21,11 +20,12 @@ interface USMapProps {
 }
 
 const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState }) => {
-  const [arkansasPrecincts, setArkansasPercincts] = useState();
-  const [newyorkPrecincts, setNewyorkPrecincts] = useState();
+  const [arkansasPrecincts, setArkansasPrecincts] = useState<GeoJsonObject | null>(null);
+  const [newyorkPrecincts, setNewYorkPrecincts] = useState<GeoJsonObject | null>(null);
   const [showPrecinct, setShowPrecinct] = useState(false);
   const [map, setMap] = useState<L.Map | null>(null);
   const mapRef = useRef<HTMLDivElement>(null);
+  const precinctLayerRef = useRef<L.GeoJSON | null>(null);
 
   const highlightFeatures = useCallback((e: L.LeafletMouseEvent) => {
     const layer = e.target;
@@ -55,9 +55,10 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState }) => {
     [onStateSelect]
   );
 
-  const clickShowPrecinct = function () {
-    setShowPrecinct(!showPrecinct);
-  };
+  const togglePrecincts = useCallback(() => {
+    setShowPrecinct((prev) => !prev);
+  }, []);
+
 
   useEffect(() => {
     if (mapRef.current) {
@@ -96,32 +97,51 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState }) => {
       }).addTo(map);
 
       fetch("/arkansas_precincts.json")
-        .then((response) => response.json())
-        .then((geojson) => {
-          setArkansasPercincts(geojson);
-        });
+      .then((response) => response.json())
+      .then((geojson) => {
+        setArkansasPrecincts(geojson);
+      });
 
-      fetch("/newyork_precincts.json")
-        .then((response) => response.json())
-        .then((geojson) => {
-          setNewyorkPrecincts(geojson);
-        });
-      setMap(map);
-      return () => {
-        map.remove();
-      };
-    }
-  }, [highlightFeatures, resetHighlight, onClick]);
+    fetch("/newyork_precincts.json")
+      .then((response) => response.json())
+      .then((geojson) => {
+        setNewYorkPrecincts(geojson);
+      });
+
+    setMap(map);
+    return () => {
+      map.remove();
+    };
+  }}, [highlightFeatures, resetHighlight, onClick]);
 
   useEffect(() => {
-    if (showPrecinct) {
-      if (selectedState === "New York" && newyorkPrecincts && map) {
-        L.geoJSON(newyorkPrecincts! as GeoJsonObject).addTo(map);
-      } else if (selectedState === "Arkansas" && arkansasPrecincts && map) {
-        L.geoJSON(arkansasPrecincts! as GeoJsonObject).addTo(map);
+    if (!map) return;
+
+    if (showPrecinct && selectedState) {
+      // Remove existing precinct layer if any
+      if (precinctLayerRef.current) {
+        map.removeLayer(precinctLayerRef.current);
+        precinctLayerRef.current = null;
+      }
+
+      let precincts: GeoJsonObject | null = null;
+      if (selectedState === "New York" && newyorkPrecincts) {
+        precincts = newyorkPrecincts;
+      } else if (selectedState === "Arkansas" && arkansasPrecincts) {
+        precincts = arkansasPrecincts;
+      }
+
+      if (precincts) {
+        precinctLayerRef.current = L.geoJSON(precincts).addTo(map);
+      }
+    } else {
+      // Remove precinct layer when hiding or when no state is selected
+      if (precinctLayerRef.current) {
+        map.removeLayer(precinctLayerRef.current);
+        precinctLayerRef.current = null;
       }
     }
-  }, [arkansasPrecincts, newyorkPrecincts, showPrecinct, selectedState, map]);
+  }, [map, showPrecinct, selectedState, arkansasPrecincts, newyorkPrecincts]);
 
   return (
     <VStack spacing={4} align="stretch" width="100%">
@@ -129,7 +149,7 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState }) => {
         US Political Map
       </Heading>
       <Center>
-        <Button onClick={clickShowPrecinct}>{showPrecinct ? "Show" : "Hide"} Precinct</Button>
+        <Button onClick={togglePrecincts}>{showPrecinct ? "Hide" : "Show"} Precinct</Button>
       </Center>
       <Center id="map" ref={mapRef} height="400px" width="100%" />
       <HStack justifyContent="center" spacing={4}>
