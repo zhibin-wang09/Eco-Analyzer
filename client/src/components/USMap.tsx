@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useCallback, useState } from "react";
 import L from "leaflet";
-import { GeoJsonObject, Geometry, Feature } from "geojson";
+import { GeoJsonObject, Feature } from "geojson";
 import statesData from "./state";
 import {
   Box,
@@ -48,7 +48,7 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState }) => {
   const onClick = useCallback(
     (e: L.LeafletMouseEvent, map: L.Map, feature: Feature) => {
       const stateName = feature.properties?.name || null;
-      if(stateName === 'New York' || stateName === 'Arkansas' ){
+      if (stateName === "New York" || stateName === "Arkansas") {
         onStateSelect(stateName);
       }
     },
@@ -116,12 +116,12 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState }) => {
   useEffect(() => {
     if (showPrecinct) {
       if (selectedState === "New York" && newyorkPrecincts && map) {
-        L.geoJson(newyorkPrecincts! as GeoJsonObject).addTo(map);
+        L.geoJSON(newyorkPrecincts! as GeoJsonObject).addTo(map);
       } else if (selectedState === "Arkansas" && arkansasPrecincts && map) {
-        L.geoJson(arkansasPrecincts! as GeoJsonObject).addTo(map);
+        L.geoJSON(arkansasPrecincts! as GeoJsonObject).addTo(map);
       }
     }
-  }, [arkansasPrecincts, newyorkPrecincts, showPrecinct, selectedState]);
+  }, [arkansasPrecincts, newyorkPrecincts, showPrecinct, selectedState, map]);
 
   return (
     <VStack spacing={4} align="stretch" width="100%">
@@ -129,7 +129,7 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState }) => {
         US Political Map
       </Heading>
       <Center>
-        <Button onClick={clickShowPrecinct}>Show Precinct</Button>
+        <Button onClick={clickShowPrecinct}>{showPrecinct ? "Show" : "Hide"} Precinct</Button>
       </Center>
       <Center id="map" ref={mapRef} height="400px" width="100%" />
       <HStack justifyContent="center" spacing={4}>
