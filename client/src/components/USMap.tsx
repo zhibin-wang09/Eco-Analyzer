@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useCallback } from "react";
 import L from "leaflet";
-import { GeoJsonObject } from "geojson";
+import { GeoJsonObject, Geometry, Feature } from "geojson";
 import statesData from "./state";
 import { Box, Text, VStack, Heading, HStack, Center } from "@chakra-ui/react";
 
@@ -14,6 +14,26 @@ interface USMapProps {
 const USMap: React.FC<USMapProps> = ({ onStateSelect }) => {
   const mapRef = useRef<HTMLDivElement>(null);
 
+  const highlightFeatures = useCallback((e: L.LeafletMouseEvent) => {
+    const layer = e.target;
+    layer.setStyle({
+      weight: 5,
+      color: "#666",
+      dashArray: "",
+      fillOpacity: 0.7,
+    });
+    layer.bringToFront();
+  }, []);
+
+  const resetHighlight = useCallback((e: L.LeafletMouseEvent, geojson: L.GeoJSON) => {
+    geojson.resetStyle(e.target);
+  }, []);
+
+  const onClick = useCallback((e: L.LeafletMouseEvent, map: L.Map, feature: Feature) => {
+    const stateName = feature.properties?.name || null;
+    onStateSelect(stateName);
+  }, [onStateSelect]);
+
   useEffect(() => {
     if (mapRef.current) {
       const map = L.map(mapRef.current).setView([37.8, -96], 4); // Center on US
@@ -25,18 +45,36 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect }) => {
           '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       }).addTo(map);
 
-      L.geoJSON(statesData as GeoJsonObject, { style: (feature) => {
-        return {
-          fillColor: feature?.properties.name == 'New York' ? '0000FF' : feature?.properties.name == 'Arkansas' ? '#FF5733' : '#FFFFFF'
-        }
-      } }).addTo(
-        map
-      );
+      const onEachFeature = (feature: Feature, layer: L.Layer) => {
+        layer.on({
+          mouseover: highlightFeatures,
+          mouseout: (e) => resetHighlight(e, geojson),
+          click: (e) => onClick(e, map, feature),
+        });
+      };
+
+      const geojson = L.geoJSON(statesData as GeoJsonObject, {
+        style: (feature) => {
+          return {
+            fillColor:
+              feature?.properties!.name === "New York"
+                ? "#0000FF"
+                : feature?.properties!.name === "Arkansas"
+                ? "#FF5733"
+                : "#FFFFFF",
+            color: "#000",
+            weight: 1,
+            fillOpacity: 0.7,
+          };
+        },
+        onEachFeature: onEachFeature,
+      }).addTo(map);
+
       return () => {
         map.remove();
       };
     }
-  }, []);
+  }, [highlightFeatures, resetHighlight, onClick]);
 
   return (
     <VStack spacing={4} align="stretch" width="100%">
@@ -50,7 +88,7 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect }) => {
           <Text>New York (Democratic)</Text>
         </HStack>
         <HStack>
-          <Box w="20px" h="20px" bg="#FF0000" />
+          <Box w="20px" h="20px" bg="#FF5733" />
           <Text>Arkansas (Republican)</Text>
         </HStack>
       </HStack>
