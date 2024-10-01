@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -11,7 +11,12 @@ import Sidebar from "./SideBar";
 
 import BaseChart from "./BaseChart";
 
-const MainLayout = () => {
+interface MainLayoutProps{
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isModalOpen: boolean;
+}
+const MainLayout = ({setIsModalOpen, isModalOpen} : MainLayoutProps) => {
+
   const [selectedState, setSelectedState] = useState<string | null>(null);
 
   const direction = useBreakpointValue({
@@ -28,7 +33,7 @@ const MainLayout = () => {
         gap={4}
       >
         <Center flex={1}>
-          <USMap onStateSelect={setSelectedState} selectedState = {selectedState}/>
+          <USMap onStateSelect={setSelectedState} selectedState = {selectedState} setIsModalOpen = {setIsModalOpen} isModalOpen = {isModalOpen}/>
         </Center>
         {selectedState == null ? (
           <>
