@@ -132,7 +132,7 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState }) => {
       }
 
       if (precincts) {
-        precinctLayerRef.current = L.geoJSON(precincts).addTo(map);
+        precinctLayerRef.current = L.geoJSON(precincts, {style: {color: '#000000'}}).addTo(map);
       }
     } else {
       // Remove precinct layer when hiding or when no state is selected
