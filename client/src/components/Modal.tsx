@@ -20,7 +20,7 @@ const Modal: React.FC<ModalProps> = ({ onClose }) => {
         <ul>
           <li>Zoom: Use the + and - buttons or scroll to zoom in and out of the map.</li>
           <li>State Colors: Red represents Republican-leaning Arkansas, while blue represents Democratic-leaning New York, following standard electoral color coding.</li>
-          <li>Precinct Toggle: Use the "Toggle Precincts" button to show or hide precinct boundaries within each state.</li>
+          <li>Precinct Toggle: Use the "Hide/Show Precincts" button to show or hide precinct boundaries within each state. You would need to click on the state for precincts to show.</li>
         </ul>
         
         <h3>Data Visualization:</h3>
