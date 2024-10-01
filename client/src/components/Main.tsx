@@ -28,7 +28,7 @@ const MainLayout = () => {
         gap={4}
       >
         <Center flex={1}>
-          <USMap onStateSelect={setSelectedState} />
+          <USMap onStateSelect={setSelectedState} selectedState = {selectedState}/>
         </Center>
         {selectedState == null ? (
           <>
