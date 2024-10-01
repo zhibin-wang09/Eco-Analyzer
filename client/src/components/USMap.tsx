@@ -17,11 +17,15 @@ import "leaflet/dist/leaflet.css";
 interface USMapProps {
   onStateSelect: (state: string | null) => void;
   selectedState: string | null;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isModalOpen: boolean;
 }
 
-const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState }) => {
-  const [arkansasPrecincts, setArkansasPrecincts] = useState<GeoJsonObject | null>(null);
-  const [newyorkPrecincts, setNewYorkPrecincts] = useState<GeoJsonObject | null>(null);
+const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, setIsModalOpen, isModalOpen }) => {
+  const [arkansasPrecincts, setArkansasPrecincts] =
+    useState<GeoJsonObject | null>(null);
+  const [newyorkPrecincts, setNewYorkPrecincts] =
+    useState<GeoJsonObject | null>(null);
   const [showPrecinct, setShowPrecinct] = useState(false);
   const [map, setMap] = useState<L.Map | null>(null);
   const mapRef = useRef<HTMLDivElement>(null);
@@ -58,7 +62,6 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState }) => {
   const togglePrecincts = useCallback(() => {
     setShowPrecinct((prev) => !prev);
   }, []);
-
 
   useEffect(() => {
     if (mapRef.current) {
@@ -97,22 +100,23 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState }) => {
       }).addTo(map);
 
       fetch("/arkansas_precincts.json")
-      .then((response) => response.json())
-      .then((geojson) => {
-        setArkansasPrecincts(geojson);
-      });
+        .then((response) => response.json())
+        .then((geojson) => {
+          setArkansasPrecincts(geojson);
+        });
 
-    fetch("/newyork_precincts.json")
-      .then((response) => response.json())
-      .then((geojson) => {
-        setNewYorkPrecincts(geojson);
-      });
+      fetch("/newyork_precincts.json")
+        .then((response) => response.json())
+        .then((geojson) => {
+          setNewYorkPrecincts(geojson);
+        });
 
-    setMap(map);
-    return () => {
-      map.remove();
-    };
-  }}, [highlightFeatures, resetHighlight, onClick]);
+      setMap(map);
+      return () => {
+        map.remove();
+      };
+    }
+  }, [highlightFeatures, resetHighlight, onClick]);
 
   useEffect(() => {
     if (!map) return;
@@ -132,7 +136,9 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState }) => {
       }
 
       if (precincts) {
-        precinctLayerRef.current = L.geoJSON(precincts, {style: {color: '#000000'}}).addTo(map);
+        precinctLayerRef.current = L.geoJSON(precincts, {
+          style: { color: "#000000" },
+        }).addTo(map);
       }
     } else {
       // Remove precinct layer when hiding or when no state is selected
@@ -149,7 +155,12 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState }) => {
         US Political Map
       </Heading>
       <Center>
-        <Button onClick={togglePrecincts}>{showPrecinct ? "Hide" : "Show"} Precinct</Button>
+        <HStack>
+          <Button onClick={togglePrecincts}>
+            {showPrecinct ? "Hide" : "Show"} Precinct
+          </Button>
+          <Button onClick={() => setIsModalOpen(!isModalOpen)}> Guide </Button>
+        </HStack>
       </Center>
       <Center id="map" ref={mapRef} height="400px" width="100%" />
       <HStack justifyContent="center" spacing={4}>

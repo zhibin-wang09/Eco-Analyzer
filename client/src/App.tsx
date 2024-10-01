@@ -20,13 +20,10 @@ const App: React.FC = () => {
 
   return (
     <>
-      <button onClick={toggleModal} className="btn-modal">
-        Guide
-      </button>
       {isModalOpen && <Modal onClose={toggleModal} />}
       {!isModalOpen && (
         <ChakraProvider>
-          <MainLayout />
+          <MainLayout setIsModalOpen = {setIsModalOpen} isModalOpen = {isModalOpen}/>
         </ChakraProvider>
       )}
     </>
