@@ -6,4 +6,3 @@ var dbConnection = mongoose.connection;
 dbConnection.on("connected", ()=>{ console.log('Connection to database was successful.') });
 
 let Precinct = require('./Schemas/precinctSchema');
-

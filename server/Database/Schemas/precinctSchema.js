@@ -3,9 +3,9 @@ var Schema = mongoose.Schema;
 
 var PrecinctSchema = new Schema({
     precinctID: {type: Number},
-    coordinates: [{type: Schema.Types.ObjectId, ref: "Coordinates"}],
     trumpVotes: {type: Number},
-    bidenVotes: {type: Number}
+    bidenVotes: {type: Number},
+    coordinates: [[{type: Number}]]
 });
 
 PrecinctSchema
