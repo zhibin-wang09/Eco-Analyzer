@@ -37,9 +37,9 @@ const MainLayout = () => {
           state={selectedState}
         ></Navbar>
         <Flex direction="row" width="100%" height="100vh">
-        <button onClick={test}>
+        {/* <button onClick={test}>
           sdfdsfdfsdfsd
-        </button>
+        </button> */}
           <Center flex={1}>
             <USMap
               onStateSelect={setSelectedState}
