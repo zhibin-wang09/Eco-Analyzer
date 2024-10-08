@@ -18,15 +18,11 @@ import "leaflet/dist/leaflet.css";
 interface USMapProps {
   onStateSelect: (state: string | null) => void;
   selectedState: string | null;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  isModalOpen: boolean;
 }
 
 const USMap: React.FC<USMapProps> = ({
   onStateSelect,
   selectedState,
-  setIsModalOpen,
-  isModalOpen,
 }) => {
   const [arkansasPrecincts, setArkansasPrecincts] =
     useState<GeoJsonObject | null>(null);
@@ -146,6 +142,11 @@ const USMap: React.FC<USMapProps> = ({
         map.removeLayer(precinctLayerRef.current);
         precinctLayerRef.current = null;
       }
+      
+      if (cdLayerRef.current) {
+        map.removeLayer(cdLayerRef.current);
+        cdLayerRef.current = null;
+      }
 
       let precincts: GeoJsonObject | null = null;
       if (selectedState === "New York" && newyorkPrecincts) {
@@ -160,6 +161,12 @@ const USMap: React.FC<USMapProps> = ({
         }).addTo(map);
       }
     }else if(geoData === 'Show Congressional Districts' && selectedState){
+
+      if (precinctLayerRef.current) {
+        map.removeLayer(precinctLayerRef.current);
+        precinctLayerRef.current = null;
+      }
+
       if (cdLayerRef.current) {
         map.removeLayer(cdLayerRef.current);
         cdLayerRef.current = null;
@@ -207,7 +214,6 @@ const USMap: React.FC<USMapProps> = ({
             <option>Show Precincts</option>
             <option>Show Congressional Districts</option>
           </Select>
-          <Button onClick={() => setIsModalOpen(!isModalOpen)}> Guide </Button>
         </HStack>
       </Center>
       <Center id="map" ref={mapRef} height="400px" width="100%" />
