@@ -3,40 +3,29 @@ import L from "leaflet";
 import { GeoJsonObject, Feature } from "geojson";
 import statesData from "./state";
 import {
-  Box,
-  Text,
   VStack,
-  Heading,
-  HStack,
   Center,
-  Button,
-  Select,
 } from "@chakra-ui/react";
-
+import "../style/legend.css";
 import "leaflet/dist/leaflet.css";
 
 interface USMapProps {
-  onStateSelect: (state: string | null) => void;
+  onStateSelect: (state: string) => void;
   selectedState: string | null;
+  selectedData: string | null;
 }
 
-const USMap: React.FC<USMapProps> = ({
-  onStateSelect,
-  selectedState,
-}) => {
+const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedData}) => {
   const [arkansasPrecincts, setArkansasPrecincts] =
     useState<GeoJsonObject | null>(null);
   const [newyorkPrecincts, setNewYorkPrecincts] =
     useState<GeoJsonObject | null>(null);
-    const [arakansasCd, setArkansasCd] =
-    useState<GeoJsonObject | null>(null);
-  const [newyorkCd, setNewYorkCd] =
-    useState<GeoJsonObject | null>(null);
+  const [arakansasCd, setArkansasCd] = useState<GeoJsonObject | null>(null);
+  const [newyorkCd, setNewYorkCd] = useState<GeoJsonObject | null>(null);
   const [map, setMap] = useState<L.Map | null>(null);
   const mapRef = useRef<HTMLDivElement>(null);
   const precinctLayerRef = useRef<L.GeoJSON | null>(null);
   const cdLayerRef = useRef<L.GeoJSON | null>(null);
-  const [geoData, setGeoData] = useState("");
 
   const highlightFeatures = useCallback((e: L.LeafletMouseEvent) => {
     const layer = e.target;
@@ -56,11 +45,19 @@ const USMap: React.FC<USMapProps> = ({
     []
   );
 
+  const zoomToFeature = useCallback((e: L.LeafletMouseEvent, map: L.Map) => {
+    map.fitBounds(e.target.getBounds());
+    console.log(e.target.getBounds())
+  }, []);
+
   const onClick = useCallback(
     (e: L.LeafletMouseEvent, map: L.Map, feature: Feature) => {
       const stateName = feature.properties?.name || null;
       if (stateName === "New York" || stateName === "Arkansas") {
         onStateSelect(stateName);
+        zoomToFeature(e,map)
+      } else {
+        onStateSelect("Default");
       }
     },
     [onStateSelect]
@@ -102,6 +99,21 @@ const USMap: React.FC<USMapProps> = ({
         onEachFeature: onEachFeature,
       }).addTo(map);
 
+      var legend = new L.Control({ position: "bottomleft" });
+
+      legend.onAdd = function (map) {
+        var div = L.DomUtil.create("div", "info");
+        div.innerHTML += `
+            <i style="background:#0000FF"></i>
+            <Text>New York (Democratic)</Text>
+          <br/>
+            <i style="background:#FF5733"></i>
+            <Text>Arkansas (Republican)</Text>`;
+        return div;
+      };
+
+      legend.addTo(map);
+
       fetch("/arkansas_congressional_district.json")
         .then((response) => response.json())
         .then((geojson) => {
@@ -122,7 +134,7 @@ const USMap: React.FC<USMapProps> = ({
           setNewYorkPrecincts(geojson);
         });
 
-        fetch("/arkansas_precincts.json")
+      fetch("/arkansas_precincts.json")
         .then((response) => response.json())
         .then((geojson) => {
           setArkansasPrecincts(geojson);
@@ -138,13 +150,22 @@ const USMap: React.FC<USMapProps> = ({
   useEffect(() => {
     if (!map) return;
 
-    if (geoData === 'Show Precincts' && selectedState) {
+    const fitToBound = (selectedState: string | null) => {
+      setTimeout(function(){ map.invalidateSize()}, 0);
+      if(selectedState === 'Arkansas'){
+         map.fitBounds(new L.LatLngBounds(new L.LatLng(36.501861,-89.730812), new L.LatLng(33.002096,-94.616242)))
+      }else if(selectedState === 'New York'){
+        map.fitBounds(new L.LatLngBounds(new L.LatLng(45.018503,-72.100541), new L.LatLng(40.543843,-79.76278)))
+      }
+    }
+
+    if (selectedData === "Show Precincts" && selectedState) {
       // Remove existing precinct layer if any
       if (precinctLayerRef.current) {
         map.removeLayer(precinctLayerRef.current);
         precinctLayerRef.current = null;
       }
-      
+
       if (cdLayerRef.current) {
         map.removeLayer(cdLayerRef.current);
         cdLayerRef.current = null;
@@ -162,8 +183,7 @@ const USMap: React.FC<USMapProps> = ({
           style: { color: "#000000", weight: 0.5 },
         }).addTo(map);
       }
-    }else if(geoData === 'Show Congressional Districts' && selectedState){
-
+    } else if (selectedData === "Show Congressional Districts" && selectedState) {
       if (precinctLayerRef.current) {
         map.removeLayer(precinctLayerRef.current);
         precinctLayerRef.current = null;
@@ -174,19 +194,19 @@ const USMap: React.FC<USMapProps> = ({
         cdLayerRef.current = null;
       }
 
-      let precincts: GeoJsonObject | null = null;
+      let congressionalDistrict: GeoJsonObject | null = null;
       if (selectedState === "New York" && newyorkCd) {
-        precincts = newyorkCd;
+        congressionalDistrict = newyorkCd;
       } else if (selectedState === "Arkansas" && arakansasCd) {
-        precincts = arakansasCd;
+        congressionalDistrict = arakansasCd;
       }
 
-      if (precincts) {
-        cdLayerRef.current = L.geoJSON(precincts, {
+      if (congressionalDistrict) {
+        cdLayerRef.current = L.geoJSON(congressionalDistrict, {
           style: { color: "#000000", weight: 0.5 },
         }).addTo(map);
       }
-    }else {
+    } else {
       // Remove precinct layer when hiding or when no state is selected
       if (precinctLayerRef.current) {
         map.removeLayer(precinctLayerRef.current);
@@ -198,37 +218,20 @@ const USMap: React.FC<USMapProps> = ({
         cdLayerRef.current = null;
       }
     }
-  }, [map, geoData, selectedState, arkansasPrecincts, newyorkPrecincts, newyorkCd, arakansasCd]);
-
-  const onSelectchange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setGeoData(e.target.value)
-  }
+    fitToBound(selectedState);
+  }, [
+    map,
+    selectedData,
+    selectedState,
+    arkansasPrecincts,
+    newyorkPrecincts,
+    newyorkCd,
+    arakansasCd,
+  ]);
 
   return (
-    <VStack spacing={4} align="stretch" width="100%">
-      <Heading as="h1" size="xl" textAlign="center">
-        US Political Map
-      </Heading>
-      <Center>
-        <HStack>
-          <Select onChange={onSelectchange} value={geoData}>
-            <option>Default</option>
-            <option>Show Precincts</option>
-            <option>Show Congressional Districts</option>
-          </Select>
-        </HStack>
-      </Center>
-      <Center id="map" ref={mapRef} height="400px" width="100%" />
-      <HStack justifyContent="center" spacing={4}>
-        <HStack>
-          <Box w="20px" h="20px" bg="#0000FF" />
-          <Text>New York (Democratic)</Text>
-        </HStack>
-        <HStack>
-          <Box w="20px" h="20px" bg="#FF5733" />
-          <Text>Arkansas (Republican)</Text>
-        </HStack>
-      </HStack>
+    <VStack spacing={4} align="stretch" height="100%" width="100%">
+      <Center id="map" ref={mapRef} height="100%" width="100%" zIndex="1"/>
     </VStack>
   );
 };
