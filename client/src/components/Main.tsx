@@ -19,10 +19,6 @@ const MainLayout = () => {
 
   const [selectedState, setSelectedState] = useState<string | null>(null);
 
-  const test = () => {
-    axios.get('http://localhost:8080/test');
-  }
-
   const direction = useBreakpointValue({
     base: "column",
     md: "row",
@@ -36,10 +32,6 @@ const MainLayout = () => {
         p={4}
         gap={4}
       >
-
-        <button onClick={test}>
-          sdfdsfdfsdfsd
-        </button>
 
         <Center flex={1}>
           <USMap onStateSelect={setSelectedState} selectedState = {selectedState}/>
