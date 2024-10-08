@@ -24,7 +24,6 @@ const MainLayout = () => {
       <Flex
         direction={direction}
         width="100%"
-        height={{ base: "auto", md: "100vh" }}
         p={4}
         gap={4}
         pos="relative"
@@ -36,7 +35,7 @@ const MainLayout = () => {
           <>
           </>
         ) : (
-          <Center flex = {1} pos="absolute" bottom="0" right="0" zIndex="2" bg="white">
+          <Center flex = {1} pos="absolute" bottom="4" right="4" zIndex="2" bg="white">
             <BaseChart selectedState={selectedState} />
           </Center>
         )}

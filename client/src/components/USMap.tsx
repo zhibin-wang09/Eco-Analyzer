@@ -223,7 +223,7 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState }) => {
   };
 
   return (
-    <VStack spacing={4} align="stretch" width="100%" height="100vh">
+    <VStack spacing={4} align="stretch" width="100%" height="95vh">
       <HStack>
         <Heading as="h1" size="l" textAlign="center">
           Team Hurricane: US Political Map
