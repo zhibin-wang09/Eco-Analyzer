@@ -106,6 +106,8 @@ const USMap: React.FC<USMapProps> = ({
         .then((response) => response.json())
         .then((geojson) => {
           setArkansasCd(geojson);
+
+          console.log(geojson);
         });
 
       fetch("/newyork_congressional_district.json")
