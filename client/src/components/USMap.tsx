@@ -13,15 +13,16 @@ import {
   Select,
   position,
 } from "@chakra-ui/react";
-import '../style/legend.css';
+import "../style/legend.css";
 import "leaflet/dist/leaflet.css";
 
 interface USMapProps {
-  onStateSelect: (state: string | null) => void;
+  onStateSelect: (state: string) => void;
   selectedState: string | null;
+  selectedData: string | null;
 }
 
-const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState }) => {
+const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedData}) => {
   const [arkansasPrecincts, setArkansasPrecincts] =
     useState<GeoJsonObject | null>(null);
   const [newyorkPrecincts, setNewYorkPrecincts] =
@@ -32,7 +33,6 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState }) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const precinctLayerRef = useRef<L.GeoJSON | null>(null);
   const cdLayerRef = useRef<L.GeoJSON | null>(null);
-  const [geoData, setGeoData] = useState("");
 
   const highlightFeatures = useCallback((e: L.LeafletMouseEvent) => {
     const layer = e.target;
@@ -52,13 +52,19 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState }) => {
     []
   );
 
+  const zoomToFeature = useCallback((e: L.LeafletMouseEvent, map: L.Map) => {
+    map.fitBounds(e.target.getBounds());
+    console.log(e.target.getBounds().getCenter())
+  }, []);
+
   const onClick = useCallback(
     (e: L.LeafletMouseEvent, map: L.Map, feature: Feature) => {
       const stateName = feature.properties?.name || null;
       if (stateName === "New York" || stateName === "Arkansas") {
         onStateSelect(stateName);
-      }else{
-        onStateSelect("Other");
+        zoomToFeature(e,map)
+      } else {
+        onStateSelect("Default");
       }
     },
     [onStateSelect]
@@ -109,7 +115,7 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState }) => {
             <Text>New York (Democratic)</Text>
           <br/>
             <i style="background:#FF5733"></i>
-            <Text>Arkansas (Republican)</Text>`
+            <Text>Arkansas (Republican)</Text>`;
         return div;
       };
 
@@ -149,7 +155,7 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState }) => {
   useEffect(() => {
     if (!map) return;
 
-    if (geoData === "Show Precincts" && selectedState) {
+    if (selectedData === "Show Precincts" && selectedState) {
       // Remove existing precinct layer if any
       if (precinctLayerRef.current) {
         map.removeLayer(precinctLayerRef.current);
@@ -173,7 +179,7 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState }) => {
           style: { color: "#000000", weight: 0.5 },
         }).addTo(map);
       }
-    } else if (geoData === "Show Congressional Districts" && selectedState) {
+    } else if (selectedData === "Show Congressional Districts" && selectedState) {
       if (precinctLayerRef.current) {
         map.removeLayer(precinctLayerRef.current);
         precinctLayerRef.current = null;
@@ -210,7 +216,7 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState }) => {
     }
   }, [
     map,
-    geoData,
+    selectedData,
     selectedState,
     arkansasPrecincts,
     newyorkPrecincts,
@@ -218,25 +224,9 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState }) => {
     arakansasCd,
   ]);
 
-  const onSelectchange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setGeoData(e.target.value);
-  };
-
   return (
-    <VStack spacing={4} align="stretch" width="100%" height="95vh">
-      <HStack>
-        <Heading as="h1" size="l" textAlign="center">
-          Team Hurricane: US Political Map
-        </Heading>
-        <Center>
-          <Select onChange={onSelectchange} value={geoData}>
-            <option>Default</option>
-            <option>Show Precincts</option>
-            <option>Show Congressional Districts</option>
-          </Select>
-        </Center>
-      </HStack>
-      <Center id="map" ref={mapRef} height="100vh" width="100%" />
+    <VStack spacing={4} align="stretch" height="100%" width="100%">
+      <Center id="map" ref={mapRef} height="100%" width="100%" zIndex="1"/>
     </VStack>
   );
 };

@@ -10,32 +10,38 @@ import USMap from "./USMap";
 import Sidebar from "./SideBar";
 
 import BaseChart from "./BaseChart";
+import Navbar from "./Navbar";
 
 const MainLayout = () => {
-
-  const [selectedState, setSelectedState] = useState<string | null>(null);
+  const [selectedState, setSelectedState] = useState<string>("Default");
+  const [select, onSelectChange] = useState<string>("Default");
 
   const direction = useBreakpointValue({
-    base: "column",
-    md: "row",
+    base: "row", // Set the base direction as "row"
+    md: "row", // Set the direction for the "md" breakpoint as "row"
   }) as ResponsiveValue<"column" | "row">;
   return (
     <Box>
-      <Flex
-        direction={direction}
-        width="100%"
-        p={4}
-        gap={4}
-        pos="relative"
-      >
-        <Center flex={1} pos="static" zIndex="1">
-          <USMap onStateSelect={setSelectedState} selectedState = {selectedState}/>
+      <Flex direction="column" width="100%" p={4} gap={4} height="100vh">
+        <Navbar onSelectChange={onSelectChange} select={select} onStateChange={setSelectedState} state={selectedState}></Navbar>
+        <Center flex={1}>
+          <USMap
+            onStateSelect={setSelectedState}
+            selectedState={selectedState}
+            selectedData={select}
+          />
         </Center>
         {selectedState == null ? (
-          <>
-          </>
+          <></>
         ) : (
-          <Center flex = {1} pos="absolute" bottom="4" right="4" zIndex="2" bg="white">
+          <Center
+            flex={1}
+            pos="absolute"
+            bottom="4"
+            right="4"
+            zIndex="2"
+            bg="white"
+          >
             <BaseChart selectedState={selectedState} />
           </Center>
         )}
