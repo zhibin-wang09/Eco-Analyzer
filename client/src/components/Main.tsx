@@ -11,11 +11,7 @@ import Sidebar from "./SideBar";
 
 import BaseChart from "./BaseChart";
 
-interface MainLayoutProps{
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  isModalOpen: boolean;
-}
-const MainLayout = ({setIsModalOpen, isModalOpen} : MainLayoutProps) => {
+const MainLayout = () => {
 
   const [selectedState, setSelectedState] = useState<string | null>(null);
 
@@ -33,7 +29,7 @@ const MainLayout = ({setIsModalOpen, isModalOpen} : MainLayoutProps) => {
         gap={4}
       >
         <Center flex={1}>
-          <USMap onStateSelect={setSelectedState} selectedState = {selectedState} setIsModalOpen = {setIsModalOpen} isModalOpen = {isModalOpen}/>
+          <USMap onStateSelect={setSelectedState} selectedState = {selectedState}/>
         </Center>
         {selectedState == null ? (
           <>
