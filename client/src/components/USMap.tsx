@@ -3,15 +3,8 @@ import L from "leaflet";
 import { GeoJsonObject, Feature } from "geojson";
 import statesData from "./state";
 import {
-  Box,
-  Text,
   VStack,
-  Heading,
-  HStack,
   Center,
-  Button,
-  Select,
-  position,
 } from "@chakra-ui/react";
 import "../style/legend.css";
 import "leaflet/dist/leaflet.css";
@@ -125,6 +118,8 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
         .then((response) => response.json())
         .then((geojson) => {
           setArkansasCd(geojson);
+
+          console.log(geojson);
         });
 
       fetch("/newyork_congressional_district.json")

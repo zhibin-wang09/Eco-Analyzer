@@ -1,5 +1,4 @@
 import { Center, Heading, HStack, Select } from "@chakra-ui/react";
-import { useState } from "react";
 
 interface NavbarProps {
   onSelectChange: (val: string) => void;
