@@ -13,7 +13,7 @@ import {
   Select,
   position,
 } from "@chakra-ui/react";
-import './legend.css';
+import '../style/legend.css';
 import "leaflet/dist/leaflet.css";
 
 interface USMapProps {
