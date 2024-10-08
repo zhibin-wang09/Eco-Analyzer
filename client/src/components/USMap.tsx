@@ -53,7 +53,6 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
   );
 
   const zoomToFeature = useCallback((e: L.LeafletMouseEvent, map: L.Map) => {
-    setTimeout(function(){ map.invalidateSize()}, 0);
     map.fitBounds(e.target.getBounds());
     console.log(e.target.getBounds())
   }, []);
@@ -157,6 +156,7 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
     if (!map) return;
 
     const fitToBound = (selectedState: string | null) => {
+      setTimeout(function(){ map.invalidateSize()}, 0);
       if(selectedState === 'Arkansas'){
          map.fitBounds(new L.LatLngBounds(new L.LatLng(36.501861,-89.730812), new L.LatLng(33.002096,-94.616242)))
       }else if(selectedState === 'New York'){
