@@ -20,7 +20,7 @@ const MainLayout = () => {
     md: "row",
   }) as ResponsiveValue<"column" | "row">;
   return (
-    <Box>
+    <Box className="bottom-0 right-0 left-0 top-8">
       <Flex
         direction={direction}
         width="100%"

@@ -203,20 +203,20 @@ const USMap: React.FC<USMapProps> = ({
   }
 
   return (
-    <VStack spacing={4} align="stretch" width="100%">
-      <Heading as="h1" size="xl" textAlign="center">
-        US Political Map
+    <VStack spacing={4} align="stretch" width="100%" height="100vh" className="top-14">
+      <HStack>
+        <Heading as="h1" size="l" textAlign="center">
+        Team Hurricane: US Political Map
       </Heading>
       <Center>
-        <HStack>
           <Select onChange={onSelectchange} value={geoData}>
             <option>Default</option>
             <option>Show Precincts</option>
             <option>Show Congressional Districts</option>
           </Select>
-        </HStack>
       </Center>
-      <Center id="map" ref={mapRef} height="400px" width="100%" />
+      </HStack> 
+      <Center id="map" ref={mapRef} height="100vh" width="100%" />
       <HStack justifyContent="center" spacing={4}>
         <HStack>
           <Box w="20px" h="20px" bg="#0000FF" />
