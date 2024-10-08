@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import axios from 'axios';
+
 import {
   Box,
   Flex,
@@ -11,9 +13,15 @@ import Sidebar from "./SideBar";
 
 import BaseChart from "./BaseChart";
 
+axios.defaults.withCredentials = true;
+
 const MainLayout = () => {
 
   const [selectedState, setSelectedState] = useState<string | null>(null);
+
+  const test = () => {
+    axios.get('http://localhost:8080/test');
+  }
 
   const direction = useBreakpointValue({
     base: "column",
@@ -28,6 +36,11 @@ const MainLayout = () => {
         p={4}
         gap={4}
       >
+
+        <button onClick={test}>
+          sdfdsfdfsdfsd
+        </button>
+
         <Center flex={1}>
           <USMap onStateSelect={setSelectedState} selectedState = {selectedState}/>
         </Center>
