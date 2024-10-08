@@ -23,28 +23,28 @@ const MainLayout = () => {
   return (
     <Box>
       <Flex direction="column" width="100%" p={4} gap={4} height="100vh">
-        <Navbar onSelectChange={onSelectChange} select={select} onStateChange={setSelectedState} state={selectedState}></Navbar>
-        <Center flex={1}>
-          <USMap
-            onStateSelect={setSelectedState}
-            selectedState={selectedState}
-            selectedData={select}
-          />
-        </Center>
-        {selectedState == null ? (
-          <></>
-        ) : (
-          <Center
-            flex={1}
-            pos="absolute"
-            bottom="4"
-            right="4"
-            zIndex="2"
-            bg="white"
-          >
-            <BaseChart selectedState={selectedState} />
+        <Navbar
+          onSelectChange={onSelectChange}
+          select={select}
+          onStateChange={setSelectedState}
+          state={selectedState}
+        ></Navbar>
+        <Flex direction="row" width="100%" height="100vh">
+          <Center flex={1}>
+            <USMap
+              onStateSelect={setSelectedState}
+              selectedState={selectedState}
+              selectedData={select}
+            />
           </Center>
-        )}
+          {selectedState === "Default" ? (
+            <></>
+          ) : (
+            <Center>
+              <BaseChart selectedState={selectedState} />
+            </Center>
+          )}
+        </Flex>
       </Flex>
     </Box>
   );

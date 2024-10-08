@@ -190,15 +190,15 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
         cdLayerRef.current = null;
       }
 
-      let precincts: GeoJsonObject | null = null;
+      let congressionalDistrict: GeoJsonObject | null = null;
       if (selectedState === "New York" && newyorkCd) {
-        precincts = newyorkCd;
+        congressionalDistrict = newyorkCd;
       } else if (selectedState === "Arkansas" && arakansasCd) {
-        precincts = arakansasCd;
+        congressionalDistrict = arakansasCd;
       }
 
-      if (precincts) {
-        cdLayerRef.current = L.geoJSON(precincts, {
+      if (congressionalDistrict) {
+        cdLayerRef.current = L.geoJSON(congressionalDistrict, {
           style: { color: "#000000", weight: 0.5 },
         }).addTo(map);
       }
