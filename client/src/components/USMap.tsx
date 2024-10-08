@@ -53,6 +53,7 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
   );
 
   const zoomToFeature = useCallback((e: L.LeafletMouseEvent, map: L.Map) => {
+    setTimeout(function(){ map.invalidateSize()}, 0);
     map.fitBounds(e.target.getBounds());
     console.log(e.target.getBounds().getCenter())
   }, []);
