@@ -10,6 +10,7 @@ import {
   HStack,
   Center,
   Button,
+  Select,
 } from "@chakra-ui/react";
 
 import "leaflet/dist/leaflet.css";
@@ -21,15 +22,25 @@ interface USMapProps {
   isModalOpen: boolean;
 }
 
-const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, setIsModalOpen, isModalOpen }) => {
+const USMap: React.FC<USMapProps> = ({
+  onStateSelect,
+  selectedState,
+  setIsModalOpen,
+  isModalOpen,
+}) => {
   const [arkansasPrecincts, setArkansasPrecincts] =
     useState<GeoJsonObject | null>(null);
   const [newyorkPrecincts, setNewYorkPrecincts] =
     useState<GeoJsonObject | null>(null);
-  const [showPrecinct, setShowPrecinct] = useState(false);
+    const [arakansasCd, setArkansasCd] =
+    useState<GeoJsonObject | null>(null);
+  const [newyorkCd, setNewYorkCd] =
+    useState<GeoJsonObject | null>(null);
   const [map, setMap] = useState<L.Map | null>(null);
   const mapRef = useRef<HTMLDivElement>(null);
   const precinctLayerRef = useRef<L.GeoJSON | null>(null);
+  const cdLayerRef = useRef<L.GeoJSON | null>(null);
+  const [geoData, setGeoData] = useState("");
 
   const highlightFeatures = useCallback((e: L.LeafletMouseEvent) => {
     const layer = e.target;
@@ -58,10 +69,6 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, setIsModalO
     },
     [onStateSelect]
   );
-
-  const togglePrecincts = useCallback(() => {
-    setShowPrecinct((prev) => !prev);
-  }, []);
 
   useEffect(() => {
     if (mapRef.current) {
@@ -92,23 +99,35 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, setIsModalO
                 ? "#FF5733"
                 : "#FFFFFF",
             color: "#000",
-            weight: 1,
+            weight: 0.7,
             fillOpacity: 0.7,
           };
         },
         onEachFeature: onEachFeature,
       }).addTo(map);
 
-      fetch("/arkansas_precincts.json")
+      fetch("/arkansas_congressional_district.json")
         .then((response) => response.json())
         .then((geojson) => {
-          setArkansasPrecincts(geojson);
+          setArkansasCd(geojson);
+        });
+
+      fetch("/newyork_congressional_district.json")
+        .then((response) => response.json())
+        .then((geojson) => {
+          setNewYorkCd(geojson);
         });
 
       fetch("/newyork_precincts.json")
         .then((response) => response.json())
         .then((geojson) => {
           setNewYorkPrecincts(geojson);
+        });
+
+        fetch("/arkansas_precincts.json")
+        .then((response) => response.json())
+        .then((geojson) => {
+          setArkansasPrecincts(geojson);
         });
 
       setMap(map);
@@ -121,7 +140,7 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, setIsModalO
   useEffect(() => {
     if (!map) return;
 
-    if (showPrecinct && selectedState) {
+    if (geoData === 'Show Precincts' && selectedState) {
       // Remove existing precinct layer if any
       if (precinctLayerRef.current) {
         map.removeLayer(precinctLayerRef.current);
@@ -137,17 +156,44 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, setIsModalO
 
       if (precincts) {
         precinctLayerRef.current = L.geoJSON(precincts, {
-          style: { color: "#000000" },
+          style: { color: "#000000", weight: 0.5 },
         }).addTo(map);
       }
-    } else {
+    }else if(geoData === 'Show Congressional Districts' && selectedState){
+      if (cdLayerRef.current) {
+        map.removeLayer(cdLayerRef.current);
+        cdLayerRef.current = null;
+      }
+
+      let precincts: GeoJsonObject | null = null;
+      if (selectedState === "New York" && newyorkCd) {
+        precincts = newyorkCd;
+      } else if (selectedState === "Arkansas" && arakansasCd) {
+        precincts = arakansasCd;
+      }
+
+      if (precincts) {
+        cdLayerRef.current = L.geoJSON(precincts, {
+          style: { color: "#000000", weight: 0.5 },
+        }).addTo(map);
+      }
+    }else {
       // Remove precinct layer when hiding or when no state is selected
       if (precinctLayerRef.current) {
         map.removeLayer(precinctLayerRef.current);
         precinctLayerRef.current = null;
       }
+
+      if (cdLayerRef.current) {
+        map.removeLayer(cdLayerRef.current);
+        cdLayerRef.current = null;
+      }
     }
-  }, [map, showPrecinct, selectedState, arkansasPrecincts, newyorkPrecincts]);
+  }, [map, geoData, selectedState, arkansasPrecincts, newyorkPrecincts, newyorkCd, arakansasCd]);
+
+  const onSelectchange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setGeoData(e.target.value)
+  }
 
   return (
     <VStack spacing={4} align="stretch" width="100%">
@@ -156,9 +202,11 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, setIsModalO
       </Heading>
       <Center>
         <HStack>
-          <Button onClick={togglePrecincts}>
-            {showPrecinct ? "Hide" : "Show"} Precinct
-          </Button>
+          <Select onChange={onSelectchange} value={geoData}>
+            <option>Default</option>
+            <option>Show Precincts</option>
+            <option>Show Congressional Districts</option>
+          </Select>
           <Button onClick={() => setIsModalOpen(!isModalOpen)}> Guide </Button>
         </HStack>
       </Center>
