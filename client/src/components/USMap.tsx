@@ -55,7 +55,7 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
   const zoomToFeature = useCallback((e: L.LeafletMouseEvent, map: L.Map) => {
     setTimeout(function(){ map.invalidateSize()}, 0);
     map.fitBounds(e.target.getBounds());
-    console.log(e.target.getBounds().getCenter())
+    console.log(e.target.getBounds())
   }, []);
 
   const onClick = useCallback(
@@ -156,6 +156,14 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
   useEffect(() => {
     if (!map) return;
 
+    const fitToBound = (selectedState: string | null) => {
+      if(selectedState === 'Arkansas'){
+         map.fitBounds(new L.LatLngBounds(new L.LatLng(36.501861,-89.730812), new L.LatLng(33.002096,-94.616242)))
+      }else if(selectedState === 'New York'){
+        map.fitBounds(new L.LatLngBounds(new L.LatLng(45.018503,-72.100541), new L.LatLng(40.543843,-79.76278)))
+      }
+    }
+
     if (selectedData === "Show Precincts" && selectedState) {
       // Remove existing precinct layer if any
       if (precinctLayerRef.current) {
@@ -215,6 +223,7 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
         cdLayerRef.current = null;
       }
     }
+    fitToBound(selectedState);
   }, [
     map,
     selectedData,
