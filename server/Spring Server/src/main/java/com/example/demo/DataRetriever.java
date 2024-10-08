@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
 
-
 @SpringBootApplication
 @RestController
 public class DataRetriever {
