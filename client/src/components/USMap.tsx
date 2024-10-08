@@ -11,8 +11,9 @@ import {
   Center,
   Button,
   Select,
+  position,
 } from "@chakra-ui/react";
-
+import './legend.css';
 import "leaflet/dist/leaflet.css";
 
 interface USMapProps {
@@ -20,18 +21,13 @@ interface USMapProps {
   selectedState: string | null;
 }
 
-const USMap: React.FC<USMapProps> = ({
-  onStateSelect,
-  selectedState,
-}) => {
+const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState }) => {
   const [arkansasPrecincts, setArkansasPrecincts] =
     useState<GeoJsonObject | null>(null);
   const [newyorkPrecincts, setNewYorkPrecincts] =
     useState<GeoJsonObject | null>(null);
-    const [arakansasCd, setArkansasCd] =
-    useState<GeoJsonObject | null>(null);
-  const [newyorkCd, setNewYorkCd] =
-    useState<GeoJsonObject | null>(null);
+  const [arakansasCd, setArkansasCd] = useState<GeoJsonObject | null>(null);
+  const [newyorkCd, setNewYorkCd] = useState<GeoJsonObject | null>(null);
   const [map, setMap] = useState<L.Map | null>(null);
   const mapRef = useRef<HTMLDivElement>(null);
   const precinctLayerRef = useRef<L.GeoJSON | null>(null);
@@ -61,6 +57,8 @@ const USMap: React.FC<USMapProps> = ({
       const stateName = feature.properties?.name || null;
       if (stateName === "New York" || stateName === "Arkansas") {
         onStateSelect(stateName);
+      }else{
+        onStateSelect("Other");
       }
     },
     [onStateSelect]
@@ -102,6 +100,21 @@ const USMap: React.FC<USMapProps> = ({
         onEachFeature: onEachFeature,
       }).addTo(map);
 
+      var legend = new L.Control({ position: "bottomleft" });
+
+      legend.onAdd = function (map) {
+        var div = L.DomUtil.create("div", "info");
+        div.innerHTML += `
+            <i style="background:#0000FF"></i>
+            <Text>New York (Democratic)</Text>
+          <br/>
+            <i style="background:#FF5733"></i>
+            <Text>Arkansas (Republican)</Text>`
+        return div;
+      };
+
+      legend.addTo(map);
+
       fetch("/arkansas_congressional_district.json")
         .then((response) => response.json())
         .then((geojson) => {
@@ -120,7 +133,7 @@ const USMap: React.FC<USMapProps> = ({
           setNewYorkPrecincts(geojson);
         });
 
-        fetch("/arkansas_precincts.json")
+      fetch("/arkansas_precincts.json")
         .then((response) => response.json())
         .then((geojson) => {
           setArkansasPrecincts(geojson);
@@ -136,13 +149,13 @@ const USMap: React.FC<USMapProps> = ({
   useEffect(() => {
     if (!map) return;
 
-    if (geoData === 'Show Precincts' && selectedState) {
+    if (geoData === "Show Precincts" && selectedState) {
       // Remove existing precinct layer if any
       if (precinctLayerRef.current) {
         map.removeLayer(precinctLayerRef.current);
         precinctLayerRef.current = null;
       }
-      
+
       if (cdLayerRef.current) {
         map.removeLayer(cdLayerRef.current);
         cdLayerRef.current = null;
@@ -160,8 +173,7 @@ const USMap: React.FC<USMapProps> = ({
           style: { color: "#000000", weight: 0.5 },
         }).addTo(map);
       }
-    }else if(geoData === 'Show Congressional Districts' && selectedState){
-
+    } else if (geoData === "Show Congressional Districts" && selectedState) {
       if (precinctLayerRef.current) {
         map.removeLayer(precinctLayerRef.current);
         precinctLayerRef.current = null;
@@ -184,7 +196,7 @@ const USMap: React.FC<USMapProps> = ({
           style: { color: "#000000", weight: 0.5 },
         }).addTo(map);
       }
-    }else {
+    } else {
       // Remove precinct layer when hiding or when no state is selected
       if (precinctLayerRef.current) {
         map.removeLayer(precinctLayerRef.current);
@@ -196,37 +208,35 @@ const USMap: React.FC<USMapProps> = ({
         cdLayerRef.current = null;
       }
     }
-  }, [map, geoData, selectedState, arkansasPrecincts, newyorkPrecincts, newyorkCd, arakansasCd]);
+  }, [
+    map,
+    geoData,
+    selectedState,
+    arkansasPrecincts,
+    newyorkPrecincts,
+    newyorkCd,
+    arakansasCd,
+  ]);
 
   const onSelectchange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setGeoData(e.target.value)
-  }
+    setGeoData(e.target.value);
+  };
 
   return (
-    <VStack spacing={4} align="stretch" width="100%" height="100vh" className="top-14">
+    <VStack spacing={4} align="stretch" width="100%" height="100vh">
       <HStack>
         <Heading as="h1" size="l" textAlign="center">
-        Team Hurricane: US Political Map
-      </Heading>
-      <Center>
+          Team Hurricane: US Political Map
+        </Heading>
+        <Center>
           <Select onChange={onSelectchange} value={geoData}>
             <option>Default</option>
             <option>Show Precincts</option>
             <option>Show Congressional Districts</option>
           </Select>
-      </Center>
-      </HStack> 
-      <Center id="map" ref={mapRef} height="100vh" width="100%" />
-      <HStack justifyContent="center" spacing={4}>
-        <HStack>
-          <Box w="20px" h="20px" bg="#0000FF" />
-          <Text>New York (Democratic)</Text>
-        </HStack>
-        <HStack>
-          <Box w="20px" h="20px" bg="#FF5733" />
-          <Text>Arkansas (Republican)</Text>
-        </HStack>
+        </Center>
       </HStack>
+      <Center id="map" ref={mapRef} height="100vh" width="100%" />
     </VStack>
   );
 };

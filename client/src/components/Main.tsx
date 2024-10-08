@@ -20,22 +20,23 @@ const MainLayout = () => {
     md: "row",
   }) as ResponsiveValue<"column" | "row">;
   return (
-    <Box className="bottom-0 right-0 left-0 top-8">
+    <Box>
       <Flex
         direction={direction}
         width="100%"
         height={{ base: "auto", md: "100vh" }}
         p={4}
         gap={4}
+        pos="relative"
       >
-        <Center flex={1}>
+        <Center flex={1} pos="static" zIndex="1">
           <USMap onStateSelect={setSelectedState} selectedState = {selectedState}/>
         </Center>
         {selectedState == null ? (
           <>
           </>
         ) : (
-          <Center flex = {1} >
+          <Center flex = {1} pos="absolute" bottom="0" right="0" zIndex="2" bg="white">
             <BaseChart selectedState={selectedState} />
           </Center>
         )}
