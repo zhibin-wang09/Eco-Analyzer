@@ -1,0 +1,22 @@
+{
+    "data": [
+        {
+            "state": "AR",
+            "income":
+                {},
+            "race":
+                {},
+            "age":
+                {}
+        },
+        {
+            "state": "NY",
+            "income":
+                {},
+            "race":
+                {},
+            "age":
+                {}
+        }
+    ]
+}
