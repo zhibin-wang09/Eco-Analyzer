@@ -1,339 +1,197 @@
 export const AR_IncomeVotingData = [
     {
         id: 1,
-        income: '0-10000 (D)',
-        percentage: 3
+        income: '0-24999',
+        percentage: 24.9
     },
     {
         id: 2,
-        income: '0-10000 (R)',
-        party: 'R',
-        percentage: 7
+        income: '25000-49999',
+        percentage: 25.4
     },
     {
         id: 3,
-        income: '10001-25000 (D)',
-        party: 'D',
-        percentage: 10
+        income: '50000-74999',
+        percentage: 18.4
     },
     {
         id: 4,
-        income: '10001-25000 (R)',
-        party: 'R',
-        percentage: 15
+        income: '75000-99999',
+        percentage: 11.6
     },
     {
         id: 5,
-        income: '25001-50000 (D)',
-        party: 'D',
-        percentage: 10
-    },
-    {
-        id: 6,
-        income: '25001-50000 (R)',
-        party: 'R',
-        percentage: 25
-    },
-    {
-        id: 7,
-        income: '50001-100000 (D)',
-        party: 'D',
-        percentage: 8
-    },
-    {
-        id: 8,
-        income: '50001-100000 (R)',
-        party: 'R',
-        percentage: 12
-    },
-    {
-        id: 9,
-        income: '100001-250000 (D)',
-        party: 'D',
-        percentage: 2
-    },
-    {
-        id: 10,
-        income: '100001-250000 (R)',
-        party: 'R',
-        percentage: 4
-    },
-    {
-        id: 11,
-        income: '250001+ (D)',
-        party: 'D',
-        percentage: 1
-    },
-    {
-        id: 12,
-        income: '250001+ (R)',
-        party: 'R',
-        percentage: 3
+        income: '100000+',
+        percentage: 19.7
     },
 ]
 
 export const NY_IncomeVotingData = [
     {
         id: 1,
-        income: '0-10000 (D)',
-        percentage: 5
+        income: '0-24999',
+        percentage: 19.1
     },
     {
         id: 2,
-        income: '0-10000 (R)',
-        party: 'R',
-        percentage: 3
+        income: '25000-49999',
+        percentage: 18
     },
     {
         id: 3,
-        income: '10001-25000 (D)',
-        party: 'D',
-        percentage: 8
+        income: '50000-74999',
+        percentage: 15.1
     },
     {
         id: 4,
-        income: '10001-25000 (R)',
-        party: 'R',
-        percentage: 4
-    },
-    {
-        id: 5,
-        income: '25001-50000 (D)',
-        party: 'D',
-        percentage: 10
-    },
-    {
-        id: 6,
-        income: '25001-50000 (R)',
-        party: 'R',
-        percentage: 5
-    },
-    {
-        id: 7,
-        income: '50001-100000 (D)',
-        party: 'D',
-        percentage: 20
-    },
-    {
-        id: 8,
-        income: '50001-100000 (R)',
-        party: 'R',
-        percentage: 15
-    },
-    {
-        id: 9,
-        income: '100001-250000 (D)',
-        party: 'D',
+        income: '75000-99999',
         percentage: 12
     },
     {
-        id: 10,
-        income: '100001-250000 (R)',
-        party: 'R',
-        percentage: 6
+        id: 5,
+        income: '100000+',
+        percentage: 35.9
     },
-    {
-        id: 11,
-        income: '250001+ (D)',
-        party: 'D',
-        percentage: 10
-    },
-    {
-        id: 12,
-        income: '250001+ (R)',
-        party: 'R',
-        percentage: 2
-    }
 ]
 
 export const AR_RaceVotingData = [
     {
         id: 1,
-        race: 'White (D)',
-        percentage: 15
+        race: 'White',
+        population: 2269959
     },
     {
         id: 2,
-        race: 'White (R)',
-        percentage: 55
+        race: 'Black',
+        population: 457840
     },
     {
         id: 3,
-        race: 'Black (D)',
-        percentage: 8
+        race: 'Asian',
+        population: 46130
     },
     {
         id: 4,
-        race: 'Black (R)',
-        percentage: 2
+        race: 'Hispanic',
+        population: 229629
     },
     {
         id: 5,
-        race: 'Asian (D)',
-        percentage: 1
+        race: 'Other (One Race)',
+        population: 19146 + 10455 + 88363
     },
     {
         id: 6,
-        race: 'Asian (R)',
-        percentage: 1
-    },
-    {
-        id: 7,
-        race: 'Hispanic (D)',
-        percentage: 4
-    },
-    {
-        id: 8,
-        race: 'Hispanic (R)',
-        percentage: 2
-    },
-    {
-        id: 9,
-        race: 'Other (D)',
-        percentage: 5
-    },
-    {
-        id: 10,
-        race: 'Other (R)',
-        percentage: 7
-    },
+        race: 'Two or More Races',
+        population: 119980
+    }
 ]
 
 export const NY_RaceVotingData = [
     {
         id: 1,
-        race: 'White (D)',
-        percentage: 25
+        race: 'White',
+        population: 12160045
     },
     {
         id: 2,
-        race: 'White (R)',
-        percentage: 15
+        race: 'Black',
+        population: 3002401
     },
     {
         id: 3,
-        race: 'Black (D)',
-        percentage: 12
+        race: 'Asian',
+        population: 1674216
     },
     {
         id: 4,
-        race: 'Black (R)',
-        percentage: 3
+        race: 'Hispanic',
+        population: 3720707
     },
     {
         id: 5,
-        race: 'Asian (D)',
-        percentage: 10
+        race: 'Other (One Race)',
+        population: 76535 + 9376 + 1670723
     },
     {
         id: 6,
-        race: 'Asian (R)',
-        percentage: 8
-    },
-    {
-        id: 7,
-        race: 'Hispanic (D)',
-        percentage: 7
-    },
-    {
-        id: 8,
-        race: 'Hispanic (R)',
-        percentage: 2
-    },
-    {
-        id: 9,
-        race: 'Other (D)',
-        percentage: 10
-    },
-    {
-        id: 10,
-        race: 'Other (R)',
-        percentage: 8
-    },
+        race: 'Two or More Races',
+        population: 921553
+    }
 ]
 
 export const AR_AgeVotingData = [
     {
         id: 1,
-        age: '18-25 (D)',
-        percentage: 5
+        age: "Under 18",
+        population: 702832
     },
     {
         id: 2,
-        age: '18-25 (R)',
-        percentage: 15
+        age: "18-24",
+        population: 282319
     },
     {
         id: 3,
-        age: '26-45 (D)',
-        percentage: 15
+        age: "25-34",
+        population: 394792
     },
     {
         id: 4,
-        age: '26-45 (R)',
-        percentage: 20
+        age: "35-44",
+        population: 371371
     },
     {
         id: 5,
-        age: '46-65 (D)',
-        percentage: 13
+        age: "45-54",
+        population: 366483
     },
     {
         id: 6,
-        age: '46-65 (R)',
-        percentage: 22
+        age: "55-64",
+        population: 383959
     },
     {
         id: 7,
-        age: '65+ (D)',
-        percentage: 4
-    },
-    {
-        id: 8,
-        age: '65+ (R)',
-        percentage: 6
+        age: "65 and over",
+        population: 510117
     },
 ]
 
 export const NY_AgeVotingData = [
     {
         id: 1,
-        age: '18-25 (D)',
-        percentage: 20
+        age: "Under 18",
+        population: 4071142
     },
     {
         id: 2,
-        age: '18-25 (R)',
-        percentage: 5
+        age: "18-24",
+        population: 1794550
     },
     {
         id: 3,
-        age: '26-45 (D)',
-        percentage: 25
+        age: "25-34",
+        population: 2865358
     },
     {
         id: 4,
-        age: '26-45 (R)',
-        percentage: 15
+        age: "35-44",
+        population: 2428957
     },
     {
         id: 5,
-        age: '46-65 (D)',
-        percentage: 12
+        age: "45-54",
+        population: 2548713
     },
     {
         id: 6,
-        age: '46-65 (R)',
-        percentage: 8
+        age: "55-64",
+        population: 2584427
     },
     {
         id: 7,
-        age: '65+ (D)',
-        percentage: 10
-    },
-    {
-        id: 8,
-        age: '65+ (R)',
-        percentage: 5
+        age: "65 and over",
+        population: 3221702
     },
 ]
