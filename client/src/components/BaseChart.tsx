@@ -23,9 +23,9 @@ export default function BaseChart({selectedState} : BaseChartProps){
           labels: AR_IncomeVotingData.map((data) => data.income),
           datasets: [
             {
-              label: "Voting Percentage",
+              label: "Household Percentage",
               data: AR_IncomeVotingData.map((data) => data.percentage),
-              backgroundColor: ["blue", "red"]
+              backgroundColor: ["green"]
             }
           ]
         }
@@ -36,9 +36,9 @@ export default function BaseChart({selectedState} : BaseChartProps){
           labels: NY_IncomeVotingData.map((data) => data.income),
           datasets: [
             {
-              label: "Voting Percentage",
+              label: "Household Percentage",
               data: NY_IncomeVotingData.map((data) => data.percentage),
-              backgroundColor: ["blue", "red"]
+              backgroundColor: ["green"]
             }
           ]
         }
@@ -50,8 +50,8 @@ export default function BaseChart({selectedState} : BaseChartProps){
           datasets: [
             {
               label: "Voting Percentage",
-              data: AR_RaceVotingData.map((data) => data.percentage),
-              backgroundColor: ["blue", "red"]
+              data: AR_RaceVotingData.map((data) => data.population),
+              backgroundColor: ["grey"]
             }
           ]
         }
@@ -63,8 +63,8 @@ export default function BaseChart({selectedState} : BaseChartProps){
           datasets: [
             {
               label: "Voting Percentage",
-              data: NY_RaceVotingData.map((data) => data.percentage),
-              backgroundColor: ["blue", "red"]
+              data: NY_RaceVotingData.map((data) => data.population),
+              backgroundColor: ["grey"]
             }
           ]
         }
@@ -76,8 +76,8 @@ export default function BaseChart({selectedState} : BaseChartProps){
           datasets: [
             {
               label: "Voting Percentage",
-              data: AR_AgeVotingData.map((data) => data.percentage),
-              backgroundColor: ["blue", "red"]
+              data: AR_AgeVotingData.map((data) => data.population),
+              backgroundColor: ["orange"]
             }
           ]
         }
@@ -89,8 +89,8 @@ export default function BaseChart({selectedState} : BaseChartProps){
           datasets: [
             {
               label: "Voting Percentage",
-              data: NY_AgeVotingData.map((data) => data.percentage),
-              backgroundColor: ["blue", "red"]
+              data: NY_AgeVotingData.map((data) => data.population),
+              backgroundColor: ["orange"]
             }
           ]
         }
