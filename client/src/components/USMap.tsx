@@ -62,13 +62,13 @@ function validateAndFixGeoJSON(data: any): FeatureCollection {
 }
 
 const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedData}) => {
-  const [arkansasPrecincts, setArkansasPrecincts] = useState<FeatureCollection | null>(null);
-  const [newyorkPrecincts, setNewYorkPrecincts] = useState<FeatureCollection | null>(null);
+  // const [arkansasPrecincts, setArkansasPrecincts] = useState<FeatureCollection | null>(null);
+  // const [newyorkPrecincts, setNewYorkPrecincts] = useState<FeatureCollection | null>(null);
   const [arkansasCd, setArkansasCd] = useState<FeatureCollection | null>(null);
   const [newyorkCd, setNewYorkCd] = useState<FeatureCollection | null>(null);
   const [map, setMap] = useState<L.Map | null>(null);
   const mapRef = useRef<HTMLDivElement>(null);
-  const precinctLayerRef = useRef<L.GeoJSON | null>(null);
+  // const precinctLayerRef = useRef<L.GeoJSON | null>(null);
   const cdLayerRef = useRef<L.GeoJSON | null>(null);
 
   const highlightFeatures = useCallback((e: L.LeafletMouseEvent) => {
@@ -173,14 +173,14 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
               //onsole.log("Arkansas district data:", JSON.stringify(arkansasData.district, null, 2));
               //console.log("Arkansas precinct data:", JSON.stringify(arkansasData.precinct, null, 2));
               setArkansasCd(validateAndFixGeoJSON(arkansasData.district));
-              setArkansasPrecincts(validateAndFixGeoJSON(arkansasData.precinct));
+              //setArkansasPrecincts(validateAndFixGeoJSON(arkansasData.precinct));
             }
 
             if (newYorkData) {
               //console.log("New York district data:", JSON.stringify(newYorkData.district, null, 2));
               //console.log("New York precinct data:", JSON.stringify(newYorkData.precinct, null, 2));
               setNewYorkCd(validateAndFixGeoJSON(newYorkData.district));
-              setNewYorkPrecincts(validateAndFixGeoJSON(newYorkData.precinct));
+              //setNewYorkPrecincts(validateAndFixGeoJSON(newYorkData.precinct));
             }
           } else {
             console.error("Unexpected data structure:", responseData);
@@ -211,10 +211,10 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
     }
 
     if (selectedState !== "State") {
-      if (precinctLayerRef.current) {
-        map.removeLayer(precinctLayerRef.current);
-        precinctLayerRef.current = null;
-      }
+      // if (precinctLayerRef.current) {
+      //   map.removeLayer(precinctLayerRef.current);
+      //   precinctLayerRef.current = null;
+      // }
 
       if (cdLayerRef.current) {
         map.removeLayer(cdLayerRef.current);
@@ -226,10 +226,10 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
 
       if (selectedState === "New York") {
         congressionalDistrict = newyorkCd;
-        precincts = newyorkPrecincts;
+        //precincts = newyorkPrecincts;
       } else if (selectedState === "Arkansas") {
         congressionalDistrict = arkansasCd;
-        precincts = arkansasPrecincts;
+        //precincts = arkansasPrecincts;
       }
 
       if (congressionalDistrict) {
@@ -245,18 +245,12 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
           onEachFeature: onEachFeature,
         }).addTo(map);
       }
-
-      if (precincts) {
-        precinctLayerRef.current = L.geoJSON(precincts, {
-          style: { color: "#000000", weight: 0.5, fillOpacity: 0.2 },
-        }).addTo(map);
-      }
     } else {
       // Remove layers when no state is selected
-      if (precinctLayerRef.current) {
-        map.removeLayer(precinctLayerRef.current);
-        precinctLayerRef.current = null;
-      }
+      // if (precinctLayerRef.current) {
+      //   map.removeLayer(precinctLayerRef.current);
+      //   precinctLayerRef.current = null;
+      // }
 
       if (cdLayerRef.current) {
         map.removeLayer(cdLayerRef.current);
@@ -268,8 +262,8 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
     map,
     selectedData,
     selectedState,
-    arkansasPrecincts,
-    newyorkPrecincts,
+    //arkansasPrecincts,
+    //newyorkPrecincts,
     newyorkCd,
     arkansasCd,
     highlightFeatures,
