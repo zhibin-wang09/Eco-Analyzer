@@ -9,10 +9,13 @@ export interface ChartDataItem {
 		democratPopularVote: number;
 		medianIncome: number;
 		meanIncome: number;
-	  };
-	  income: IncomeGroups[];
-	  race: RaceGroups[];
-	  age: AgeGroups[];
+	};
+	income: IncomeGroups[];
+	race: RaceGroups[];
+	age: AgeGroups[];
+	income_label: string;
+	race_label: string;
+	age_label: string;
 }
 
 interface IncomeGroups {
