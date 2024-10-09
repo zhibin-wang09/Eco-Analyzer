@@ -1,4 +1,11 @@
 {
+    "metadata":{
+        "labels": {
+            "income": "Percentage of Households",
+            "race": "Total Population",
+            "age": "Total Population"
+        }
+    },
     "chartData": [
         {
             "state": "Arkansas",
@@ -6,7 +13,7 @@
             "overview": {
                 "party": "Republican",
                 "population": 3011524,
-                "voterTurnout": 66.9,
+                "voterTurnout": 0.669,
                 "republicanPopularVote": 760647,
                 "democratPopularVote": 423932,
                 "medianIncome": 49475,
@@ -34,10 +41,7 @@
                 {"35-44": 371371},
                 {"55-64": 383959},
                 {"65 and over": 510117}
-            ],
-            "income_label": "Percentage of Households",
-            "race_label": "Total Population",
-            "age_label": "Total Population"
+            ]
         },
         {
             "state": "New York",
@@ -45,7 +49,7 @@
             "overview":{
                 "party": "Democrat",
                 "population": 20201249,
-                "voterTurnout": 69.7,
+                "voterTurnout": 0.697,
                 "republicanPopularVote": 3251997,
                 "democratPopularVote": 5244886,
                 "medianIncome": 71117,
@@ -74,10 +78,7 @@
                 {"45-54": 2548713},
                 {"55-64": 2584427},
                 {"65 and over": 3221702}
-            ],
-            "income_label": "Percentage of Households",
-            "race_label": "Total Population",
-            "age_label": "Total Population"
+            ]
         }
     ]
 }
