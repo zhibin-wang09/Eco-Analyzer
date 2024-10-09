@@ -17,9 +17,12 @@ import { ChartDataItem } from "./ChartDataItemInterface";
 axios.defaults.withCredentials = true;
 
 const MainLayout = () => {
+
   const [selectedState, setSelectedState] = useState<string>("Default");
   const [select, onSelectChange] = useState<string>("Default");
 	const [chartData, setChartData] = useState<ChartDataItem[]>([]);
+
+
 
   useEffect(() => {
 		axios.post("http://localhost:8080/getchartdata")
@@ -49,7 +52,7 @@ const MainLayout = () => {
               selectedData={select}
             />
           </Center>
-          {selectedState === "Default" ? (
+          {selectedState === "State" ? (
             <></>
           ) : (
             <Center>
