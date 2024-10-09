@@ -312,6 +312,51 @@ export default function BaseChart({selectedState, dataArray} : BaseChartProps){
                 <Button onClick={setToAge}>Age</Button>
                 <Button onClick={setToRace}>Race</Button>
             </ButtonGroup>
+
+			{(selectedState === 'Arkansas') && (
+				<div className='clean_this'>
+					<p>
+						Party: {dataArray[0].overview.party}
+					</p>
+					<p>
+						Total Population: {dataArray[0].overview.population}
+					</p>
+					<p>
+						Voter Turnout: {dataArray[0].overview.voterTurnout}%
+					</p>
+					<p>
+						Republican Votes: {dataArray[0].overview.republicanPopularVote} Votes
+					</p>
+					<p>
+						Democrat Votes: {dataArray[0].overview.democratPopularVote} Votes
+					</p>
+					<p>
+						Median Household Income: ${dataArray[0].overview.medianIncome} 
+					</p>
+				</div>
+			)}
+			{(selectedState === 'New York') && (
+				<div className='clean_this'>
+					<p>
+						Party: {dataArray[1].overview.party}
+					</p>
+					<p>
+						Total Population: {dataArray[1].overview.population}
+					</p>
+					<p>
+						Voter Turnout: {dataArray[1].overview.voterTurnout}%
+					</p>
+					<p>
+						Republican Votes: {dataArray[1].overview.republicanPopularVote} Votes
+					</p>
+					<p>
+						Democrat Votes: {dataArray[1].overview.democratPopularVote} Votes
+					</p>
+					<p>
+						Median Household Income: ${dataArray[1].overview.medianIncome} 
+					</p>
+				</div>
+			)}
         </Box> : <></>)
         
     )
