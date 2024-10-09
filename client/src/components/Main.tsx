@@ -31,12 +31,6 @@ const MainLayout = () => {
 		})
 	}, []);
 
-  useEffect(() => {
-    if (chartData && chartData.length > 0) {
-        console.log(chartData);
-    }
-  }, [chartData]);
-
   const direction = useBreakpointValue({
     base: "row", // Set the base direction as "row"
     md: "row", // Set the direction for the "md" breakpoint as "row"
@@ -67,7 +61,6 @@ const MainLayout = () => {
                 dataArray={chartData}
               />
             </Center>
-
           )}
         </Flex>
       </Flex>
