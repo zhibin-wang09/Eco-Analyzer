@@ -55,8 +55,8 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
       if (stateName === "New York" || stateName === "Arkansas") {
         onStateSelect(stateName);
         zoomToFeature(e,map)
-      } else {
-        onStateSelect("Default");
+      }else{
+        onStateSelect("State")
       }
     },
     [onStateSelect]
@@ -158,39 +158,7 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
       }
     }
 
-    if (selectedData === "Show Precincts" && selectedState) {
-      // Remove existing precinct layer if any
-      if (precinctLayerRef.current) {
-        map.removeLayer(precinctLayerRef.current);
-        precinctLayerRef.current = null;
-      }
-
-      if (cdLayerRef.current) {
-        map.removeLayer(cdLayerRef.current);
-        cdLayerRef.current = null;
-      }
-
-      let precincts: GeoJsonObject | null = null;
-      if (selectedState === "New York" && newyorkPrecincts) {
-        precincts = newyorkPrecincts;
-      } else if (selectedState === "Arkansas" && arkansasPrecincts) {
-        precincts = arkansasPrecincts;
-      }
-
-      if (precincts) {
-        const onEachFeature = (feature: Feature, layer: L.Layer) => {
-          layer.on({
-            mouseover: highlightFeatures,
-            mouseout: (e) => resetHighlight(e, precinctLayerRef.current!),
-          });
-        };
-
-        precinctLayerRef.current = L.geoJSON(precincts, {
-          style: { color: "#000000", weight: 0.5 },
-          onEachFeature: onEachFeature,
-        }).addTo(map);
-      }
-    } else if (selectedData === "Show Congressional Districts" && selectedState) {
+    if (selectedState !== "State") {
       if (precinctLayerRef.current) {
         map.removeLayer(precinctLayerRef.current);
         precinctLayerRef.current = null;

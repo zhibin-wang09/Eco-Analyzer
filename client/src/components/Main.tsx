@@ -16,8 +16,8 @@ import Navbar from "./Navbar";
 axios.defaults.withCredentials = true;
 
 const MainLayout = () => {
-  const [selectedState, setSelectedState] = useState<string>("Default");
-  const [select, onSelectChange] = useState<string>("Default");
+  const [selectedState, setSelectedState] = useState<string>("State");
+  const [select, onSelectChange] = useState<string>("Layer Type");
 
   const test = () => {
     axios.get('http://localhost:8080/test');
@@ -47,7 +47,7 @@ const MainLayout = () => {
               selectedData={select}
             />
           </Center>
-          {selectedState === "Default" ? (
+          {selectedState === "State" ? (
             <></>
           ) : (
             <Center>
