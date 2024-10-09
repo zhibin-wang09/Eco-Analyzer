@@ -1,31 +1,53 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import BarChart from './BarChart';
-import { 
-    AR_IncomeVotingData,
-    NY_IncomeVotingData,
-    AR_RaceVotingData,
-    NY_RaceVotingData,
-    AR_AgeVotingData,
-    NY_AgeVotingData 
-} from '../chartData';
-
 import '../Chart.css';
 import { Box, Text, Button, ButtonGroup } from '@chakra-ui/react';
+import { ChartDataItem } from './ChartDataItemInterface';
 
 interface BaseChartProps{
-    selectedState: string | null;
+    selectedState: string;
+	dataArray: ChartDataItem[];
 }
 
-export default function BaseChart({selectedState} : BaseChartProps){
+export default function BaseChart({selectedState, dataArray} : BaseChartProps){
+	
+	const [stringArrayPlaceholder, setStringArrayPlaceholder] = useState<string[]>([]);
+	const [numberArrayPlaceholder, setNumberArrayPlaceholder] = useState<number[]>([]);
 
-    const [AR_IncomeData, setAR_IncomeData] = useState(
+	const [AR_IncomeData, setAR_IncomeData] = useState(
+		{
+			labels: stringArrayPlaceholder,
+			datasets: [
+			  {
+				label: "Household Percentage",
+				data: numberArrayPlaceholder,
+				backgroundColor: ["green"]
+			  }
+			]
+		}
+    );
+
+	const [AR_RaceData, setAR_RaceData] = useState(
         {
-          labels: AR_IncomeVotingData.map((data) => data.income),
+			labels: stringArrayPlaceholder,
+			datasets: [
+				{
+					label: "Voting Percentage",
+					data: numberArrayPlaceholder,
+					backgroundColor: ["grey"]
+				}
+			]
+        }
+    );
+
+	const [AR_AgeData, setAR_AgeData] = useState(
+        {
+          labels: stringArrayPlaceholder,
           datasets: [
             {
-              label: "Household Percentage",
-              data: AR_IncomeVotingData.map((data) => data.percentage),
-              backgroundColor: ["green"]
+              label: "Voting Percentage",
+              data: numberArrayPlaceholder,
+              backgroundColor: ["orange"]
             }
           ]
         }
@@ -33,25 +55,12 @@ export default function BaseChart({selectedState} : BaseChartProps){
     
     const [NY_IncomeData, setNY_IncomeData] = useState(
         {
-          labels: NY_IncomeVotingData.map((data) => data.income),
+          labels: stringArrayPlaceholder,
           datasets: [
             {
               label: "Household Percentage",
-              data: NY_IncomeVotingData.map((data) => data.percentage),
+              data: numberArrayPlaceholder,
               backgroundColor: ["green"]
-            }
-          ]
-        }
-    );
-
-    const [AR_RaceData, setAR_RaceData] = useState(
-        {
-          labels: AR_RaceVotingData.map((data) => data.race),
-          datasets: [
-            {
-              label: "Voting Percentage",
-              data: AR_RaceVotingData.map((data) => data.population),
-              backgroundColor: ["grey"]
             }
           ]
         }
@@ -59,25 +68,12 @@ export default function BaseChart({selectedState} : BaseChartProps){
 
     const [NY_RaceData, setNY_RaceData] = useState(
         {
-          labels: NY_RaceVotingData.map((data) => data.race),
+          labels: stringArrayPlaceholder,
           datasets: [
             {
               label: "Voting Percentage",
-              data: NY_RaceVotingData.map((data) => data.population),
+              data: numberArrayPlaceholder,
               backgroundColor: ["grey"]
-            }
-          ]
-        }
-    );
-
-    const [AR_AgeData, setAR_AgeData] = useState(
-        {
-          labels: AR_AgeVotingData.map((data) => data.age),
-          datasets: [
-            {
-              label: "Voting Percentage",
-              data: AR_AgeVotingData.map((data) => data.population),
-              backgroundColor: ["orange"]
             }
           ]
         }
@@ -85,16 +81,147 @@ export default function BaseChart({selectedState} : BaseChartProps){
 
     const [NY_AgeData, setNY_AgeData] = useState(
         {
-          labels: NY_AgeVotingData.map((data) => data.age),
+          labels: stringArrayPlaceholder,
           datasets: [
             {
               label: "Voting Percentage",
-              data: NY_AgeVotingData.map((data) => data.population),
+              data: numberArrayPlaceholder,
               backgroundColor: ["orange"]
             }
           ]
         }
     );
+
+	useEffect(() => {
+		let temp_AR_income_labels: string[] = [];
+		let temp_AR_income_values: number[] = [];
+
+		(dataArray[0].income).forEach(e => {
+			temp_AR_income_labels.push(Object.keys(e)[0]);
+			temp_AR_income_values.push(Object.values(e)[0]);
+		});
+
+		setAR_IncomeData(
+			{
+				labels: temp_AR_income_labels,
+				datasets: [
+					{
+						label: dataArray[0].income_label,
+						data: temp_AR_income_values,
+						backgroundColor: ["green"]
+					}
+				]
+			}
+		);
+
+		let temp_AR_race_labels: string[] = [];
+		let temp_AR_race_values: number[] = [];
+
+		(dataArray[0].race).forEach(e => {
+			temp_AR_race_labels.push(Object.keys(e)[0]);
+			temp_AR_race_values.push(Object.values(e)[0]);
+		});
+
+		setAR_RaceData(
+			{
+				labels: temp_AR_race_labels,
+				datasets: [
+					{
+						label: dataArray[1].race_label,
+						data: temp_AR_race_values,
+						backgroundColor: ["grey"]
+					}
+				]
+			}
+		);
+
+		let temp_AR_age_labels: string[] = [];
+		let temp_AR_age_values: number[] = [];
+
+		(dataArray[0].age).forEach(e => {
+			temp_AR_age_labels.push(Object.keys(e)[0]);
+			temp_AR_age_values.push(Object.values(e)[0]);
+		});
+
+		setAR_AgeData(
+			{
+				labels: temp_AR_age_labels,
+				datasets: [
+					{
+						label: dataArray[0].age_label,
+						data: temp_AR_age_values,
+						backgroundColor: ["orange"]
+					}
+				]
+			}
+		);
+		
+
+		let temp_NY_income_labels: string[] = [];
+		let temp_NY_income_values: number[] = [];
+
+		(dataArray[1].income).forEach(e => {
+			temp_NY_income_labels.push(Object.keys(e)[0]);
+			temp_NY_income_values.push(Object.values(e)[0]);
+		});
+
+		setNY_IncomeData(
+			{
+				labels: temp_NY_income_labels,
+				datasets: [
+					{
+						label: dataArray[1].income_label,
+						data: temp_NY_income_values,
+						backgroundColor: ["green"]
+					}
+				]
+			}
+		);
+
+		let temp_NY_race_labels: string[] = [];
+		let temp_NY_race_values: number[] = [];
+
+		(dataArray[1].race).forEach(e => {
+			temp_NY_race_labels.push(Object.keys(e)[0]);
+			temp_NY_race_values.push(Object.values(e)[0]);
+		});
+
+		setNY_RaceData(
+			{
+				labels: temp_NY_race_labels,
+				datasets: [
+					{
+						label: dataArray[1].race_label,
+						data: temp_NY_race_values,
+						backgroundColor: ["grey"]
+					}
+				]
+			}
+		);
+
+		let temp_NY_age_labels: string[] = [];
+		let temp_NY_age_values: number[] = [];
+
+		(dataArray[1].age).forEach(e => {
+			temp_NY_age_labels.push(Object.keys(e)[0]);
+			temp_NY_age_values.push(Object.values(e)[0]);
+		});
+
+		setNY_AgeData(
+			{
+				labels: temp_NY_age_labels,
+				datasets: [
+					{
+						label: dataArray[1].age_label,
+						data: temp_NY_age_values,
+						backgroundColor: ["orange"]
+					}
+				]
+			}
+		);
+
+
+	}, [dataArray]);
 
     const [dataType, setDataType] = useState('Income');
 
@@ -148,6 +275,51 @@ export default function BaseChart({selectedState} : BaseChartProps){
                 <Button onClick={setToAge}>Age</Button>
                 <Button onClick={setToRace}>Race</Button>
             </ButtonGroup>
+
+			{(selectedState === 'Arkansas') && (
+				<div className='clean_this'>
+					<p>
+						Party: {dataArray[0].overview.party}
+					</p>
+					<p>
+						Total Population: {dataArray[0].overview.population}
+					</p>
+					<p>
+						Voter Turnout: {dataArray[0].overview.voterTurnout}%
+					</p>
+					<p>
+						Republican Votes: {dataArray[0].overview.republicanPopularVote} Votes
+					</p>
+					<p>
+						Democrat Votes: {dataArray[0].overview.democratPopularVote} Votes
+					</p>
+					<p>
+						Median Household Income: ${dataArray[0].overview.medianIncome} 
+					</p>
+				</div>
+			)}
+			{(selectedState === 'New York') && (
+				<div className='clean_this'>
+					<p>
+						Party: {dataArray[1].overview.party}
+					</p>
+					<p>
+						Total Population: {dataArray[1].overview.population}
+					</p>
+					<p>
+						Voter Turnout: {dataArray[1].overview.voterTurnout}%
+					</p>
+					<p>
+						Republican Votes: {dataArray[1].overview.republicanPopularVote} Votes
+					</p>
+					<p>
+						Democrat Votes: {dataArray[1].overview.democratPopularVote} Votes
+					</p>
+					<p>
+						Median Household Income: ${dataArray[1].overview.medianIncome} 
+					</p>
+				</div>
+			)}
         </Box> : <></>)
         
     )

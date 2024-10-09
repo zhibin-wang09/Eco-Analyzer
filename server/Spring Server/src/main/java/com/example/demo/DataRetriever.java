@@ -23,11 +23,34 @@ public class DataRetriever {
 
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/getcoordinates", produces = "application/json")
-	public ResponseEntity<Map<String,Object>> temp(){
+	public ResponseEntity<Map<String,Object>> getCoordinateData(){
 
 		StringBuilder jsonString = new StringBuilder();
 
 		try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("CoordinateLarge.json")){
+			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+				String line;
+
+				while ((line = reader.readLine()) != null) {
+					jsonString.append(line);
+				}
+		}
+		catch(IOException e){
+			e.printStackTrace();
+		}
+
+		JSONObject obj = new JSONObject(jsonString.toString());
+		Map<String, Object> result = obj.toMap();
+		return ResponseEntity.ok(result);
+	}
+
+	@CrossOrigin(origins = "http://localhost:3000")
+	@RequestMapping(value = "/getchartdata", produces = "application/json")
+	public ResponseEntity<Map<String,Object>> getChartData(){
+
+		StringBuilder jsonString = new StringBuilder();
+
+		try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("ChartData.json")){
 			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 				String line;
 

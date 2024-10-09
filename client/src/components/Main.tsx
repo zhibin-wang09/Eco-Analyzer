@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from 'axios';
 
 import {
@@ -12,16 +12,24 @@ import USMap from "./USMap";
 
 import BaseChart from "./BaseChart";
 import Navbar from "./Navbar";
+import { ChartDataItem } from "./ChartDataItemInterface";
 
 axios.defaults.withCredentials = true;
 
 const MainLayout = () => {
-  const [selectedState, setSelectedState] = useState<string>("State");
-  const [select, onSelectChange] = useState<string>("Layer Type");
 
-  const test = () => {
-    axios.get('http://localhost:8080/test');
-  }
+  const [selectedState, setSelectedState] = useState<string>("Default");
+  const [select, onSelectChange] = useState<string>("Default");
+	const [chartData, setChartData] = useState<ChartDataItem[]>([]);
+
+
+
+  useEffect(() => {
+		axios.post("http://localhost:8080/getchartdata")
+		.then(res => {
+			setChartData(res.data.chartData);
+		})
+	}, []);
 
   const direction = useBreakpointValue({
     base: "row", // Set the base direction as "row"
@@ -37,9 +45,6 @@ const MainLayout = () => {
           state={selectedState}
         ></Navbar>
         <Flex direction="row" width="100%" height="100vh">
-        {/* <button onClick={test}>
-          sdfdsfdfsdfsd
-        </button> */}
           <Center flex={1}>
             <USMap
               onStateSelect={setSelectedState}
@@ -51,7 +56,10 @@ const MainLayout = () => {
             <></>
           ) : (
             <Center>
-              <BaseChart selectedState={selectedState} />
+              <BaseChart 
+                selectedState={selectedState}
+                dataArray={chartData}
+              />
             </Center>
           )}
         </Flex>
