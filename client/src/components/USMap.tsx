@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useCallback, useState } from "react";
 import L from "leaflet";
-import { GeoJsonObject, Feature } from "geojson";
+import { GeoJsonObject, Feature, Geometry } from "geojson";
+import axios from 'axios';
 import statesData from "./state";
 import {
   VStack,
@@ -9,19 +10,62 @@ import {
 import "../style/legend.css";
 import "leaflet/dist/leaflet.css";
 
+interface FeatureCollection {
+  type: "FeatureCollection";
+  features: Array<{
+    type: "Feature";
+    properties: { [key: string]: any };
+    geometry: Geometry;
+  }>;
+}
+
+interface StateData {
+  state: string;
+  district: any;
+  precinct: any;
+}
+
 interface USMapProps {
   onStateSelect: (state: string) => void;
   selectedState: string | null;
   selectedData: string | null;
 }
 
+function validateAndFixGeoJSON(data: any): FeatureCollection {
+  if (data && data.geometries) {
+    // This is for district data
+    return {
+      type: "FeatureCollection",
+      features: data.geometries.map((item: any) => ({
+        type: "Feature",
+        properties: {},
+        geometry: item.geometry
+      }))
+    };
+  } else if (data && data.features) {
+    // This is for precinct data
+    return {
+      type: "FeatureCollection",
+      features: data.features.map((feature: any) => ({
+        type: "Feature",
+        properties: feature.properties || {},
+        geometry: feature.geometry
+      }))
+    };
+  } else {
+    console.error("Invalid GeoJSON data:", data);
+    return {
+      type: "FeatureCollection",
+      features: []
+    };
+  }
+}
+
 const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedData}) => {
-  const [arkansasPrecincts, setArkansasPrecincts] =
-    useState<GeoJsonObject | null>(null);
-  const [newyorkPrecincts, setNewYorkPrecincts] =
-    useState<GeoJsonObject | null>(null);
-  const [arakansasCd, setArkansasCd] = useState<GeoJsonObject | null>(null);
-  const [newyorkCd, setNewYorkCd] = useState<GeoJsonObject | null>(null);
+  const [arkansasPrecincts, setArkansasPrecincts] = useState<FeatureCollection | null>(null);
+  const [newyorkPrecincts, setNewYorkPrecincts] = useState<FeatureCollection | null>(null);
+  const [arkansasCd, setArkansasCd] = useState<FeatureCollection | null>(null);
+  const [newyorkCd, setNewYorkCd] = useState<FeatureCollection | null>(null);
   const [map, setMap] = useState<L.Map | null>(null);
   const mapRef = useRef<HTMLDivElement>(null);
   const precinctLayerRef = useRef<L.GeoJSON | null>(null);
@@ -59,18 +103,17 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
         onStateSelect("State")
       }
     },
-    [onStateSelect]
+    [onStateSelect, zoomToFeature]
   );
 
   useEffect(() => {
     if (mapRef.current) {
-      const map = L.map(mapRef.current).setView([37.8, -96], 4); // Center on US
+      const map = L.map(mapRef.current).setView([37.8, -96], 4);
 
       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         minZoom: 3,
         maxZoom: 24,
-        attribution:
-          '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       }).addTo(map);
 
       const onEachFeature = (feature: Feature, layer: L.Layer) => {
@@ -113,38 +156,47 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
 
       legend.addTo(map);
 
-      fetch("/old_arkansas_congressional_district.json")
-        .then((response) => response.json())
-        .then((geojson) => {
-          setArkansasCd(geojson);
-
-          console.log(geojson);
-        });
-
-      fetch("/old_newyork_congressional_district.json")
-        .then((response) => response.json())
-        .then((geojson) => {
-          setNewYorkCd(geojson);
-        });
-
-      fetch("/newyork_precincts.json")
-        .then((response) => response.json())
-        .then((geojson) => {
-          setNewYorkPrecincts(geojson);
-        });
-
-      fetch("/arkansas_precincts.json")
-        .then((response) => response.json())
-        .then((geojson) => {
-          setArkansasPrecincts(geojson);
-        });
-
       setMap(map);
+
+      // Fetch data from backend
+      const fetchMapData = async () => {
+        try {
+          const response = await axios.get("http://localhost:8080/getcoordinates");
+          const responseData = response.data;
+          console.log("Received data:", JSON.stringify(responseData, null, 2));
+          
+          if (responseData && responseData.data && Array.isArray(responseData.data) && responseData.data.length >= 2) {
+            const arkansasData = responseData.data.find((item: StateData) => item.state === "Arkansas");
+            const newYorkData = responseData.data.find((item: StateData) => item.state === "New York");
+
+            if (arkansasData) {
+              console.log("Arkansas district data:", JSON.stringify(arkansasData.district, null, 2));
+              console.log("Arkansas precinct data:", JSON.stringify(arkansasData.precinct, null, 2));
+              setArkansasCd(validateAndFixGeoJSON(arkansasData.district));
+              setArkansasPrecincts(validateAndFixGeoJSON(arkansasData.precinct));
+            }
+
+            if (newYorkData) {
+              console.log("New York district data:", JSON.stringify(newYorkData.district, null, 2));
+              console.log("New York precinct data:", JSON.stringify(newYorkData.precinct, null, 2));
+              setNewYorkCd(validateAndFixGeoJSON(newYorkData.district));
+              setNewYorkPrecincts(validateAndFixGeoJSON(newYorkData.precinct));
+            }
+          } else {
+            console.error("Unexpected data structure:", responseData);
+          }
+        } catch (error) {
+          console.error("Error fetching map data:", error);
+        }
+      };
+
+      fetchMapData();
+
       return () => {
         map.remove();
       };
     }
-  }, [highlightFeatures, resetHighlight, onClick]);
+  }, [highlightFeatures, onClick, resetHighlight]);
 
   useEffect(() => {
     if (!map) return;
@@ -169,11 +221,15 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
         cdLayerRef.current = null;
       }
 
-      let congressionalDistrict: GeoJsonObject | null = null;
-      if (selectedState === "New York" && newyorkCd) {
+      let congressionalDistrict: FeatureCollection | null = null;
+      let precincts: FeatureCollection | null = null;
+
+      if (selectedState === "New York") {
         congressionalDistrict = newyorkCd;
-      } else if (selectedState === "Arkansas" && arakansasCd) {
-        congressionalDistrict = arakansasCd;
+        precincts = newyorkPrecincts;
+      } else if (selectedState === "Arkansas") {
+        congressionalDistrict = arkansasCd;
+        precincts = arkansasPrecincts;
       }
 
       if (congressionalDistrict) {
@@ -183,13 +239,20 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
             mouseout: (e) => resetHighlight(e, cdLayerRef.current!),
           });
         };
+
         cdLayerRef.current = L.geoJSON(congressionalDistrict, {
           style: { color: "#000000", weight: 0.5 },
           onEachFeature: onEachFeature,
         }).addTo(map);
       }
+
+      if (precincts) {
+        precinctLayerRef.current = L.geoJSON(precincts, {
+          style: { color: "#FF0000", weight: 0.5, fillOpacity: 0.2 },
+        }).addTo(map);
+      }
     } else {
-      // Remove precinct layer when hiding or when no state is selected
+      // Remove layers when no state is selected
       if (precinctLayerRef.current) {
         map.removeLayer(precinctLayerRef.current);
         precinctLayerRef.current = null;
@@ -208,7 +271,9 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
     arkansasPrecincts,
     newyorkPrecincts,
     newyorkCd,
-    arakansasCd,
+    arkansasCd,
+    highlightFeatures,
+    resetHighlight,
   ]);
 
   return (

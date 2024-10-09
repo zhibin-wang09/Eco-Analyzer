@@ -24,13 +24,24 @@ const MainLayout = () => {
 
 
 
-  useEffect(() => {
-		axios.post("http://localhost:8080/getchartdata")
-		.then(res => {
-			setChartData(res.data.chartData);
-		})
-	}, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch("http://localhost:8080/getchartdata");
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error! status: ${response.status}`);
+  //       }
+  //       const data = await response.json();
+  //       setChartData(data.chartData);
+  //     } catch (error) {
+  //       console.error("Error fetching chart data:", error);
+  //     }
+  //   };
+  
+  //   fetchData();
+  // }, []);
 
+  
   const direction = useBreakpointValue({
     base: "row", // Set the base direction as "row"
     md: "row", // Set the direction for the "md" breakpoint as "row"
@@ -56,10 +67,6 @@ const MainLayout = () => {
             <></>
           ) : (
             <Center>
-              <BaseChart 
-                selectedState={selectedState}
-                dataArray={chartData}
-              />
             </Center>
           )}
         </Flex>

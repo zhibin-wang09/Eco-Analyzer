@@ -14,6 +14,7 @@ import java.util.Map;
 import org.springframework.http.ResponseEntity;
 
 @SpringBootApplication
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class DataRetriever {
 
