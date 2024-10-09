@@ -170,15 +170,15 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
             const newYorkData = responseData.data.find((item: StateData) => item.state === "New York");
 
             if (arkansasData) {
-              console.log("Arkansas district data:", JSON.stringify(arkansasData.district, null, 2));
-              console.log("Arkansas precinct data:", JSON.stringify(arkansasData.precinct, null, 2));
+              //onsole.log("Arkansas district data:", JSON.stringify(arkansasData.district, null, 2));
+              //console.log("Arkansas precinct data:", JSON.stringify(arkansasData.precinct, null, 2));
               setArkansasCd(validateAndFixGeoJSON(arkansasData.district));
               setArkansasPrecincts(validateAndFixGeoJSON(arkansasData.precinct));
             }
 
             if (newYorkData) {
-              console.log("New York district data:", JSON.stringify(newYorkData.district, null, 2));
-              console.log("New York precinct data:", JSON.stringify(newYorkData.precinct, null, 2));
+              //console.log("New York district data:", JSON.stringify(newYorkData.district, null, 2));
+              //console.log("New York precinct data:", JSON.stringify(newYorkData.precinct, null, 2));
               setNewYorkCd(validateAndFixGeoJSON(newYorkData.district));
               setNewYorkPrecincts(validateAndFixGeoJSON(newYorkData.precinct));
             }
@@ -248,7 +248,7 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
 
       if (precincts) {
         precinctLayerRef.current = L.geoJSON(precincts, {
-          style: { color: "#FF0000", weight: 0.5, fillOpacity: 0.2 },
+          style: { color: "#000000", weight: 0.5, fillOpacity: 0.2 },
         }).addTo(map);
       }
     } else {
