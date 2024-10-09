@@ -111,7 +111,7 @@ export default function BaseChart({selectedState} : BaseChartProps){
     }
 
     return(
-        (selectedState !== "State" ? <Box>
+        (selectedState !== "State" ? <Box  marginLeft="5">
             <Box style={{width: 600}}>
 
                 <Text className='chart_title_font' fontSize="3xl">
