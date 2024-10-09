@@ -19,48 +19,6 @@ interface BaseChartProps{
 	dataArray: ChartDataItem[];
 }
 
-// interface ChartDataItem {
-// 	state: string;
-// 	stateCode: string;
-// 	overview: {
-// 		party: string;
-// 		population: number;
-// 		voterTurnout: number;
-// 		republicanPopularVote: number;
-// 		democratPopularVote: number;
-// 		medianIncome: number;
-// 		meanIncome: number;
-// 	  };
-// 	  income: {
-// 		'0-24999': number;
-// 		'25000-49999': number;
-// 		'50000-74999': number;
-// 		'75000-99999': number;
-// 		'100000': number;
-// 	  };
-// 	  age: {
-// 		'Under 18': number;
-// 		'18-24': number;
-// 		'25-34': number;
-// 		'55-64': number;
-// 		'65 and over': number;
-// 	  };
-// 	  race: {
-// 		white: number;
-// 		black: number;
-// 		asian: number;
-// 		hispanic: number;
-// 		other: number;
-// 		mixed: number;
-// 	  };
-// }
-
-interface IncomeData {
-	id: number;
-	income: string;
-	percentage: number;
-}
-
 export default function BaseChart({selectedState, dataArray} : BaseChartProps){
 
 	const [metadata, setMetadata] = useState();
@@ -73,25 +31,6 @@ export default function BaseChart({selectedState, dataArray} : BaseChartProps){
 			setChartData(res.data.chartData);
 		})
 	}, []);
-
-	const [AR_Income_Data_Labels, set_AR_Income_Data_Labels] = useState<string[]>([]);
-	const [AR_Income_Data_Values, set_AR_Income_Data_Values] = useState<number[]>([]);
-
-	const [AR_Race_Data_Labels, set_AR_Race_Data_Labels] = useState<string[]>([]);
-	const [AR_Race_Data_Values, set_AR_Race_Data_Values] = useState<number[]>([]);
-
-	const [AR_Age_Data_Labels, set_AR_Age_Data_Labels] = useState<string[]>([]);
-	const [AR_Age_Data_Values, set_AR_Age_Data_Values] = useState<number[]>([]);
-	
-
-	const [NY_Income_Data_Labels, set_NY_Income_Data_Labels] = useState<string[]>([]);
-	const [NY_Income_Data_Values, set_NY_Income_Data_Values] = useState<number[]>([]);
-
-	const [NY_Race_Data_Labels, set_NY_Race_Data_Labels] = useState<string[]>([]);
-	const [NY_Race_Data_Values, set_NY_Race_Data_Values] = useState<number[]>([]);
-	
-	const [NY_Age_Data_Labels, set_NY_Age_Data_Labels] = useState<string[]>([]);
-	const [NY_Age_Data_Values, set_NY_Age_Data_Values] = useState<number[]>([]);
 	
 	const [stringArrayPlaceholder, setStringArrayPlaceholder] = useState<string[]>([]);
 	const [numberArrayPlaceholder, setNumberArrayPlaceholder] = useState<number[]>([]);
@@ -237,88 +176,20 @@ export default function BaseChart({selectedState, dataArray} : BaseChartProps){
 
 
 	}, [dataArray]);
-
-
-
-	
-	// const [ARIncomeData, setARIncomeData] = useState<number[]>([]);
-
-	// useEffect(() => {
-	// 	if(chartData && chartData.length > 0){
-	// 		const x: number[] = Object.values(chartData[0].income);
-	// 		setARIncomeData(x);
-	// 	}
-	// }, [ARIncomeData])
-
-	
-
-	useEffect(() => {
-		if (chartData && chartData.length) {
-			// console.log(chartData[0]);
-				const labels: string[] = Object.keys(chartData[0].income);
-				set_AR_Income_Data_Labels(labels);
-
-			// console.log(labels);
-			// console.log(chartData);
-
-
-			
-		}
-
-		console.log(AR_Income_Data_Labels)
-	}, [chartData]);
 	
 
     const [AR_IncomeData, setAR_IncomeData] = useState(
 		{
-			labels: AR_Income_Data_Labels,
+			labels: stringArrayPlaceholder,
 			datasets: [
 			  {
 				label: "Household Percentage",
-				data: AR_Income_Data_Values,
+				data: numberArrayPlaceholder,
 				backgroundColor: ["green"]
 			  }
 			]
 		}
     );
-
-	// const [loading, setLoading] = useState<boolean>(false);
-
-	// const [isReady, setReady] = useState<boolean>(false);
-
-	// useEffect(() => { 
-	// 	console.log("start loading")
-	// 	const timer = setTimeout(() => {
-	// 		setAR_IncomeData( 
-	// 			{
-	// 				labels: AR_Income_Data_Labels,
-	// 				datasets: [
-	// 				  {
-	// 					label: "Household Percentage",
-	// 					data: NY_IncomeVotingData.map((data) => data.percentage),
-	// 					backgroundColor: ["green"]
-	// 				  }
-	// 				]
-	// 			  }
-	// 		)
-	// 		console.log("done loading")
-
-	// 		setTimeout(()=>{
-	// 			setReady(true);
-
-	// 			console.log(isReady);
-
-	// 			setLoading(true); 
-
-	// 		},2000)
-			
-	// 	}, 4000)
-
-	// 	return () => clearTimeout(timer);
-
-
-		
-	// }, [])
     
     const [NY_IncomeData, setNY_IncomeData] = useState(
         {
