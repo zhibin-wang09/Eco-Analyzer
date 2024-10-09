@@ -19,14 +19,11 @@ axios.defaults.withCredentials = true;
 const MainLayout = () => {
   const [selectedState, setSelectedState] = useState<string>("Default");
   const [select, onSelectChange] = useState<string>("Default");
-
-  const [metadata, setMetadata] = useState();
 	const [chartData, setChartData] = useState<ChartDataItem[]>([]);
 
   useEffect(() => {
 		axios.post("http://localhost:8080/getchartdata")
 		.then(res => {
-			setMetadata(res.data.metadata);
 			setChartData(res.data.chartData);
 		})
 	}, []);

@@ -106,7 +106,7 @@ export default function BaseChart({selectedState, dataArray} : BaseChartProps){
 				labels: temp_AR_income_labels,
 				datasets: [
 					{
-						label: "Household Percentage",
+						label: dataArray[0].income_label,
 						data: temp_AR_income_values,
 						backgroundColor: ["green"]
 					}
@@ -127,7 +127,7 @@ export default function BaseChart({selectedState, dataArray} : BaseChartProps){
 				labels: temp_AR_race_labels,
 				datasets: [
 					{
-						label: "Voting Percentage",
+						label: dataArray[1].race_label,
 						data: temp_AR_race_values,
 						backgroundColor: ["grey"]
 					}
@@ -148,7 +148,7 @@ export default function BaseChart({selectedState, dataArray} : BaseChartProps){
 				labels: temp_AR_age_labels,
 				datasets: [
 					{
-						label: "Voting Percentage",
+						label: dataArray[0].age_label,
 						data: temp_AR_age_values,
 						backgroundColor: ["orange"]
 					}
@@ -170,7 +170,7 @@ export default function BaseChart({selectedState, dataArray} : BaseChartProps){
 				labels: temp_NY_income_labels,
 				datasets: [
 					{
-						label: "Voting Percentage",
+						label: dataArray[1].income_label,
 						data: temp_NY_income_values,
 						backgroundColor: ["green"]
 					}
@@ -191,7 +191,7 @@ export default function BaseChart({selectedState, dataArray} : BaseChartProps){
 				labels: temp_NY_race_labels,
 				datasets: [
 					{
-						label: "Voting Percentage",
+						label: dataArray[1].race_label,
 						data: temp_NY_race_values,
 						backgroundColor: ["grey"]
 					}
@@ -212,7 +212,7 @@ export default function BaseChart({selectedState, dataArray} : BaseChartProps){
 				labels: temp_NY_age_labels,
 				datasets: [
 					{
-						label: "Voting Percentage",
+						label: dataArray[1].age_label,
 						data: temp_NY_age_values,
 						backgroundColor: ["orange"]
 					}

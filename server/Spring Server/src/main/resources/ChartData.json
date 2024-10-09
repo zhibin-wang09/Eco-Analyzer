@@ -1,23 +1,16 @@
 {
-    "metadata":{
-        "labels": {
-            "income": "Percentage of Households",
-            "race": "Total Population",
-            "age": "Total Population"
-        }
-    },
     "chartData": [
         {
             "state": "Arkansas",
             "stateCode": "AR",
             "overview": {
-                "party": "Republican",
-                "population": 3011524,
-                "voterTurnout": 0.669,
-                "republicanPopularVote": 760647,
-                "democratPopularVote": 423932,
-                "medianIncome": 49475,
-                "meanIncome": 69357
+                "Party": "Republican",
+                "Population": 3011524,
+                "Voter Turnout": 0.669,
+                "Republican Popular Vote": 760647,
+                "Democrat Popular Vote": 423932,
+                "Median Income": 49475,
+                "Mean Income": 69357
             },
             "income":[
                 {"0-24999": 24.9},
@@ -41,19 +34,22 @@
                 {"35-44": 371371},
                 {"55-64": 383959},
                 {"65 and over": 510117}
-            ]
+            ],
+            "income_label": "Percentage of Households",
+            "race_label": "Total Population",
+            "age_label": "Total Population"
         },
         {
             "state": "New York",
             "stateCode": "NY",
             "overview":{
-                "party": "Democrat",
-                "population": 20201249,
-                "voterTurnout": 0.697,
-                "republicanPopularVote": 3251997,
-                "democratPopularVote": 5244886,
-                "medianIncome": 71117,
-                "meanIncome": 105304
+                "Party": "Democrat",
+                "Population": 20201249,
+                "Voter Turnout": 0.697,
+                "Republican Popular Vote": 3251997,
+                "Democrat Popular Vote": 5244886,
+                "Median Income": 71117,
+                "Mean Income": 105304
             },
             "income":[
                 {"0-24999": 19.1},
@@ -78,7 +74,10 @@
                 {"45-54": 2548713},
                 {"55-64": 2584427},
                 {"65 and over": 3221702}
-            ]
+            ],
+            "income_label": "Percentage of Households",
+            "race_label": "Total Population",
+            "age_label": "Total Population"
         }
     ]
 }
