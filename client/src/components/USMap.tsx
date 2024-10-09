@@ -35,7 +35,6 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
       dashArray: "",
       fillOpacity: 0.7,
     });
-    layer.bringToFront();
   }, []);
 
   const resetHighlight = useCallback(
