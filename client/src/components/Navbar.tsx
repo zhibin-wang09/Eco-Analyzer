@@ -1,4 +1,4 @@
-import { Center, Heading, HStack, Select } from "@chakra-ui/react";
+import { Box, Center, Heading, HStack, Select, Text } from "@chakra-ui/react";
 
 interface NavbarProps {
   onSelectChange: (val: string) => void;
@@ -22,21 +22,11 @@ export default function Navbar({
         <HStack gap="4">
           <Select
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-              onSelectChange(e.target.value);
-            }}
-            value={select}
-          >
-            <option>Default</option>
-            <option>Show Precincts</option>
-            <option>Show Congressional Districts</option>
-          </Select>
-          <Select
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
               onStateChange(e.target.value);
             }}
             value={state}
           >
-            <option>Default</option>
+            <option disabled>State</option>
             <option>New York</option>
             <option>Arkansas</option>
           </Select>
