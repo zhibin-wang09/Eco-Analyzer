@@ -27,7 +27,7 @@ public class DataRetriever {
 
 		StringBuilder jsonString = new StringBuilder();
 
-		try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("Coordinate.json")){
+		try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("CoordinateLarge.json")){
 			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 				String line;
 
