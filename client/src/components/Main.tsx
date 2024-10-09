@@ -17,26 +17,31 @@ import { ChartDataItem } from "./ChartDataItemInterface";
 axios.defaults.withCredentials = true;
 
 const MainLayout = () => {
+
   const [selectedState, setSelectedState] = useState<string>("Default");
   const [select, onSelectChange] = useState<string>("Default");
-
-  const [metadata, setMetadata] = useState();
 	const [chartData, setChartData] = useState<ChartDataItem[]>([]);
 
-  useEffect(() => {
-		axios.post("http://localhost:8080/getchartdata")
-		.then(res => {
-			setMetadata(res.data.metadata);
-			setChartData(res.data.chartData);
-		})
-	}, []);
 
-  useEffect(() => {
-    if (chartData && chartData.length > 0) {
-        console.log(chartData);
-    }
-  }, [chartData]);
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch("http://localhost:8080/getchartdata");
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error! status: ${response.status}`);
+  //       }
+  //       const data = await response.json();
+  //       setChartData(data.chartData);
+  //     } catch (error) {
+  //       console.error("Error fetching chart data:", error);
+  //     }
+  //   };
+  
+  //   fetchData();
+  // }, []);
+
+  
   const direction = useBreakpointValue({
     base: "row", // Set the base direction as "row"
     md: "row", // Set the direction for the "md" breakpoint as "row"
@@ -58,16 +63,11 @@ const MainLayout = () => {
               selectedData={select}
             />
           </Center>
-          {selectedState === "Default" ? (
+          {selectedState === "State" ? (
             <></>
           ) : (
             <Center>
-              <BaseChart 
-                selectedState={selectedState}
-                dataArray={chartData}
-              />
             </Center>
-
           )}
         </Flex>
       </Flex>
