@@ -114,7 +114,7 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
 
       legend.addTo(map);
 
-      fetch("/arkansas_congressional_district.json")
+      fetch("/old_arkansas_congressional_district.json")
         .then((response) => response.json())
         .then((geojson) => {
           setArkansasCd(geojson);
@@ -122,7 +122,7 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
           console.log(geojson);
         });
 
-      fetch("/newyork_congressional_district.json")
+      fetch("/old_newyork_congressional_district.json")
         .then((response) => response.json())
         .then((geojson) => {
           setNewYorkCd(geojson);
@@ -179,8 +179,16 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
       }
 
       if (precincts) {
+        const onEachFeature = (feature: Feature, layer: L.Layer) => {
+          layer.on({
+            mouseover: highlightFeatures,
+            mouseout: (e) => resetHighlight(e, precinctLayerRef.current!),
+          });
+        };
+
         precinctLayerRef.current = L.geoJSON(precincts, {
           style: { color: "#000000", weight: 0.5 },
+          onEachFeature: onEachFeature,
         }).addTo(map);
       }
     } else if (selectedData === "Show Congressional Districts" && selectedState) {
@@ -202,8 +210,15 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
       }
 
       if (congressionalDistrict) {
+        const onEachFeature = (feature: Feature, layer: L.Layer) => {
+          layer.on({
+            mouseover: highlightFeatures,
+            mouseout: (e) => resetHighlight(e, cdLayerRef.current!),
+          });
+        };
         cdLayerRef.current = L.geoJSON(congressionalDistrict, {
           style: { color: "#000000", weight: 0.5 },
+          onEachFeature: onEachFeature,
         }).addTo(map);
       }
     } else {
