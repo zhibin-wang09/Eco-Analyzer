@@ -1,12 +1,9 @@
 import React, { useEffect, useRef, useCallback, useState } from "react";
 import L from "leaflet";
 import { GeoJsonObject, Feature, Geometry } from "geojson";
-import axios from 'axios';
+import axios from "axios";
 import statesData from "./state";
-import {
-  VStack,
-  Center,
-} from "@chakra-ui/react";
+import { VStack, Center } from "@chakra-ui/react";
 import "../style/legend.css";
 import "leaflet/dist/leaflet.css";
 
@@ -39,8 +36,8 @@ function validateAndFixGeoJSON(data: any): FeatureCollection {
       features: data.geometries.map((item: any) => ({
         type: "Feature",
         properties: {},
-        geometry: item.geometry
-      }))
+        geometry: item.geometry,
+      })),
     };
   } else if (data && data.features) {
     // This is for precinct data
@@ -49,19 +46,23 @@ function validateAndFixGeoJSON(data: any): FeatureCollection {
       features: data.features.map((feature: any) => ({
         type: "Feature",
         properties: feature.properties || {},
-        geometry: feature.geometry
-      }))
+        geometry: feature.geometry,
+      })),
     };
   } else {
     console.error("Invalid GeoJSON data:", data);
     return {
       type: "FeatureCollection",
-      features: []
+      features: [],
     };
   }
 }
 
-const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedData}) => {
+const USMap: React.FC<USMapProps> = ({
+  onStateSelect,
+  selectedState,
+  selectedData,
+}) => {
   // const [arkansasPrecincts, setArkansasPrecincts] = useState<FeatureCollection | null>(null);
   // const [newyorkPrecincts, setNewYorkPrecincts] = useState<FeatureCollection | null>(null);
   const [arkansasCd, setArkansasCd] = useState<FeatureCollection | null>(null);
@@ -90,7 +91,7 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
 
   const zoomToFeature = useCallback((e: L.LeafletMouseEvent, map: L.Map) => {
     map.fitBounds(e.target.getBounds());
-    console.log(e.target.getBounds())
+    console.log(e.target.getBounds());
   }, []);
 
   const onClick = useCallback(
@@ -98,9 +99,9 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
       const stateName = feature.properties?.name || null;
       if (stateName === "New York" || stateName === "Arkansas") {
         onStateSelect(stateName);
-        zoomToFeature(e,map)
-      }else{
-        onStateSelect("State")
+        zoomToFeature(e, map);
+      } else {
+        onStateSelect("State");
       }
     },
     [onStateSelect, zoomToFeature]
@@ -113,7 +114,8 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         minZoom: 3,
         maxZoom: 24,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        attribution:
+          '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       }).addTo(map);
 
       const onEachFeature = (feature: Feature, layer: L.Layer) => {
@@ -161,26 +163,31 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
       // Fetch data from backend
       const fetchMapData = async () => {
         try {
-          const response = await axios.get("http://localhost:8080/getcoordinates");
+          const response = await axios.get(
+            "http://localhost:8080/getcoordinates"
+          );
           const responseData = response.data;
           console.log("Received data:", JSON.stringify(responseData, null, 2));
-          
-          if (responseData && responseData.data && Array.isArray(responseData.data) && responseData.data.length >= 2) {
-            const arkansasData = responseData.data.find((item: StateData) => item.state === "Arkansas");
-            const newYorkData = responseData.data.find((item: StateData) => item.state === "New York");
+
+          if (
+            responseData &&
+            responseData.data &&
+            Array.isArray(responseData.data) &&
+            responseData.data.length >= 2
+          ) {
+            const arkansasData = responseData.data.find(
+              (item: StateData) => item.state === "Arkansas"
+            );
+            const newYorkData = responseData.data.find(
+              (item: StateData) => item.state === "New York"
+            );
 
             if (arkansasData) {
-              //onsole.log("Arkansas district data:", JSON.stringify(arkansasData.district, null, 2));
-              //console.log("Arkansas precinct data:", JSON.stringify(arkansasData.precinct, null, 2));
               setArkansasCd(validateAndFixGeoJSON(arkansasData.district));
-              //setArkansasPrecincts(validateAndFixGeoJSON(arkansasData.precinct));
             }
 
             if (newYorkData) {
-              //console.log("New York district data:", JSON.stringify(newYorkData.district, null, 2));
-              //console.log("New York precinct data:", JSON.stringify(newYorkData.precinct, null, 2));
               setNewYorkCd(validateAndFixGeoJSON(newYorkData.district));
-              //setNewYorkPrecincts(validateAndFixGeoJSON(newYorkData.precinct));
             }
           } else {
             console.error("Unexpected data structure:", responseData);
@@ -202,34 +209,38 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
     if (!map) return;
 
     const fitToBound = (selectedState: string | null) => {
-      setTimeout(function(){ map.invalidateSize()}, 0);
-      if(selectedState === 'Arkansas'){
-         map.fitBounds(new L.LatLngBounds(new L.LatLng(36.501861,-89.730812), new L.LatLng(33.002096,-94.616242)))
-      }else if(selectedState === 'New York'){
-        map.fitBounds(new L.LatLngBounds(new L.LatLng(45.018503,-72.100541), new L.LatLng(40.543843,-79.76278)))
+      setTimeout(function () {
+        map.invalidateSize();
+      }, 0);
+      if (selectedState === "Arkansas") {
+        map.fitBounds(
+          new L.LatLngBounds(
+            new L.LatLng(36.501861, -89.730812),
+            new L.LatLng(33.002096, -94.616242)
+          )
+        );
+      } else if (selectedState === "New York") {
+        map.fitBounds(
+          new L.LatLngBounds(
+            new L.LatLng(45.018503, -72.100541),
+            new L.LatLng(40.543843, -79.76278)
+          )
+        );
       }
-    }
+    };
 
     if (selectedState !== "State") {
-      // if (precinctLayerRef.current) {
-      //   map.removeLayer(precinctLayerRef.current);
-      //   precinctLayerRef.current = null;
-      // }
-
       if (cdLayerRef.current) {
         map.removeLayer(cdLayerRef.current);
         cdLayerRef.current = null;
       }
 
       let congressionalDistrict: FeatureCollection | null = null;
-      let precincts: FeatureCollection | null = null;
 
       if (selectedState === "New York") {
         congressionalDistrict = newyorkCd;
-        //precincts = newyorkPrecincts;
       } else if (selectedState === "Arkansas") {
         congressionalDistrict = arkansasCd;
-        //precincts = arkansasPrecincts;
       }
 
       if (congressionalDistrict) {
@@ -247,10 +258,6 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
       }
     } else {
       // Remove layers when no state is selected
-      // if (precinctLayerRef.current) {
-      //   map.removeLayer(precinctLayerRef.current);
-      //   precinctLayerRef.current = null;
-      // }
 
       if (cdLayerRef.current) {
         map.removeLayer(cdLayerRef.current);
@@ -262,8 +269,6 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
     map,
     selectedData,
     selectedState,
-    //arkansasPrecincts,
-    //newyorkPrecincts,
     newyorkCd,
     arkansasCd,
     highlightFeatures,
@@ -272,7 +277,7 @@ const USMap: React.FC<USMapProps> = ({ onStateSelect, selectedState, selectedDat
 
   return (
     <VStack spacing={4} align="stretch" height="100%" width="100%">
-      <Center id="map" ref={mapRef} height="100%" width="100%" zIndex="1"/>
+      <Center id="map" ref={mapRef} height="100%" width="100%" zIndex="1" />
     </VStack>
   );
 };
