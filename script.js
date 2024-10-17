@@ -6,9 +6,15 @@ function readCSV() {}
 
 // Takes json object and insert it in to the geojson file
 async function insertGeoJSON() {
-  try{
-    const coordinateFilePath = path.join(__dirname, "./server/Spring Server/src/main/resources/newCoordinate.json");
-    const districtDataFilePath = path.join(__dirname, "./server/Spring Server/src/main/resources/District.json");
+  try {
+    const coordinateFilePath = path.join(
+      __dirname,
+      "./server/Spring Server/src/main/resources/newCoordinate.json"
+    );
+    const districtDataFilePath = path.join(
+      __dirname,
+      "./server/Spring Server/src/main/resources/District.json"
+    );
 
     const coordinateContent = await fs.readFile(coordinateFilePath, "utf8");
     const districtDataContent = await fs.readFile(districtDataFilePath, "utf8");
@@ -17,14 +23,18 @@ async function insertGeoJSON() {
     const districtDataJson = JSON.parse(districtDataContent);
 
     const arkansasDistrictData = districtDataJson.arkansas.district;
-    const arkansasDistrictCoordinate = coordinateJson.data[0].district.geometries;
+    const arkansasDistrictCoordinate =
+      coordinateJson.data[0].district.geometries;
 
     // const newyorkDistrictData = districtDataJson["New York"];
     // const newyorkDistrictCoordinate = coordinateJson.data[1].district.geometries;
 
     // go through each district in the District.json and insert into the properties key of coordinate data
-    for(let i = 0; i < 4; i++){
-      Object.assign(coordinateJson.data[0].district.geometries[i].properties, arkansasDistrictData[i]);
+    for (let i = 0; i < 4; i++) {
+      Object.assign(
+        coordinateJson.data[0].district.geometries[i].properties,
+        arkansasDistrictData[i]
+      );
     }
 
     const outputFilePath = path.join(
@@ -35,7 +45,7 @@ async function insertGeoJSON() {
     await fs.writeFile(outputFilePath, JSON.stringify(coordinateJson, null, 2));
 
     console.log("Success");
-  }catch(e){
+  } catch (e) {
     console.log(e);
   }
 }
@@ -81,5 +91,38 @@ async function removePrecintFromJSON() {
   }
 }
 
+async function convertGeometryCollectionToFeatureCollection() {
+  const filePath = path.join(
+    __dirname,
+    "./server/Spring Server/src/main/resources/newCoordinate.json"
+  );
+  const fileContent = await fs.readFile(filePath, "utf8");
+
+  // Parse the JSON data
+  const geometryCollectionJson = JSON.parse(fileContent);
+
+  geometryCollectionJson.data.map((d) => {
+    d.district = {
+      type: "FeatureCollection",
+      features: d.district.geometries.map((geometry) => ({
+        type: "Feature",
+        geometry: geometry.geometry,
+        properties: geometry.properties, // Add properties as needed
+      })),
+    };
+  });
+
+  const newJsonString = JSON.stringify(geometryCollectionJson, null, 2);
+
+  // Write the modified JSON to a new file
+  const outputFilePath = path.join(
+    __dirname,
+    "./server/Spring Server/src/main/resources/testFeatureCollection.json"
+  );
+  await fs.writeFile(outputFilePath, newJsonString);
+
+  console.log("Success");
+}
+
 // removePrecintFromJSON();
-insertGeoJSON();
+convertGeometryCollectionToFeatureCollection();
