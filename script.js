@@ -250,7 +250,7 @@ async function convertGeometryCollectionToFeatureCollection() {
     __dirname,
     "./server/Spring Server/src/main/resources/newCoordinate.json"
   );
-  const fileContent = await fs.readFile(filePath, "utf8");
+  const fileContent = await fsp.readFile(filePath, "utf8");
 
   // Parse the JSON data
   const geometryCollectionJson = JSON.parse(fileContent);
@@ -271,12 +271,12 @@ async function convertGeometryCollectionToFeatureCollection() {
   // Write the modified JSON to a new file
   const outputFilePath = path.join(
     __dirname,
-    "./server/Spring Server/src/main/resources/testFeatureCollection.json"
+    "./server/Spring Server/src/main/resources/FeatureCollectionCoordinate.json"
   );
-  await fs.writeFile(outputFilePath, newJsonString);
+  await fsp.writeFile(outputFilePath, newJsonString);
 
   console.log("Success");
 }
 
 // removePrecintFromJSON();
-insertGeoJSON();
+convertGeometryCollectionToFeatureCollection();
