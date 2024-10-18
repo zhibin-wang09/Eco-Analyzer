@@ -1,8 +1,62 @@
-const fs = require("fs/promises");
+const fs = require("fs");
 const path = require("path");
+const csv = require('csv-parser')
 
-// Script for reading csv files and organizing data into json format
-function readCSV() {}
+// Script for reading csv files and organizing data into json format then storing it into district.json
+async function readCSV() {
+  const json = {};
+
+  // Age
+  const newyorkAgeData = {};
+  fs.createReadStream('./NewyorkAge/ACSST5Y2020.S0101-Data.csv')
+  .pipe(csv())
+  .on("data", (row) => {
+    // .on iterates every row in the csv and we will go through the row for each column that has the percent of populate by age we insert the value into our object
+    newyorkAgeData[row["NAME"]] = []
+    for(let key in row){
+      if(/S0101_C02_00\dE/i.test(key)){
+        newyorkAgeData[row["NAME"]][key] = row[key];
+      }
+    }
+  })
+  .on("end", () => {
+    console.log(newyorkAgeData);
+  })
+
+  // Earning
+  const newyorkEarningData = {}
+  fs.createReadStream('./NewyorkEarning/ACSST5Y2020.S2001-Data.csv')
+  .pipe(csv())
+  .on("data", (row) => {
+    // .on iterates every row in the csv and we will go through the row for each column that has the percent of populate by age we insert the value into our object
+    newyorkEarningData[row["NAME"]] = []
+    for(let key in row){
+      if(/S2001_C02_00\dE/i.test(key)){
+        newyorkEarningData[row["NAME"]][key] = row[key];
+      }
+    }
+  })
+  .on("end", () => {
+    console.log(newyorkEarningData);
+  })
+  
+  // Race
+  const newyorkRaceData = {}
+  fs.createReadStream('./NewyorkRace/DECENNIALCD1182020.P9-Data.csv')
+  .pipe(csv())
+  .on("data", (row) => {
+    // .on iterates every row in the csv and we will go through the row for each column that has the percent of populate by age we insert the value into our object
+    newyorkRaceData[row["NAME"]] = []
+    for(let key in row){
+      if(/P9_00(\d|10)N/i.test(key)){
+        newyorkRaceData[row["NAME"]][key] = row[key];
+      }
+    }
+  })
+  .on("end", () => {
+    console.log(newyorkRaceData);
+  })
+}
 
 // Takes json object and insert it in to the geojson file
 async function insertGeoJSON() {
@@ -50,6 +104,7 @@ async function insertGeoJSON() {
   }
 }
 
+// takes coordinate large json and remove the precinct key value pairs
 async function removePrecintFromJSON() {
   try {
     // Use fs to read the local file instead of fetch
@@ -91,6 +146,7 @@ async function removePrecintFromJSON() {
   }
 }
 
+// takes newCoordinate.json file and convert it into a feature collection geojson
 async function convertGeometryCollectionToFeatureCollection() {
   const filePath = path.join(
     __dirname,
@@ -125,4 +181,4 @@ async function convertGeometryCollectionToFeatureCollection() {
 }
 
 // removePrecintFromJSON();
-convertGeometryCollectionToFeatureCollection();
+readCSV();
