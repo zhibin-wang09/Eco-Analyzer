@@ -158,11 +158,11 @@ async function insertGeoJSON() {
     );
     const districtDataFilePath = path.join(
       __dirname,
-      "./server/Spring Server/src/main/resources/District.json"
+      "./server/Spring Server/src/main/resources/newDistrict.json"
     );
 
-    const coordinateContent = await fs.readFile(coordinateFilePath, "utf8");
-    const districtDataContent = await fs.readFile(districtDataFilePath, "utf8");
+    const coordinateContent = await fsp.readFile(coordinateFilePath, "utf8");
+    const districtDataContent = await fsp.readFile(districtDataFilePath, "utf8");
 
     const coordinateJson = JSON.parse(coordinateContent);
     const districtDataJson = JSON.parse(districtDataContent);
@@ -171,8 +171,8 @@ async function insertGeoJSON() {
     const arkansasDistrictCoordinate =
       coordinateJson.data[0].district.geometries;
 
-    // const newyorkDistrictData = districtDataJson["New York"];
-    // const newyorkDistrictCoordinate = coordinateJson.data[1].district.geometries;
+    const newyorkDistrictData = districtDataJson["New York"].district;
+    const newyorkDistrictCoordinate = coordinateJson.data[1].district.geometries;
 
     // go through each district in the District.json and insert into the properties key of coordinate data
     for (let i = 0; i < 4; i++) {
@@ -182,12 +182,19 @@ async function insertGeoJSON() {
       );
     }
 
+    for(let i =0; i< 26; i++){
+      Object.assign(
+        coordinateJson.data[1].district.geometries[i].properties,
+        newyorkDistrictData[i]
+      );
+    }
+
     const outputFilePath = path.join(
       __dirname,
       "./server/Spring Server/src/main/resources/newCoordinate.json"
     );
 
-    await fs.writeFile(outputFilePath, JSON.stringify(coordinateJson, null, 2));
+    await fsp.writeFile(outputFilePath, JSON.stringify(coordinateJson, null, 2));
 
     console.log("Success");
   } catch (e) {
@@ -272,4 +279,4 @@ async function convertGeometryCollectionToFeatureCollection() {
 }
 
 // removePrecintFromJSON();
-readAndWriteCSV();
+insertGeoJSON();
