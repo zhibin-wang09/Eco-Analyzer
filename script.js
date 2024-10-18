@@ -48,7 +48,7 @@ async function readCSV() {
     // .on iterates every row in the csv and we will go through the row for each column that has the percent of populate by age we insert the value into our object
     newyorkRaceData[row["NAME"]] = []
     for(let key in row){
-      if(/P9_00(\d|10)N/i.test(key)){
+      if(/P9_00\dN/i.test(key) || /P9_010N/i.test(key)){
         newyorkRaceData[row["NAME"]][key] = row[key];
       }
     }
@@ -56,6 +56,8 @@ async function readCSV() {
   .on("end", () => {
     console.log(newyorkRaceData);
   })
+
+  // write those values into the json file
 }
 
 // Takes json object and insert it in to the geojson file
