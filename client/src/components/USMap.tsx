@@ -80,6 +80,7 @@ const USMap: React.FC<USMapProps> = ({
       dashArray: "",
       fillOpacity: 0.7,
     });
+    console.log(layer);
   }, []);
 
   const resetHighlight = useCallback(
@@ -183,11 +184,11 @@ const USMap: React.FC<USMapProps> = ({
             );
 
             if (arkansasData) {
-              setArkansasCd(validateAndFixGeoJSON(arkansasData.district));
+              setArkansasCd(arkansasData.district);
             }
 
             if (newYorkData) {
-              setNewYorkCd(validateAndFixGeoJSON(newYorkData.district));
+              setNewYorkCd(newYorkData.district);
             }
           } else {
             console.error("Unexpected data structure:", responseData);
