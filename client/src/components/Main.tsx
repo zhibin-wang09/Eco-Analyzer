@@ -7,6 +7,7 @@ import {
   useBreakpointValue,
   ResponsiveValue,
   Center,
+  VStack,
 } from "@chakra-ui/react";
 import USMap from "./USMap";
 
@@ -22,6 +23,7 @@ const MainLayout = () => {
 
   const [metadata, setMetadata] = useState();
 	const [chartData, setChartData] = useState<ChartDataItem[]>([]);
+  const [districtData, setDistrictData] = useState("");
 
   useEffect(() => {
 		axios.post("http://localhost:8080/getchartdata")
@@ -56,17 +58,23 @@ const MainLayout = () => {
               onStateSelect={setSelectedState}
               selectedState={selectedState}
               selectedData={select}
+              setDistrictData = {setDistrictData}
             />
           </Center>
           {selectedState === "State" ? (
             <></>
           ) : (
-            <Center>
+            <VStack>
+              <Center>
+              {districtData}
+              </Center>
+              <Center>
               <BaseChart 
                 selectedState={selectedState}
                 dataArray={chartData}
               />
-            </Center>
+              </Center>
+            </VStack>
             
           )}
         </Flex>
