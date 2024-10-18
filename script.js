@@ -1,63 +1,152 @@
 const fs = require("fs");
+const fsp = require("fs/promises");
 const path = require("path");
-const csv = require('csv-parser')
+const csv = require("csv-parser");
 
 // Script for reading csv files and organizing data into json format then storing it into district.json
-async function readCSV() {
+async function readAndWriteCSV() {
   const json = {};
 
   // Age
-  const newyorkAgeData = {};
-  fs.createReadStream('./NewyorkAge/ACSST5Y2020.S0101-Data.csv')
-  .pipe(csv())
-  .on("data", (row) => {
-    // .on iterates every row in the csv and we will go through the row for each column that has the percent of populate by age we insert the value into our object
-    newyorkAgeData[row["NAME"]] = []
-    for(let key in row){
-      if(/S0101_C02_00\dE/i.test(key)){
-        newyorkAgeData[row["NAME"]][key] = row[key];
-      }
-    }
-  })
-  .on("end", () => {
-    console.log(newyorkAgeData);
-  })
+  const parseNewyorkAgeCSV = () => {
+    return new Promise((resolve, reject) => {
+      const newyorkAgeData = {};
+      fs.createReadStream("./NewyorkAge/ACSST5Y2020.S0101-Data.csv")
+        .pipe(csv())
+        .on("data", (row) => {
+          // .on iterates every row in the csv and we will go through the row for each column that has the percent of populate by age we insert the value into our object
+          newyorkAgeData[row["NAME"]] = [];
+          for (let key in row) {
+            if (/S0101_C02_0(1|0)\dE/i.test(key)) {
+              newyorkAgeData[row["NAME"]][key] = row[key];
+            }
+          }
+        })
+        .on("end", () => {
+          resolve(newyorkAgeData);
+        })
+        .on("error", (err) => {
+          reject(err);
+        });
+    });
+  };
 
   // Earning
-  const newyorkEarningData = {}
-  fs.createReadStream('./NewyorkEarning/ACSST5Y2020.S2001-Data.csv')
-  .pipe(csv())
-  .on("data", (row) => {
-    // .on iterates every row in the csv and we will go through the row for each column that has the percent of populate by age we insert the value into our object
-    newyorkEarningData[row["NAME"]] = []
-    for(let key in row){
-      if(/S2001_C02_00\dE/i.test(key)){
-        newyorkEarningData[row["NAME"]][key] = row[key];
-      }
-    }
-  })
-  .on("end", () => {
-    console.log(newyorkEarningData);
-  })
-  
+  const parseNewyorkEarningCSV = () => {
+    return new Promise((resolve, reject) => {
+      const newyorkEarningData = {};
+      fs.createReadStream("./NewyorkEarning/ACSST5Y2020.S2001-Data.csv")
+        .pipe(csv())
+        .on("data", (row) => {
+          // .on iterates every row in the csv and we will go through the row for each column that has the percent of populate by age we insert the value into our object
+          newyorkEarningData[row["NAME"]] = [];
+          for (let key in row) {
+            if (/S2001_C02_0(1|0)\dE/i.test(key)) {
+              newyorkEarningData[row["NAME"]][key] = row[key];
+            }
+          }
+        })
+        .on("end", () => {
+          resolve(newyorkEarningData);
+        })
+        .on("error", (err) => {
+          reject(err);
+        });
+    });
+  };
+
   // Race
-  const newyorkRaceData = {}
-  fs.createReadStream('./NewyorkRace/DECENNIALCD1182020.P9-Data.csv')
-  .pipe(csv())
-  .on("data", (row) => {
-    // .on iterates every row in the csv and we will go through the row for each column that has the percent of populate by age we insert the value into our object
-    newyorkRaceData[row["NAME"]] = []
-    for(let key in row){
-      if(/P9_00\dN/i.test(key) || /P9_010N/i.test(key)){
-        newyorkRaceData[row["NAME"]][key] = row[key];
-      }
-    }
-  })
-  .on("end", () => {
-    console.log(newyorkRaceData);
-  })
+  const parseNewyorkRaceCSV = () => {
+    return new Promise((resolve, reject) => {
+      const newyorkRaceData = {};
+      fs.createReadStream("./NewyorkRace/DECENNIALCD1182020.P9-Data.csv")
+        .pipe(csv())
+        .on("data", (row) => {
+          // .on iterates every row in the csv and we will go through the row for each column that has the percent of populate by age we insert the value into our object
+          newyorkRaceData[row["NAME"]] = [];
+          for (let key in row) {
+            if (/P9_00\dN/i.test(key) || /P9_010N/i.test(key)) {
+              newyorkRaceData[row["NAME"]][key] = row[key];
+            }
+          }
+        })
+        .on("end", () => {
+          resolve(newyorkRaceData);
+        })
+        .on("error", (err) => {
+          reject(err);
+        });
+    });
+  };
+
+  // insert the 26 ny districts into json
+  const earningEntries = Object.entries(await parseNewyorkEarningCSV());
+  const raceEntries = Object.entries(await parseNewyorkRaceCSV());
+  const ageEntries = Object.entries(await parseNewyorkAgeCSV());
+  const newyorkDistricts = [];
+  for (let i = 1; i <= 26; i++) {
+    const earning = {
+      "1-9999": earningEntries[i][1]["S2001_C02_004E"],
+      "10000-14999": earningEntries[i][1]["S2001_C02_005E"],
+      "15000-24999": earningEntries[i][1]["S2001_C02_006E"],
+      "25000-34999": earningEntries[i][1]["S2001_C02_007E"],
+      "35000-49999": earningEntries[i][1]["S2001_C02_008E"],
+      "50000-64999": earningEntries[i][1]["S2001_C02_009E"],
+      "65000-74999": earningEntries[i][1]["S2001_C02_010E"],
+      "75000-99999": earningEntries[i][1]["S2001_C02_011E"],
+      "10000+": earningEntries[i][1]["S2001_C02_012E"],
+    };
+    const race = {
+      "Hispanic or Latino": raceEntries[i][1]["P9_002N"],
+      "white": raceEntries[i][1]["P9_005N"],
+      "black": raceEntries[i][1]["P9_006N"],
+      "american indian": raceEntries[i][1]["P9_007N"],
+      "asian": raceEntries[i][1]["P9_008N"],
+      "native hawaiian": raceEntries[i][1]["P9_009N"],
+      "other": raceEntries[i][1]["P9_010N"],
+    };
+    const age = {
+      "20 to 24 years": ageEntries[i][1]["S0101_C02_006E"],
+      "25 to 29 years": ageEntries[i][1]["S0101_C02_007E"],
+      "30 to 34 years": ageEntries[i][1]["S0101_C02_008E"],
+      "35 to 39 years": ageEntries[i][1]["S0101_C02_009E"],
+      "40 to 44 years": ageEntries[i][1]["S0101_C02_010E"],
+      "45 to 49 years": ageEntries[i][1]["S0101_C02_011E"],
+      "50 to 54 years": ageEntries[i][1]["S0101_C02_012E"],
+      "55 to 59 years": ageEntries[i][1]["S0101_C02_013E"],
+      "60 to 64 years": ageEntries[i][1]["S0101_C02_014E"],
+      "65 to 69 years": ageEntries[i][1]["S0101_C02_015E"],
+      "70 to 74 years": ageEntries[i][1]["S0101_C02_016E"],
+      "75 to 79 years": ageEntries[i][1]["S0101_C02_017E"],
+      "80 to 84 years": ageEntries[i][1]["S0101_C02_018E"],
+      "85 years and over": ageEntries[i][1]["S0101_C02_019E"],
+    };
+
+    const district = {
+      number: i,
+      earning: earning,
+      race: race,
+      age: age,
+    };
+    newyorkDistricts.push(district);
+  }
+  console.log(newyorkDistricts)
 
   // write those values into the json file
+  const districtDataFilePath = path.join(
+    __dirname,
+    "./server/Spring Server/src/main/resources/District.json"
+  );
+  const districtDataContent = await fsp.readFile(districtDataFilePath, "utf8");
+  const districtDataJson = JSON.parse(districtDataContent);
+  Object.assign(districtDataJson["New York"].district, newyorkDistricts);
+  const newDistrictJson = JSON.stringify(districtDataJson, null, 2);
+  const newDistrictDataFilePath = path.join(
+    __dirname,
+    "./server/Spring Server/src/main/resources/newDistrict.json"
+  );
+  await fsp.writeFile(newDistrictDataFilePath, newDistrictJson);
+  console.log("Success");
 }
 
 // Takes json object and insert it in to the geojson file
@@ -183,4 +272,4 @@ async function convertGeometryCollectionToFeatureCollection() {
 }
 
 // removePrecintFromJSON();
-readCSV();
+readAndWriteCSV();
