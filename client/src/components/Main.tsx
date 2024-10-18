@@ -17,7 +17,7 @@ import { ChartDataItem } from "./ChartDataItemInterface";
 axios.defaults.withCredentials = true;
 
 const MainLayout = () => {
-  const [selectedState, setSelectedState] = useState<string>("Default");
+  const [selectedState, setSelectedState] = useState<string>("State");
   const [select, onSelectChange] = useState<string>("Default");
 
   const [metadata, setMetadata] = useState();
@@ -58,7 +58,7 @@ const MainLayout = () => {
               selectedData={select}
             />
           </Center>
-          {selectedState === "Default" ? (
+          {selectedState === "State" ? (
             <></>
           ) : (
             <Center>
