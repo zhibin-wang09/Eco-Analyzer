@@ -80,6 +80,7 @@ const USMap: React.FC<USMapProps> = ({
       dashArray: "",
       fillOpacity: 0.7,
     });
+    console.log(layer);
   }, []);
 
   const resetHighlight = useCallback(

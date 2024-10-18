@@ -181,10 +181,15 @@ async function insertGeoJSON() {
         arkansasDistrictData[i]
       );
     }
-
-    for(let i =0; i< 26; i++){
+    Object.assign(
+      coordinateJson.data[1].district.geometries[0].properties,
+      newyorkDistrictData[20]
+    );
+    for(let i =0; i < 25; i++){
+      if(i == 20) continue;
+      const newI = i + 1;
       Object.assign(
-        coordinateJson.data[1].district.geometries[i].properties,
+        coordinateJson.data[1].district.geometries[newI].properties,
         newyorkDistrictData[i]
       );
     }
