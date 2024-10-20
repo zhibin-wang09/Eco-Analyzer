@@ -63,7 +63,7 @@ const USMap: React.FC<USMapProps> = ({
   onStateSelect,
   selectedState,
   selectedData,
-  setDistrictData
+  setDistrictData,
 }) => {
   // const [arkansasPrecincts, setArkansasPrecincts] = useState<FeatureCollection | null>(null);
   // const [newyorkPrecincts, setNewYorkPrecincts] = useState<FeatureCollection | null>(null);
@@ -81,7 +81,7 @@ const USMap: React.FC<USMapProps> = ({
       color: "#666",
       dashArray: "",
       fillOpacity: 0.7,
-    });  
+    });
   }, []);
 
   const resetHighlight = useCallback(
@@ -110,8 +110,8 @@ const USMap: React.FC<USMapProps> = ({
 
   const districtOnClick = useCallback(
     (e: L.LeafletMouseEvent, feature: Feature) => {
-      setDistrictData(e.target.feature.properties.number)
-      console.log(e.target.feature.properties)
+      setDistrictData(e.target.feature.properties.number);
+      console.log(e.target.feature.properties);
     },
     []
   );
@@ -169,45 +169,6 @@ const USMap: React.FC<USMapProps> = ({
 
       setMap(map);
 
-      // Fetch data from backend
-      const fetchMapData = async () => {
-        try {
-          const response = await axios.get(
-            "http://localhost:8080/getcoordinates"
-          );
-          const responseData = response.data;
-          console.log("Received data:", JSON.stringify(responseData, null, 2));
-
-          if (
-            responseData &&
-            responseData.data &&
-            Array.isArray(responseData.data) &&
-            responseData.data.length >= 2
-          ) {
-            const arkansasData = responseData.data.find(
-              (item: StateData) => item.state === "Arkansas"
-            );
-            const newYorkData = responseData.data.find(
-              (item: StateData) => item.state === "New York"
-            );
-
-            if (arkansasData) {
-              setArkansasCd(arkansasData.district);
-            }
-
-            if (newYorkData) {
-              setNewYorkCd(newYorkData.district);
-            }
-          } else {
-            console.error("Unexpected data structure:", responseData);
-          }
-        } catch (error) {
-          console.error("Error fetching map data:", error);
-        }
-      };
-
-      fetchMapData();
-
       return () => {
         map.remove();
       };
@@ -238,7 +199,45 @@ const USMap: React.FC<USMapProps> = ({
       }
     };
 
+    // Fetch data from backend
+    const fetchMapData = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/getcoordinates"
+        );
+        const responseData = response.data;
+        console.log("Received data:", JSON.stringify(responseData, null, 2));
+
+        if (
+          responseData &&
+          responseData.data &&
+          Array.isArray(responseData.data) &&
+          responseData.data.length >= 2
+        ) {
+          const arkansasData = responseData.data.find(
+            (item: StateData) => item.state === "Arkansas"
+          );
+          const newYorkData = responseData.data.find(
+            (item: StateData) => item.state === "New York"
+          );
+
+          if (arkansasData) {
+            setArkansasCd(arkansasData.district);
+          }
+
+          if (newYorkData) {
+            setNewYorkCd(newYorkData.district);
+          }
+        } else {
+          console.error("Unexpected data structure:", responseData);
+        }
+      } catch (error) {
+        console.error("Error fetching map data:", error);
+      }
+    };
+
     if (selectedState !== "State") {
+      
       if (cdLayerRef.current) {
         map.removeLayer(cdLayerRef.current);
         cdLayerRef.current = null;
@@ -247,8 +246,10 @@ const USMap: React.FC<USMapProps> = ({
       let congressionalDistrict: FeatureCollection | null = null;
 
       if (selectedState === "New York") {
+        if(!newyorkCd) fetchMapData();
         congressionalDistrict = newyorkCd;
       } else if (selectedState === "Arkansas") {
+        if(!arkansasCd) fetchMapData();
         congressionalDistrict = arkansasCd;
       }
 
@@ -257,7 +258,7 @@ const USMap: React.FC<USMapProps> = ({
           layer.on({
             mouseover: highlightFeatures,
             mouseout: (e) => resetHighlight(e, cdLayerRef.current!),
-            click: (e) => districtOnClick(e,feature)
+            click: (e) => districtOnClick(e, feature),
           });
         };
 
