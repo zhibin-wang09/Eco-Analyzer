@@ -318,8 +318,8 @@ async function loadElectionDataInFeatureCollection(electiondataFile) {
   }else{
     coordinateJSON.data[stateIndex].district.geometries[0].properties[
       "election data"
-    ] = data[20];
-    for (let i = 0; i < data.geometries.length; i++) {
+    ] = electionData[20];
+    for (let i = 0; i < 25; i++) {
       if (i == 20) continue;
       const newI = i + 1;
       coordinateJSON.data[stateIndex].district.geometries[newI].properties[
@@ -342,6 +342,6 @@ async function loadElectionDataInFeatureCollection(electiondataFile) {
 
 // removePrecintFromJSON();
 // loadElectionDataInFeatureCollection(
-//   "./client/public/arkansas_congressional_district.json"
+//   "./client/public/newyork_congressional_district.json"
 // );
 convertGeometryCollectionToFeatureCollection();

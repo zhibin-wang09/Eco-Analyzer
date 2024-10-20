@@ -111,6 +111,7 @@ const USMap: React.FC<USMapProps> = ({
   const districtOnClick = useCallback(
     (e: L.LeafletMouseEvent, feature: Feature) => {
       setDistrictData(e.target.feature.properties.number)
+      console.log(e.target.feature.properties)
     },
     []
   );
