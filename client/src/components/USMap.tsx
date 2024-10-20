@@ -26,6 +26,7 @@ interface USMapProps {
   onStateSelect: (state: string) => void;
   selectedState: string | null;
   selectedData: string | null;
+  setDistrictData: (state: string) => void;
 }
 
 function validateAndFixGeoJSON(data: any): FeatureCollection {
@@ -62,6 +63,7 @@ const USMap: React.FC<USMapProps> = ({
   onStateSelect,
   selectedState,
   selectedData,
+  setDistrictData
 }) => {
   // const [arkansasPrecincts, setArkansasPrecincts] = useState<FeatureCollection | null>(null);
   // const [newyorkPrecincts, setNewYorkPrecincts] = useState<FeatureCollection | null>(null);
@@ -79,8 +81,7 @@ const USMap: React.FC<USMapProps> = ({
       color: "#666",
       dashArray: "",
       fillOpacity: 0.7,
-    });
-    console.log(layer);
+    });  
   }, []);
 
   const resetHighlight = useCallback(
@@ -92,7 +93,6 @@ const USMap: React.FC<USMapProps> = ({
 
   const zoomToFeature = useCallback((e: L.LeafletMouseEvent, map: L.Map) => {
     map.fitBounds(e.target.getBounds());
-    console.log(e.target.getBounds());
   }, []);
 
   const onClick = useCallback(
@@ -106,6 +106,14 @@ const USMap: React.FC<USMapProps> = ({
       }
     },
     [onStateSelect, zoomToFeature]
+  );
+
+  const districtOnClick = useCallback(
+    (e: L.LeafletMouseEvent, feature: Feature) => {
+      setDistrictData(e.target.feature.properties.number)
+      console.log(e.target.feature.properties)
+    },
+    []
   );
 
   useEffect(() => {
@@ -249,6 +257,7 @@ const USMap: React.FC<USMapProps> = ({
           layer.on({
             mouseover: highlightFeatures,
             mouseout: (e) => resetHighlight(e, cdLayerRef.current!),
+            click: (e) => districtOnClick(e,feature)
           });
         };
 

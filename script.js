@@ -98,12 +98,12 @@ async function readAndWriteCSV() {
     };
     const race = {
       "Hispanic or Latino": raceEntries[i][1]["P9_002N"],
-      "white": raceEntries[i][1]["P9_005N"],
-      "black": raceEntries[i][1]["P9_006N"],
+      white: raceEntries[i][1]["P9_005N"],
+      black: raceEntries[i][1]["P9_006N"],
       "american indian": raceEntries[i][1]["P9_007N"],
-      "asian": raceEntries[i][1]["P9_008N"],
+      asian: raceEntries[i][1]["P9_008N"],
       "native hawaiian": raceEntries[i][1]["P9_009N"],
-      "other": raceEntries[i][1]["P9_010N"],
+      other: raceEntries[i][1]["P9_010N"],
     };
     const age = {
       "20 to 24 years": ageEntries[i][1]["S0101_C02_006E"],
@@ -130,7 +130,7 @@ async function readAndWriteCSV() {
     };
     newyorkDistricts.push(district);
   }
-  console.log(newyorkDistricts)
+  console.log(newyorkDistricts);
 
   // write those values into the json file
   const districtDataFilePath = path.join(
@@ -162,7 +162,10 @@ async function insertGeoJSON() {
     );
 
     const coordinateContent = await fsp.readFile(coordinateFilePath, "utf8");
-    const districtDataContent = await fsp.readFile(districtDataFilePath, "utf8");
+    const districtDataContent = await fsp.readFile(
+      districtDataFilePath,
+      "utf8"
+    );
 
     const coordinateJson = JSON.parse(coordinateContent);
     const districtDataJson = JSON.parse(districtDataContent);
@@ -172,7 +175,8 @@ async function insertGeoJSON() {
       coordinateJson.data[0].district.geometries;
 
     const newyorkDistrictData = districtDataJson["New York"].district;
-    const newyorkDistrictCoordinate = coordinateJson.data[1].district.geometries;
+    const newyorkDistrictCoordinate =
+      coordinateJson.data[1].district.geometries;
 
     // go through each district in the District.json and insert into the properties key of coordinate data
     for (let i = 0; i < 4; i++) {
@@ -185,8 +189,8 @@ async function insertGeoJSON() {
       coordinateJson.data[1].district.geometries[0].properties,
       newyorkDistrictData[20]
     );
-    for(let i =0; i < 25; i++){
-      if(i == 20) continue;
+    for (let i = 0; i < 25; i++) {
+      if (i == 20) continue;
       const newI = i + 1;
       Object.assign(
         coordinateJson.data[1].district.geometries[newI].properties,
@@ -199,7 +203,10 @@ async function insertGeoJSON() {
       "./server/Spring Server/src/main/resources/newCoordinate.json"
     );
 
-    await fsp.writeFile(outputFilePath, JSON.stringify(coordinateJson, null, 2));
+    await fsp.writeFile(
+      outputFilePath,
+      JSON.stringify(coordinateJson, null, 2)
+    );
 
     console.log("Success");
   } catch (e) {
@@ -283,5 +290,58 @@ async function convertGeometryCollectionToFeatureCollection() {
   console.log("Success");
 }
 
+async function loadElectionDataInFeatureCollection(electiondataFile) {
+  const filePath = path.join(__dirname, electiondataFile);
+  const destinationFilePath = path.join(
+    __dirname,
+    "./server/Spring Server/src/main/resources/newCoordinate.json"
+  );
+  const fileContent = await fsp.readFile(filePath, "utf8");
+  const coordinateContent = await fsp.readFile(destinationFilePath, "utf8");
+  const coordinateJSON = JSON.parse(coordinateContent);
+  const electionData = [];
+
+  const data = JSON.parse(fileContent);
+  data.geometries.map((district) => {
+    electionData.push({
+      trumpVotes: district.trumpVotes,
+      bidenVotes: district.bidenVotes,
+    });
+  });
+  let stateIndex = electiondataFile.includes("newyork") ? 1 : 0;
+  if (stateIndex == 0) {
+    for (let i = 0; i < data.geometries.length; i++) {
+      coordinateJSON.data[stateIndex].district.geometries[i].properties[
+        "election data"
+      ] = electionData[i];
+    }
+  }else{
+    coordinateJSON.data[stateIndex].district.geometries[0].properties[
+      "election data"
+    ] = electionData[20];
+    for (let i = 0; i < 25; i++) {
+      if (i == 20) continue;
+      const newI = i + 1;
+      coordinateJSON.data[stateIndex].district.geometries[newI].properties[
+        "election data"
+      ] = electionData[i];
+    }
+  }
+  //console.log(coordinateJSON.data[0].district.geometries[0].properties)
+  const jsonString = JSON.stringify(coordinateJSON, null, 2);
+
+  // Write the modified JSON to a new file
+  const outputFilePath = path.join(
+    __dirname,
+    "./server/Spring Server/src/main/resources/newCoordinate.json"
+  );
+  await fsp.writeFile(outputFilePath, jsonString);
+
+  console.log("Success");
+}
+
 // removePrecintFromJSON();
+// loadElectionDataInFeatureCollection(
+//   "./client/public/newyork_congressional_district.json"
+// );
 convertGeometryCollectionToFeatureCollection();
