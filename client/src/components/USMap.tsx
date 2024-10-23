@@ -142,9 +142,7 @@ const USMap: React.FC<USMapProps> = ({
     if (!map) return;
 
     const fitToBound = (selectedState: string | null) => {
-      setTimeout(() => {
-        map.invalidateSize();
-      }, 0);
+      map.invalidateSize();
       
       if (selectedState === "Arkansas") {
         map.flyToBounds(
@@ -175,10 +173,11 @@ const USMap: React.FC<USMapProps> = ({
         });
       }
     };
+    fitToBound(selectedState);
 
     const fetchMapData = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/getcoordinates");
+        const response = await axios.get("http://localhost:8080/oldgetcoordinates");
         const responseData = response.data;
 
         if (
@@ -242,8 +241,6 @@ const USMap: React.FC<USMapProps> = ({
       }
       map.setView([37.8, -96], 4);
     }
-    
-    fitToBound(selectedState);
   }, [
     map,
     selectedState,

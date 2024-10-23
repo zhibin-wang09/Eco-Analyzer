@@ -32,7 +32,7 @@ const Navbar: React.FC<NavbarProps> = ({
           bg="white"
           width="200px"
         >
-          <option>State</option>
+          <option disabled>State</option>
           <option>New York</option>
           <option>Arkansas</option>
         </Select>
