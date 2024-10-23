@@ -74,7 +74,7 @@ const InferenceMenu: React.FC<InferenceMenuProps> = ({ setSelectedVisualization 
                 mb={1}
                 onClick={() => handleSelection('goodman')}
               >
-                Goodman's Ecological Regression
+                Goodman's Regression
               </Button>
               <Button
                 variant="ghost"
@@ -85,7 +85,7 @@ const InferenceMenu: React.FC<InferenceMenuProps> = ({ setSelectedVisualization 
                 mb={1}
                 onClick={() => handleSelection('kings')}
               >
-                King's Ecological Inference
+                King
               </Button>
               <Button
                 variant="ghost"
@@ -96,7 +96,7 @@ const InferenceMenu: React.FC<InferenceMenuProps> = ({ setSelectedVisualization 
                 mb={1}
                 onClick={() => handleSelection('rxc')}
               >
-                RxC Ecological Inference
+                RxC
               </Button>
               <Button
                 variant="ghost"
@@ -106,7 +106,7 @@ const InferenceMenu: React.FC<InferenceMenuProps> = ({ setSelectedVisualization 
                 bg="#E4EDC4"
                 onClick={() => handleSelection('hierarchical')}
               >
-                Hierarchical Ecological Inference
+                Hierarchical
               </Button>
             </VStack>
           </Box>
