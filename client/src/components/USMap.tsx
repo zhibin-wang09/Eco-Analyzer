@@ -29,49 +29,16 @@ interface USMapProps {
   setDistrictData: (state: string) => void;
 }
 
-function validateAndFixGeoJSON(data: any): FeatureCollection {
-  if (data && data.geometries) {
-    // This is for district data
-    return {
-      type: "FeatureCollection",
-      features: data.geometries.map((item: any) => ({
-        type: "Feature",
-        properties: {},
-        geometry: item.geometry,
-      })),
-    };
-  } else if (data && data.features) {
-    // This is for precinct data
-    return {
-      type: "FeatureCollection",
-      features: data.features.map((feature: any) => ({
-        type: "Feature",
-        properties: feature.properties || {},
-        geometry: feature.geometry,
-      })),
-    };
-  } else {
-    console.error("Invalid GeoJSON data:", data);
-    return {
-      type: "FeatureCollection",
-      features: [],
-    };
-  }
-}
-
 const USMap: React.FC<USMapProps> = ({
   onStateSelect,
   selectedState,
   selectedData,
   setDistrictData,
 }) => {
-  // const [arkansasPrecincts, setArkansasPrecincts] = useState<FeatureCollection | null>(null);
-  // const [newyorkPrecincts, setNewYorkPrecincts] = useState<FeatureCollection | null>(null);
   const [arkansasCd, setArkansasCd] = useState<FeatureCollection | null>(null);
   const [newyorkCd, setNewYorkCd] = useState<FeatureCollection | null>(null);
   const [map, setMap] = useState<L.Map | null>(null);
   const mapRef = useRef<HTMLDivElement>(null);
-  // const precinctLayerRef = useRef<L.GeoJSON | null>(null);
   const cdLayerRef = useRef<L.GeoJSON | null>(null);
 
   const highlightFeatures = useCallback((e: L.LeafletMouseEvent) => {
@@ -101,116 +68,121 @@ const USMap: React.FC<USMapProps> = ({
       if (stateName === "New York" || stateName === "Arkansas") {
         onStateSelect(stateName);
         zoomToFeature(e, map);
-      } else {
-        onStateSelect("State");
       }
     },
     [onStateSelect, zoomToFeature]
   );
 
   const districtOnClick = useCallback(
-    (e: L.LeafletMouseEvent, feature: Feature) => {
+    (e: L.LeafletMouseEvent) => {
       setDistrictData(e.target.feature.properties.number);
-      console.log(e.target.feature.properties);
     },
-    []
+    [setDistrictData]
   );
 
+  // Initialize the base map
   useEffect(() => {
-    if (mapRef.current) {
-      const map = L.map(mapRef.current).setView([37.8, -96], 4);
+    if (mapRef.current && !map) {
+      const initialMap = L.map(mapRef.current, {
+        zoomAnimation: true,
+        fadeAnimation: true,
+        markerZoomAnimation: true,
+      }).setView([37.8, -96], 4);
 
       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         minZoom: 3,
         maxZoom: 24,
         attribution:
           '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      }).addTo(map);
+      }).addTo(initialMap);
 
       const onEachFeature = (feature: Feature, layer: L.Layer) => {
         layer.on({
           mouseover: highlightFeatures,
           mouseout: (e) => resetHighlight(e, geojson),
-          click: (e) => onClick(e, map, feature),
+          click: (e) => onClick(e, initialMap, feature),
         });
       };
 
       const geojson = L.geoJSON(statesData as GeoJsonObject, {
-        style: (feature) => {
-          return {
-            fillColor:
-              feature?.properties!.name === "New York"
-                ? "#0000FF"
-                : feature?.properties!.name === "Arkansas"
-                ? "#FF5733"
-                : "#FFFFFF",
-            color: "#000",
-            weight: 0.7,
-            fillOpacity: 0.7,
-          };
-        },
+        style: (feature) => ({
+          fillColor:
+            feature?.properties?.name === "New York"
+              ? "#0000FF"
+              : feature?.properties?.name === "Arkansas"
+              ? "#FF5733"
+              : "#FFFFFF",
+          color: "#000",
+          weight: 0.7,
+          fillOpacity: 0.7,
+        }),
         onEachFeature: onEachFeature,
-      }).addTo(map);
+      }).addTo(initialMap);
 
-      var legend = new L.Control({ position: "bottomleft" });
-
-      legend.onAdd = function (map) {
-        var div = L.DomUtil.create("div", "info");
-        div.innerHTML += `
-            <i style="background:#0000FF"></i>
-            <Text>New York (Democratic)</Text>
+      const legend = new L.Control({ position: "bottomleft" });
+      legend.onAdd = function () {
+        const div = L.DomUtil.create("div", "info legend");
+        div.innerHTML = `
+          <i style="background:#0000FF"></i>
+          <span>New York (Democratic)</span>
           <br/>
-            <i style="background:#FF5733"></i>
-            <Text>Arkansas (Republican)</Text>`;
+          <i style="background:#FF5733"></i>
+          <span>Arkansas (Republican)</span>
+        `;
         return div;
       };
+      legend.addTo(initialMap);
 
-      legend.addTo(map);
-
-      setMap(map);
-
-      return () => {
-        map.remove();
-      };
+      setMap(initialMap);
     }
-  }, [highlightFeatures, onClick, resetHighlight]);
+  }, [map, highlightFeatures, onClick, resetHighlight]);
 
+  // Handle state selection and district display
   useEffect(() => {
     if (!map) return;
 
     const fitToBound = (selectedState: string | null) => {
-      setTimeout(function () {
+      setTimeout(() => {
         map.invalidateSize();
       }, 0);
+      
       if (selectedState === "Arkansas") {
-        map.fitBounds(
+        map.flyToBounds(
           new L.LatLngBounds(
             new L.LatLng(36.501861, -89.730812),
             new L.LatLng(33.002096, -94.616242)
-          )
+          ),
+          {
+            duration: 1.5,
+            easeLinearity: 0.25
+          }
         );
       } else if (selectedState === "New York") {
-        map.fitBounds(
+        map.flyToBounds(
           new L.LatLngBounds(
             new L.LatLng(45.018503, -72.100541),
             new L.LatLng(40.543843, -79.76278)
-          )
+          ),
+          {
+            duration: 1.5,
+            easeLinearity: 0.25
+          }
         );
+      } else {
+        map.flyTo([37.8, -96], 4, {
+          duration: 1.5,
+          easeLinearity: 0.25
+        });
       }
     };
 
-    // Fetch data from backend
     const fetchMapData = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:8080/getcoordinates"
-        );
+        const response = await axios.get("http://localhost:8080/getcoordinates");
         const responseData = response.data;
-        console.log("Received data:", JSON.stringify(responseData, null, 2));
 
         if (
-          responseData &&
-          responseData.data &&
+          responseData?.data &&
           Array.isArray(responseData.data) &&
           responseData.data.length >= 2
         ) {
@@ -224,12 +196,9 @@ const USMap: React.FC<USMapProps> = ({
           if (arkansasData) {
             setArkansasCd(arkansasData.district);
           }
-
           if (newYorkData) {
             setNewYorkCd(newYorkData.district);
           }
-        } else {
-          console.error("Unexpected data structure:", responseData);
         }
       } catch (error) {
         console.error("Error fetching map data:", error);
@@ -237,7 +206,6 @@ const USMap: React.FC<USMapProps> = ({
     };
 
     if (selectedState !== "State") {
-      
       if (cdLayerRef.current) {
         map.removeLayer(cdLayerRef.current);
         cdLayerRef.current = null;
@@ -246,10 +214,10 @@ const USMap: React.FC<USMapProps> = ({
       let congressionalDistrict: FeatureCollection | null = null;
 
       if (selectedState === "New York") {
-        if(!newyorkCd) fetchMapData();
+        if (!newyorkCd) fetchMapData();
         congressionalDistrict = newyorkCd;
       } else if (selectedState === "Arkansas") {
-        if(!arkansasCd) fetchMapData();
+        if (!arkansasCd) fetchMapData();
         congressionalDistrict = arkansasCd;
       }
 
@@ -258,7 +226,7 @@ const USMap: React.FC<USMapProps> = ({
           layer.on({
             mouseover: highlightFeatures,
             mouseout: (e) => resetHighlight(e, cdLayerRef.current!),
-            click: (e) => districtOnClick(e, feature),
+            click: districtOnClick,
           });
         };
 
@@ -268,27 +236,28 @@ const USMap: React.FC<USMapProps> = ({
         }).addTo(map);
       }
     } else {
-      // Remove layers when no state is selected
-
       if (cdLayerRef.current) {
         map.removeLayer(cdLayerRef.current);
         cdLayerRef.current = null;
       }
+      map.setView([37.8, -96], 4);
     }
+    
     fitToBound(selectedState);
   }, [
     map,
-    selectedData,
     selectedState,
+    selectedData,
     newyorkCd,
     arkansasCd,
     highlightFeatures,
     resetHighlight,
+    districtOnClick,
   ]);
 
   return (
     <VStack spacing={4} align="stretch" height="100%" width="100%">
-      <Center id="map" ref={mapRef} height="100%" width="100%" zIndex="1" />
+      <Center id="map" ref={mapRef} height="600px" width="100%" zIndex="1" />
     </VStack>
   );
 };

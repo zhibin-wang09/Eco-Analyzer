@@ -1,31 +1,31 @@
-export interface ChartDataItem {
+// ChartDataItemInterface.ts
+
+interface IncomeGroup {
+	[key: string]: number;
+  }
+  
+  interface RaceGroup {
+	[key: string]: number;
+  }
+  
+  interface AgeGroup {
+	[key: string]: number;
+  }
+  
+  export interface ChartDataItem {
 	state: string;
 	stateCode: string;
 	overview: {
-		party: string;
-		population: number;
-		voterTurnout: number;
-		republicanPopularVote: number;
-		democratPopularVote: number;
-		medianIncome: number;
-		meanIncome: number;
+	  party: string;
+	  population: number;
+	  voterTurnout: number;
+	  republicanPopularVote: number;
+	  democratPopularVote: number;
+	  medianIncome: number;
 	};
-	income: IncomeGroups[];
-	race: RaceGroups[];
-	age: AgeGroups[];
-}
-
-interface IncomeGroups {
-	range: string,
-	percentage: number
-}
-
-interface RaceGroups {
-	race: string,
-	population: number
-}
-
-interface AgeGroups {
-	range: string,
-	population: number
-}
+	income: IncomeGroup[];
+	race: RaceGroup[];
+	age: AgeGroup[];
+  }
+  
+  export type VisualizationType = 'standard' | 'goodman' | 'kings' | 'rxc' | 'hierarchical';

@@ -1,327 +1,356 @@
 import { useEffect, useState } from 'react';
-import BarChart from './BarChart';
+import { 
+  Box, 
+  Text, 
+  VStack, 
+  HStack,
+  Button, 
+  ButtonGroup,
+  Select,
+} from '@chakra-ui/react';
+import { 
+  BarChart, 
+  Bar, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  Legend,
+  ScatterChart,
+  Scatter,
+  Line,
+  LineChart,
+  ZAxis
+} from 'recharts';
 
-import '../Chart.css';
-import { Box, Text, Button, ButtonGroup } from '@chakra-ui/react';
-import { ChartDataItem } from './ChartDataItemInterface';
+import { ChartDataItem, VisualizationType } from './ChartDataItemInterface';
+import {
+	GoodmanRegression,
+	KingsEI,
+	RxCInference,
+	HierarchicalEI
+  } from './Visualizations';
 
-interface BaseChartProps{
-    selectedState: string;
+
+interface BaseChartProps {
+	selectedState: string;
 	dataArray: ChartDataItem[];
-}
+	selectedVisualization?: VisualizationType;
+  }
+  
+const BaseChart: React.FC<BaseChartProps> = ({ 
+  selectedState, 
+  dataArray, 
+  selectedVisualization = 'standard' 
+}) => {
+  const [dataType, setDataType] = useState('Income');
+  const [stringArrayPlaceholder, setStringArrayPlaceholder] = useState<string[]>([]);
+  const [numberArrayPlaceholder, setNumberArrayPlaceholder] = useState<number[]>([]);
+  
+  // State for different chart data types
+  const [incomeData, setIncomeData] = useState<any>({
+    labels: stringArrayPlaceholder,
+    datasets: [{
+      label: "Household Percentage",
+      data: numberArrayPlaceholder,
+      backgroundColor: ["#E4EDC4"]
+    }]
+  });
+  
+  const [raceData, setRaceData] = useState<any>({
+    labels: stringArrayPlaceholder,
+    datasets: [{
+      label: "Voting Percentage",
+      data: numberArrayPlaceholder,
+      backgroundColor: ["#F7CFF2"]
+    }]
+  });
+  
+  const [ageData, setAgeData] = useState<any>({
+    labels: stringArrayPlaceholder,
+    datasets: [{
+      label: "Voting Percentage",
+      data: numberArrayPlaceholder,
+      backgroundColor: ["#F8F882"]
+    }]
+  });
 
-export default function BaseChart({selectedState, dataArray} : BaseChartProps){
-	
-	const [stringArrayPlaceholder, setStringArrayPlaceholder] = useState<string[]>([]);
-	const [numberArrayPlaceholder, setNumberArrayPlaceholder] = useState<number[]>([]);
+  // Generate placeholder data for ecological inference
+  const generatePlaceholderData = (length: number) => 
+    Array.from({ length }, (_, i) => ({
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      z: Math.random() * 100,
+      name: `Group ${i + 1}`
+    }));
 
-	const [AR_IncomeData, setAR_IncomeData] = useState(
-		{
-			labels: stringArrayPlaceholder,
-			datasets: [
-			  {
-				label: "Household Percentage",
-				data: numberArrayPlaceholder,
-				backgroundColor: ["green"]
-			  }
-			]
-		}
-    );
-    
-    const [NY_IncomeData, setNY_IncomeData] = useState(
-        {
-          labels: stringArrayPlaceholder,
-          datasets: [
-            {
-              label: "Household Percentage",
-              data: numberArrayPlaceholder,
-              backgroundColor: ["green"]
-            }
-          ]
-        }
-    );
+  useEffect(() => {
+    if (!dataArray.length) return;
 
-    const [AR_RaceData, setAR_RaceData] = useState(
-        {
-			labels: stringArrayPlaceholder,
-			datasets: [
-				{
-					label: "Voting Percentage",
-					data: numberArrayPlaceholder,
-					backgroundColor: ["grey"]
-				}
-			]
-        }
-    );
-
-    const [NY_RaceData, setNY_RaceData] = useState(
-        {
-          labels: stringArrayPlaceholder,
-          datasets: [
-            {
-              label: "Voting Percentage",
-              data: numberArrayPlaceholder,
-              backgroundColor: ["grey"]
-            }
-          ]
-        }
+    const stateData = dataArray.find(item => 
+      item.state === selectedState
     );
 
-    const [AR_AgeData, setAR_AgeData] = useState(
-        {
-          labels: stringArrayPlaceholder,
-          datasets: [
-            {
-              label: "Voting Percentage",
-              data: numberArrayPlaceholder,
-              backgroundColor: ["orange"]
-            }
-          ]
-        }
+    if (!stateData) return;
+
+    // Process Income Data
+    let temp_income_labels: string[] = [];
+    let temp_income_values: number[] = [];
+    stateData.income.forEach(e => {
+      temp_income_labels.push(Object.keys(e)[0]);
+      temp_income_values.push(Object.values(e)[0]);
+    });
+
+    setIncomeData({
+      labels: temp_income_labels,
+      datasets: [{
+        label: "Household Percentage",
+        data: temp_income_values,
+        backgroundColor: ["#E4EDC4"]
+      }]
+    });
+
+    // Process Race Data
+    let temp_race_labels: string[] = [];
+    let temp_race_values: number[] = [];
+    stateData.race.forEach(e => {
+      temp_race_labels.push(Object.keys(e)[0]);
+      temp_race_values.push(Object.values(e)[0]);
+    });
+
+    setRaceData({
+      labels: temp_race_labels,
+      datasets: [{
+        label: "Voting Percentage",
+        data: temp_race_values,
+        backgroundColor: ["#F7CFF2"]
+      }]
+    });
+
+    // Process Age Data
+    let temp_age_labels: string[] = [];
+    let temp_age_values: number[] = [];
+    stateData.age.forEach(e => {
+      temp_age_labels.push(Object.keys(e)[0]);
+      temp_age_values.push(Object.values(e)[0]);
+    });
+
+    setAgeData({
+      labels: temp_age_labels,
+      datasets: [{
+        label: "Voting Percentage",
+        data: temp_age_values,
+        backgroundColor: ["#F8F882"]
+      }]
+    });
+  }, [dataArray, selectedState]);
+
+  const renderStandardChart = () => {
+    const currentData = (() => {
+      switch (dataType) {
+        case 'Income':
+          return incomeData;
+        case 'Race':
+          return raceData;
+        case 'Age':
+          return ageData;
+        default:
+          return incomeData;
+      }
+    })();
+
+    return (
+      <VStack spacing={4} align="stretch">
+        <ButtonGroup pt='5' spacing={4}>
+          <Button 
+            onClick={() => setDataType('Income')}
+            bg={dataType === 'Income' ? "#E4EDC4" : "white"}
+            _hover={{ bg: "#F7CFF2" }}
+          >
+            Income
+          </Button>
+          <Button 
+            onClick={() => setDataType('Race')}
+            bg={dataType === 'Race' ? "#F7CFF2" : "white"}
+            _hover={{ bg: "#F7CFF2" }}
+          >
+            Race
+          </Button>
+          <Button 
+            onClick={() => setDataType('Age')}
+            bg={dataType === 'Age' ? "#F8F882" : "white"}
+            _hover={{ bg: "#F7CFF2" }}
+          >
+            Age
+          </Button>
+        </ButtonGroup>
+        <Box height="400px">
+          <BarChart 
+            width={500} 
+            height={400} 
+            data={currentData.datasets[0].data.map((value: number, index: number) => ({
+              name: currentData.labels[index],
+              value
+            }))}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar 
+              dataKey="value" 
+              fill={currentData.datasets[0].backgroundColor[0]} 
+              name={currentData.datasets[0].label}
+            />
+          </BarChart>
+        </Box>
+      </VStack>
     );
+  };
 
-    const [NY_AgeData, setNY_AgeData] = useState(
-        {
-          labels: stringArrayPlaceholder,
-          datasets: [
-            {
-              label: "Voting Percentage",
-              data: numberArrayPlaceholder,
-              backgroundColor: ["orange"]
-            }
-          ]
-        }
-    );
+  // Ecological Inference Visualizations
+  const renderGoodmanRegression = () => (
+    <VStack spacing={4} align="stretch" p={4}>
+      <HStack justify="space-between">
+        <Text fontSize="lg" fontWeight="bold">Goodman's Ecological Regression</Text>
+        <Select placeholder="Select Variable" size="sm" width="200px">
+          <option>Age vs. Voting</option>
+          <option>Race vs. Voting</option>
+          <option>Income vs. Voting</option>
+        </Select>
+      </HStack>
+      <ScatterChart width={500} height={400}>
+        <CartesianGrid />
+        <XAxis type="number" dataKey="x" name="demographic" unit="%" />
+        <YAxis type="number" dataKey="y" name="voting" unit="%" />
+        <ZAxis type="number" dataKey="z" range={[50, 400]} />
+        <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+        <Scatter name="Demographics" data={generatePlaceholderData(20)} fill="#F7CFF2" />
+      </ScatterChart>
+    </VStack>
+  );
 
-	useEffect(() => {
+  const renderKingsEI = () => (
+    <VStack spacing={4} align="stretch" p={4}>
+      <HStack justify="space-between">
+        <Text fontSize="lg" fontWeight="bold">King's Ecological Inference</Text>
+        <Select placeholder="Select Analysis" size="sm" width="200px">
+          <option>Racial Bloc Voting</option>
+          <option>Age Group Analysis</option>
+          <option>Income Group Analysis</option>
+        </Select>
+      </HStack>
+      <Box height="400px">
+        <LineChart width={500} height={400} data={generatePlaceholderData(10)}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Line type="monotone" dataKey="y" stroke="#E4EDC4" name="Group A" />
+          <Line type="monotone" dataKey="z" stroke="#F7CFF2" name="Group B" />
+        </LineChart>
+      </Box>
+    </VStack>
+  );
 
-		let temp_AR_income_labels: string[] = [];
-		let temp_AR_income_values: number[] = [];
+  const renderRxC = () => (
+    <VStack spacing={4} align="stretch" p={4}>
+      <HStack justify="space-between">
+        <Text fontSize="lg" fontWeight="bold">RxC Ecological Inference</Text>
+        <HStack spacing={2}>
+          <Select placeholder="Rows (R)" size="sm" width="150px">
+            <option>Age Groups</option>
+            <option>Race Groups</option>
+            <option>Income Levels</option>
+          </Select>
+          <Select placeholder="Columns (C)" size="sm" width="150px">
+            <option>Voting Choice</option>
+            <option>Party Preference</option>
+            <option>Turnout</option>
+          </Select>
+        </HStack>
+      </HStack>
+      <Box height="400px">
+        <BarChart width={500} height={400} data={generatePlaceholderData(5)}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="y" fill="#E4EDC4" name="Category 1" />
+          <Bar dataKey="z" fill="#F7CFF2" name="Category 2" />
+        </BarChart>
+      </Box>
+    </VStack>
+  );
 
-		(dataArray[0].income).forEach(e => {
-			temp_AR_income_labels.push(Object.keys(e)[0]);
-			temp_AR_income_values.push(Object.values(e)[0]);
-		})
+  const renderHierarchical = () => (
+    <VStack spacing={4} align="stretch" p={4}>
+      <HStack justify="space-between">
+        <Text fontSize="lg" fontWeight="bold">Hierarchical Ecological Inference</Text>
+        <Select placeholder="Select Level" size="sm" width="200px">
+          <option>Precinct Level</option>
+          <option>District Level</option>
+          <option>State Level</option>
+        </Select>
+      </HStack>
+      <Box height="400px">
+        <LineChart width={500} height={400} data={generatePlaceholderData(10)}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Line type="monotone" dataKey="x" stroke="#E4EDC4" name="Level 1" />
+          <Line type="monotone" dataKey="y" stroke="#F7CFF2" name="Level 2" />
+          <Line type="monotone" dataKey="z" stroke="#F8F882" name="Level 3" />
+        </LineChart>
+      </Box>
+    </VStack>
+  );
 
-		setAR_IncomeData(
-			{
-				labels: temp_AR_income_labels,
-				datasets: [
-					{
-						label: "Household Percentage",
-						data: temp_AR_income_values,
-						backgroundColor: ["green"]
-					}
-				]
-			}
-		)
-
-		let temp_AR_race_labels: string[] = [];
-		let temp_AR_race_values: number[] = [];
-
-		(dataArray[0].race).forEach(e => {
-			temp_AR_race_labels.push(Object.keys(e)[0]);
-			temp_AR_race_values.push(Object.values(e)[0]);
-		});
-
-		setAR_RaceData(
-			{
-				labels: temp_AR_race_labels,
-				datasets: [
-					{
-						label: "Voting Percentage",
-						data: temp_AR_race_values,
-						backgroundColor: ["grey"]
-					}
-				]
-			}
-		);
-
-		let temp_AR_age_labels: string[] = [];
-		let temp_AR_age_values: number[] = [];
-
-		(dataArray[0].age).forEach(e => {
-			temp_AR_age_labels.push(Object.keys(e)[0]);
-			temp_AR_age_values.push(Object.values(e)[0]);
-		});
-
-		setAR_AgeData(
-			{
-				labels: temp_AR_age_labels,
-				datasets: [
-					{
-						label: "Voting Percentage",
-						data: temp_AR_age_values,
-						backgroundColor: ["orange"]
-					}
-				]
-			}
-		);
-		
-
-		let temp_NY_income_labels: string[] = [];
-		let temp_NY_income_values: number[] = [];
-
-		(dataArray[1].income).forEach(e => {
-			temp_NY_income_labels.push(Object.keys(e)[0]);
-			temp_NY_income_values.push(Object.values(e)[0]);
-		});
-
-		setNY_IncomeData(
-			{
-				labels: temp_NY_income_labels,
-				datasets: [
-					{
-						label: "Voting Percentage",
-						data: temp_NY_income_values,
-						backgroundColor: ["green"]
-					}
-				]
-			}
-		);
-
-		let temp_NY_race_labels: string[] = [];
-		let temp_NY_race_values: number[] = [];
-
-		(dataArray[1].race).forEach(e => {
-			temp_NY_race_labels.push(Object.keys(e)[0]);
-			temp_NY_race_values.push(Object.values(e)[0]);
-		});
-
-		setNY_RaceData(
-			{
-				labels: temp_NY_race_labels,
-				datasets: [
-					{
-						label: "Voting Percentage",
-						data: temp_NY_race_values,
-						backgroundColor: ["grey"]
-					}
-				]
-			}
-		);
-
-		let temp_NY_age_labels: string[] = [];
-		let temp_NY_age_values: number[] = [];
-
-		(dataArray[1].age).forEach(e => {
-			temp_NY_age_labels.push(Object.keys(e)[0]);
-			temp_NY_age_values.push(Object.values(e)[0]);
-		});
-
-		setNY_AgeData(
-			{
-				labels: temp_NY_age_labels,
-				datasets: [
-					{
-						label: "Voting Percentage",
-						data: temp_NY_age_values,
-						backgroundColor: ["orange"]
-					}
-				]
-			}
-		);
-
-
-	}, [dataArray]);
-
-    const [dataType, setDataType] = useState('Income');
-
-    const setToIncome = () => {
-        setDataType('Income');
+  const renderVisualization = () => {
+    switch(selectedVisualization) {
+      case 'goodman':
+        return <GoodmanRegression />;
+      case 'kings':
+        return <KingsEI />;
+      case 'rxc':
+        return <RxCInference />;
+      case 'hierarchical':
+        return <HierarchicalEI />;
+      default:
+        return renderStandardChart();
     }
+  };
 
-    const setToRace = () => {
-        setDataType('Race');
-    }
+  return (
+    <Box>
+      {renderVisualization()}
+      {selectedState === 'Arkansas' && (
+        <Box mt={4} p={4} bg="#FFF0E6" borderRadius="md">
+          <Text>Party: {dataArray[0]?.overview.party}</Text>
+          <Text>Population: {dataArray[0]?.overview.population}</Text>
+          <Text>Voter Turnout: {dataArray[0]?.overview.voterTurnout}%</Text>
+          <Text>Republican Votes: {dataArray[0]?.overview.republicanPopularVote}</Text>
+          <Text>Democrat Votes: {dataArray[0]?.overview.democratPopularVote}</Text>
+          <Text>Median Income: ${dataArray[0]?.overview.medianIncome}</Text>
+        </Box>
+      )}
+      {selectedState === 'New York' && (
+        <Box mt={4} p={4} bg="#FFF0E6" borderRadius="md">
+          <Text>Party: {dataArray[1]?.overview.party}</Text>
+          <Text>Population: {dataArray[1]?.overview.population}</Text>
+          <Text>Voter Turnout: {dataArray[1]?.overview.voterTurnout}%</Text>
+          <Text>Republican Votes: {dataArray[1]?.overview.republicanPopularVote}</Text>
+          <Text>Democrat Votes: {dataArray[1]?.overview.democratPopularVote}</Text>
+          <Text>Median Income: ${dataArray[1]?.overview.medianIncome}</Text>
+        </Box>
+      )}
+    </Box>
+  );
+};
 
-    const setToAge = () => {
-        setDataType('Age');
-    }
-
-    return(
-        (selectedState !== null && selectedState !== "Default" ? <Box>
-            <Box style={{width: 600}}>
-
-                <Text className='chart_title_font' fontSize="3xl">
-                    {selectedState} {dataType}
-                </Text>
-
-                {(selectedState === 'Arkansas' && dataType === 'Income') && (
-                    <BarChart chartData={AR_IncomeData}/>
-                )}
-
-                {(selectedState === 'Arkansas' && dataType === 'Race') && (
-                    <BarChart chartData={AR_RaceData}/>
-                )}
-
-                {(selectedState === 'Arkansas' && dataType === 'Age') && (
-                    <BarChart chartData={AR_AgeData}/>
-                )}
-
-                {(selectedState === 'New York' && dataType === 'Income') && (
-                    <BarChart chartData={NY_IncomeData}/>
-                )}
-
-                {(selectedState === 'New York' && dataType === 'Race') && (
-                    <BarChart chartData={NY_RaceData}/>
-                )}
-
-                {(selectedState === 'New York' && dataType === 'Age') && (
-                    <BarChart chartData={NY_AgeData}/>
-                )}
-            </Box>
-
-            <ButtonGroup pt='5'>
-                <Button onClick={setToIncome}>Income</Button>
-                <Button onClick={setToAge}>Age</Button>
-                <Button onClick={setToRace}>Race</Button>
-            </ButtonGroup>
-
-			{(selectedState === 'Arkansas') && (
-				<div className='clean_this'>
-					<p>
-						Party: {dataArray[0].overview.party}
-					</p>
-					<p>
-						Total Population: {dataArray[0].overview.population}
-					</p>
-					<p>
-						Voter Turnout: {dataArray[0].overview.voterTurnout}%
-					</p>
-					<p>
-						Republican Votes: {dataArray[0].overview.republicanPopularVote} Votes
-					</p>
-					<p>
-						Democrat Votes: {dataArray[0].overview.democratPopularVote} Votes
-					</p>
-					<p>
-						Median Household Income: ${dataArray[0].overview.medianIncome} 
-					</p>
-				</div>
-			)}
-			{(selectedState === 'New York') && (
-				<div className='clean_this'>
-					<p>
-						Party: {dataArray[1].overview.party}
-					</p>
-					<p>
-						Total Population: {dataArray[1].overview.population}
-					</p>
-					<p>
-						Voter Turnout: {dataArray[1].overview.voterTurnout}%
-					</p>
-					<p>
-						Republican Votes: {dataArray[1].overview.republicanPopularVote} Votes
-					</p>
-					<p>
-						Democrat Votes: {dataArray[1].overview.democratPopularVote} Votes
-					</p>
-					<p>
-						Median Household Income: ${dataArray[1].overview.medianIncome} 
-					</p>
-				</div>
-			)}
-        </Box> : <></>)
-    )
-}
+export default BaseChart;
