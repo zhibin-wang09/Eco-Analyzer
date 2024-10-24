@@ -229,8 +229,23 @@ const USMap: React.FC<USMapProps> = ({
           });
         };
 
+        const getColor = (geoJsonFeature: Feature | undefined): string => {
+          // Implement your color logic based on the feature properties
+          const electionData =  geoJsonFeature!.properties!['election data'];
+          const color = electionData['bidenVotes'] > electionData['trumpVotes'] ? '#0000FF' : '#FF5733';
+          return color || 'gray'; // Fallback color
+        }
+
+        const style = (geoJsonFeature: Feature | undefined): L.PathOptions => {
+          return {
+            fillColor: getColor(geoJsonFeature),
+            weight: 0.5,
+            fillOpacity: 0.8,
+          };
+        };
+        
         cdLayerRef.current = L.geoJSON(congressionalDistrict, {
-          style: { color: "#000000", weight: 0.5 },
+          style: style,
           onEachFeature: onEachFeature,
         }).addTo(map);
       }
@@ -249,7 +264,7 @@ const USMap: React.FC<USMapProps> = ({
     arkansasCd,
     highlightFeatures,
     resetHighlight,
-    districtOnClick,
+    districtOnClick
   ]);
 
   return (
