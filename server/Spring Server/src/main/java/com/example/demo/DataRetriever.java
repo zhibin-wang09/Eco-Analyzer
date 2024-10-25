@@ -58,7 +58,7 @@ public class DataRetriever {
 
 
 	@CrossOrigin(origins = "http://localhost:3000")
-	@GetMapping(value = "/getchartdata", produces = "application/json")
+	@GetMapping(value = "/chartdata", produces = "application/json")
 	public ResponseEntity<String> getChartData(){
 		DataRetriever processor = new DataRetriever();
 		return ResponseEntity.ok(processor.process("ChartData.json"));
