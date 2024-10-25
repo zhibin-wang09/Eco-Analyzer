@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.Map;
 import org.springframework.http.ResponseEntity;
 
 @SpringBootApplication
@@ -23,7 +22,7 @@ public class DataRetriever {
 		SpringApplication.run(DataRetriever.class, args);
 	}
 
-	private Map<String, Object> process(String filename){
+	private String process(String filename){
 		StringBuilder jsonString = new StringBuilder();
 
 		try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filename)){
@@ -38,14 +37,12 @@ public class DataRetriever {
 			e.printStackTrace();
 		}
 
-		JSONObject obj = new JSONObject(jsonString.toString());
-		Map<String, Object> result = obj.toMap();
-		return result;
+		return jsonString.toString();
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/oldgetcoordinates", produces = "application/json")
-	public ResponseEntity<Map<String,Object>> getCoordinateData(){
+	public ResponseEntity<String> getCoordinateData(){
 		DataRetriever processor = new DataRetriever();
 		return ResponseEntity.ok(processor.process("FeatureCollectionCoordinate.json"));
 	}
@@ -53,7 +50,7 @@ public class DataRetriever {
 
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/getcoordinates/{state}/{boundary}", produces = "application/json")
-	public ResponseEntity<Map<String,Object>> getCoordinates(@PathVariable("state") String state, @PathVariable("boundary") String boundary){
+	public ResponseEntity<String> getCoordinates(@PathVariable("state") String state, @PathVariable("boundary") String boundary){
 
 		String fileName = state + "_" + boundary + "_data.json";
 		DataRetriever processor = new DataRetriever();
@@ -63,7 +60,7 @@ public class DataRetriever {
 
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/getchartdata", produces = "application/json")
-	public ResponseEntity<Map<String,Object>> getChartData(){
+	public ResponseEntity<String> getChartData(){
 		DataRetriever processor = new DataRetriever();
 		return ResponseEntity.ok(processor.process("ChartData.json"));
 	}
