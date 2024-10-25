@@ -51,7 +51,7 @@ public class DataRetriever {
 	@RequestMapping(value = "/getcoordinates/{state}/{boundary}", produces = "application/json")
 	public ResponseEntity<Map<String,Object>> getCoordinates(@PathVariable("state") String state, @PathVariable("boundary") String boundary){
 
-		String fileName = state + "_" + boundary + "_coordinates.json";
+		String fileName = state + "_" + boundary + "_data.json";
 
 		StringBuilder jsonString = new StringBuilder();
 
