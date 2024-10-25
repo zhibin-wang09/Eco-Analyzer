@@ -40,7 +40,7 @@ public class DataRetriever {
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
-	@GetMapping(value = "/oldgetcoordinates", produces = "application/json")
+	@GetMapping(value = "/oldcoordinates", produces = "application/json")
 	public ResponseEntity<String> getCoordinateData(){
 		DataRetriever processor = new DataRetriever();
 		return ResponseEntity.ok(processor.process("FeatureCollectionCoordinate.json"));
