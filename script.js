@@ -340,8 +340,29 @@ async function loadElectionDataInFeatureCollection(electiondataFile) {
   console.log("Success");
 }
 
+async function splitFile(filename){
+  const filepath = path.join(__dirname, filename);
+  const fileContent = await fsp.readFile(filepath);
+  const districtJson = JSON.parse(fileContent);
+
+  const newyorkFileName = path.join(__dirname, `./server/Spring Server/src/main/resources/ny_district_data.json`)
+  const arkansasFileNAme = path.join(__dirname, `./server/Spring Server/src/main/resources/arkansas_district_data.json`)
+
+  const arkansasData = districtJson.data[0].district;
+  const newyorkData = districtJson.data[1].district;
+
+  const arkansasDataJsonString = JSON.stringify(arkansasData,null,2);
+  const newyorkDataJsonString = JSON.stringify(newyorkData,null,2 );
+
+  await fsp.writeFile(newyorkFileName, newyorkDataJsonString);
+  await fsp.writeFile(arkansasFileNAme, arkansasDataJsonString);
+
+  console.log("success");
+}
+
 // removePrecintFromJSON();
 // loadElectionDataInFeatureCollection(
 //   "./client/public/newyork_congressional_district.json"
 // );
-convertGeometryCollectionToFeatureCollection();
+// convertGeometryCollectionToFeatureCollection();
+splitFile("./server/Spring Server/src/main/resources/FeatureCollectionCoordinate.json")
