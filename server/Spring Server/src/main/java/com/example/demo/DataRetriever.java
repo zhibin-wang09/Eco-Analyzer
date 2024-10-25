@@ -23,13 +23,10 @@ public class DataRetriever {
 		SpringApplication.run(DataRetriever.class, args);
 	}
 
-	@CrossOrigin(origins = "http://localhost:3000")
-	@RequestMapping(value = "/oldgetcoordinates", produces = "application/json")
-	public ResponseEntity<Map<String,Object>> getCoordinateData(){
-
+	private Map<String, Object> process(String filename){
 		StringBuilder jsonString = new StringBuilder();
 
-		try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("FeatureCollectionCoordinate.json")){
+		try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filename)){
 			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 				String line;
 
@@ -43,7 +40,14 @@ public class DataRetriever {
 
 		JSONObject obj = new JSONObject(jsonString.toString());
 		Map<String, Object> result = obj.toMap();
-		return ResponseEntity.ok(result);
+		return result;
+	}
+
+	@CrossOrigin(origins = "http://localhost:3000")
+	@RequestMapping(value = "/oldgetcoordinates", produces = "application/json")
+	public ResponseEntity<Map<String,Object>> getCoordinateData(){
+		DataRetriever d = new DataRetriever();
+		return ResponseEntity.ok(d.process("FeatureCollectionCoordinate.json"));
 	}
 
 
@@ -52,47 +56,15 @@ public class DataRetriever {
 	public ResponseEntity<Map<String,Object>> getCoordinates(@PathVariable("state") String state, @PathVariable("boundary") String boundary){
 
 		String fileName = state + "_" + boundary + "_data.json";
-
-		StringBuilder jsonString = new StringBuilder();
-
-		try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fileName)){
-			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-			String line;
-
-			while ((line = reader.readLine()) != null) {
-				jsonString.append(line);
-			}
-		}
-		catch(IOException e){
-			e.printStackTrace();
-		}
-
-		JSONObject obj = new JSONObject(jsonString.toString());
-		Map<String, Object> result = obj.toMap();
-		return ResponseEntity.ok(result);
+		DataRetriever processor = new DataRetriever();
+		return ResponseEntity.ok(processor.process(fileName));
 	}
 
 
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/getchartdata", produces = "application/json")
 	public ResponseEntity<Map<String,Object>> getChartData(){
-
-		StringBuilder jsonString = new StringBuilder();
-
-		try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("ChartData.json")){
-			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-				String line;
-
-				while ((line = reader.readLine()) != null) {
-					jsonString.append(line);
-				}
-		}
-		catch(IOException e){
-			e.printStackTrace();
-		}
-
-		JSONObject obj = new JSONObject(jsonString.toString());
-		Map<String, Object> result = obj.toMap();
-		return ResponseEntity.ok(result);
+		DataRetriever processor = new DataRetriever();
+		return ResponseEntity.ok(processor.process("ChartData.json"));
 	}
 }
