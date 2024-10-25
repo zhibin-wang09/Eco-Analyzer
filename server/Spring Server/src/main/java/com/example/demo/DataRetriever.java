@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,7 +42,7 @@ public class DataRetriever {
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
-	@RequestMapping(value = "/oldgetcoordinates", produces = "application/json")
+	@GetMapping(value = "/oldgetcoordinates", produces = "application/json")
 	public ResponseEntity<String> getCoordinateData(){
 		DataRetriever processor = new DataRetriever();
 		return ResponseEntity.ok(processor.process("FeatureCollectionCoordinate.json"));
@@ -49,7 +50,7 @@ public class DataRetriever {
 
 
 	@CrossOrigin(origins = "http://localhost:3000")
-	@RequestMapping(value = "/getcoordinates/{state}/{boundary}", produces = "application/json")
+	@GetMapping(value = "/getcoordinates/{state}/{boundary}", produces = "application/json")
 	public ResponseEntity<String> getCoordinates(@PathVariable("state") String state, @PathVariable("boundary") String boundary){
 
 		String fileName = state + "_" + boundary + "_data.json";
@@ -59,7 +60,7 @@ public class DataRetriever {
 
 
 	@CrossOrigin(origins = "http://localhost:3000")
-	@RequestMapping(value = "/getchartdata", produces = "application/json")
+	@GetMapping(value = "/getchartdata", produces = "application/json")
 	public ResponseEntity<String> getChartData(){
 		DataRetriever processor = new DataRetriever();
 		return ResponseEntity.ok(processor.process("ChartData.json"));
