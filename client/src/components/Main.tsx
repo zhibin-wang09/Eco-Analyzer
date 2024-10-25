@@ -30,7 +30,7 @@ const MainLayout = () => {
   const [selectedVisualization, setSelectedVisualization] = useState<VisualizationType>('standard');
 
   useEffect(() => {
-    axios.get("http://localhost:8080/getchartdata")
+    axios.get("http://localhost:8080/chartdata")
       .then(res => {
         setMetadata(res.data.metadata);
         setChartData(res.data.chartData);

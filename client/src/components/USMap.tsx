@@ -177,7 +177,7 @@ const USMap: React.FC<USMapProps> = ({
 
     const fetchMapData = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/oldgetcoordinates");
+        const response = await axios.get("http://localhost:8080/oldcoordinates");
         const responseData = response.data;
 
         if (
