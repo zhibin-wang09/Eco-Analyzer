@@ -48,17 +48,17 @@ public class DataRetriever {
 
 
 	@CrossOrigin(origins = "http://localhost:3000")
-	@GetMapping(value = "/getcoordinates/{state}/{boundary}", produces = "application/json")
-	public ResponseEntity<String> getCoordinates(@PathVariable("state") String state, @PathVariable("boundary") String boundary){
+	@GetMapping(value = "/coordinates/{state}", produces = "application/json")
+	public ResponseEntity<String> getCoordinates(@PathVariable("state") String state){
 
-		String fileName = state + "_" + boundary + "_data.json";
+		String fileName = state + "_" + "data.json";
 		DataRetriever processor = new DataRetriever();
 		return ResponseEntity.ok(processor.process(fileName));
 	}
 
 
 	@CrossOrigin(origins = "http://localhost:3000")
-	@GetMapping(value = "/getchartdata", produces = "application/json")
+	@GetMapping(value = "/chartdata", produces = "application/json")
 	public ResponseEntity<String> getChartData(){
 		DataRetriever processor = new DataRetriever();
 		return ResponseEntity.ok(processor.process("ChartData.json"));
