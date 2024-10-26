@@ -1,0 +1,36 @@
+{
+    "state": "Arkansas",
+    "stateCode": "AR",
+    "overview": {
+        "party": "Republican",
+        "population": 3011524,
+        "voterTurnout": 0.669,
+        "republicanPopularVote": 760647,
+        "democratPopularVote": 423932,
+        "medianIncome": 49475,
+        "meanIncome": 69357
+    },
+    "income":[
+        {"0-24999": 24.9},
+        {"25000-49999": 25.4},
+        {"50000-74999": 18.4},
+        {"75000-99999": 11.6},
+        {"100000+": 19.7}
+    ],
+    "race":[
+        {"White": 2269959},
+        {"Black": 457840},
+        {"Asian": 46130},
+        {"Hispanic": 229629},
+        {"Other": 117964},
+        {"Mixed": 119980}
+    ],
+    "age":[
+        {"Under 18": 702832},
+        {"18-24": 282319},
+        {"25-34": 394792},
+        {"35-44": 371371},
+        {"55-64": 383959},
+        {"65 and over": 510117}
+    ]
+}
