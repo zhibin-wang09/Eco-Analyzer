@@ -39,4 +39,8 @@ public class CoordinateDataService {
     public String getChartData(String state){
         return process(state + "_" + "chartdata.json");
     }
+
+	public String getChartData(){
+		return process("ChartData.json");
+	}
 }

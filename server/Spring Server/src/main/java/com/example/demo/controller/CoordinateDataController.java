@@ -36,4 +36,10 @@ public class CoordinateDataController {
 	public ResponseEntity<String> getChartData(@PathVariable("state") String state){
 		return ResponseEntity.ok(dataService.getChartData(state));
 	}
+
+    @CrossOrigin(origins = "http://localhost:3000")
+	@GetMapping(value = "/chartdata", produces = "application/json")
+	public ResponseEntity<String> getChartData(){
+		return ResponseEntity.ok(dataService.getChartData());
+	}
 }
