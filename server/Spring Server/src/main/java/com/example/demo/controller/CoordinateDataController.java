@@ -26,7 +26,7 @@ public class CoordinateDataController {
 
 	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping(value = "/coordinates/{state}", produces = "application/json")
-	public ResponseEntity<String> getCoordinates(@PathVariable("state") String state){
+	public ResponseEntity<String> getCoordinateData(@PathVariable("state") String state){
 		return ResponseEntity.ok(dataService.getCoordinateData(state));
 	}
 
