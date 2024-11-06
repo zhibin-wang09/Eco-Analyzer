@@ -2,6 +2,16 @@
 
 # Start Guide
 
+# Note
+For anyone who is contributing to this repo you WILL need to use `git lfs`(*git large storage*). It serves as an way to by pass the git restriction
+on 100MB file size upload to the repo. 
+
+`git lfs` make the uploaded file serve as a pointer to the actual content. `filename` -> `actual content of file`. 
+
+## To install `git lfs`
+For windows: [here](https://docs.github.com/en/repositories/working-with-files/managing-large-files/installing-git-large-file-storage?platform=windows)
+For mac: [here](https://git-lfs.com)
+
 # Server
 To start the server, you will need to supply a bash script to load environment variables for `application.properties` file within Spring Boot.
 
