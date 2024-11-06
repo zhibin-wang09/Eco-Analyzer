@@ -10,7 +10,10 @@ on 100MB file size upload to the repo.
 
 ## To install `git lfs`
 For windows: [here](https://docs.github.com/en/repositories/working-with-files/managing-large-files/installing-git-large-file-storage?platform=windows)
+
 For mac: [here](https://git-lfs.com)
+
+More explanation: [here](https://medium.com/swlh/learning-about-git-large-file-system-lfs-72e0c86cfbaf)
 
 # Server
 To start the server, you will need to supply a bash script to load environment variables for `application.properties` file within Spring Boot.
