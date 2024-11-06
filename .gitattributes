@@ -1,0 +1,2 @@
+**/arkansas_precincts.json filter=lfs diff=lfs merge=lfs -text
+**/newyork_precincts.json filter=lfs diff=lfs merge=lfs -text
