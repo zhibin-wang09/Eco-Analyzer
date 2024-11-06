@@ -360,9 +360,86 @@ async function splitFile(filename){
   console.log("success");
 }
 
+async function insertDataToPrecinctFiles(file1, file2, file3){
+  let file1Path;
+  let file2Path;
+  let file3Path;
+
+  if(file1){
+    file1Path = path.join(__dirname, file1);
+  }
+  if(file2){
+    file2Path = path.join(__dirname, file2);
+  }
+  if(file3){
+    file3Path = path.join(__dirname, file3);
+  }
+
+  const precinctContent = await fsp.readFile("./precinct/precincts_arkansas/arkansas_precincts.json")
+  const file1Content = await fsp.readFile(file1);
+  const file2Content = await fsp.readFile(file2);
+  const file3Content = await fsp.readFile(file3);
+
+  const file1Json = JSON.parse(file1Content);
+  const file2Json = JSON.parse(file2Content);
+  const file3Json = JSON.parse(file3Content);
+  const precinctJson = JSON.parse(precinctContent);
+
+  const features = precinctJson.features;
+  let map = new Map();
+  for(const f of features){
+    map.set(f.properties.NAME20.slice(9), f);
+  }
+
+  file1Json.forEach((item) => {
+    const id = item.id;
+    if(map.has(id)){
+      const newF = map.get(id);
+      newF["earning"] = item;
+      map.set(id,newF);
+    }
+  })
+
+  file2Json.forEach((item) => {
+    const id = item.id;
+    if(map.has(id)){
+      const newF = map.get(id);
+      newF["age"] = item;
+      map.set(id,newF);
+    }
+  })
+  
+  file3Json.forEach((item) => {
+    const id = item.id;
+    if(map.has(id)){
+      const newF = map.get(id);
+      newF["race"] = item;
+      map.set(id,newF);
+    }
+  })
+
+}
+
+async function indentFile(file) {
+  try {
+    const filePath = path.join(__dirname, file);
+    const filep = await fsp.readFile(filePath, 'utf8'); // Read as a UTF-8 string
+
+    const json = JSON.parse(filep);
+
+    const indentedJson = JSON.stringify(json, null, 2);
+
+    await fsp.writeFile(filePath, indentedJson); // Write to filePath, not filep
+    console.log("Success");
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
 // removePrecintFromJSON();
 // loadElectionDataInFeatureCollection(
 //   "./client/public/newyork_congressional_district.json"
 // );
 // convertGeometryCollectionToFeatureCollection();
-splitFile("./server/Spring Server/src/main/resources/FeatureCollectionCoordinate.json")
+//splitFile("./server/Spring Server/src/main/resources/FeatureCollectionCoordinate.json")
+indentFile("./precinct/precincts_newyork/newyork_precincts.json")
