@@ -436,10 +436,40 @@ async function indentFile(file) {
   }
 }
 
+async function formatFileForMongoImport(file, dest, category) {
+  try {
+    const filePath = path.join(__dirname, file);
+    const destPath = path.join(__dirname, dest);
+    const fileContent = await fsp.readFile(filePath, 'utf8');
+
+    // Parse the file content as JSON
+    const jsonArray = JSON.parse(fileContent).features;
+
+    // Ensure it's an array and format each item as a separate line
+    if (Array.isArray(jsonArray)) {
+      const newlineDelimitedJson = jsonArray.map(item => {
+        let newItem = {};
+        newItem["state"] = item.properties["STATEFP20"];
+        newItem["district"] = item.properties["CD118FP"];
+        newItem[category] = item.properties[category];
+        return JSON.stringify(newItem);
+      }).join(',\n');
+
+      // Write the formatted JSON to the file, ready for mongoimport
+      await fsp.writeFile(destPath, "[" + newlineDelimitedJson + "]", 'utf8');
+      console.log("File formatted successfully for mongoimport.");
+    } else {
+      console.error("Error: JSON is not an array of objects.");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
 // removePrecintFromJSON();
 // loadElectionDataInFeatureCollection(
 //   "./client/public/newyork_congressional_district.json"
 // );
 // convertGeometryCollectionToFeatureCollection();
 //splitFile("./server/Spring Server/src/main/resources/FeatureCollectionCoordinate.json")
-indentFile("./precinct/precincts_newyork/newyork_precincts.json")
+//indentFile("./precinct/precincts_newyork/newyork_precincts.json")
