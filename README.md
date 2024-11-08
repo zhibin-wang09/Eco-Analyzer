@@ -1,21 +1,30 @@
 # Eco-Analyzer
 
-# Start Guide
-
-# Note
+# Pre-req
 For anyone who is contributing to this repo you WILL need to use `git lfs`(*git large storage*). It serves as an way to by pass the git restriction
 on 100MB file size upload to the repo. 
 
 `git lfs` make the uploaded file serve as a pointer to the actual content. `filename` -> `actual content of file`. 
 
 ## To install `git lfs`
+Install `git lfs` in this repo!
+
 For windows: [here](https://docs.github.com/en/repositories/working-with-files/managing-large-files/installing-git-large-file-storage?platform=windows)
 
 For mac: [here](https://git-lfs.com)
 
 More explanation: [here](https://medium.com/swlh/learning-about-git-large-file-system-lfs-72e0c86cfbaf)
 
-# Server
+## To set up for the project
+1. In this repo, do `git lfs track file1 file2 ...` for any files that is too large. Currently it is two the precinct geojsons in `client/public`
+2. Then do `git lfs migrate info --include = "file1, file2"
+3. Now you can use git as usual, `git lfs` will handle the rest for us
+If there's any questions refer to [medium article](https://medium.com/swlh/learning-about-git-large-file-system-lfs-72e0c86cfbaf)
+
+
+# Start Guide
+
+## Server
 To start the server, you will need to supply a bash script to load environment variables for `application.properties` file within Spring Boot.
 
 The example file looks like below

@@ -360,64 +360,73 @@ async function splitFile(filename){
   console.log("success");
 }
 
-async function insertDataToPrecinctFiles(file1, file2, file3){
-  let file1Path;
-  let file2Path;
-  let file3Path;
+async function insertDataToPrecinctFiles(file1, file2, file3,file4){
+  let file1Path = path.join(__dirname, file1);
+  let file2Path = path.join(__dirname, file2);
+  let file3Path = path.join(__dirname, file3);
+  let file4Path = path.join(__dirname, file4);
 
-  if(file1){
-    file1Path = path.join(__dirname, file1);
-  }
-  if(file2){
-    file2Path = path.join(__dirname, file2);
-  }
-  if(file3){
-    file3Path = path.join(__dirname, file3);
-  }
 
   const precinctContent = await fsp.readFile("./precinct/precincts_arkansas/arkansas_precincts.json")
-  const file1Content = await fsp.readFile(file1);
-  const file2Content = await fsp.readFile(file2);
-  const file3Content = await fsp.readFile(file3);
+  const file1Content = await fsp.readFile(file1Path);
+  const file2Content = await fsp.readFile(file2Path);
+  const file3Content = await fsp.readFile(file3Path);
+  const file4Content = await fsp.readFile(file4Path);
 
   const file1Json = JSON.parse(file1Content);
   const file2Json = JSON.parse(file2Content);
   const file3Json = JSON.parse(file3Content);
+  const file4Json = JSON.parse(file4Content);
   const precinctJson = JSON.parse(precinctContent);
 
   const features = precinctJson.features;
   let map = new Map();
   for(const f of features){
-    map.set(f.properties.NAME20.slice(9), f);
+    map.set(f.properties["NAMELSAD20"], f);
   }
 
   file1Json.forEach((item) => {
-    const id = item.id;
+    const id = item.precinct_id;
     if(map.has(id)){
       const newF = map.get(id);
-      newF["earning"] = item;
+      newF.properties["earning"] = item;
       map.set(id,newF);
     }
   })
 
   file2Json.forEach((item) => {
-    const id = item.id;
+    const id = item.precinct_id;
     if(map.has(id)){
       const newF = map.get(id);
-      newF["age"] = item;
+      newF.properties["age"] = item;
       map.set(id,newF);
     }
   })
   
   file3Json.forEach((item) => {
-    const id = item.id;
+    const id = item.precinct_id;
     if(map.has(id)){
       const newF = map.get(id);
-      newF["race"] = item;
+      newF.properties["race"] = item;
       map.set(id,newF);
     }
   })
 
+  file4Json.forEach((item) => {
+    const id = item.precinct_id;
+    if(map.has(id)){
+      const newF = map.get(id);
+      newF.properties["vote"] = item;
+      map.set(id,newF);
+    }
+  })
+  
+  precinctJson.features = Array.from(map.values())
+
+  const precinctJsonString = JSON.stringify(precinctJson,null,2);
+
+  await fsp.writeFile("./precinct/precincts_arkansas/final_arkansas_precincts.json", precinctJsonString);
+  console.log("success")
 }
 
 async function indentFile(file) {
@@ -449,8 +458,8 @@ async function formatFileForMongoImport(file, dest, category) {
     if (Array.isArray(jsonArray)) {
       const newlineDelimitedJson = jsonArray.map(item => {
         let newItem = {};
-        newItem["state"] = item.properties["STATEFP20"];
-        newItem["district"] = item.properties["CD118FP"];
+        newItem["state_id"] = Number(item.properties["STATEFP20"]);
+        newItem["district_id"] = Number(item.properties["CD118FP"]);
         newItem[category] = item.properties[category];
         return JSON.stringify(newItem);
       }).join(',\n');
@@ -466,6 +475,25 @@ async function formatFileForMongoImport(file, dest, category) {
   }
 }
 
+async function toNewLineDelimitedJSON(file, dest){
+  try{
+    const orgFile = path.join(__dirname, file);
+    const destFile = path.join(__dirname, dest);
+    const fileContent = await fsp.readFile(orgFile, 'utf8');
+
+    const json = JSON.parse(fileContent);
+    const newlineDelimitedJson = json.map(item => {
+      const newItem = item;
+      newItem["state_id"] = 5;
+      return JSON.stringify(newItem);
+    }).join(',\n');
+    await fsp.writeFile(destFile, "[" + newlineDelimitedJson + "]", 'utf8');
+      console.log("File formatted successfully for mongoimport.");
+  }catch(e){
+    console.log(e);
+  }
+}
+
 // removePrecintFromJSON();
 // loadElectionDataInFeatureCollection(
 //   "./client/public/newyork_congressional_district.json"
@@ -473,3 +501,10 @@ async function formatFileForMongoImport(file, dest, category) {
 // convertGeometryCollectionToFeatureCollection();
 //splitFile("./server/Spring Server/src/main/resources/FeatureCollectionCoordinate.json")
 //indentFile("./precinct/precincts_newyork/newyork_precincts.json")
+formatFileForMongoImport("/server/Spring Server/src/main/resources/ny_data.json", "./DistrictData/ny_race.json", "race")
+// insertDataToPrecinctFiles("./PrecinctData/official_ar_precinct_data/OFFICIAL AR Precinct Age Data.json",
+//   "./PrecinctData/official_ar_precinct_data/OFFICIAL AR Precinct Election Data.json",
+//   "./PrecinctData/official_ar_precinct_data/OFFICIAL AR Precinct Income Data.json",
+//   "./PrecinctData/official_ar_precinct_data/OFFICIAL AR Precinct Race Data.json"
+// )
+//toNewLineDelimitedJSON("./official_ar_precinct_data/OFFICIAL AR Precinct Election Data.json", "./PrecinctData/ar_votes.json")
