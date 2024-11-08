@@ -29,7 +29,7 @@ public class CoordinateDataController {
 	@GetMapping(value = "/coordinates/{state}", produces = "application/json")
 	public ResponseEntity<String> getCoordinateData(@PathVariable("state") String state) {
 		boolean isNy = state.equals("ny");
-		boolean isAk = state.equals("ak");
+		boolean isAk = state.equals("ar");
 		if (!isNy && !isAk) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("State not exist in server");
 		}
@@ -40,8 +40,8 @@ public class CoordinateDataController {
 	@GetMapping(value = "/chartdata/{state}", produces = "application/json")
 	public ResponseEntity<String> getChartData(@PathVariable("state") String state) {
 		boolean isNy = state.equals("ny");
-		boolean isAk = state.equals("ak");
-		if (!isNy && !isAk) {
+		boolean isAr = state.equals("ar");
+		if (!isNy && !isAr) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("State not exist in server");
 		}
 		return ResponseEntity.ok(dataService.getChartData(state));
@@ -52,4 +52,16 @@ public class CoordinateDataController {
 	public ResponseEntity<String> getChartData() {
 		return ResponseEntity.ok(dataService.getChartData());
 	}
+
+	@CrossOrigin(origins = "http://localhost:3000")
+	@GetMapping(value = "/gingles-data/{state}/{demographic-group}", produces = "application/json")
+	public ResponseEntity<String> getGinglesData(@PathVariable("state") String state, @PathVariable("demographic-group") String demographicGroup) {
+		boolean isNy = state.equals("ny");
+		boolean isAr = state.equals("ar");
+		if (!isNy && !isAr) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("State not exist in server");
+		}
+		return ResponseEntity.ok(dataService.getGinglesData(state, demographicGroup));
+	}
+	
 }
