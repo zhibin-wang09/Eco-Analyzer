@@ -7,7 +7,6 @@ on 100MB file size upload to the repo.
 `git lfs` make the uploaded file serve as a pointer to the actual content. `filename` -> `actual content of file`. 
 
 ## To install `git lfs`
-Install `git lfs` in this repo!
 
 For windows: [here](https://docs.github.com/en/repositories/working-with-files/managing-large-files/installing-git-large-file-storage?platform=windows)
 
@@ -16,8 +15,9 @@ For mac: [here](https://git-lfs.com)
 More explanation: [here](https://medium.com/swlh/learning-about-git-large-file-system-lfs-72e0c86cfbaf)
 
 ## To set up for the project
+0. In this repo, do `git lfs install`
 1. In this repo, do `git lfs track file1 file2 ...` for any files that is too large. Currently it is two the precinct geojsons in `client/public`
-2. Then do `git lfs migrate info --include = "file1, file2"
+2. Then do `git lfs migrate info --include = "file1, file2"` **ONLY** if the commit failed otherwise skip this step
 3. Now you can use git as usual, `git lfs` will handle the rest for us
 If there's any questions refer to [medium article](https://medium.com/swlh/learning-about-git-large-file-system-lfs-72e0c86cfbaf)
 
