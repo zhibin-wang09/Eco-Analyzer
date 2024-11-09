@@ -11,7 +11,7 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CoordinateDataService {
+public class DataProcessService {
 
     private String process(String filename){
 		StringBuilder jsonString = new StringBuilder();

@@ -1,8 +1,5 @@
 package com.example.demo.controller;
 
-import java.util.HashMap;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,24 +8,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.service.CoordinateDataService;
+import com.example.demo.service.CacheService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class CoordinateDataController {
 
-	private final CoordinateDataService dataService;
-	private final HashMap<String, ResponseEntity<String>> cache;
+	private final CacheService cacheService;
 
-	public CoordinateDataController(CoordinateDataService dataService) {
-		this.dataService = dataService;
-		this.cache = new HashMap<>();
+	public CoordinateDataController(CacheService cacheService) {
+		this.cacheService = cacheService;
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping(value = "/oldcoordinates", produces = "application/json")
 	public ResponseEntity<String> getCoordinateData() {
-		return ResponseEntity.ok(dataService.getCoordinateData());
+		return ResponseEntity.ok(cacheService.getCoordinateData());
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
@@ -39,7 +34,7 @@ public class CoordinateDataController {
 		if (!isNy && !isAk) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("State not exist in server");
 		}
-		return ResponseEntity.ok(dataService.getCoordinateData(state));
+		return ResponseEntity.ok(cacheService.getCoordinateData(state));
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
@@ -50,13 +45,13 @@ public class CoordinateDataController {
 		if (!isNy && !isAr) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("State not exist in server");
 		}
-		return ResponseEntity.ok(dataService.getChartData(state));
+		return ResponseEntity.ok(cacheService.getChartData(state));
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping(value = "/chartdata", produces = "application/json")
 	public ResponseEntity<String> getChartData() {
-		return ResponseEntity.ok(dataService.getChartData());
+		return ResponseEntity.ok(cacheService.getChartData());
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
@@ -67,7 +62,7 @@ public class CoordinateDataController {
 		if (!isNy && !isAr) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("State not exist in server");
 		}
-		return ResponseEntity.ok(dataService.getGinglesData(state, demographicGroup));
+		return ResponseEntity.ok(cacheService.getGinglesData(state, demographicGroup));
 	}
 	
 }
