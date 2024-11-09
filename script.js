@@ -501,10 +501,11 @@ async function toNewLineDelimitedJSON(file, dest){
 // convertGeometryCollectionToFeatureCollection();
 //splitFile("./server/Spring Server/src/main/resources/FeatureCollectionCoordinate.json")
 //indentFile("./precinct/precincts_newyork/newyork_precincts.json")
-formatFileForMongoImport("/server/Spring Server/src/main/resources/ny_data.json", "./DistrictData/ny_race.json", "race")
+// formatFileForMongoImport("/server/Spring Server/src/main/resources/ny_data.json", "./DistrictData/ny_race.json", "race")
 // insertDataToPrecinctFiles("./PrecinctData/official_ar_precinct_data/OFFICIAL AR Precinct Age Data.json",
 //   "./PrecinctData/official_ar_precinct_data/OFFICIAL AR Precinct Election Data.json",
 //   "./PrecinctData/official_ar_precinct_data/OFFICIAL AR Precinct Income Data.json",
 //   "./PrecinctData/official_ar_precinct_data/OFFICIAL AR Precinct Race Data.json"
 // )
 //toNewLineDelimitedJSON("./official_ar_precinct_data/OFFICIAL AR Precinct Election Data.json", "./PrecinctData/ar_votes.json")
+indentFile("./server/Spring Server/src/main/resources/precinct/ny_data.json")

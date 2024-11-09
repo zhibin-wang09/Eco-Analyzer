@@ -27,18 +27,18 @@ public class CoordinateDataController {
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
-	@GetMapping(value = "/coordinates/{state}", produces = "application/json")
-	public ResponseEntity<String> getCoordinateData(@PathVariable("state") String state) {
+	@GetMapping(value = "/api/coordinates/{state}/{geography}", produces = "application/json")
+	public ResponseEntity<String> getCoordinateData(@PathVariable("state") String state, @PathVariable String geography) {
 		boolean isNy = state.equals("ny");
 		boolean isAk = state.equals("ar");
 		if (!isNy && !isAk) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("State not exist in server");
 		}
-		return ResponseEntity.ok(cacheService.getCoordinateData(state));
+		return ResponseEntity.ok(cacheService.getCoordinateData(state,geography));
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
-	@GetMapping(value = "/chartdata/{state}", produces = "application/json")
+	@GetMapping(value = "/api/chartdata/{state}", produces = "application/json")
 	public ResponseEntity<String> getChartData(@PathVariable("state") String state) {
 		boolean isNy = state.equals("ny");
 		boolean isAr = state.equals("ar");

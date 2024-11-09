@@ -35,8 +35,8 @@ public class DataProcessService {
         return process("FeatureCollectionCoordinate.json");
     }
 
-    public String getCoordinateData(String state){
-        return process(state + "_" + "data.json");
+    public String getCoordinateData(String state, String geography){
+        return process(geography + "/" + state + "_" + "data.json");
     }
 
     public String getChartData(String state){
@@ -48,8 +48,8 @@ public class DataProcessService {
 	}
 
 	public String getGinglesData(String state, String demographicGroup){
-		String electionData = process("precinctData/" + state + "_" + "votes.json");
-		String demographicData = process("precinctData/" + state + "_" + "race.json");
+		String electionData = process("precinct/" + state + "_" + "votes.json");
+		String demographicData = process("precinct/" + state + "_" + "race.json");
 		JSONArray ginglesData = new JSONArray(electionData);
 		JSONArray demographicArray = new JSONArray(demographicData);
 		HashMap<String, JSONObject> precincts = new HashMap<>();
