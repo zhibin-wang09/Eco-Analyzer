@@ -1,10 +1,14 @@
 package com.example.demo.controller;
 
+import java.util.HashMap;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.service.CoordinateDataService;
@@ -14,9 +18,11 @@ import com.example.demo.service.CoordinateDataService;
 public class CoordinateDataController {
 
 	private final CoordinateDataService dataService;
+	private final HashMap<String, ResponseEntity<String>> cache;
 
 	public CoordinateDataController(CoordinateDataService dataService) {
 		this.dataService = dataService;
+		this.cache = new HashMap<>();
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
@@ -54,8 +60,8 @@ public class CoordinateDataController {
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
-	@GetMapping(value = "/gingles-data/{state}/{demographic-group}", produces = "application/json")
-	public ResponseEntity<String> getGinglesData(@PathVariable("state") String state, @PathVariable("demographic-group") String demographicGroup) {
+	@GetMapping(value = "/api/gingles-data", produces = "application/json")
+	public ResponseEntity<String> getGinglesData(@RequestParam String state, @RequestParam String demographicGroup) {
 		boolean isNy = state.equals("ny");
 		boolean isAr = state.equals("ar");
 		if (!isNy && !isAr) {
