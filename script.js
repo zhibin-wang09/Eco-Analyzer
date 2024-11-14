@@ -458,9 +458,10 @@ async function formatFileForMongoImport(file, dest, category) {
     if (Array.isArray(jsonArray)) {
       const newlineDelimitedJson = jsonArray.map(item => {
         let newItem = {};
-        newItem["state_id"] = Number(item.properties["STATEFP20"]);
-        newItem["district_id"] = Number(item.properties["CD118FP"]);
-        newItem[category] = item.properties[category];
+        newItem["stateId"] = Number(item.properties["STATEFP20"]);
+        newItem["geoId"] = item.properties["CD118FP"];
+        newItem["geoType"] = item.properties["CD118FP"] ? "DISTRICT" : "PRECICNT";
+        newItem[category == "earning" ? "income" : category] = item.properties[category];
         return JSON.stringify(newItem);
       }).join(',\n');
 
@@ -508,4 +509,9 @@ async function toNewLineDelimitedJSON(file, dest){
 //   "./PrecinctData/official_ar_precinct_data/OFFICIAL AR Precinct Race Data.json"
 // )
 //toNewLineDelimitedJSON("./official_ar_precinct_data/OFFICIAL AR Precinct Election Data.json", "./PrecinctData/ar_votes.json")
-indentFile("./server/Spring Server/src/main/resources/precinct/ny_data.json")
+//indentFile("./server/Spring Server/src/main/resources/precinct/ny_data.json")
+
+const array = ["age", "earning", "race", "election data"]
+
+// formatFileForMongoImport("./server/Spring Server/src/main/resources/ny_data.json",`./server/Spring Server/src/main/resources/district/ny_demographic.json`, "race");
+toNewLineDelimitedJSON("./server/Spring Server/src/main/resources/precinct/ar_age.json", "ar_age.json")

@@ -12,31 +12,14 @@ import com.example.demo.service.CacheService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-public class CoordinateDataController {
+public class GraphController {
 
-	private final CacheService cacheService;
+    private final CacheService cacheService;
 
-	public CoordinateDataController(CacheService cacheService) {
-		this.cacheService = cacheService;
-	}
-
-	@CrossOrigin(origins = "http://localhost:3000")
-	@GetMapping(value = "/oldcoordinates", produces = "application/json")
-	public ResponseEntity<String> getCoordinateData() {
-		return ResponseEntity.ok(cacheService.getCoordinateData());
-	}
-
-	@CrossOrigin(origins = "http://localhost:3000")
-	@GetMapping(value = "/api/coordinates/{state}/{geography}", produces = "application/json")
-	public ResponseEntity<String> getCoordinateData(@PathVariable("state") String state, @PathVariable String geography) {
-		boolean isNy = state.equals("ny");
-		boolean isAk = state.equals("ar");
-		if (!isNy && !isAk) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("State not exist in server");
-		}
-		return ResponseEntity.ok(cacheService.getCoordinateData(state,geography));
-	}
-
+    public GraphController(CacheService cacheService){
+        this.cacheService = cacheService;
+    }
+    
 	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping(value = "/api/chartdata/{state}", produces = "application/json")
 	public ResponseEntity<String> getChartData(@PathVariable("state") String state) {
@@ -64,5 +47,5 @@ public class CoordinateDataController {
 		}
 		return ResponseEntity.ok(cacheService.getGinglesData(state, demographicGroup));
 	}
-	
+
 }
