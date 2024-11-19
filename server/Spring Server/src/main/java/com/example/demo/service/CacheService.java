@@ -7,10 +7,12 @@ import org.springframework.stereotype.Service;
 public class CacheService {
 
     private final MapService dataProcessService;
+    private final DemographicService demographicService;
     private final HashMap<String, String> cache;
     
-    public CacheService(MapService dataProcessService){
+    public CacheService(MapService dataProcessService, DemographicService demographicService){
         this.dataProcessService = dataProcessService;
+        this.demographicService = demographicService;
         this.cache = new HashMap<>();
     }
     

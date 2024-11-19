@@ -1,8 +1,10 @@
 package com.example.demo.repository;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-@Repository
-public class DemographicRepository {
-    
+import java.util.List;
+import com.example.demo.model.Demographic;
+
+public interface DemographicRepository extends MongoRepository<Demographic, String>{
+    public List<Demographic> findDemographicByStateId(int stateId);
 }
