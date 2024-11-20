@@ -495,6 +495,31 @@ async function toNewLineDelimitedJSON(file, dest){
   }
 }
 
+async function splitFeatureCollectionFile(file,dest){
+  try{
+    const filePath = path.join(__dirname, file);
+    const fileContent = await fsp.readFile(filePath, 'utf8');
+
+    const data = JSON.parse(fileContent);
+    const geojson = data.data[0].district;
+    for(let i =0; i < geojson.features.length; i++){
+      geojson.features[i].properties = {
+        "district": geojson.features[i].properties["NAMELSAD20"],
+        "state": Number(geojson.features[i].properties["STATEFP20"]),
+        "number": geojson.features[i].properties.number
+      };
+    }
+
+
+    const destFile = path.join(__dirname, dest);
+
+    await fsp.writeFile(destFile, JSON.stringify(geojson,null,2));
+    console.log("successfully splitted");
+  }catch(e){
+    console.log(e);
+  }
+}
+
 // removePrecintFromJSON();
 // loadElectionDataInFeatureCollection(
 //   "./client/public/newyork_congressional_district.json"
@@ -514,4 +539,5 @@ async function toNewLineDelimitedJSON(file, dest){
 const array = ["age", "earning", "race", "election data"]
 
 // formatFileForMongoImport("./server/Spring Server/src/main/resources/ny_data.json",`./server/Spring Server/src/main/resources/district/ny_demographic.json`, "race");
-toNewLineDelimitedJSON("./server/Spring Server/src/main/resources/precinct/ar_age.json", "ar_age.json")
+//toNewLineDelimitedJSON("./server/Spring Server/src/main/resources/precinct/ar_age.json", "ar_age.json")
+splitFeatureCollectionFile("./server/Spring Server/src/main/resources/FeatureCollectionCoordinate.json", "./server/Spring Server/src/main/resources/ARGeojson.json")
