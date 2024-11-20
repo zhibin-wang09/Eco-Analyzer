@@ -501,25 +501,47 @@ async function splitFeatureCollectionFile(file,dest){
     const fileContent = await fsp.readFile(filePath, 'utf8');
 
     const data = JSON.parse(fileContent);
-    const geojson = data.data[0].district;
+    const geojson = data.data[1].district;
     for(let i =0; i < geojson.features.length; i++){
       geojson.features[i].properties = {
         "district": geojson.features[i].properties["NAMELSAD20"],
         "state": Number(geojson.features[i].properties["STATEFP20"]),
-        "number": geojson.features[i].properties.number
+        "number": geojson.features[i].properties.number,
+        "geoType": "DISTRICT",
       };
     }
 
 
     const destFile = path.join(__dirname, dest);
-
-    await fsp.writeFile(destFile, JSON.stringify(geojson,null,2));
+    await fsp.writeFile(destFile, JSON.stringify(geojson,null, 2));
     console.log("successfully splitted");
   }catch(e){
     console.log(e);
   }
 }
 
+
+async function precicntDataIntoProperFormat(file,type){
+  try{
+    const filePath = path.join(__dirname, file);
+    const fileContent = await fsp.readFile(filePath, 'utf8');
+
+    const data = JSON.parse(fileContent);
+
+    const newData= data.map(m => {
+      return {
+        stateId: 5,
+        geoId: m.precinct_id,
+        geoType: "PRECINCT",
+        race: m[type],
+      };
+    });
+    await fsp.writeFile(filePath, JSON.stringify(newData,null,2));
+    console.log("success")    
+  }catch(e){
+    console.log(e);
+  }
+}
 // removePrecintFromJSON();
 // loadElectionDataInFeatureCollection(
 //   "./client/public/newyork_congressional_district.json"
@@ -540,4 +562,6 @@ const array = ["age", "earning", "race", "election data"]
 
 // formatFileForMongoImport("./server/Spring Server/src/main/resources/ny_data.json",`./server/Spring Server/src/main/resources/district/ny_demographic.json`, "race");
 //toNewLineDelimitedJSON("./server/Spring Server/src/main/resources/precinct/ar_age.json", "ar_age.json")
-splitFeatureCollectionFile("./server/Spring Server/src/main/resources/FeatureCollectionCoordinate.json", "./server/Spring Server/src/main/resources/ARGeojson.json")
+splitFeatureCollectionFile("./server/Spring Server/src/main/resources/FeatureCollectionCoordinate.json", "./output.json")
+// precicntDataIntoProperFormat("./AR Precinct Data/AR Race.json", "race")//
+// toNewLineDelimitedJSON("./AR Precinct Data/AR Race.json", "./AR Precinct Data/AR Race.json")
