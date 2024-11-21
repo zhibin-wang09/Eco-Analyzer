@@ -484,9 +484,7 @@ async function toNewLineDelimitedJSON(file, dest){
 
     const json = JSON.parse(fileContent);
     const newlineDelimitedJson = json.map(item => {
-      const newItem = item;
-      newItem["state_id"] = 5;
-      return JSON.stringify(newItem);
+      return JSON.stringify(item);
     }).join(',\n');
     await fsp.writeFile(destFile, "[" + newlineDelimitedJson + "]", 'utf8');
       console.log("File formatted successfully for mongoimport.");
@@ -501,19 +499,23 @@ async function splitFeatureCollectionFile(file,dest){
     const fileContent = await fsp.readFile(filePath, 'utf8');
 
     const data = JSON.parse(fileContent);
-    const geojson = data.data[1].district;
-    for(let i =0; i < geojson.features.length; i++){
-      geojson.features[i].properties = {
-        "district": geojson.features[i].properties["NAMELSAD20"],
-        "state": Number(geojson.features[i].properties["STATEFP20"]),
-        "number": geojson.features[i].properties.number,
+    const geojson = data.data[1].district.features;
+    for(let i =0; i < geojson.length; i++){
+      geojson[i].properties = {
+        "geoId": geojson[i].properties["CD118FP"],
+        "stateId": Number(geojson[i].properties["STATEFP20"]),
+        "number": Number(geojson[i].properties["CD118FP"]),
         "geoType": "DISTRICT",
       };
     }
 
 
     const destFile = path.join(__dirname, dest);
-    await fsp.writeFile(destFile, JSON.stringify(geojson,null, 2));
+    const newJson = {
+      "type": "FeatureCollection",
+      "features": geojson
+    }
+    await fsp.writeFile(destFile, JSON.stringify(newJson, null ,2));
     console.log("successfully splitted");
   }catch(e){
     console.log(e);
@@ -542,6 +544,26 @@ async function precicntDataIntoProperFormat(file,type){
     console.log(e);
   }
 }
+
+async function changeFieldName(file, dest){
+  const filePath = path.join(__dirname, file);
+  const destPath = path.join(__dirname, dest);
+  const fileContent = await fsp.readFile(filePath, 'utf8');
+
+  const data = JSON.parse(fileContent);
+
+  for(let i =0; i< data.length;i++){
+    data[i] = {
+      "stateId": 5,
+      "geoId": data[i].precinct_id,
+      "geoType": "PRECINCT",
+      "election data": data[i].voting,
+    }
+  }
+  await fsp.writeFile(destPath, JSON.stringify(data,null,2));
+    console.log("success")    
+
+}
 // removePrecintFromJSON();
 // loadElectionDataInFeatureCollection(
 //   "./client/public/newyork_congressional_district.json"
@@ -562,6 +584,7 @@ const array = ["age", "earning", "race", "election data"]
 
 // formatFileForMongoImport("./server/Spring Server/src/main/resources/ny_data.json",`./server/Spring Server/src/main/resources/district/ny_demographic.json`, "race");
 //toNewLineDelimitedJSON("./server/Spring Server/src/main/resources/precinct/ar_age.json", "ar_age.json")
-splitFeatureCollectionFile("./server/Spring Server/src/main/resources/FeatureCollectionCoordinate.json", "./output.json")
+//splitFeatureCollectionFile("./FeatureCollectionCoordinate.json", "./ny_district.json")
 // precicntDataIntoProperFormat("./AR Precinct Data/AR Race.json", "race")//
 // toNewLineDelimitedJSON("./AR Precinct Data/AR Race.json", "./AR Precinct Data/AR Race.json")
+toNewLineDelimitedJSON("./output.json", "./output.json")

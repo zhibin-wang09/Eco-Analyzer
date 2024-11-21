@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
-import org.springframework.http.HttpStatus;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,44 +9,30 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.service.CacheService;
+import com.example.demo.common.GeoType;
+import com.example.demo.common.State;
+import com.example.demo.model.Gingles;
+import com.example.demo.service.GraphService;
+import com.example.demo.util.StateIdConvertor;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class GraphController {
-
-    private final CacheService cacheService;
-
-    public GraphController(CacheService cacheService){
-        this.cacheService = cacheService;
-    }
     
-	@CrossOrigin(origins = "http://localhost:3000")
-	@GetMapping(value = "/api/chartdata/{state}", produces = "application/json")
-	public ResponseEntity<String> getChartData(@PathVariable("state") String state) {
-		boolean isNy = state.equals("ny");
-		boolean isAr = state.equals("ar");
-		if (!isNy && !isAr) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("State not exist in server");
-		}
-		return ResponseEntity.ok(cacheService.getChartData(state));
-	}
+    GraphService graphService;
 
-	@CrossOrigin(origins = "http://localhost:3000")
-	@GetMapping(value = "/chartdata", produces = "application/json")
-	public ResponseEntity<String> getChartData() {
-		return ResponseEntity.ok(cacheService.getChartData());
-	}
+    public GraphController(GraphService graphService){
+        this.graphService = graphService;
+    }
 
-	@CrossOrigin(origins = "http://localhost:3000")
-	@GetMapping(value = "/api/gingles-data", produces = "application/json")
-	public ResponseEntity<String> getGinglesData(@RequestParam String state, @RequestParam String demographicGroup) {
-		boolean isNy = state.equals("ny");
-		boolean isAr = state.equals("ar");
-		if (!isNy && !isAr) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("State not exist in server");
-		}
-		return ResponseEntity.ok(cacheService.getGinglesData(state, demographicGroup));
-	}
-
+    @CrossOrigin(origins = "http://localhost:3000")
+	@GetMapping(value = "/api/graph/gingles", produces = "application/json")
+    public ResponseEntity<List<Gingles>> getGinglesData(@RequestParam String state, @RequestParam String demographicGroup ,@RequestParam String geoType){
+        int id = StateIdConvertor.stringToId(State.valueOf(state.toUpperCase()));
+        GeoType type = GeoType.valueOf(geoType);
+        if(id == -1){
+            ResponseEntity.badRequest();
+        }
+        return ResponseEntity.ok(graphService.getGinglesData(id, demographicGroup, type));
+    }
 }

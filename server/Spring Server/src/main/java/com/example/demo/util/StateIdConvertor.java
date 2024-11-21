@@ -1,11 +1,13 @@
 package com.example.demo.util;
 
+import com.example.demo.common.State;
+
 public class StateIdConvertor {
-    public static int stringToId(String state){
+    public static int stringToId(State state){
         switch (state) {
-            case "ny":
+            case State.NY:
                 return 36;
-            case "ar":
+            case State.AR:
                 return 5;        
             default:
                 return -1;

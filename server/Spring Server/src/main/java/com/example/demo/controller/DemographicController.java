@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.common.State;
 import com.example.demo.model.Demographic;
 import com.example.demo.service.DemographicService;
 import com.example.demo.util.StateIdConvertor;
@@ -25,10 +26,10 @@ public class DemographicController {
     @CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping(value = "/api/demographic", produces = "application/json")
 	public ResponseEntity<List<Demographic>> getDemographicByStateId(@RequestParam("state") String state) {
-        int id = StateIdConvertor.stringToId(state);
+        int id = StateIdConvertor.stringToId(State.valueOf(state.toUpperCase()));
         if(id == -1){
             ResponseEntity.badRequest();
         }
-		return ResponseEntity.ok(demographicService.getDemographicByStateId(StateIdConvertor.stringToId(state)));
+		return ResponseEntity.ok(demographicService.getDemographicByStateId(id));
 	}
 }
