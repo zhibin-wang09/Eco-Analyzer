@@ -5,7 +5,7 @@ public class StateIdConvertor {
         switch (state) {
             case "ny":
                 return 36;
-            case "ak":
+            case "ar":
                 return 5;        
             default:
                 return -1;
