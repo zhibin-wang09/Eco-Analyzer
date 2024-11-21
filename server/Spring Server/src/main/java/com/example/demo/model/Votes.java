@@ -14,7 +14,7 @@ public class Votes {
 
     private int stateId;
 
-    private String geoID;
+    private String geoId;
 
     private GeoType geoType;
 
@@ -37,12 +37,12 @@ public class Votes {
         this.stateId = stateId;
     }
 
-    public String getGeoID() {
-        return this.geoID;
+    public String getGeoId() {
+        return this.geoId;
     }
 
-    public void setGeoID(String geoID) {
-        this.geoID = geoID;
+    public void setGeoId(String geoId) {
+        this.geoId = geoId;
     }
 
     public GeoType getGeoType() {
@@ -66,7 +66,7 @@ public class Votes {
         return "{" +
             " Id='" + getId() + "'" +
             ", stateId='" + getStateId() + "'" +
-            ", geoID='" + getGeoID() + "'" +
+            ", geoID='" + getGeoId() + "'" +
             ", geoType='" + getGeoType() + "'" +
             ", ElectionData='" + getElectionData() + "'" +
             "}";

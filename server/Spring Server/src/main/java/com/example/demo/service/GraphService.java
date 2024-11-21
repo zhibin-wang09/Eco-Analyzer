@@ -1,6 +1,9 @@
 package com.example.demo.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -23,9 +26,22 @@ public class GraphService {
 	}
     
 	public List<Gingles> getGinglesData(int stateId, String race, GeoType geoType){
-		List<Demographic> demographicData = demographicRepository.findDemographicByStateIdAndRaceAndGeoType(stateId, race, geoType);
+		List<Demographic> demographicData = demographicRepository.findDemographicByStateIdAndGeoType(stateId, geoType);
 		List<Votes> electionData = electionResultRepository.findElectionResultByStateIdAndGeoType(stateId, geoType);
+		Map<String, Demographic> geoIdToDemographic = new HashMap<>();
+		List<Gingles> result = new ArrayList<>();
 
-		return null;
+		for(Demographic d : demographicData){
+			geoIdToDemographic.put(d.getGeoId(), d);
+		}
+		for(Votes v : electionData){
+			Gingles g = new Gingles();
+			g.setVotes(v);
+			g.setDemographic(geoIdToDemographic.get(v.getGeoId()));
+			g.setPrecinctId(v.getGeoId());
+			result.add(g);
+		}
+
+		return result;
 	}
 }
