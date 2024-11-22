@@ -15,7 +15,6 @@ import com.example.demo.model.Boundary;
 import com.example.demo.service.MapService;
 import com.example.demo.util.StateIdConvertor;
 
-
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class MapController {
@@ -28,7 +27,8 @@ public class MapController {
 
 	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping(value = "/api/map/{state}/{geoType}", produces = "application/json")
-	public ResponseEntity<List<Boundary>> getBoundaryData(@PathVariable("state") String state, @PathVariable String geoType) {
+	public ResponseEntity<List<Boundary>> getBoundaryData(@PathVariable("state") String state,
+			@PathVariable String geoType) {
 		int id = 0;
 		GeoType type = null;
 		State s = null;
@@ -37,7 +37,7 @@ public class MapController {
 			s = State.valueOf(state.toUpperCase());
 
 			id = StateIdConvertor.stringToId(s);
-			if(id == -1){
+			if (id == -1) {
 				throw new IllegalArgumentException("id does not match ");
 			}
 		} catch (Exception e) {
@@ -45,11 +45,11 @@ public class MapController {
 		}
 		return ResponseEntity.ok(mapService.getBoundaryData(id, type));
 	}
-	
 
 	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping(value = "/api/map/{state}/{geoType}/{category}")
-	public ResponseEntity<List<Boundary>> getHeapMaps(@PathVariable String state, @PathVariable String geoType, @PathVariable String category) {
+	public ResponseEntity<List<Boundary>> getHeapMaps(@PathVariable String state, @PathVariable String geoType,
+			@PathVariable String category) {
 		int id = 0;
 		GeoType type = null;
 		Category cat = null;
@@ -60,13 +60,13 @@ public class MapController {
 			s = State.valueOf(state.toUpperCase());
 
 			id = StateIdConvertor.stringToId(s);
-			if(id == -1){
+			if (id == -1) {
 				throw new IllegalArgumentException("id does not match ");
 			}
 		} catch (Exception e) {
-			ResponseEntity.status(404).body(e.toString());
+			return ResponseEntity.badRequest().body(null);
 		}
 		return ResponseEntity.ok(mapService.getHeapMap(id, type, cat));
 	}
-	
+
 }

@@ -17,20 +17,21 @@ import com.example.demo.util.StateIdConvertor;
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class GraphController {
-    
+
     GraphService graphService;
 
-    public GraphController(GraphService graphService){
+    public GraphController(GraphService graphService) {
         this.graphService = graphService;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-	@GetMapping(value = "/api/graph/gingles", produces = "application/json")
-    public ResponseEntity<List<Gingles>> getGinglesData(@RequestParam String state, @RequestParam String demographicGroup ,@RequestParam String geoType){
+    @GetMapping(value = "/api/graph/gingles", produces = "application/json")
+    public ResponseEntity<List<Gingles>> getGinglesData(@RequestParam String state,
+            @RequestParam String demographicGroup, @RequestParam String geoType) {
         int id = StateIdConvertor.stringToId(State.valueOf(state.toUpperCase()));
         GeoType type = GeoType.valueOf(geoType.toUpperCase());
-        if(id == -1){
-            ResponseEntity.badRequest();
+        if (id == -1) {
+            return ResponseEntity.badRequest().body(null);
         }
         return ResponseEntity.ok(graphService.getGinglesData(id, demographicGroup, type));
     }

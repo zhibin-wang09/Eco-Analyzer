@@ -9,6 +9,6 @@ import com.example.demo.common.GeoType;
 import com.example.demo.model.Income;
 
 @Repository
-public interface IncomeRepository extends MongoRepository<Income,String> {
+public interface IncomeRepository extends MongoRepository<Income, String> {
     public List<Income> findIncomeByStateIdAndGeoType(int stateId, GeoType geoType);
 }

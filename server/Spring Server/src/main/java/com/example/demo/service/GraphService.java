@@ -20,21 +20,23 @@ public class GraphService {
 	DemographicRepository demographicRepository;
 	ElectionResultRepository electionResultRepository;
 
-	public GraphService(DemographicRepository demographicRepository, ElectionResultRepository electionResultRepository){
+	public GraphService(DemographicRepository demographicRepository,
+			ElectionResultRepository electionResultRepository) {
 		this.demographicRepository = demographicRepository;
 		this.electionResultRepository = electionResultRepository;
 	}
-    
-	public List<Gingles> getGinglesData(int stateId, String race, GeoType geoType){
-		List<Demographic> demographicData = demographicRepository.findDemographicByStateIdAndGeoType(stateId, geoType);
+
+	public List<Gingles> getGinglesData(int stateId, String race, GeoType geoType) {
+		List<Demographic> demographicData = demographicRepository.findDemographicByStateIdAndRaceAndGeoType(stateId,
+				race, geoType);
 		List<Votes> electionData = electionResultRepository.findElectionResultByStateIdAndGeoType(stateId, geoType);
 		Map<String, Demographic> geoIdToDemographic = new HashMap<>();
 		List<Gingles> result = new ArrayList<>();
 
-		for(Demographic d : demographicData){
+		for (Demographic d : demographicData) {
 			geoIdToDemographic.put(d.getGeoId(), d);
 		}
-		for(Votes v : electionData){
+		for (Votes v : electionData) {
 			Gingles g = new Gingles();
 			g.setVotes(v);
 			g.setDemographic(geoIdToDemographic.get(v.getGeoId()));

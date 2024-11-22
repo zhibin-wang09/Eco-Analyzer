@@ -22,7 +22,8 @@ public class MapService {
 	private DemographicRepository demographicRepository;
 	private IncomeRepository incomeRepository;
 
-	public MapService(BoundaryRepository boundaryRepository, DemographicRepository demographicRepository, IncomeRepository incomeRepository) {
+	public MapService(BoundaryRepository boundaryRepository, DemographicRepository demographicRepository,
+			IncomeRepository incomeRepository) {
 		this.boundaryRepository = boundaryRepository;
 		this.demographicRepository = demographicRepository;
 		this.incomeRepository = incomeRepository;
@@ -36,15 +37,16 @@ public class MapService {
 		List<Boundary> boundary = boundaryRepository.findByStateIdAndGeoType(stateId, geoType);
 		switch (category) {
 			case Category.DEMOGRAPHIC:
-				List<Demographic> demographicData = demographicRepository.findDemographicByStateIdAndGeoType(stateId, geoType);
+				List<Demographic> demographicData = demographicRepository.findDemographicByStateIdAndGeoType(stateId,
+						geoType);
 				Map<String, Demographic> geoIdToDemographic = new HashMap<>();
 				// store demographicData into a mapping of geoId -> demographic
-				for(Demographic d : demographicData){
+				for (Demographic d : demographicData) {
 					geoIdToDemographic.put(d.getGeoId(), d);
 				}
 
 				// Merge demographic data with boundary data
-				for(Boundary b : boundary){
+				for (Boundary b : boundary) {
 					Map<String, Object> raceData = new HashMap<>();
 					raceData.put("race", geoIdToDemographic.get(b.getProperties().getGeoId()));
 					b.getProperties().setData(raceData);
@@ -52,14 +54,14 @@ public class MapService {
 				return boundary;
 			case Category.ECONOMIC:
 				List<Income> incomeData = incomeRepository.findIncomeByStateIdAndGeoType(stateId, geoType);
-				Map<String, Income> geoIdToIncome= new HashMap<>();
+				Map<String, Income> geoIdToIncome = new HashMap<>();
 				// store demographicData into a mapping of geoId -> demographic
-				for(Income i : incomeData){
+				for (Income i : incomeData) {
 					geoIdToIncome.put(i.getGeoId(), i);
 				}
 
 				// Merge demographic data with boundary data
-				for(Boundary b : boundary){
+				for (Boundary b : boundary) {
 					Map<String, Object> raceData = new HashMap<>();
 					raceData.put("race", geoIdToIncome.get(b.getProperties().getGeoId()));
 					b.getProperties().setData(raceData);

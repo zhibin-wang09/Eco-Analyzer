@@ -52,24 +52,23 @@ public class Income {
         this.geoType = geotype;
     }
 
-    public Map<String,Double> getIncome() {
+    public Map<String, Double> getIncome() {
         return this.income;
     }
 
-    public void setIncome(Map<String,Double> income) {
+    public void setIncome(Map<String, Double> income) {
         this.income = income;
     }
-
 
     @Override
     public String toString() {
         return "{" +
-            " id='" + getId() + "'" +
-            ", stateId='" + getStateId() + "'" +
-            ", geoID='" + getGeoId() + "'" +
-            ", geotype='" + getGeotype() + "'" +
-            ", income='" + getIncome() + "'" +
-            "}";
+                " id='" + getId() + "'" +
+                ", stateId='" + getStateId() + "'" +
+                ", geoID='" + getGeoId() + "'" +
+                ", geotype='" + getGeotype() + "'" +
+                ", income='" + getIncome() + "'" +
+                "}";
     }
-    
+
 }

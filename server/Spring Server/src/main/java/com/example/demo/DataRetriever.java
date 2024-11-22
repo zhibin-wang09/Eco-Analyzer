@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 @SpringBootApplication
 @EnableMongoRepositories(basePackages = "com.example.demo.repository")
-public class DataRetriever {	
+public class DataRetriever {
 	public static void main(String[] args) {
 		SpringApplication.run(DataRetriever.class, args);
 	}

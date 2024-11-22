@@ -8,7 +8,6 @@ public class Gingles {
 
     private Votes votes;
 
-
     public String getPrecinctId() {
         return this.precinctId;
     }

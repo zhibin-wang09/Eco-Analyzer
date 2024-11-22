@@ -15,53 +15,53 @@ public class Boundary {
 
     private Properties properties;
 
-    public static class Properties{
-        private String geoId; 
+    public static class Properties {
+        private String geoId;
 
         private int stateId;
 
         private GeoType geoType;
 
-        private Map<String,Object> data;
+        private Map<String, Object> data;
 
-        public String getGeoId(){
+        public String getGeoId() {
             return this.geoId;
         }
 
-        public int getstateId(){
+        public int getstateId() {
             return this.stateId;
         }
 
-        public GeoType getGeoType(){
+        public GeoType getGeoType() {
             return this.geoType;
         }
 
-        public Map<String, Object> getData(){
+        public Map<String, Object> getData() {
             return data;
         }
 
-        public void setGeoId(String geoId){
+        public void setGeoId(String geoId) {
             this.geoId = geoId;
         }
 
-        public void setstateId(int stateId){
+        public void setstateId(int stateId) {
             this.stateId = stateId;
         }
 
-        public void setGeoType(GeoType geoType){
+        public void setGeoType(GeoType geoType) {
             this.geoType = geoType;
         }
 
-        public void setData(Map<String, Object> data){
+        public void setData(Map<String, Object> data) {
             this.data = data;
         }
     }
 
-    public static class Geometry{
+    public static class Geometry {
         private String type;
 
         private Object coordinates;
-        
+
         public String getType() {
             return type;
         }

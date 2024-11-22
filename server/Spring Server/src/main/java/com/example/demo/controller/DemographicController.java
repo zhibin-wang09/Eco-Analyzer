@@ -19,17 +19,17 @@ public class DemographicController {
 
     private final DemographicService demographicService;
 
-    public DemographicController(DemographicService demographicService){
+    public DemographicController(DemographicService demographicService) {
         this.demographicService = demographicService;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-	@GetMapping(value = "/api/demographic", produces = "application/json")
-	public ResponseEntity<List<Demographic>> getDemographicByStateId(@RequestParam("state") String state) {
+    @GetMapping(value = "/api/demographic", produces = "application/json")
+    public ResponseEntity<List<Demographic>> getDemographicByStateId(@RequestParam("state") String state) {
         int id = StateIdConvertor.stringToId(State.valueOf(state.toUpperCase()));
-        if(id == -1){
+        if (id == -1) {
             ResponseEntity.badRequest();
         }
-		return ResponseEntity.ok(demographicService.getDemographicByStateId(id));
-	}
+        return ResponseEntity.ok(demographicService.getDemographicByStateId(id));
+    }
 }

@@ -20,7 +20,6 @@ public class Age {
 
     private Map<String, Double> age;
 
-
     public String getId() {
         return this.id;
     }
@@ -53,23 +52,23 @@ public class Age {
         this.geoType = geoType;
     }
 
-    public Map<String,Double> getAge() {
+    public Map<String, Double> getAge() {
         return this.age;
     }
 
-    public void setAge(Map<String,Double> age) {
+    public void setAge(Map<String, Double> age) {
         this.age = age;
     }
 
     @Override
     public String toString() {
         return "{" +
-            " id='" + getId() + "'" +
-            ", stateId='" + getStateId() + "'" +
-            ", geoId='" + getGeoId() + "'" +
-            ", geoType='" + getGeoType() + "'" +
-            ", age='" + getAge() + "'" +
-            "}";
+                " id='" + getId() + "'" +
+                ", stateId='" + getStateId() + "'" +
+                ", geoId='" + getGeoId() + "'" +
+                ", geoType='" + getGeoType() + "'" +
+                ", age='" + getAge() + "'" +
+                "}";
     }
 
 }

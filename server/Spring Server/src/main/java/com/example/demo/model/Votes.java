@@ -20,7 +20,6 @@ public class Votes {
 
     private Map<String, Integer> ElectionData;
 
-
     public String getId() {
         return this.Id;
     }
@@ -53,23 +52,23 @@ public class Votes {
         this.geoType = geoType;
     }
 
-    public Map<String,Integer> getElectionData() {
+    public Map<String, Integer> getElectionData() {
         return this.ElectionData;
     }
 
-    public void setElectionData(Map<String,Integer> ElectionData) {
+    public void setElectionData(Map<String, Integer> ElectionData) {
         this.ElectionData = ElectionData;
     }
 
     @Override
     public String toString() {
         return "{" +
-            " Id='" + getId() + "'" +
-            ", stateId='" + getStateId() + "'" +
-            ", geoID='" + getGeoId() + "'" +
-            ", geoType='" + getGeoType() + "'" +
-            ", ElectionData='" + getElectionData() + "'" +
-            "}";
+                " Id='" + getId() + "'" +
+                ", stateId='" + getStateId() + "'" +
+                ", geoID='" + getGeoId() + "'" +
+                ", geoType='" + getGeoType() + "'" +
+                ", ElectionData='" + getElectionData() + "'" +
+                "}";
     }
-    
+
 }
