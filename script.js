@@ -571,6 +571,34 @@ async function precinctBoundaryIntoProperFormat(file, dest){
   console.log("success")    
 
 }
+
+async function findDistrictRep(file, dest){
+  const filePath = path.join(__dirname, file);
+  const destPath = path.join(__dirname, dest);
+  const fileContent = await fsp.readFile(filePath, 'utf8');
+
+  let data = JSON.parse(fileContent);
+  const stateId = file.toLowerCase().includes("ar") ? 5 : 36;
+  const district = new Map();
+  data.forEach(d => {
+    if(!district.has(d.parentDistrict)){
+      district.set(d.parentDistrict, {
+        stateId: stateId,
+        geoId: d.parentDistrict.toString().padStart(2, "0"),
+        stateRep: d.stateRep,
+        geoType: "DISTRICT"
+      })
+    }
+  })
+
+  const result = [];
+  for(const v of district.values()){
+    result.push(v);
+  }
+
+  await fsp.writeFile(destPath, JSON.stringify(result,null,2));
+  console.log("success")
+}
 // removePrecintFromJSON();
 // loadElectionDataInFeatureCollection(
 //   "./client/public/newyork_congressional_district.json"
@@ -594,9 +622,9 @@ const array = ["age", "earning", "race", "election data"]
 //precinctBoundaryIntoProperFormat("./NY Precinct Boundaries.json", "./ny_precicnt.json")
 // precicntDataIntoProperFormat("./AR Precinct Data/AR Race.json", "race")//
 // toNewLineDelimitedJSON("./AR Precinct Data/AR Race.json", "./AR Precinct Data/AR Race.json")
-precicntDataIntoProperFormat("./NY\ Urbanicity-2.json", "urbanicity")
+// precicntDataIntoProperFormat("./NY\ Urbanicity-2.json", "urbanicity")
 //precinctBoundaryIntoProperFormat("./ny_precicnt.json", "./ny_precicnt.json");
-
+findDistrictRep("./AR State Reps.json", "./AR State Reps.json");
 
 // Boundary done
 // Demographic done
