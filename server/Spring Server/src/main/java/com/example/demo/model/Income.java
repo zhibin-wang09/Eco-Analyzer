@@ -18,7 +18,7 @@ public class Income {
 
     private GeoType geoType;
 
-    private Map<String, Double> income;
+    private Map<String, Object> income;
 
     public String getId() {
         return this.id;
@@ -52,11 +52,11 @@ public class Income {
         this.geoType = geotype;
     }
 
-    public Map<String, Double> getIncome() {
+    public Map<String, Object> getIncome() {
         return this.income;
     }
 
-    public void setIncome(Map<String, Double> income) {
+    public void setIncome(Map<String, Object> income) {
         this.income = income;
     }
 

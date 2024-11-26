@@ -29,7 +29,7 @@ public class GraphService {
 	public List<Gingles> getGinglesData(int stateId, String race, GeoType geoType) {
 		List<Demographic> demographicData = demographicRepository.findDemographicByStateIdAndRaceAndGeoType(stateId,
 				race, geoType);
-		List<Votes> electionData = electionResultRepository.findElectionResultByStateIdAndGeoType(stateId, geoType);
+		List<Votes> electionData = electionResultRepository.findVotesByStateIdAndGeoType(stateId, geoType);
 		Map<String, Demographic> geoIdToDemographic = new HashMap<>();
 		List<Gingles> result = new ArrayList<>();
 

@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.example.demo.common.GeoType;
 
@@ -18,7 +19,8 @@ public class Votes {
 
     private GeoType geoType;
 
-    private Map<String, Integer> ElectionData;
+    @Field("election data")
+    private Map<String, Object> electionData;
 
     public String getId() {
         return this.Id;
@@ -52,12 +54,12 @@ public class Votes {
         this.geoType = geoType;
     }
 
-    public Map<String, Integer> getElectionData() {
-        return this.ElectionData;
+    public Map<String, Object> getElectionData() {
+        return this.electionData;
     }
 
-    public void setElectionData(Map<String, Integer> ElectionData) {
-        this.ElectionData = ElectionData;
+    public void setElectionData(Map<String, Object> electionData) {
+        this.electionData = electionData;
     }
 
     @Override
