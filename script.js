@@ -529,14 +529,20 @@ async function precicntDataIntoProperFormat(file,type){
     const fileContent = await fsp.readFile(filePath, 'utf8');
 
     const data = JSON.parse(fileContent);
-
+    const stateId = file.toLowerCase().includes("ar") ? 5 : 36;
     const newData= data.map(m => {
-      return {
-        stateId: 5,
+      const newJson = {
+        stateId: stateId,
         geoId: m.precinct_id,
         geoType: "PRECINCT",
-        race: m[type],
+        // urbanicity: {
+        //   density: m["density"],
+        //   type: m["type"],
+        //   shading: m["shading"]
+        // }
       };
+      newJson[type] = m[type];
+      return newJson;
     });
     await fsp.writeFile(filePath, JSON.stringify(newData,null,2));
     console.log("success")    
@@ -545,23 +551,24 @@ async function precicntDataIntoProperFormat(file,type){
   }
 }
 
-async function changeFieldName(file, dest){
+async function precinctBoundaryIntoProperFormat(file, dest){
   const filePath = path.join(__dirname, file);
   const destPath = path.join(__dirname, dest);
   const fileContent = await fsp.readFile(filePath, 'utf8');
 
-  const data = JSON.parse(fileContent);
-
-  for(let i =0; i< data.length;i++){
-    data[i] = {
-      "stateId": 5,
-      "geoId": data[i].precinct_id,
-      "geoType": "PRECINCT",
-      "election data": data[i].voting,
+  let data = JSON.parse(fileContent);
+  let features = data.features;
+  const stateId = file.toLowerCase().includes("ar") ? 5 : 36;
+  for(let i =0; i< features.length;i++){
+    features[i].properties = {
+      "stateId": stateId,
+      "geoId": features[i].properties.geoId,
+      "geoType": features[i].properties.geoType
     }
   }
+  data.features = features;
   await fsp.writeFile(destPath, JSON.stringify(data,null,2));
-    console.log("success")    
+  console.log("success")    
 
 }
 // removePrecintFromJSON();
@@ -584,7 +591,17 @@ const array = ["age", "earning", "race", "election data"]
 
 // formatFileForMongoImport("./server/Spring Server/src/main/resources/ny_data.json",`./server/Spring Server/src/main/resources/district/ny_demographic.json`, "race");
 //toNewLineDelimitedJSON("./server/Spring Server/src/main/resources/precinct/ar_age.json", "ar_age.json")
-//splitFeatureCollectionFile("./FeatureCollectionCoordinate.json", "./ny_district.json")
+//precinctBoundaryIntoProperFormat("./NY Precinct Boundaries.json", "./ny_precicnt.json")
 // precicntDataIntoProperFormat("./AR Precinct Data/AR Race.json", "race")//
 // toNewLineDelimitedJSON("./AR Precinct Data/AR Race.json", "./AR Precinct Data/AR Race.json")
-toNewLineDelimitedJSON("./output.json", "./output.json")
+precicntDataIntoProperFormat("./NY\ Urbanicity-2.json", "urbanicity")
+//precinctBoundaryIntoProperFormat("./ny_precicnt.json", "./ny_precicnt.json");
+
+
+// Boundary done
+// Demographic done
+// Age done 
+// Election Result done
+// Income done
+// Poverty done
+// Urbanicity 
