@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.common.Category;
@@ -37,10 +38,12 @@ public class MapService {
 		this.electionResultRepository = electionResultRepository;
 	}
 
+	@Cacheable(value = "map")
 	public List<Boundary> getBoundaryData(int stateId, GeoType geoType) {
 		return boundaryRepository.findByStateIdAndGeoType(stateId, geoType);
 	}
 
+	@Cacheable(value = "heatmap")
 	public List<Boundary> getHeapMap(int stateId, GeoType geoType, Category category) {
 		List<Boundary> boundary = boundaryRepository.findByStateIdAndGeoType(stateId, geoType);
 		switch (category) {

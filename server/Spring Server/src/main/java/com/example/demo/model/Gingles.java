@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
-public class Gingles {
+import java.io.Serializable;
+
+public class Gingles implements Serializable{
 
     private String precinctId;
 

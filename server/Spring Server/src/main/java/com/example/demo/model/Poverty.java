@@ -1,12 +1,14 @@
 package com.example.demo.model;
 
+import java.io.Serializable;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.example.demo.common.GeoType;
 
 @Document(collection = "poverty")
-public class Poverty {
+public class Poverty implements Serializable{
     @Id
     private String id;
 
@@ -18,7 +20,7 @@ public class Poverty {
 
     private PovertyInfo poverty;
 
-    public static class PovertyInfo {
+    public static class PovertyInfo implements Serializable{
 
         private int totalHousehold;
 

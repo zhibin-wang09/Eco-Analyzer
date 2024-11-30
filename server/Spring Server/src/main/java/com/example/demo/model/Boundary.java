@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -7,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.example.demo.common.GeoType;
 
 @Document(collection = "Boundary")
-public class Boundary {
+public class Boundary implements Serializable{
 
     private String type;
 
@@ -15,7 +16,7 @@ public class Boundary {
 
     private Properties properties;
 
-    public static class Properties {
+    public static class Properties implements Serializable{
         private String geoId;
 
         private int stateId;
@@ -57,7 +58,7 @@ public class Boundary {
         }
     }
 
-    public static class Geometry {
+    public static class Geometry implements Serializable{
         private String type;
 
         private Object coordinates;

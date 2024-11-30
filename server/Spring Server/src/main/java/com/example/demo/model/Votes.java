@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import org.springframework.data.annotation.Id;
@@ -9,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import com.example.demo.common.GeoType;
 
 @Document(collection = "ElectionResult")
-public class Votes {
+public class Votes implements Serializable{
     @Id
     private String Id;
 

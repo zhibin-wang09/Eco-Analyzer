@@ -4,10 +4,11 @@ import com.example.demo.common.GeoType;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
 import java.util.Map;
 
 @Document(collection = "Demographic") // Replace with the actual collection name
-public class Demographic {
+public class Demographic implements Serializable{
 
     @Id
     private String id;
