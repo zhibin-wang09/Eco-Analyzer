@@ -533,7 +533,7 @@ async function precicntDataIntoProperFormat(file,type){
     const newData= data.map(m => {
       const newJson = {
         stateId: stateId,
-        geoId: m.precinct_id,
+        geoId: m.id,
         geoType: "PRECINCT",
         // urbanicity: {
         //   density: m["density"],
@@ -541,7 +541,7 @@ async function precicntDataIntoProperFormat(file,type){
         //   shading: m["shading"]
         // }
       };
-      newJson[type] = m[type];
+      newJson["election data"] = m[type];
       return newJson;
     });
     await fsp.writeFile(filePath, JSON.stringify(newData,null,2));
@@ -624,12 +624,12 @@ const array = ["age", "earning", "race", "election data"]
 // toNewLineDelimitedJSON("./AR Precinct Data/AR Race.json", "./AR Precinct Data/AR Race.json")
 // precicntDataIntoProperFormat("./NY\ Urbanicity-2.json", "urbanicity")
 //precinctBoundaryIntoProperFormat("./ny_precicnt.json", "./ny_precicnt.json");
-findDistrictRep("./AR State Reps.json", "./AR State Reps.json");
+precicntDataIntoProperFormat("./NY Election.json", "voting");
 
 // Boundary done
 // Demographic done
 // Age done 
-// Election Result done
-// Income done
+// Election Result 
+// Income 
 // Poverty done
 // Urbanicity 

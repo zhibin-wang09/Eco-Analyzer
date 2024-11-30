@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -26,13 +27,23 @@ public class GraphController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(value = "/api/graph/gingles", produces = "application/json")
-    public ResponseEntity<List<Gingles>> getGinglesData(@RequestParam String state,
-            @RequestParam String demographicGroup, @RequestParam String geoType) {
+    public ResponseEntity<List<Gingles>> getGinglesDataByRace(@RequestParam String state,
+            @RequestParam(required = false) String demographicGroup, @RequestParam(defaultValue = "false") boolean includeIncome) {
         int id = StateIdConvertor.stringToId(State.valueOf(state.toUpperCase()));
-        GeoType type = GeoType.valueOf(geoType.toUpperCase());
         if (id == -1) {
             return ResponseEntity.badRequest().body(null);
         }
-        return ResponseEntity.ok(graphService.getGinglesData(id, demographicGroup, type));
+        
+        List<Gingles> ginglesData = new ArrayList<>();
+        if(demographicGroup != null){
+            ginglesData = graphService.getGinglesDataByRace(ginglesData, id, demographicGroup);
+        }
+
+        if(includeIncome){
+            ginglesData = graphService.getGinglesDataByIncome(ginglesData, id);
+        }
+
+        return ResponseEntity.ok(ginglesData);
     }
+
 }

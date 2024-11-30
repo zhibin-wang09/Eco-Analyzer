@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.example.demo.common.GeoType;
 
-@Document(collection = "ElectionResult")
+@Document(collection = "ElectionData")
 public class Votes implements Serializable{
     @Id
     private String Id;

@@ -19,7 +19,7 @@ public class Demographic implements Serializable{
 
     private GeoType geoType;
 
-    private Map<String, Integer> race;
+    private Map<String, Object> race;
 
     // Getters and Setters
     public String getId() {
@@ -54,11 +54,11 @@ public class Demographic implements Serializable{
         this.geoType = geoType;
     }
 
-    public Map<String, Integer> getRace() {
+    public Map<String, Object> getRace() {
         return race;
     }
 
-    public void setRace(Map<String, Integer> race) {
+    public void setRace(Map<String, Object> race) {
         this.race = race;
     }
 
