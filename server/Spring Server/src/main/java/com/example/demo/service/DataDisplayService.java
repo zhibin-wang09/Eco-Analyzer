@@ -18,13 +18,13 @@ import com.example.demo.repository.ElectionResultRepository;
 import com.example.demo.repository.IncomeRepository;
 
 @Service
-public class GraphService {
+public class DataDisplayService {
 
 	DemographicRepository demographicRepository;
 	ElectionResultRepository electionResultRepository;
 	IncomeRepository incomeRepository;
 
-	public GraphService(DemographicRepository demographicRepository,
+	public DataDisplayService(DemographicRepository demographicRepository,
 			ElectionResultRepository electionResultRepository, IncomeRepository incomeRepository) {
 		this.demographicRepository = demographicRepository;
 		this.electionResultRepository = electionResultRepository;
@@ -85,7 +85,7 @@ public class GraphService {
 
 	@Cacheable(value = "gingles", key="#stateId + '-' + #race")
 	public List<Gingles> getGinglesDataByIncome(List<Gingles> ginglesData, int stateId) {
-		// if ginglesData is empty then we will initialize one
+
 		if(ginglesData.size() == 0){
 			ginglesData = initializeGinglesData(stateId);
 		}
@@ -104,4 +104,5 @@ public class GraphService {
 
 		return ginglesData;
 	}
+
 }

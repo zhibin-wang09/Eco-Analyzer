@@ -14,4 +14,5 @@ public interface BoundaryRepository extends MongoRepository<Boundary, String> {
 
     @Query(value = "{ 'properties.stateId': ?0, 'properties.GeoType': ?1 }")
     List<Boundary> findByStateIdAndGeoType(int stateId, GeoType geoType);
+    
 }

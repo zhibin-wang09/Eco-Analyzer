@@ -54,6 +54,7 @@ public class MapController {
 		GeoType type = null;
 		Category cat = null;
 		State s = null;
+
 		try {
 			type = GeoType.valueOf(geoType.toUpperCase());
 			cat = Category.valueOf(category.toUpperCase());
@@ -66,6 +67,7 @@ public class MapController {
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(null);
 		}
+		
 		return ResponseEntity.ok(mapService.getHeapMap(id, type, cat));
 	}
 

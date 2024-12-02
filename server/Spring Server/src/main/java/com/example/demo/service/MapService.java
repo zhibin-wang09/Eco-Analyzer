@@ -46,6 +46,7 @@ public class MapService {
 	@Cacheable(value = "heatmap")
 	public List<Boundary> getHeapMap(int stateId, GeoType geoType, Category category) {
 		List<Boundary> boundary = boundaryRepository.findByStateIdAndGeoType(stateId, geoType);
+		
 		switch (category) {
 			case Category.DEMOGRAPHIC:
 				List<Demographic> demographicData = demographicRepository.findDemographicByStateIdAndGeoType(stateId,

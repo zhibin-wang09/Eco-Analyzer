@@ -29,10 +29,12 @@ public class IncomeController {
             @RequestParam("geoType") String geoType) {
         int stateId = -1;
         GeoType g = null;
+
         try {
             State s = State.valueOf(state.toUpperCase());
             g = GeoType.valueOf(geoType.toUpperCase());
             stateId = StateIdConvertor.stringToId(s);
+
             if (stateId == -1) {
                 throw new IllegalArgumentException();
             }

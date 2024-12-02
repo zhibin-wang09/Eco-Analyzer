@@ -27,9 +27,11 @@ public class DemographicController {
     @GetMapping(value = "/api/demographic", produces = "application/json")
     public ResponseEntity<List<Demographic>> getDemographicByStateId(@RequestParam("state") String state) {
         int id = StateIdConvertor.stringToId(State.valueOf(state.toUpperCase()));
+
         if (id == -1) {
             ResponseEntity.badRequest();
         }
+        
         return ResponseEntity.ok(demographicService.getDemographicByStateId(id));
     }
 }

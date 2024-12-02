@@ -8,5 +8,7 @@ import com.example.demo.common.GeoType;
 import com.example.demo.model.Poverty;
 
 public interface PovertyRepository extends MongoRepository<Poverty, String> {
+
     public List<Poverty> findPovertyByStateIdAndGeoType(int stateId, GeoType geoType);
+    
 }

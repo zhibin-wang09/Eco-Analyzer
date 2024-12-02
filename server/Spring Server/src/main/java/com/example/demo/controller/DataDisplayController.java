@@ -9,20 +9,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.common.GeoType;
 import com.example.demo.common.State;
 import com.example.demo.model.Gingles;
-import com.example.demo.service.GraphService;
+import com.example.demo.service.DataDisplayService;
 import com.example.demo.util.StateIdConvertor;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-public class GraphController {
+public class DataDisplayController {
 
-    GraphService graphService;
+    DataDisplayService dataDisplayService;
 
-    public GraphController(GraphService graphService) {
-        this.graphService = graphService;
+    public DataDisplayController(DataDisplayService dataDisplayService) {
+        this.dataDisplayService = dataDisplayService;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -30,17 +29,18 @@ public class GraphController {
     public ResponseEntity<List<Gingles>> getGinglesDataByRace(@RequestParam String state,
             @RequestParam(required = false) String demographicGroup, @RequestParam(defaultValue = "false") boolean includeIncome) {
         int id = StateIdConvertor.stringToId(State.valueOf(state.toUpperCase()));
+        
         if (id == -1) {
             return ResponseEntity.badRequest().body(null);
         }
         
         List<Gingles> ginglesData = new ArrayList<>();
         if(demographicGroup != null){
-            ginglesData = graphService.getGinglesDataByRace(ginglesData, id, demographicGroup);
+            ginglesData = dataDisplayService.getGinglesDataByRace(ginglesData, id, demographicGroup);
         }
 
         if(includeIncome){
-            ginglesData = graphService.getGinglesDataByIncome(ginglesData, id);
+            ginglesData = dataDisplayService.getGinglesDataByIncome(ginglesData, id);
         }
 
         return ResponseEntity.ok(ginglesData);
