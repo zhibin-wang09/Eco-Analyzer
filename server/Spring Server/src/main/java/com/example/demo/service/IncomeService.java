@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.common.GeoType;
@@ -17,6 +18,7 @@ public class IncomeService {
         this.incomeRepository = incomeRepository;
     }
 
+    @Cacheable(value = "income", key = "#stateId + '-' + #geoType")
     public List<Income> getIncomeByStateAndGeoType(int stateId, GeoType geoType) {
         return incomeRepository.findIncomeByStateIdAndGeoType(stateId, geoType);
     }

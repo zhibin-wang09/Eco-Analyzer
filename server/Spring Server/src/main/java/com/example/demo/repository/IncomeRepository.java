@@ -12,5 +12,5 @@ import com.example.demo.model.Income;
 public interface IncomeRepository extends MongoRepository<Income, String> {
 
     public List<Income> findIncomeByStateIdAndGeoType(int stateId, GeoType geoType);
-    
+
 }

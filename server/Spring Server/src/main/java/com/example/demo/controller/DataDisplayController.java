@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.common.State;
+import com.example.demo.model.CongressionalDistrict;
 import com.example.demo.model.Gingles;
 import com.example.demo.service.DataDisplayService;
 import com.example.demo.util.StateIdConvertor;
@@ -27,23 +28,37 @@ public class DataDisplayController {
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(value = "/api/graph/gingles", produces = "application/json")
     public ResponseEntity<List<Gingles>> getGinglesDataByRace(@RequestParam String state,
-            @RequestParam(required = false) String demographicGroup, @RequestParam(defaultValue = "false") boolean includeIncome) {
+            @RequestParam(required = false) String demographicGroup,
+            @RequestParam(defaultValue = "false") boolean includeIncome) {
         int id = StateIdConvertor.stringToId(State.valueOf(state.toUpperCase()));
-        
+
         if (id == -1) {
             return ResponseEntity.badRequest().body(null);
         }
-        
+
         List<Gingles> ginglesData = new ArrayList<>();
-        if(demographicGroup != null){
+        if (demographicGroup != null) {
             ginglesData = dataDisplayService.getGinglesDataByRace(ginglesData, id, demographicGroup);
         }
 
-        if(includeIncome){
+        if (includeIncome) {
             ginglesData = dataDisplayService.getGinglesDataByIncome(ginglesData, id);
         }
 
         return ResponseEntity.ok(ginglesData);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping(value = "/api/district/table", produces = "application/json")
+    public ResponseEntity<List<CongressionalDistrict>> getStateCongressionalRepresentationTable(
+            @RequestParam String state) {
+        int id = StateIdConvertor.stringToId(State.valueOf(state.toUpperCase()));
+
+        if (id == -1) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        List<CongressionalDistrict> tableData = dataDisplayService.getStateCongressionalRepresentationTable(id);
+        return ResponseEntity.ok(tableData);
+    }
 }

@@ -12,5 +12,5 @@ import com.example.demo.model.Votes;
 public interface ElectionResultRepository extends MongoRepository<Votes, String> {
 
     public List<Votes> findVotesByStateIdAndGeoType(int stateId, GeoType geoType);
-    
+
 }

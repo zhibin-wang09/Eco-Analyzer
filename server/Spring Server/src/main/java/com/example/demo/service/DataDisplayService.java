@@ -9,6 +9,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.common.GeoType;
+import com.example.demo.model.CongressionalDistrict;
 import com.example.demo.model.Demographic;
 import com.example.demo.model.Gingles;
 import com.example.demo.model.Income;
@@ -16,6 +17,7 @@ import com.example.demo.model.Votes;
 import com.example.demo.repository.DemographicRepository;
 import com.example.demo.repository.ElectionResultRepository;
 import com.example.demo.repository.IncomeRepository;
+import com.example.demo.repository.CongressionalDistrictRepository;
 
 @Service
 public class DataDisplayService {
@@ -23,20 +25,23 @@ public class DataDisplayService {
 	DemographicRepository demographicRepository;
 	ElectionResultRepository electionResultRepository;
 	IncomeRepository incomeRepository;
+	CongressionalDistrictRepository congressionalDistrictRepository;
 
 	public DataDisplayService(DemographicRepository demographicRepository,
-			ElectionResultRepository electionResultRepository, IncomeRepository incomeRepository) {
+			ElectionResultRepository electionResultRepository, IncomeRepository incomeRepository,
+			CongressionalDistrictRepository congressionalDistrictRepository) {
 		this.demographicRepository = demographicRepository;
 		this.electionResultRepository = electionResultRepository;
 		this.incomeRepository = incomeRepository;
+		this.congressionalDistrictRepository = congressionalDistrictRepository;
 	}
 
-	@Cacheable(value = "gingles", key="#stateId")
-	private List<Gingles> initializeGinglesData(int stateId){
+	@Cacheable(value = "gingles", key = "#stateId")
+	private List<Gingles> initializeGinglesData(int stateId) {
 		List<Gingles> result = new ArrayList<>();
 		List<Votes> electionData = electionResultRepository.findVotesByStateIdAndGeoType(stateId, GeoType.PRECINCT);
 
-		for(Votes v : electionData){
+		for (Votes v : electionData) {
 			Gingles g = new Gingles();
 			g.setGeoId(v.getGeoId());
 			g.setElectionData(v.getElectionData());
@@ -46,9 +51,9 @@ public class DataDisplayService {
 		return result;
 	}
 
-	@Cacheable(value = "gingles", key="#stateId + '-' + #race")
+	@Cacheable(value = "gingles", key = "#stateId + '-' + #race")
 	public List<Gingles> getGinglesDataByRace(List<Gingles> ginglesData, int stateId, String race) {
-		if(ginglesData.size() == 0){
+		if (ginglesData.size() == 0) {
 			ginglesData = initializeGinglesData(stateId);
 		}
 
@@ -83,10 +88,10 @@ public class DataDisplayService {
 		return ginglesData;
 	}
 
-	@Cacheable(value = "gingles", key="#stateId + '-' + #race")
+	@Cacheable(value = "gingles", key = "#stateId + '-' + #race")
 	public List<Gingles> getGinglesDataByIncome(List<Gingles> ginglesData, int stateId) {
 
-		if(ginglesData.size() == 0){
+		if (ginglesData.size() == 0) {
 			ginglesData = initializeGinglesData(stateId);
 		}
 
@@ -105,4 +110,10 @@ public class DataDisplayService {
 		return ginglesData;
 	}
 
+	@Cacheable(value = "table", key = "#stateId")
+	public List<CongressionalDistrict> getStateCongressionalRepresentationTable(int stateId) {
+		List<CongressionalDistrict> result = congressionalDistrictRepository
+				.findCongressionalDistrictsByStateId(stateId);
+		return result;
+	}
 }
