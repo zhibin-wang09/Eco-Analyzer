@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.common.Category;
@@ -26,9 +27,9 @@ public class MapController {
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
-	@GetMapping(value = "/api/map/{state}/{geoType}", produces = "application/json")
-	public ResponseEntity<List<Boundary>> getBoundaryData(@PathVariable("state") String state,
-			@PathVariable String geoType) {
+	@GetMapping(value = "/api/map", produces = "application/json")
+	public ResponseEntity<List<Boundary>> getBoundaryData(@RequestParam("state") String state,
+			@RequestParam String geoType) {
 		int id = 0;
 		GeoType type = null;
 		State s = null;
@@ -47,9 +48,9 @@ public class MapController {
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
-	@GetMapping(value = "/api/map/{state}/{geoType}/{category}")
-	public ResponseEntity<List<Boundary>> getHeapMaps(@PathVariable String state, @PathVariable String geoType,
-			@PathVariable String category) {
+	@GetMapping(value = "/api/heatmap")
+	public ResponseEntity<List<Boundary>> getHeapMaps(@RequestParam String state, @RequestParam String geoType,
+			@RequestParam String category) {
 		int id = 0;
 		GeoType type = null;
 		Category cat = null;
