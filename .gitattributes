@@ -1,0 +1,4 @@
+**/arkansas_precincts.json filter=lfs diff=lfs merge=lfs -text
+**/newyork_precincts.json filter=lfs diff=lfs merge=lfs -text
+server/Spring[[:space:]]Server/src/main/resources/precinct/ar_data.json filter=lfs diff=lfs merge=lfs -text
+server/Spring[[:space:]]Server/src/main/resources/precinct/ny_data.json filter=lfs diff=lfs merge=lfs -text

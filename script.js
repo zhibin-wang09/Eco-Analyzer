@@ -360,9 +360,260 @@ async function splitFile(filename){
   console.log("success");
 }
 
-// removePrecintFromJSON();
-// loadElectionDataInFeatureCollection(
-//   "./client/public/newyork_congressional_district.json"
-// );
-// convertGeometryCollectionToFeatureCollection();
-splitFile("./server/Spring Server/src/main/resources/FeatureCollectionCoordinate.json")
+async function insertDataToPrecinctFiles(file1, file2, file3,file4){
+  let file1Path = path.join(__dirname, file1);
+  let file2Path = path.join(__dirname, file2);
+  let file3Path = path.join(__dirname, file3);
+  let file4Path = path.join(__dirname, file4);
+
+
+  const precinctContent = await fsp.readFile("./precinct/precincts_arkansas/arkansas_precincts.json")
+  const file1Content = await fsp.readFile(file1Path);
+  const file2Content = await fsp.readFile(file2Path);
+  const file3Content = await fsp.readFile(file3Path);
+  const file4Content = await fsp.readFile(file4Path);
+
+  const file1Json = JSON.parse(file1Content);
+  const file2Json = JSON.parse(file2Content);
+  const file3Json = JSON.parse(file3Content);
+  const file4Json = JSON.parse(file4Content);
+  const precinctJson = JSON.parse(precinctContent);
+
+  const features = precinctJson.features;
+  let map = new Map();
+  for(const f of features){
+    map.set(f.properties["NAMELSAD20"], f);
+  }
+
+  file1Json.forEach((item) => {
+    const id = item.precinct_id;
+    if(map.has(id)){
+      const newF = map.get(id);
+      newF.properties["earning"] = item;
+      map.set(id,newF);
+    }
+  })
+
+  file2Json.forEach((item) => {
+    const id = item.precinct_id;
+    if(map.has(id)){
+      const newF = map.get(id);
+      newF.properties["age"] = item;
+      map.set(id,newF);
+    }
+  })
+  
+  file3Json.forEach((item) => {
+    const id = item.precinct_id;
+    if(map.has(id)){
+      const newF = map.get(id);
+      newF.properties["race"] = item;
+      map.set(id,newF);
+    }
+  })
+
+  file4Json.forEach((item) => {
+    const id = item.precinct_id;
+    if(map.has(id)){
+      const newF = map.get(id);
+      newF.properties["vote"] = item;
+      map.set(id,newF);
+    }
+  })
+  
+  precinctJson.features = Array.from(map.values())
+
+  const precinctJsonString = JSON.stringify(precinctJson,null,2);
+
+  await fsp.writeFile("./precinct/precincts_arkansas/final_arkansas_precincts.json", precinctJsonString);
+  console.log("success")
+}
+
+async function indentFile(file) {
+  try {
+    const filePath = path.join(__dirname, file);
+    const filep = await fsp.readFile(filePath, 'utf8'); // Read as a UTF-8 string
+
+    const json = JSON.parse(filep);
+
+    const indentedJson = JSON.stringify(json, null, 2);
+
+    await fsp.writeFile(filePath, indentedJson); // Write to filePath, not filep
+    console.log("Success");
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+async function formatFileForMongoImport(file, dest, category) {
+  try {
+    const filePath = path.join(__dirname, file);
+    const destPath = path.join(__dirname, dest);
+    const fileContent = await fsp.readFile(filePath, 'utf8');
+
+    // Parse the file content as JSON
+    const jsonArray = JSON.parse(fileContent).features;
+
+    // Ensure it's an array and format each item as a separate line
+    if (Array.isArray(jsonArray)) {
+      const newlineDelimitedJson = jsonArray.map(item => {
+        let newItem = {};
+        newItem["stateId"] = Number(item.properties["STATEFP20"]);
+        newItem["geoId"] = item.properties["CD118FP"];
+        newItem["geoType"] = item.properties["CD118FP"] ? "DISTRICT" : "PRECICNT";
+        newItem[category == "earning" ? "income" : category] = item.properties[category];
+        return JSON.stringify(newItem);
+      }).join(',\n');
+
+      // Write the formatted JSON to the file, ready for mongoimport
+      await fsp.writeFile(destPath, "[" + newlineDelimitedJson + "]", 'utf8');
+      console.log("File formatted successfully for mongoimport.");
+    } else {
+      console.error("Error: JSON is not an array of objects.");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+async function toNewLineDelimitedJSON(file, dest){
+  try{
+    const orgFile = path.join(__dirname, file);
+    const destFile = path.join(__dirname, dest);
+    const fileContent = await fsp.readFile(orgFile, 'utf8');
+
+    const json = JSON.parse(fileContent);
+    const newlineDelimitedJson = json.map(item => {
+      return JSON.stringify(item);
+    }).join(',\n');
+    await fsp.writeFile(destFile, "[" + newlineDelimitedJson + "]", 'utf8');
+      console.log("File formatted successfully for mongoimport.");
+  }catch(e){
+    console.log(e);
+  }
+}
+
+async function splitFeatureCollectionFile(file,dest){
+  try{
+    const filePath = path.join(__dirname, file);
+    const fileContent = await fsp.readFile(filePath, 'utf8');
+
+    const data = JSON.parse(fileContent);
+    const geojson = data.data[1].district.features;
+    for(let i =0; i < geojson.length; i++){
+      geojson[i].properties = {
+        "geoId": geojson[i].properties["CD118FP"],
+        "stateId": Number(geojson[i].properties["STATEFP20"]),
+        "number": Number(geojson[i].properties["CD118FP"]),
+        "geoType": "DISTRICT",
+      };
+    }
+
+
+    const destFile = path.join(__dirname, dest);
+    const newJson = {
+      "type": "FeatureCollection",
+      "features": geojson
+    }
+    await fsp.writeFile(destFile, JSON.stringify(newJson, null ,2));
+    console.log("successfully splitted");
+  }catch(e){
+    console.log(e);
+  }
+}
+
+
+async function precicntDataIntoProperFormat(file,type){
+  try{
+    const filePath = path.join(__dirname, file);
+    const fileContent = await fsp.readFile(filePath, 'utf8');
+
+    const data = JSON.parse(fileContent);
+    const stateId = file.toLowerCase().includes("ar") ? 5 : 36;
+    const newData= data.map(m => {
+      const newJson = {
+        stateId: stateId,
+        geoId: m.congressional_district.toString().padStart(2, '0'),
+        geoType: "DISTRICT",
+        // urbanicity: {
+        //   density: m["density"],
+        //   type: m["type"],
+        //   shading: m["shading"]
+        // }
+      };
+      newJson[type] = m[type];
+      // newJson[type] = {
+      //   "rep": m.rep,
+      //   "party": m.party,
+      //   "race": m.race,
+      //   "average_income": m.average_income,
+      //   "population": m.population,
+      //   "poverty_population": m.poverty_population,
+      //   "poverty_percentage": m.poverty_percentage,
+      //   "rural_percentage": m.rural_percentage,
+      //   "suburban_percentage": m.suburban_percentage,
+      //   "urban_percentage": m.urban_percentage,
+      //   "trumpVotes": m.trumpVotes,
+      //   "bidenVotes": m.bidenVotes,
+      //   "vote_margin": m.vote_margin
+      // }
+      return newJson;
+    });
+    await fsp.writeFile(filePath, JSON.stringify(newData,null,2));
+    console.log("success")    
+  }catch(e){
+    console.log(e);
+  }
+}
+
+async function precinctBoundaryIntoProperFormat(file, dest){
+  const filePath = path.join(__dirname, file);
+  const destPath = path.join(__dirname, dest);
+  const fileContent = await fsp.readFile(filePath, 'utf8');
+
+  let data = JSON.parse(fileContent);
+  let features = data.features;
+  const stateId = file.toLowerCase().includes("ar") ? 5 : 36;
+  for(let i =0; i< features.length;i++){
+    features[i].properties = {
+      "stateId": stateId,
+      "geoId": features[i].properties.geoId,
+      "geoType": features[i].properties.geoType
+    }
+  }
+  data.features = features;
+  await fsp.writeFile(destPath, JSON.stringify(data,null,2));
+  console.log("success")    
+
+}
+
+async function findDistrictRep(file, dest){
+  const filePath = path.join(__dirname, file);
+  const destPath = path.join(__dirname, dest);
+  const fileContent = await fsp.readFile(filePath, 'utf8');
+
+  let data = JSON.parse(fileContent);
+  const stateId = file.toLowerCase().includes("ar") ? 5 : 36;
+  const district = new Map();
+  data.forEach(d => {
+    if(!district.has(d.parentDistrict)){
+      district.set(d.parentDistrict, {
+        stateId: stateId,
+        geoId: d.parentDistrict.toString().padStart(2, "0"),
+        stateRep: d.stateRep,
+        geoType: "DISTRICT"
+      })
+    }
+  })
+
+  const result = [];
+  for(const v of district.values()){
+    result.push(v);
+  }
+
+  await fsp.writeFile(destPath, JSON.stringify(result,null,2));
+  console.log("success")
+}
+
+
+precicntDataIntoProperFormat("./AR District Income New.json", "income");
