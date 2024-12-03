@@ -53,5 +53,5 @@ The command to run the script:
 Start redis server
 `redis-server`
 
-Then in the same shell that the script was ran in run the following command to start the project:
+Then in the same directory that the script was ran in run the following command to start the project:
 `./mvnw sprint-boot:run`
