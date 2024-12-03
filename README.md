@@ -1,12 +1,12 @@
 # Eco-Analyzer
 
 # Pre-req
-For anyone who is contributing to this repo you might need to use `git lfs`(*git large storage*). It serves as an way to by pass the git restriction on 100MB file size upload to the repo. 
+(Not required) For anyone who is contributing to this repo you might need to use `git lfs`(*git large storage*). It serves as an way to by pass the git restriction on 100MB file size upload to the repo. 
+`git lfs` make the uploaded file serve as a pointer to the actual content. `filename` -> `actual content of file`. 
 
-It is required to install Redis Cache if the user of this repo is intended to start the spring boot application. To do so read the following
+(Required) To install Redis Cache if the user of this repo is intended to start the spring boot application. To do so, please read the following
 instructions.
 
-`git lfs` make the uploaded file serve as a pointer to the actual content. `filename` -> `actual content of file`. 
 
 ## To install `git lfs`
 
