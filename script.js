@@ -614,37 +614,6 @@ async function findDistrictRep(file, dest){
   await fsp.writeFile(destPath, JSON.stringify(result,null,2));
   console.log("success")
 }
-// removePrecintFromJSON();
-// loadElectionDataInFeatureCollection(
-//   "./client/public/newyork_congressional_district.json"
-// );
-// convertGeometryCollectionToFeatureCollection();
-//splitFile("./server/Spring Server/src/main/resources/FeatureCollectionCoordinate.json")
-//indentFile("./precinct/precincts_newyork/newyork_precincts.json")
-// formatFileForMongoImport("/server/Spring Server/src/main/resources/ny_data.json", "./DistrictData/ny_race.json", "race")
-// insertDataToPrecinctFiles("./PrecinctData/official_ar_precinct_data/OFFICIAL AR Precinct Age Data.json",
-//   "./PrecinctData/official_ar_precinct_data/OFFICIAL AR Precinct Election Data.json",
-//   "./PrecinctData/official_ar_precinct_data/OFFICIAL AR Precinct Income Data.json",
-//   "./PrecinctData/official_ar_precinct_data/OFFICIAL AR Precinct Race Data.json"
-// )
-//toNewLineDelimitedJSON("./official_ar_precinct_data/OFFICIAL AR Precinct Election Data.json", "./PrecinctData/ar_votes.json")
-//indentFile("./server/Spring Server/src/main/resources/precinct/ny_data.json")
 
-const array = ["age", "earning", "race", "election data"]
 
-// formatFileForMongoImport("./server/Spring Server/src/main/resources/ny_data.json",`./server/Spring Server/src/main/resources/district/ny_demographic.json`, "race");
-//toNewLineDelimitedJSON("./server/Spring Server/src/main/resources/precinct/ar_age.json", "ar_age.json")
-//precinctBoundaryIntoProperFormat("./NY Precinct Boundaries.json", "./ny_precicnt.json")
-// precicntDataIntoProperFormat("./AR Precinct Data/AR Race.json", "race")//
-// toNewLineDelimitedJSON("./AR Precinct Data/AR Race.json", "./AR Precinct Data/AR Race.json")
-// precicntDataIntoProperFormat("./NY\ Urbanicity-2.json", "urbanicity")
-//precinctBoundaryIntoProperFormat("./ny_precicnt.json", "./ny_precicnt.json");
 precicntDataIntoProperFormat("./AR District Income New.json", "income");
-
-// Boundary done
-// Demographic done
-// Age done 
-// Election Result 
-// Income 
-// Poverty done
-// Urbanicity 
