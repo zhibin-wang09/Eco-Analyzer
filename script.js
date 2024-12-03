@@ -541,22 +541,22 @@ async function precicntDataIntoProperFormat(file,type){
         //   shading: m["shading"]
         // }
       };
-      // newJson[type] = m[type];
-      newJson[type] = {
-        "rep": m.rep,
-        "party": m.party,
-        "race": m.race,
-        "average_income": m.average_income,
-        "population": m.population,
-        "poverty_population": m.poverty_population,
-        "poverty_percentage": m.poverty_percentage,
-        "rural_percentage": m.rural_percentage,
-        "suburban_percentage": m.suburban_percentage,
-        "urban_percentage": m.urban_percentage,
-        "trumpVotes": m.trumpVotes,
-        "bidenVotes": m.bidenVotes,
-        "vote_margin": m.vote_margin
-      }
+      newJson[type] = m[type];
+      // newJson[type] = {
+      //   "rep": m.rep,
+      //   "party": m.party,
+      //   "race": m.race,
+      //   "average_income": m.average_income,
+      //   "population": m.population,
+      //   "poverty_population": m.poverty_population,
+      //   "poverty_percentage": m.poverty_percentage,
+      //   "rural_percentage": m.rural_percentage,
+      //   "suburban_percentage": m.suburban_percentage,
+      //   "urban_percentage": m.urban_percentage,
+      //   "trumpVotes": m.trumpVotes,
+      //   "bidenVotes": m.bidenVotes,
+      //   "vote_margin": m.vote_margin
+      // }
       return newJson;
     });
     await fsp.writeFile(filePath, JSON.stringify(newData,null,2));
@@ -639,7 +639,7 @@ const array = ["age", "earning", "race", "election data"]
 // toNewLineDelimitedJSON("./AR Precinct Data/AR Race.json", "./AR Precinct Data/AR Race.json")
 // precicntDataIntoProperFormat("./NY\ Urbanicity-2.json", "urbanicity")
 //precinctBoundaryIntoProperFormat("./ny_precicnt.json", "./ny_precicnt.json");
-precicntDataIntoProperFormat("./NY Congressional.json", "data");
+precicntDataIntoProperFormat("./AR District Income New.json", "income");
 
 // Boundary done
 // Demographic done
