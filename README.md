@@ -45,7 +45,7 @@ export MONGO_DB_NAME=_
 It is required that this file is named **set_env.sh**
 Make this file executable by doing `chmod +x set_env.sh`
 
-It is recommended to add the script on the same directory as `mvnw` file.
+Add the script on the same directory as `mvnw` file. If you place it anywhere else, please add the file into the .gitignore file in the root directory.
 
 The command to run the script:
 `source set script.sh`
