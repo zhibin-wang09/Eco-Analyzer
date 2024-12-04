@@ -36,7 +36,7 @@ public class DataDisplayService {
 		this.congressionalDistrictRepository = congressionalDistrictRepository;
 	}
 
-	@Cacheable(value = "gingles", key = "#stateId")
+	@Cacheable(value = "gingles")
 	private List<Gingles> initializeGinglesData(int stateId) {
 		List<Gingles> result = new ArrayList<>();
 		List<Votes> electionData = electionResultRepository.findVotesByStateIdAndGeoType(stateId, GeoType.PRECINCT);
@@ -51,7 +51,7 @@ public class DataDisplayService {
 		return result;
 	}
 
-	@Cacheable(value = "gingles", key = "#stateId + '-' + #race")
+	@Cacheable(value = "gingles")
 	public List<Gingles> getGinglesDataByRace(List<Gingles> ginglesData, int stateId, String race) {
 		if (ginglesData.size() == 0) {
 			ginglesData = initializeGinglesData(stateId);
@@ -88,7 +88,7 @@ public class DataDisplayService {
 		return ginglesData;
 	}
 
-	@Cacheable(value = "gingles", key = "#stateId + '-' + #race")
+	@Cacheable(value = "gingles")
 	public List<Gingles> getGinglesDataByIncome(List<Gingles> ginglesData, int stateId) {
 
 		if (ginglesData.size() == 0) {
