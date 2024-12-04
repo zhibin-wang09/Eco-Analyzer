@@ -14,10 +14,7 @@ def calculateArea(coordinates):
         x1 = coordinates[i + 1][0]
         y1 = coordinates[i + 1][1]
 
-        try:
-            area += (x * y1 - x1 * y)
-        except:
-            pass
+        area += (x * y1 - x1 * y)
 
     return area / 2
 
@@ -29,10 +26,7 @@ def calculateAverageLatitude(coordinates):
 
     # In the case of bad coordinate data
     for i in range(len(coordinates)):
-        try:
-            result += coordinates[i][1]
-        except:
-            pass
+        result += coordinates[i][1]
 
     return result / len(coordinates)
 
@@ -92,10 +86,7 @@ for i in range(len(precinctGeometry['features'])):
 
     currSquareMileArea = calculateSquareMiles(currArea, currAverageLatitude)
 
-    try:
-        currPopDensity = populationData[0]['race']['population'] / currSquareMileArea
-    except:
-        currPopDensity = 0
+    currPopDensity = populationData[0]['race']['population'] / currSquareMileArea
     
     currShadingInfo = getShadingInfo(currPopDensity)
 
