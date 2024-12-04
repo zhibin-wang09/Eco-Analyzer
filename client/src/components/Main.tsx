@@ -1,41 +1,34 @@
 import { useEffect, useState } from "react";
-import axios from 'axios';
 import { 
   Box, 
   Flex, 
   useBreakpointValue, 
   ResponsiveValue, 
-  VStack, 
-  Text,
+  VStack,
   SlideFade,
   ScaleFade,
 } from "@chakra-ui/react";
 import USMap from "./USMap";
 import BaseChart from "./BaseChart";
 import Navbar from "./Navbar";
-import { ChartDataItem, VisualizationType } from "./ChartDataItemInterface";
+import { VisualizationType } from "./ChartDataItemInterface";
 import Frame from "./ui";
 import InferenceMenu from "./InferenceMenu";
-
-axios.defaults.withCredentials = true;
 
 const MainLayout = () => {
   const [selectedState, setSelectedState] = useState<string>("State");
   const [select, onSelectChange] = useState<string>("Default");
-  const [metadata, setMetadata] = useState();
-  const [chartData, setChartData] = useState<ChartDataItem[]>([]);
   const [districtData, setDistrictData] = useState("");
   const [isDataVisible, setIsDataVisible] = useState(false);
   const [shouldFadeOut, setShouldFadeOut] = useState(false);
-  const [selectedVisualization, setSelectedVisualization] = useState<VisualizationType>('standard');
+  const [selectedVisualization, setSelectedVisualization] = useState<VisualizationType>('gingles');
+  const [geoLevel, setGeoLevel] = useState<'district' | 'precinct'>('district');
+  const [showHeatmap, setShowHeatmap] = useState(false);
 
+  // Reset heatmap when changing geo level or state
   useEffect(() => {
-    axios.get("http://localhost:8080/chartdata")
-      .then(res => {
-        setMetadata(res.data.metadata);
-        setChartData(res.data.chartData);
-      });
-  }, []);
+    setShowHeatmap(false);
+  }, [geoLevel, selectedState]);
 
   useEffect(() => {
     if (selectedState !== "State") {
@@ -75,9 +68,12 @@ const MainLayout = () => {
             onStateChange={setSelectedState}
             state={selectedState}
             setSelectedVisualization={setSelectedVisualization}
+            geoLevel={geoLevel}
+            onGeoLevelChange={setGeoLevel}
+            showHeatmap={showHeatmap}
+            onHeatmapChange={setShowHeatmap}
           />
           <Flex direction={direction} width="100%" gap={8}>
-            {/* Map container with fixed width */}
             <Box
               width={selectedState !== "State" ? "400px" : "100%"}
               flexShrink={0}
@@ -88,10 +84,11 @@ const MainLayout = () => {
                 selectedState={selectedState}
                 selectedData={select}
                 setDistrictData={setDistrictData}
+                geoLevel={geoLevel}
+                showHeatmap={showHeatmap}
               />
             </Box>
             
-            {/* Chart container that takes remaining space */}
             <SlideFade
               in={isDataVisible && !shouldFadeOut}
               offsetX="20px"
@@ -117,18 +114,9 @@ const MainLayout = () => {
                     borderRadius="xl" 
                     boxShadow="md"
                   >
-                    <VStack spacing={4} align="stretch">
-                      {districtData && (
-                        <Text fontSize="lg" fontWeight="bold" color="#494946">
-                          District: {districtData}
-                        </Text>
-                      )}
-                      <BaseChart
-                        selectedState={selectedState}
-                        dataArray={chartData}
-                        selectedVisualization={selectedVisualization}
-                      />
-                    </VStack>
+                    <BaseChart
+                      selectedState={selectedState}
+                      selectedVisualization={selectedVisualization} />
                   </Box>
                 )}
               </ScaleFade>

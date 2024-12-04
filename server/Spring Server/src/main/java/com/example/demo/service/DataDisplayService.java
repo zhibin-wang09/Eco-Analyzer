@@ -32,7 +32,8 @@ public class DataDisplayService {
 
 	public DataDisplayService(DemographicRepository demographicRepository,
 			ElectionResultRepository electionResultRepository, IncomeRepository incomeRepository,
-			CongressionalDistrictRepository congressionalDistrictRepository, UrbanicityRepository urbanicityRepository) {
+			CongressionalDistrictRepository congressionalDistrictRepository,
+			UrbanicityRepository urbanicityRepository) {
 		this.demographicRepository = demographicRepository;
 		this.electionResultRepository = electionResultRepository;
 		this.incomeRepository = incomeRepository;
@@ -47,7 +48,7 @@ public class DataDisplayService {
 		List<Urbanicity> urbanicityData = urbanicityRepository.findUrbanicityByStateId(stateId);
 		Map<String, Urbanicity> map = new HashMap<>();
 
-		for(Urbanicity u : urbanicityData){
+		for (Urbanicity u : urbanicityData) {
 			map.put(u.getGeoId(), u);
 		}
 
@@ -59,8 +60,6 @@ public class DataDisplayService {
 			g.setUrbanicity(u.getUrbanicity().getType());
 			result.add(g);
 		}
-
-
 
 		return result;
 	}
@@ -119,13 +118,14 @@ public class DataDisplayService {
 		for (Gingles g : ginglesData) {
 			Income i = geoIdToIncome.get(g.getGeoId());
 			g.setAverageHouseholdIncome((int) i.getIncome().get("average_income"));
-			if(g.getDemographicGroupPercentage() != 0){
+			if (g.getDemographicGroupPercentage() != 0) {
 				// compute for normalized value
 				int maximumIncomeAcrossPrecicnt = 100000;
 				int minimumIncomeAcrossPrecinct = 0;
-				double normalizedIncome = (maximumIncomeAcrossPrecicnt - g.getAverageHouseholdIncome())/(maximumIncomeAcrossPrecicnt - minimumIncomeAcrossPrecinct);
+				double normalizedValue = (maximumIncomeAcrossPrecicnt - g.getAverageHouseholdIncome())
+						/ (maximumIncomeAcrossPrecicnt - minimumIncomeAcrossPrecinct);
 				double normalizedDemographicPercentage = (1 - g.getDemographicGroupPercentage()) * 100;
-				g.setNormalizedValue((normalizedIncome + normalizedDemographicPercentage) / 2);
+				g.setNormalizedValue((normalizedValue + normalizedDemographicPercentage) / 2);
 			}
 		}
 
