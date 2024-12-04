@@ -69,7 +69,7 @@ def getShadingInfo(currDensity):
 
 # Open the state precinct file along with its population data set
 script_dir = os.path.dirname(os.path.abspath(__file__))
-precinct_file_path = os.path.join(script_dir, 'arkansas_precincts.json')
+precinct_file_path = os.path.join(script_dir, 'arkansas_precincts.geojson')
 population_file_path = os.path.join(script_dir, 'AR Race.json')
 
 # precinct_file_path = os.path.join(script_dir, 'ny_precincts_new.geojson')
