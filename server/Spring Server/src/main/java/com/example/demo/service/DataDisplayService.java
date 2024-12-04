@@ -13,10 +13,12 @@ import com.example.demo.model.CongressionalDistrict;
 import com.example.demo.model.Demographic;
 import com.example.demo.model.Gingles;
 import com.example.demo.model.Income;
+import com.example.demo.model.Urbanicity;
 import com.example.demo.model.Votes;
 import com.example.demo.repository.DemographicRepository;
 import com.example.demo.repository.ElectionResultRepository;
 import com.example.demo.repository.IncomeRepository;
+import com.example.demo.repository.UrbanicityRepository;
 import com.example.demo.repository.CongressionalDistrictRepository;
 
 @Service
@@ -26,27 +28,39 @@ public class DataDisplayService {
 	ElectionResultRepository electionResultRepository;
 	IncomeRepository incomeRepository;
 	CongressionalDistrictRepository congressionalDistrictRepository;
+	UrbanicityRepository urbanicityRepository;
 
 	public DataDisplayService(DemographicRepository demographicRepository,
 			ElectionResultRepository electionResultRepository, IncomeRepository incomeRepository,
-			CongressionalDistrictRepository congressionalDistrictRepository) {
+			CongressionalDistrictRepository congressionalDistrictRepository, UrbanicityRepository urbanicityRepository) {
 		this.demographicRepository = demographicRepository;
 		this.electionResultRepository = electionResultRepository;
 		this.incomeRepository = incomeRepository;
 		this.congressionalDistrictRepository = congressionalDistrictRepository;
+		this.urbanicityRepository = urbanicityRepository;
 	}
 
 	@Cacheable(value = "gingles")
 	private List<Gingles> initializeGinglesData(int stateId) {
 		List<Gingles> result = new ArrayList<>();
 		List<Votes> electionData = electionResultRepository.findVotesByStateIdAndGeoType(stateId, GeoType.PRECINCT);
+		List<Urbanicity> urbanicityData = urbanicityRepository.findUrbanicityByStateId(stateId);
+		Map<String, Urbanicity> map = new HashMap<>();
+
+		for(Urbanicity u : urbanicityData){
+			map.put(u.getGeoId(), u);
+		}
 
 		for (Votes v : electionData) {
 			Gingles g = new Gingles();
 			g.setGeoId(v.getGeoId());
 			g.setElectionData(v.getElectionData());
+			Urbanicity u = map.get(v.getGeoId());
+			g.setUrbanicity(u.getUrbanicity().getType());
 			result.add(g);
 		}
+
+
 
 		return result;
 	}
