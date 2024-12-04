@@ -15,7 +15,17 @@ public class Gingles implements Serializable{
 
     private double normalizedValue; // used when displaying gingles result for income/race
 
+    private String urbanicity;
+
     private Map<String, Object> electionData;
+
+    public String getUrbanicity() {
+        return this.urbanicity;
+    }
+
+    public void setUrbanicity(String urbanicity) {
+        this.urbanicity = urbanicity;
+    }
 
     public double getNormalizedValue() {
         return this.normalizedValue;
