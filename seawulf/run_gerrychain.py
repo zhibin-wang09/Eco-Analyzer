@@ -18,7 +18,11 @@ from gerrychain.proposals import recom
 from gerrychain.updaters import Tally, cut_edges
 
 # Constants and file paths
+
 GEOJSON_FILE = "./AR/ar_precinct.json"
+=======
+GEOJSON_FILE = "./AR/ar_precicnt.json"
+
 STATE_REPS_FILE = "./AR/AR State Reps.json"
 RACE_FILE = "./AR/AR Race.json"
 INCOME_FILE = "./AR/AR Income.json"
