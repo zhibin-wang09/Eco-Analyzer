@@ -5,9 +5,9 @@ import com.example.demo.common.State;
 public class StateIdConvertor {
     public static int stringToId(State state) {
         switch (state) {
-            case State.NY:
+            case State.NEWYORK:
                 return 36;
-            case State.AR:
+            case State.ARKANSAS:
                 return 5;
             default:
                 return -1;
