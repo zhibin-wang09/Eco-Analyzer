@@ -100,7 +100,7 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
     }
   }, [selectedState, selectedDemographic]);
 
-  const polynomialRegression = (points: Array<{x: number; y: number}>, degree: number = 3) => {
+  const regression = (points: Array<{x: number; y: number}>, degree: number = 3) => {
     // Skip if not enough points
     if (points.length < degree + 1) return null;
 
@@ -208,11 +208,11 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
         urbanicity: precinct.urbanicity
       }));
 
-    // Calculate trend lines using polynomial regression
+    // Calculate trend lines using  regression
     const calculateTrendLine = (points: any[]) => {
-      if (points.length < 4) return []; // Need at least 4 points for cubic regression
+      if (points.length < 4) return []; // Need at least 4 points for  regression
       
-      const coefficients = polynomialRegression(points, 3);
+      const coefficients = regression(points, 3);
       if (!coefficients) return [];
 
       // Generate points for the trend line
