@@ -7,13 +7,23 @@ public class Gingles implements Serializable{
 
     private String geoId;
 
-    private double demographicGroupPercentage;
+    private double demographicGroupPercentage; // used when displaying gingles result for race
 
     private int totalPopulation;
 
-    private double averageHouseholdIncome;
+    private double averageHouseholdIncome; // used when displaying gingles result for income
+
+    private double normalizedValue; // used when displaying gingles result for income/race
 
     private Map<String, Object> electionData;
+
+    public double getNormalizedValue() {
+        return this.normalizedValue;
+    }
+
+    public void setNormalizedValue(double normalizedValue) {
+        this.normalizedValue = normalizedValue;
+    }
 
     public String getGeoId() {
         return this.geoId;

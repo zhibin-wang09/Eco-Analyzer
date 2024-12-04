@@ -105,6 +105,14 @@ public class DataDisplayService {
 		for (Gingles g : ginglesData) {
 			Income i = geoIdToIncome.get(g.getGeoId());
 			g.setAverageHouseholdIncome((int) i.getIncome().get("average_income"));
+			if(g.getDemographicGroupPercentage() != 0){
+				// compute for normalized value
+				int maximumIncomeAcrossPrecicnt = 100000;
+				int minimumIncomeAcrossPrecinct = 0;
+				double normalizedIncome = (maximumIncomeAcrossPrecicnt - g.getAverageHouseholdIncome())/(maximumIncomeAcrossPrecicnt - minimumIncomeAcrossPrecinct);
+				double normalizedDemographicPercentage = (1 - g.getDemographicGroupPercentage()) * 100;
+				g.setNormalizedValue((normalizedIncome + normalizedDemographicPercentage) / 2);
+			}
 		}
 
 		return ginglesData;
