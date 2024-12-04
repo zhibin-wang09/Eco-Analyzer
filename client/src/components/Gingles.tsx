@@ -47,7 +47,6 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Define demographic options with official Census terminology and descriptions
   const demographicOptions: Record<DemographicKey, { name: string; description: string }> = {
     hispanic: { 
       name: 'Hispanic or Latino',
