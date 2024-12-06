@@ -7,19 +7,13 @@ import { VStack, Center } from "@chakra-ui/react";
 import "../style/legend.css";
 import "leaflet/dist/leaflet.css";
 
-interface FeatureCollection {
-  type: "FeatureCollection";
-  features: Array<{
-    type: "Feature";
-    properties: { [key: string]: any };
-    geometry: Geometry;
-  }>;
-}
-
-interface StateData {
-  state: string;
-  district: any;
-  precinct: any;
+interface MapData {
+  type: string;
+  geometry: {
+    type: string;
+    coordinates: number[][][];
+  };
+  properties?: any;
 }
 
 interface USMapProps {
@@ -27,6 +21,8 @@ interface USMapProps {
   selectedState: string | null;
   selectedData: string | null;
   setDistrictData: (state: string) => void;
+  geoLevel: 'district' | 'precinct';
+  showHeatmap: boolean;
 }
 
 const USMap: React.FC<USMapProps> = ({
@@ -34,12 +30,20 @@ const USMap: React.FC<USMapProps> = ({
   selectedState,
   selectedData,
   setDistrictData,
+  geoLevel,
+  showHeatmap
 }) => {
-  const [arkansasCd, setArkansasCd] = useState<FeatureCollection | null>(null);
-  const [newyorkCd, setNewYorkCd] = useState<FeatureCollection | null>(null);
+  const [arkansasData, setArkansasData] = useState<{
+    district?: MapData[];
+    precinct?: MapData[];
+  }>({});
+  const [newYorkData, setNewYorkData] = useState<{
+    district?: MapData[];
+    precinct?: MapData[];
+  }>({});
   const [map, setMap] = useState<L.Map | null>(null);
   const mapRef = useRef<HTMLDivElement>(null);
-  const cdLayerRef = useRef<L.GeoJSON | null>(null);
+  const geoLayerRef = useRef<L.GeoJSON | null>(null);
 
   const highlightFeatures = useCallback((e: L.LeafletMouseEvent) => {
     const layer = e.target;
@@ -79,6 +83,34 @@ const USMap: React.FC<USMapProps> = ({
     },
     [setDistrictData]
   );
+
+  const fetchMapData = useCallback(async (state: string, type: 'DISTRICT' | 'PRECINCT') => {
+    try {
+      // change this to be not 
+      const stateCode = state.toLowerCase().replace(" ", "");
+      const response = await axios.get(
+        `http://localhost:8080/api/map?state=${stateCode}&geoType=${type}`
+      );
+
+      console.log(`Fetched ${type.toLowerCase()} data for ${state}:`, response.data);
+
+      if (response.data) {
+        if (state === 'Arkansas') {
+          setArkansasData(prev => ({
+            ...prev,
+            [type.toLowerCase()]: response.data
+          }));
+        } else if (state === 'New York') {
+          setNewYorkData(prev => ({
+            ...prev,
+            [type.toLowerCase()]: response.data
+          }));
+        }
+      }
+    } catch (error) {
+      console.error(`Error fetching ${type.toLowerCase()} data for ${state}:`, error);
+    }
+  }, []);
 
   // Initialize the base map
   useEffect(() => {
@@ -137,7 +169,19 @@ const USMap: React.FC<USMapProps> = ({
     }
   }, [map, highlightFeatures, onClick, resetHighlight]);
 
-  // Handle state selection and district display
+  // Effect to fetch data when state or geoLevel changes
+  useEffect(() => {
+    if (selectedState === 'Arkansas' || selectedState === 'New York') {
+      const stateData = selectedState === 'Arkansas' ? arkansasData : newYorkData;
+      
+      // Only fetch if we don't already have the data for this level
+      if (!stateData[geoLevel]) {
+        fetchMapData(selectedState, geoLevel.toUpperCase() as 'DISTRICT' | 'PRECINCT');
+      }
+    }
+  }, [selectedState, geoLevel, fetchMapData, arkansasData, newYorkData]);
+
+  // Handle state selection and map updates
   useEffect(() => {
     if (!map) return;
 
@@ -173,97 +217,69 @@ const USMap: React.FC<USMapProps> = ({
         });
       }
     };
+
     fitToBound(selectedState);
 
-    const fetchMapData = async () => {
-      try {
-        const response = await axios.get("http://localhost:8080/oldcoordinates");
-        const responseData = response.data;
+    // Clear existing layer
+    if (geoLayerRef.current) {
+      map.removeLayer(geoLayerRef.current);
+      geoLayerRef.current = null;
+    }
 
-        if (
-          responseData?.data &&
-          Array.isArray(responseData.data) &&
-          responseData.data.length >= 2
-        ) {
-          const arkansasData = responseData.data.find(
-            (item: StateData) => item.state === "Arkansas"
-          );
-          const newYorkData = responseData.data.find(
-            (item: StateData) => item.state === "New York"
-          );
+    if (selectedState !== 'State') {
+      const stateData = selectedState === 'Arkansas' ? arkansasData : newYorkData;
+      const currentGeoData = stateData[geoLevel];
 
-          if (arkansasData) {
-            setArkansasCd(arkansasData.district);
-          }
-          if (newYorkData) {
-            setNewYorkCd(newYorkData.district);
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching map data:", error);
-      }
-    };
-
-    if (selectedState !== "State") {
-      if (cdLayerRef.current) {
-        map.removeLayer(cdLayerRef.current);
-        cdLayerRef.current = null;
-      }
-
-      let congressionalDistrict: FeatureCollection | null = null;
-
-      if (selectedState === "New York") {
-        if (!newyorkCd) fetchMapData();
-        congressionalDistrict = newyorkCd;
-      } else if (selectedState === "Arkansas") {
-        if (!arkansasCd) fetchMapData();
-        congressionalDistrict = arkansasCd;
-      }
-
-      if (congressionalDistrict) {
-        const onEachFeature = (feature: Feature, layer: L.Layer) => {
-          layer.on({
-            mouseover: highlightFeatures,
-            mouseout: (e) => resetHighlight(e, cdLayerRef.current!),
-            click: districtOnClick,
-          });
-        };
-
-        const getColor = (geoJsonFeature: Feature | undefined): string => {
-          // Implement your color logic based on the feature properties
-          const electionData =  geoJsonFeature!.properties!['election data'];
-          const color = electionData['bidenVotes'] > electionData['trumpVotes'] ? '#0000FF' : '#FF5733';
-          return color || 'gray'; // Fallback color
-        }
-
-        const style = (geoJsonFeature: Feature | undefined): L.PathOptions => {
-          return {
-            fillColor: getColor(geoJsonFeature),
+      if (currentGeoData) {
+        const style = (feature: any): L.PathOptions => {
+          let defaultStyle: L.PathOptions = {
             weight: 0.5,
             fillOpacity: 0.8,
           };
+
+          if (showHeatmap && geoLevel === 'precinct') {
+            const value = feature.properties?.['election data']?.['bidenVotes'] /
+                         (feature.properties?.['election data']?.['bidenVotes'] + 
+                          feature.properties?.['election data']?.['trumpVotes']);
+            return {
+              ...defaultStyle,
+              fillColor: `hsl(${value * 240}, 70%, 50%)`,
+              fillOpacity: 0.6
+            };
+          } else {
+            const isDemo = feature.properties?.['election data']?.['bidenVotes'] > 
+                          feature.properties?.['election data']?.['trumpVotes'];
+            return {
+              ...defaultStyle,
+              fillColor: isDemo ? '#0000FF' : '#FF5733',
+            };
+          }
         };
-        
-        cdLayerRef.current = L.geoJSON(congressionalDistrict, {
-          style: style,
-          onEachFeature: onEachFeature,
-        }).addTo(map);
+
+        geoLayerRef.current = L.geoJSON(
+          { type: 'FeatureCollection', features: currentGeoData } as GeoJsonObject,
+          {
+            style,
+            onEachFeature: (feature, layer) => {
+              layer.on({
+                mouseover: highlightFeatures,
+                mouseout: (e) => resetHighlight(e, geoLayerRef.current!),
+                click: districtOnClick,
+              });
+            },
+          }
+        ).addTo(map);
       }
-    } else {
-      if (cdLayerRef.current) {
-        map.removeLayer(cdLayerRef.current);
-        cdLayerRef.current = null;
-      }
-      map.setView([37.8, -96], 4);
     }
   }, [
-    map,
-    selectedState,
-    selectedData,
-    newyorkCd,
-    arkansasCd,
-    highlightFeatures,
-    resetHighlight,
+    map, 
+    selectedState, 
+    geoLevel, 
+    arkansasData, 
+    newYorkData, 
+    showHeatmap, 
+    highlightFeatures, 
+    resetHighlight, 
     districtOnClick
   ]);
 

@@ -72,9 +72,20 @@ const InferenceMenu: React.FC<InferenceMenuProps> = ({ setSelectedVisualization 
                 _hover={{ bg: "#F7CFF2" }}
                 bg="#E4EDC4"
                 mb={1}
+                onClick={() => handleSelection('gingles')}
+              >
+                Gingles Test Analysis
+              </Button>
+              <Button
+                variant="ghost"
+                justifyContent="flex-start"
+                color="#494946"
+                _hover={{ bg: "#F7CFF2" }}
+                bg="#E4EDC4"
+                mb={1}
                 onClick={() => handleSelection('goodman')}
               >
-                Goodman's Regression
+                Box and Whisker
               </Button>
               <Button
                 variant="ghost"
@@ -83,9 +94,9 @@ const InferenceMenu: React.FC<InferenceMenuProps> = ({ setSelectedVisualization 
                 _hover={{ bg: "#F7CFF2" }}
                 bg="#E4EDC4"
                 mb={1}
-                onClick={() => handleSelection('kings')}
+                onClick={() => handleSelection('income')}
               >
-                King
+                Gingles' Income
               </Button>
               <Button
                 variant="ghost"
@@ -94,9 +105,9 @@ const InferenceMenu: React.FC<InferenceMenuProps> = ({ setSelectedVisualization 
                 _hover={{ bg: "#F7CFF2" }}
                 bg="#E4EDC4"
                 mb={1}
-                onClick={() => handleSelection('rxc')}
+                onClick={() => handleSelection('normalizedgingles')}
               >
-                RxC
+                Normalized Gingles
               </Button>
               <Button
                 variant="ghost"
