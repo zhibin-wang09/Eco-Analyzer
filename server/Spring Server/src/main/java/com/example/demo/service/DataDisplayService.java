@@ -9,7 +9,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.common.GeoType;
-import com.example.demo.model.CongressionalDistrict;
+import com.example.demo.model.DistrictDetail;
 import com.example.demo.model.Demographic;
 import com.example.demo.model.Gingles;
 import com.example.demo.model.Income;
@@ -19,7 +19,7 @@ import com.example.demo.repository.DemographicRepository;
 import com.example.demo.repository.ElectionResultRepository;
 import com.example.demo.repository.IncomeRepository;
 import com.example.demo.repository.UrbanicityRepository;
-import com.example.demo.repository.CongressionalDistrictRepository;
+import com.example.demo.repository.DistrictDetailRepository;
 
 @Service
 public class DataDisplayService {
@@ -27,17 +27,17 @@ public class DataDisplayService {
 	DemographicRepository demographicRepository;
 	ElectionResultRepository electionResultRepository;
 	IncomeRepository incomeRepository;
-	CongressionalDistrictRepository congressionalDistrictRepository;
+	DistrictDetailRepository districtDetailRepository;
 	UrbanicityRepository urbanicityRepository;
 
 	public DataDisplayService(DemographicRepository demographicRepository,
 			ElectionResultRepository electionResultRepository, IncomeRepository incomeRepository,
-			CongressionalDistrictRepository congressionalDistrictRepository,
+			DistrictDetailRepository districtDetailRepository,
 			UrbanicityRepository urbanicityRepository) {
 		this.demographicRepository = demographicRepository;
 		this.electionResultRepository = electionResultRepository;
 		this.incomeRepository = incomeRepository;
-		this.congressionalDistrictRepository = congressionalDistrictRepository;
+		this.districtDetailRepository = districtDetailRepository;
 		this.urbanicityRepository = urbanicityRepository;
 	}
 
@@ -133,9 +133,99 @@ public class DataDisplayService {
 	}
 
 	@Cacheable(value = "table", key = "#stateId")
-	public List<CongressionalDistrict> getStateCongressionalRepresentationTable(int stateId) {
-		List<CongressionalDistrict> result = congressionalDistrictRepository
-				.findCongressionalDistrictsByStateId(stateId);
+	public List<DistrictDetail> getDistrictDetail(int stateId) {
+		List<DistrictDetail> result = districtDetailRepository
+				.findDistrictDetailByStateId(stateId);
 		return result;
+	}
+
+	public Map<String, Object> getStateSummary(int stateId) {
+		Map<String, Object> stateSummary = new HashMap<>();
+		List<DistrictDetail> districtData = districtDetailRepository
+				.findDistrictDetailByStateId(stateId);
+		int population = 0;
+		int democratVotes = 0;
+		int republicanVotes = 0;
+		for (DistrictDetail c : districtData) {
+			population += c.getData().getPopulation(); // state population
+			democratVotes += c.getData().getBidenVotes();
+			republicanVotes += c.getData().getTrumpVotes(); // state voter distribution
+		}
+
+		Map<String, Integer> racialPopulation = getRacialPopulationAsState(stateId); // race -> population
+		Map<String, Double> percentagePopulationByRegionType = getPercentagePopulationByRegionType(stateId); // regionType
+																												// ->
+																												// population percentage
+
+		List<Map<String, String>> congressionalRepresentativeData = new ArrayList<>();
+		List<DistrictDetail> districtDetails = districtDetailRepository.findDistrictDetailByStateId(stateId);
+
+		for(DistrictDetail d : districtDetails){
+			Map<String, String> m = new HashMap<>();
+			m.put("representative", d.getData().getRep());
+			m.put("representative party", d.getData().getParty());
+			m.put("district", d.getGeoId());
+			congressionalRepresentativeData.add(m);
+		}
+
+		double totalVotes = democratVotes + republicanVotes;
+		// summary of congressional representatives by party
+		stateSummary.put("population", population);
+		stateSummary.put("racial population", racialPopulation);
+		stateSummary.put("democrate votes percentage", democratVotes / totalVotes);
+		stateSummary.put("republican votes percentage", republicanVotes / totalVotes);
+		stateSummary.put("percentage by region type", percentagePopulationByRegionType);
+		stateSummary.put("congressional representatives", congressionalRepresentativeData);
+		return stateSummary;
+	}
+
+	public Map<String, Integer> getRacialPopulationAsState(int stateId) {
+		Map<String, Integer> racialPopulation = new HashMap<>();
+
+		List<Demographic> demographicData = demographicRepository.findDemographicByStateIdAndGeoType(stateId,
+				GeoType.DISTRICT);
+		for (Demographic d : demographicData) { // population of each racial group in the state
+			for (Map.Entry<String, Object> entry : d.getRace().entrySet()) {
+				String race = entry.getKey();
+				Integer population = (Integer) entry.getValue();
+				Integer existingPopulation = racialPopulation.getOrDefault(entry.getKey(), 0);
+
+				racialPopulation.put(race, existingPopulation + population);
+			}
+		}
+
+		return racialPopulation;
+	}
+
+	public Map<String, Double> getPercentagePopulationByRegionType(int stateId) {
+		Map<String, Double> percentagePopulationByRegionType = new HashMap<>();
+		List<Demographic> demographicData = demographicRepository.findDemographicByStateIdAndGeoType(stateId,
+				GeoType.PRECINCT); // has population data
+		Map<String, Integer> precinctPopulation = new HashMap<>();
+
+		for (Demographic d : demographicData) {
+			int population = (Integer) d.getRace().get("population");
+			precinctPopulation.put(d.getGeoId(), population);
+		}
+
+		List<Urbanicity> urbanicityData = urbanicityRepository.findUrbanicityByStateId(stateId); // has region type
+																									// information
+		
+		int statePopulation = 0;
+
+		for (Urbanicity u : urbanicityData) {
+			String regionType = u.getUrbanicity().getType();
+			String geoId = u.getGeoId();
+			double population = precinctPopulation.getOrDefault(geoId,0);
+			statePopulation += population;
+
+			percentagePopulationByRegionType.put(regionType,
+					percentagePopulationByRegionType.getOrDefault(regionType, 0.0) + population);
+		}
+
+		for(Map.Entry<String, Double> entry : percentagePopulationByRegionType.entrySet()){
+			percentagePopulationByRegionType.put(entry.getKey(), entry.getValue() / statePopulation);
+		}
+		return percentagePopulationByRegionType;
 	}
 }
