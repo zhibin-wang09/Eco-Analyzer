@@ -9,5 +9,5 @@ import com.example.demo.model.DistrictDetail;
 
 @Repository
 public interface DistrictDetailRepository extends MongoRepository<DistrictDetail, String> {
-    List<DistrictDetail> findDistrictDetailByStateId(int stateId);
+    List<DistrictDetail> findDistrictDetailsByStateId(int stateId);
 }

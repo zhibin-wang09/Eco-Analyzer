@@ -13,6 +13,7 @@ import com.example.demo.model.DistrictDetail;
 import com.example.demo.model.Demographic;
 import com.example.demo.model.Gingles;
 import com.example.demo.model.Income;
+import com.example.demo.model.PrecinctDetail;
 import com.example.demo.model.Urbanicity;
 import com.example.demo.model.Votes;
 import com.example.demo.repository.DemographicRepository;
@@ -133,16 +134,16 @@ public class DataDisplayService {
 	}
 
 	@Cacheable(value = "table", key = "#stateId")
-	public List<DistrictDetail> getDistrictDetail(int stateId) {
+	public List<DistrictDetail> getDistrictDetails(int stateId) {
 		List<DistrictDetail> result = districtDetailRepository
-				.findDistrictDetailByStateId(stateId);
+				.findDistrictDetailsByStateId(stateId);
 		return result;
 	}
 
 	public Map<String, Object> getStateSummary(int stateId) {
 		Map<String, Object> stateSummary = new HashMap<>();
 		List<DistrictDetail> districtData = districtDetailRepository
-				.findDistrictDetailByStateId(stateId);
+				.findDistrictDetailsByStateId(stateId);
 		int population = 0;
 		int democratVotes = 0;
 		int republicanVotes = 0;
@@ -158,7 +159,7 @@ public class DataDisplayService {
 																												// population percentage
 
 		List<Map<String, String>> congressionalRepresentativeData = new ArrayList<>();
-		List<DistrictDetail> districtDetails = districtDetailRepository.findDistrictDetailByStateId(stateId);
+		List<DistrictDetail> districtDetails = districtDetailRepository.findDistrictDetailsByStateId(stateId);
 
 		for(DistrictDetail d : districtDetails){
 			Map<String, String> m = new HashMap<>();
@@ -227,5 +228,9 @@ public class DataDisplayService {
 			percentagePopulationByRegionType.put(entry.getKey(), entry.getValue() / statePopulation);
 		}
 		return percentagePopulationByRegionType;
+	}
+
+	public PrecinctDetail getPrecinctDetail(int stateId, String geoId){
+		return new PrecinctDetail();
 	}
 }
