@@ -173,8 +173,7 @@ public class DataDisplayService {
 		// summary of congressional representatives by party
 		stateSummary.put("population", population);
 		stateSummary.put("racial population", racialPopulation);
-		stateSummary.put("democrate votes percentage", democratVotes / totalVotes);
-		stateSummary.put("republican votes percentage", republicanVotes / totalVotes);
+		stateSummary.put("vote margin", (democratVotes / totalVotes) - (republicanVotes / totalVotes));
 		stateSummary.put("percentage by region type", percentagePopulationByRegionType);
 		stateSummary.put("congressional representatives", congressionalRepresentativeData);
 		return stateSummary;
