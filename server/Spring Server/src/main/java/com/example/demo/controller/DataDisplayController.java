@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.common.State;
-import com.example.demo.model.CongressionalDistrict;
+import com.example.demo.model.DistrictDetail;
 import com.example.demo.model.Gingles;
 import com.example.demo.service.DataDisplayService;
 import com.example.demo.util.StateIdConvertor;
@@ -49,8 +50,8 @@ public class DataDisplayController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping(value = "/api/district/table", produces = "application/json")
-    public ResponseEntity<List<CongressionalDistrict>> getStateCongressionalRepresentationTable(
+    @GetMapping(value = "/api/table", produces = "application/json")
+    public ResponseEntity<List<DistrictDetail>> getStateCongressionalRepresentationTable(
             @RequestParam String state) {
         int id = StateIdConvertor.stringToId(State.valueOf(state.toUpperCase()));
 
@@ -58,7 +59,19 @@ public class DataDisplayController {
             return ResponseEntity.badRequest().body(null);
         }
 
-        List<CongressionalDistrict> tableData = dataDisplayService.getStateCongressionalRepresentationTable(id);
+        List<DistrictDetail> tableData = dataDisplayService.getDistrictDetail(id);
         return ResponseEntity.ok(tableData);
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping(value = "/api/summary")
+    public ResponseEntity<Map<String, Object>> getStateSummary(@RequestParam String state) {
+        int id = StateIdConvertor.stringToId(State.valueOf(state.toUpperCase()));
+
+        if (id == -1) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        return ResponseEntity.ok(dataDisplayService.getStateSummary(id));
+    }
+    
 }
