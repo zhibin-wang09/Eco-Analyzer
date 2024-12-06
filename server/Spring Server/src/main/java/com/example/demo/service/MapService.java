@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,7 +81,7 @@ public class MapService {
 					b.getProperties().setData(income);
 				}
 				return boundary;
-			case Category.POLITICAL:
+			case Category.POLITICALINCOME:
 				List<Votes> politicalData = electionResultRepository.findVotesByStateIdAndGeoType(stateId, geoType);
 				Map<String, Votes> geoIdToVotes = new HashMap<>();
 				// store politicalData into a mapping of geoId -> votes
@@ -116,4 +117,10 @@ public class MapService {
 
 		return null;
 	}
+
+	public List<Map<String, Object>> getMinorityGroups(List<Demographic> demographics, String race){
+		List<Map<String, Object>> result = new ArrayList<>();
+
+		return result;
+	};
 }

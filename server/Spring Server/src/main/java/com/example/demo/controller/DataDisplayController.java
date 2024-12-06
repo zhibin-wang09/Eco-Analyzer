@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.common.State;
 import com.example.demo.model.DistrictDetail;
 import com.example.demo.model.Gingles;
+import com.example.demo.model.PrecinctDetail;
 import com.example.demo.service.DataDisplayService;
 import com.example.demo.util.StateIdConvertor;
 
@@ -51,7 +52,7 @@ public class DataDisplayController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(value = "/api/table", produces = "application/json")
-    public ResponseEntity<List<DistrictDetail>> getStateCongressionalRepresentationTable(
+    public ResponseEntity<List<DistrictDetail>> getDistrictDetails(
             @RequestParam String state) {
         int id = StateIdConvertor.stringToId(State.valueOf(state.toUpperCase()));
 
@@ -59,8 +60,22 @@ public class DataDisplayController {
             return ResponseEntity.badRequest().body(null);
         }
 
-        List<DistrictDetail> tableData = dataDisplayService.getDistrictDetail(id);
+        List<DistrictDetail> tableData = dataDisplayService.getDistrictDetails(id);
         return ResponseEntity.ok(tableData);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping(value = "/api/precicnt/table", produces = "application/json")
+    public ResponseEntity<PrecinctDetail> getPrecinctDetail(
+            @RequestParam String state, @RequestParam String geoId) {
+        int id = StateIdConvertor.stringToId(State.valueOf(state.toUpperCase()));
+
+        if (id == -1) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        PrecinctDetail precinctDetail = dataDisplayService.getPrecinctDetail(id, geoId);
+        return ResponseEntity.ok(precinctDetail);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
