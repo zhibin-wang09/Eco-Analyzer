@@ -133,13 +133,14 @@ public class DataDisplayService {
 		return ginglesData;
 	}
 
-	@Cacheable(value = "table", key = "#stateId")
+	@Cacheable(value = "table")
 	public List<DistrictDetail> getDistrictDetails(int stateId) {
 		List<DistrictDetail> result = districtDetailRepository
 				.findDistrictDetailsByStateId(stateId);
 		return result;
 	}
 
+	@Cacheable(value = "summary")
 	public Map<String, Object> getStateSummary(int stateId) {
 		Map<String, Object> stateSummary = new HashMap<>();
 		List<DistrictDetail> districtData = districtDetailRepository

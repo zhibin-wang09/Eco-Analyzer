@@ -18,7 +18,7 @@ public class IncomeService {
         this.incomeRepository = incomeRepository;
     }
 
-    @Cacheable(value = "income", key = "#stateId + '-' + #geoType")
+    @Cacheable(value = "income")
     public List<Income> getIncomeByStateAndGeoType(int stateId, GeoType geoType) {
         return incomeRepository.findIncomeByStateIdAndGeoType(stateId, geoType);
     }

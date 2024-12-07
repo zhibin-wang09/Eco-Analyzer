@@ -16,7 +16,7 @@ public class DemographicService {
         this.demographicRepository = demographicRepository;
     }
 
-    @Cacheable(value = "demographic", key = "#stateId")
+    @Cacheable(value = "demographic")
     public List<Demographic> getDemographicByStateId(int stateId) {
         return demographicRepository.findDemographicByStateId(stateId);
     }

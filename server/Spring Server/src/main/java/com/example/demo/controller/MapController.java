@@ -5,10 +5,12 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.common.Category;
+import com.example.demo.common.DemographicGroup;
 import com.example.demo.common.GeoType;
 import com.example.demo.common.State;
 import com.example.demo.model.Boundary;
@@ -47,17 +49,16 @@ public class MapController {
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
-	@GetMapping(value = "/api/heatmap")
-	public ResponseEntity<List<Boundary>> getHeapMaps(@RequestParam String state, @RequestParam String geoType,
-			@RequestParam String category) {
+	@GetMapping(value = "/api/heatmap/{category}")
+	public ResponseEntity<List<Boundary>> getHeapMaps(@PathVariable("category") String category,
+			@RequestParam String state, @RequestParam(required = false) String demographicGroup) {
 		int id = 0;
-		GeoType type = null;
 		Category cat = null;
 		State s = null;
-
+		DemographicGroup d = null;
 		try {
-			type = GeoType.valueOf(geoType.toUpperCase());
 			cat = Category.valueOf(category.toUpperCase());
+			if(demographicGroup != null) d = DemographicGroup.valueOf(demographicGroup.toUpperCase());
 			s = State.valueOf(state.toUpperCase());
 
 			id = StateIdConvertor.stringToId(s);
@@ -67,8 +68,8 @@ public class MapController {
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(null);
 		}
-		
-		return ResponseEntity.ok(mapService.getHeapMap(id, type, cat));
+
+		return ResponseEntity.ok(mapService.getHeapMap(id, cat, d));
 	}
 
 }

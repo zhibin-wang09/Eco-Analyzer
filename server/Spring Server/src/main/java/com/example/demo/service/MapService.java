@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +8,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.common.Category;
+import com.example.demo.common.DemographicGroup;
 import com.example.demo.common.GeoType;
 import com.example.demo.model.Boundary;
 import com.example.demo.model.Demographic;
@@ -40,34 +40,32 @@ public class MapService {
 		this.electionResultRepository = electionResultRepository;
 	}
 
-	@Cacheable(value = "map", key = "#stateId + '-' + #geoType")
+	@Cacheable(value = "map")
 	public List<Boundary> getBoundaryData(int stateId, GeoType geoType) {
 		return boundaryRepository.findByStateIdAndGeoType(stateId, geoType);
 	}
 
-	@Cacheable(value = "heatmap", key = "#stateId + '-' + #geoType + '-' + #category")
-	public List<Boundary> getHeapMap(int stateId, GeoType geoType, Category category) {
-		List<Boundary> boundary = boundaryRepository.findByStateIdAndGeoType(stateId, geoType);
+	@Cacheable(value = "heatmap")
+	public List<Boundary> getHeapMap(int stateId, Category category, DemographicGroup demographicGroup) {
+		List<Boundary> boundary = boundaryRepository.findByStateIdAndGeoType(stateId, GeoType.PRECINCT);
 
 		switch (category) {
 			case Category.DEMOGRAPHIC:
 				List<Demographic> demographicData = demographicRepository.findDemographicByStateIdAndGeoType(stateId,
-						geoType);
+						GeoType.PRECINCT);
 				Map<String, Demographic> geoIdToDemographic = new HashMap<>();
 				// store demographicData into a mapping of geoId -> demographic
 				for (Demographic d : demographicData) {
 					geoIdToDemographic.put(d.getGeoId(), d);
 				}
-
-				// Merge demographic data with boundary data
 				for (Boundary b : boundary) {
-					Map<String, Object> race = new HashMap<>();
-					race.put("race", geoIdToDemographic.get(b.getProperties().getGeoId()));
-					b.getProperties().setData(race);
+					Demographic d =  geoIdToDemographic.get(b.getProperties().getGeoId());
+					b.getProperties().setData(new HashMap<>());
+					b.getProperties().getData().put("demographic shading", d.getRace().get(demographicGroup.toString().toLowerCase() + "_shading"));
 				}
 				return boundary;
 			case Category.ECONOMIC:
-				List<Income> incomeData = incomeRepository.findIncomeByStateIdAndGeoType(stateId, geoType);
+				List<Income> incomeData = incomeRepository.findIncomeByStateIdAndGeoType(stateId, GeoType.PRECINCT);
 				Map<String, Income> geoIdToIncome = new HashMap<>();
 				// store incomeData into a mapping of geoId -> income
 				for (Income i : incomeData) {
@@ -76,28 +74,16 @@ public class MapService {
 
 				// Merge income data with boundary data
 				for (Boundary b : boundary) {
-					Map<String, Object> income = new HashMap<>();
-					income.put("income", geoIdToIncome.get(b.getProperties().getGeoId()));
-					b.getProperties().setData(income);
+					Income i = geoIdToIncome.get(b.getProperties().getGeoId());
+					b.getProperties().setData(new HashMap<>());
+					b.getProperties().getData().put("income shading", i.getIncome().get("average_income_shading"));
 				}
 				return boundary;
 			case Category.POLITICALINCOME:
-				List<Votes> politicalData = electionResultRepository.findVotesByStateIdAndGeoType(stateId, geoType);
-				Map<String, Votes> geoIdToVotes = new HashMap<>();
-				// store politicalData into a mapping of geoId -> votes
-				for (Votes i : politicalData) {
-					geoIdToVotes.put(i.getGeoId(), i);
-				}
 
-				// Merge votes data with boundary data
-				for (Boundary b : boundary) {
-					Map<String, Object> Votes = new HashMap<>();
-					Votes.put("votes", geoIdToVotes.get(b.getProperties().getGeoId()));
-					b.getProperties().setData(Votes);
-				}
 				return boundary;
 			case Category.POVERTY:
-				List<Poverty> povertyData = povertyRepository.findPovertyByStateIdAndGeoType(stateId, geoType);
+				List<Poverty> povertyData = povertyRepository.findPovertyByStateIdAndGeoType(stateId, GeoType.PRECINCT);
 				Map<String, Poverty> geoIdToPoverty = new HashMap<>();
 				// store povertyData into a mapping of geoId -> poverty
 				for (Poverty i : povertyData) {
@@ -106,9 +92,9 @@ public class MapService {
 
 				// Merge poverty data with boundary data
 				for (Boundary b : boundary) {
-					Map<String, Object> poverty = new HashMap<>();
-					poverty.put("poverty", geoIdToPoverty.get(b.getProperties().getGeoId()));
-					b.getProperties().setData(poverty);
+					Poverty p = geoIdToPoverty.get(b.getProperties().getGeoId());
+					b.getProperties().setData(new HashMap<>());
+					b.getProperties().getData().put("poverty shading", p.getPoverty().getPovertyShading());
 				}
 				return boundary;
 			default:
@@ -117,10 +103,4 @@ public class MapService {
 
 		return null;
 	}
-
-	public List<Map<String, Object>> getMinorityGroups(List<Demographic> demographics, String race){
-		List<Map<String, Object>> result = new ArrayList<>();
-
-		return result;
-	};
 }

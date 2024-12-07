@@ -34,19 +34,26 @@ public class DistrictDetail implements Serializable {
 
         private int population;
 
+        @Field("poverty_population")
         private int povertyPopulation;
 
+        @Field("poverty_percentage")
         private double povertyPercentage;
 
+        @Field("rural_percentage")
         private double ruralPercentage;
 
+        @Field("suburban_percentage")
         private double subUrbanPercentage;
 
+        @Field("urban_percentage")
         private double urbanPercentage;
 
         private int trumpVotes;
 
         private int bidenVotes;
+
+        private int voteMargin;
 
         public String getRep() {
             return this.rep;
@@ -142,6 +149,14 @@ public class DistrictDetail implements Serializable {
 
         public void setBidenVotes(int bidenVotes) {
             this.bidenVotes = bidenVotes;
+        }
+
+        public void setVoteMargin(int voteMargin){
+            this.voteMargin = voteMargin;
+        }
+
+        public int getVoteMargin(int voteMargin){
+            return this.voteMargin;
         }
 
     }
