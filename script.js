@@ -315,7 +315,7 @@ async function loadElectionDataInFeatureCollection(electiondataFile) {
         "election data"
       ] = electionData[i];
     }
-  }else{
+  } else {
     coordinateJSON.data[stateIndex].district.geometries[0].properties[
       "election data"
     ] = electionData[20];
@@ -340,19 +340,25 @@ async function loadElectionDataInFeatureCollection(electiondataFile) {
   console.log("Success");
 }
 
-async function splitFile(filename){
+async function splitFile(filename) {
   const filepath = path.join(__dirname, filename);
   const fileContent = await fsp.readFile(filepath);
   const districtJson = JSON.parse(fileContent);
 
-  const newyorkFileName = path.join(__dirname, `./server/Spring Server/src/main/resources/ny_district_data.json`)
-  const arkansasFileNAme = path.join(__dirname, `./server/Spring Server/src/main/resources/arkansas_district_data.json`)
+  const newyorkFileName = path.join(
+    __dirname,
+    `./server/Spring Server/src/main/resources/ny_district_data.json`
+  );
+  const arkansasFileNAme = path.join(
+    __dirname,
+    `./server/Spring Server/src/main/resources/arkansas_district_data.json`
+  );
 
   const arkansasData = districtJson.data[0].district;
   const newyorkData = districtJson.data[1].district;
 
-  const arkansasDataJsonString = JSON.stringify(arkansasData,null,2);
-  const newyorkDataJsonString = JSON.stringify(newyorkData,null,2 );
+  const arkansasDataJsonString = JSON.stringify(arkansasData, null, 2);
+  const newyorkDataJsonString = JSON.stringify(newyorkData, null, 2);
 
   await fsp.writeFile(newyorkFileName, newyorkDataJsonString);
   await fsp.writeFile(arkansasFileNAme, arkansasDataJsonString);
@@ -360,14 +366,15 @@ async function splitFile(filename){
   console.log("success");
 }
 
-async function insertDataToPrecinctFiles(file1, file2, file3,file4){
+async function insertDataToPrecinctFiles(file1, file2, file3, file4) {
   let file1Path = path.join(__dirname, file1);
   let file2Path = path.join(__dirname, file2);
   let file3Path = path.join(__dirname, file3);
   let file4Path = path.join(__dirname, file4);
 
-
-  const precinctContent = await fsp.readFile("./precinct/precincts_arkansas/arkansas_precincts.json")
+  const precinctContent = await fsp.readFile(
+    "./precinct/precincts_arkansas/arkansas_precincts.json"
+  );
   const file1Content = await fsp.readFile(file1Path);
   const file2Content = await fsp.readFile(file2Path);
   const file3Content = await fsp.readFile(file3Path);
@@ -381,58 +388,61 @@ async function insertDataToPrecinctFiles(file1, file2, file3,file4){
 
   const features = precinctJson.features;
   let map = new Map();
-  for(const f of features){
+  for (const f of features) {
     map.set(f.properties["NAMELSAD20"], f);
   }
 
   file1Json.forEach((item) => {
     const id = item.precinct_id;
-    if(map.has(id)){
+    if (map.has(id)) {
       const newF = map.get(id);
       newF.properties["earning"] = item;
-      map.set(id,newF);
+      map.set(id, newF);
     }
-  })
+  });
 
   file2Json.forEach((item) => {
     const id = item.precinct_id;
-    if(map.has(id)){
+    if (map.has(id)) {
       const newF = map.get(id);
       newF.properties["age"] = item;
-      map.set(id,newF);
+      map.set(id, newF);
     }
-  })
-  
+  });
+
   file3Json.forEach((item) => {
     const id = item.precinct_id;
-    if(map.has(id)){
+    if (map.has(id)) {
       const newF = map.get(id);
       newF.properties["race"] = item;
-      map.set(id,newF);
+      map.set(id, newF);
     }
-  })
+  });
 
   file4Json.forEach((item) => {
     const id = item.precinct_id;
-    if(map.has(id)){
+    if (map.has(id)) {
       const newF = map.get(id);
       newF.properties["vote"] = item;
-      map.set(id,newF);
+      map.set(id, newF);
     }
-  })
-  
-  precinctJson.features = Array.from(map.values())
+  });
 
-  const precinctJsonString = JSON.stringify(precinctJson,null,2);
+  precinctJson.features = Array.from(map.values());
 
-  await fsp.writeFile("./precinct/precincts_arkansas/final_arkansas_precincts.json", precinctJsonString);
-  console.log("success")
+  const precinctJsonString = JSON.stringify(precinctJson, null, 2);
+
+  await fsp.writeFile(
+    "./precinct/precincts_arkansas/final_arkansas_precincts.json",
+    precinctJsonString
+  );
+  console.log("success");
 }
 
 async function indentFile(file) {
   try {
     const filePath = path.join(__dirname, file);
-    const filep = await fsp.readFile(filePath, 'utf8'); // Read as a UTF-8 string
+    const filep = await fsp.readFile(filePath, "utf8"); // Read as a UTF-8 string
 
     const json = JSON.parse(filep);
 
@@ -449,24 +459,29 @@ async function formatFileForMongoImport(file, dest, category) {
   try {
     const filePath = path.join(__dirname, file);
     const destPath = path.join(__dirname, dest);
-    const fileContent = await fsp.readFile(filePath, 'utf8');
+    const fileContent = await fsp.readFile(filePath, "utf8");
 
     // Parse the file content as JSON
     const jsonArray = JSON.parse(fileContent).features;
 
     // Ensure it's an array and format each item as a separate line
     if (Array.isArray(jsonArray)) {
-      const newlineDelimitedJson = jsonArray.map(item => {
-        let newItem = {};
-        newItem["stateId"] = Number(item.properties["STATEFP20"]);
-        newItem["geoId"] = item.properties["CD118FP"];
-        newItem["geoType"] = item.properties["CD118FP"] ? "DISTRICT" : "PRECICNT";
-        newItem[category == "earning" ? "income" : category] = item.properties[category];
-        return JSON.stringify(newItem);
-      }).join(',\n');
+      const newlineDelimitedJson = jsonArray
+        .map((item) => {
+          let newItem = {};
+          newItem["stateId"] = Number(item.properties["STATEFP20"]);
+          newItem["geoId"] = item.properties["CD118FP"];
+          newItem["geoType"] = item.properties["CD118FP"]
+            ? "DISTRICT"
+            : "PRECICNT";
+          newItem[category == "earning" ? "income" : category] =
+            item.properties[category];
+          return JSON.stringify(newItem);
+        })
+        .join(",\n");
 
       // Write the formatted JSON to the file, ready for mongoimport
-      await fsp.writeFile(destPath, "[" + newlineDelimitedJson + "]", 'utf8');
+      await fsp.writeFile(destPath, "[" + newlineDelimitedJson + "]", "utf8");
       console.log("File formatted successfully for mongoimport.");
     } else {
       console.error("Error: JSON is not an array of objects.");
@@ -476,64 +491,64 @@ async function formatFileForMongoImport(file, dest, category) {
   }
 }
 
-async function toNewLineDelimitedJSON(file, dest){
-  try{
+async function toNewLineDelimitedJSON(file, dest) {
+  try {
     const orgFile = path.join(__dirname, file);
     const destFile = path.join(__dirname, dest);
-    const fileContent = await fsp.readFile(orgFile, 'utf8');
+    const fileContent = await fsp.readFile(orgFile, "utf8");
 
     const json = JSON.parse(fileContent);
-    const newlineDelimitedJson = json.map(item => {
-      return JSON.stringify(item);
-    }).join(',\n');
-    await fsp.writeFile(destFile, "[" + newlineDelimitedJson + "]", 'utf8');
-      console.log("File formatted successfully for mongoimport.");
-  }catch(e){
+    const newlineDelimitedJson = json
+      .map((item) => {
+        return JSON.stringify(item);
+      })
+      .join(",\n");
+    await fsp.writeFile(destFile, "[" + newlineDelimitedJson + "]", "utf8");
+    console.log("File formatted successfully for mongoimport.");
+  } catch (e) {
     console.log(e);
   }
 }
 
-async function splitFeatureCollectionFile(file,dest){
-  try{
+async function splitFeatureCollectionFile(file, dest) {
+  try {
     const filePath = path.join(__dirname, file);
-    const fileContent = await fsp.readFile(filePath, 'utf8');
+    const fileContent = await fsp.readFile(filePath, "utf8");
 
     const data = JSON.parse(fileContent);
     const geojson = data.data[1].district.features;
-    for(let i =0; i < geojson.length; i++){
+    for (let i = 0; i < geojson.length; i++) {
       geojson[i].properties = {
-        "geoId": geojson[i].properties["CD118FP"],
-        "stateId": Number(geojson[i].properties["STATEFP20"]),
-        "number": Number(geojson[i].properties["CD118FP"]),
-        "geoType": "DISTRICT",
+        geoId: geojson[i].properties["CD118FP"],
+        stateId: Number(geojson[i].properties["STATEFP20"]),
+        number: Number(geojson[i].properties["CD118FP"]),
+        geoType: "DISTRICT",
       };
     }
 
-
     const destFile = path.join(__dirname, dest);
     const newJson = {
-      "type": "FeatureCollection",
-      "features": geojson
-    }
-    await fsp.writeFile(destFile, JSON.stringify(newJson, null ,2));
+      type: "FeatureCollection",
+      features: geojson,
+    };
+    await fsp.writeFile(destFile, JSON.stringify(newJson, null, 2));
     console.log("successfully splitted");
-  }catch(e){
+  } catch (e) {
     console.log(e);
   }
 }
 
-
-async function precicntDataIntoProperFormat(file,type){
-  try{
+async function precicntDataIntoProperFormat(file, type) {
+  try {
     const filePath = path.join(__dirname, file);
-    const fileContent = await fsp.readFile(filePath, 'utf8');
+    const fileContent = await fsp.readFile(filePath, "utf8");
 
     const data = JSON.parse(fileContent);
     const stateId = file.toLowerCase().includes("ar") ? 5 : 36;
-    const newData= data.map(m => {
+    const newData = data.map((m) => {
       const newJson = {
         stateId: stateId,
-        geoId: m.congressional_district.toString().padStart(2, '0'),
+        geoId: m.congressional_district.toString().padStart(2, "0"),
         geoType: "DISTRICT",
         // urbanicity: {
         //   density: m["density"],
@@ -559,61 +574,124 @@ async function precicntDataIntoProperFormat(file,type){
       // }
       return newJson;
     });
-    await fsp.writeFile(filePath, JSON.stringify(newData,null,2));
-    console.log("success")    
-  }catch(e){
+    await fsp.writeFile(filePath, JSON.stringify(newData, null, 2));
+    console.log("success");
+  } catch (e) {
     console.log(e);
   }
 }
 
-async function precinctBoundaryIntoProperFormat(file, dest){
+async function precinctBoundaryIntoProperFormat(file, dest) {
   const filePath = path.join(__dirname, file);
   const destPath = path.join(__dirname, dest);
-  const fileContent = await fsp.readFile(filePath, 'utf8');
+  const fileContent = await fsp.readFile(filePath, "utf8");
 
   let data = JSON.parse(fileContent);
   let features = data.features;
   const stateId = file.toLowerCase().includes("ar") ? 5 : 36;
-  for(let i =0; i< features.length;i++){
+  for (let i = 0; i < features.length; i++) {
     features[i].properties = {
-      "stateId": stateId,
-      "geoId": features[i].properties.geoId,
-      "geoType": features[i].properties.geoType
-    }
+      stateId: stateId,
+      geoId: features[i].properties.geoId,
+      geoType: features[i].properties.geoType,
+    };
   }
   data.features = features;
-  await fsp.writeFile(destPath, JSON.stringify(data,null,2));
-  console.log("success")    
-
+  await fsp.writeFile(destPath, JSON.stringify(data, null, 2));
+  console.log("success");
 }
 
-async function findDistrictRep(file, dest){
+async function findDistrictRep(file, dest) {
   const filePath = path.join(__dirname, file);
   const destPath = path.join(__dirname, dest);
-  const fileContent = await fsp.readFile(filePath, 'utf8');
+  const fileContent = await fsp.readFile(filePath, "utf8");
 
   let data = JSON.parse(fileContent);
   const stateId = file.toLowerCase().includes("ar") ? 5 : 36;
   const district = new Map();
-  data.forEach(d => {
-    if(!district.has(d.parentDistrict)){
+  data.forEach((d) => {
+    if (!district.has(d.parentDistrict)) {
       district.set(d.parentDistrict, {
         stateId: stateId,
         geoId: d.parentDistrict.toString().padStart(2, "0"),
         stateRep: d.stateRep,
-        geoType: "DISTRICT"
-      })
+        geoType: "DISTRICT",
+      });
     }
-  })
+  });
 
   const result = [];
-  for(const v of district.values()){
+  for (const v of district.values()) {
     result.push(v);
   }
 
-  await fsp.writeFile(destPath, JSON.stringify(result,null,2));
-  console.log("success")
+  await fsp.writeFile(destPath, JSON.stringify(result, null, 2));
+  console.log("success");
 }
 
+function getColor(percentage) {
+  // Define bins for every 5% with colors interpolated between #FFCBCB and #FF2222
+  const bins = [
+    { upperLimit: 5, color: "#CCE5FF" }, // Very light blue
+    { upperLimit: 10, color: "#99CCFF" },
+    { upperLimit: 15, color: "#66B2FF" },
+    { upperLimit: 20, color: "#3399FF" },
+    { upperLimit: 25, color: "#0080FF" },
+    { upperLimit: 30, color: "#0066CC" },
+    { upperLimit: 35, color: "#0052B2" },
+    { upperLimit: 40, color: "#003D99" },
+    { upperLimit: 45, color: "#002966" },
+    { upperLimit: 50, color: "#001A4D" }, // Medium blue
+    { upperLimit: 55, color: "#0033A0" },
+    { upperLimit: 60, color: "#0048D0" },
+    { upperLimit: 65, color: "#0059F0" },
+    { upperLimit: 70, color: "#006AF0" },
+    { upperLimit: 75, color: "#007BF0" },
+    { upperLimit: 80, color: "#008CF0" },
+    { upperLimit: 85, color: "#009DF0" },
+    { upperLimit: 90, color: "#00AEF0" },
+    { upperLimit: 95, color: "#00BFF0" },
+    { upperLimit: 100, color: "#00D0F0" }, // Deep blue
+  ];
 
-precicntDataIntoProperFormat("./AR District Income New.json", "income");
+  // Validate input
+  if (percentage < 0 || percentage > 100) {
+    throw new Error("Percentage must be between 0 and 100");
+  }
+
+  // Determine the appropriate bin
+  for (let bin of bins) {
+    if (percentage <= bin.upperLimit) {
+      return bin.color;
+    }
+  }
+
+  // Default case (should not be reached due to validation)
+  return "#FFFFFF"; // White
+}
+
+async function updateShading(file,type) {
+  try {
+    const filePath = path.join(__dirname, file);
+    const fileContent = await fsp.readFile(filePath, "utf8");
+
+    const data = JSON.parse(fileContent);
+    const newData = data.map((m) => {
+      const newJson = {...m};
+      // const races = ["white", "black", "asian", "hispanic", "other"]
+      // for(const r of races){
+      //   newJson[type][r + "_shading"] = getColor(newJson[type][r + "_percentage"] * 100);
+      // }
+      newJson[type][type + "_shading"] = getColor(newJson[type][type + "_percentage"] * 100);
+      percentage = newJson[type]["poverty_percentage"];
+      newJson[type]["poverty_percentage"] = percentage == null ? 0 : percentage;
+      return newJson;
+    });
+    await fsp.writeFile(filePath, JSON.stringify(newData, null, 2));
+    console.log("success");
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+updateShading("./AR\ Poverty.json", "poverty");

@@ -4,10 +4,11 @@ import java.io.Serializable;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.example.demo.common.GeoType;
 
-@Document(collection = "poverty")
+@Document(collection = "Poverty")
 public class Poverty implements Serializable{
     @Id
     private String id;
@@ -18,16 +19,21 @@ public class Poverty implements Serializable{
 
     private GeoType geoType;
 
+    @Field("poverty")
     private PovertyInfo poverty;
 
     public static class PovertyInfo implements Serializable{
 
+        @Field("total_household")
         private int totalHousehold;
 
+        @Field("poverty_household")
         private int povertyHousehold;
 
+        @Field("poverty_percentage")
         private double povertyPercentage;
 
+        @Field("poverty_shading")
         private String povertyShading;
 
         public int getTotalHousehold() {

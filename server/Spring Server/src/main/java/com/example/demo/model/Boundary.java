@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.example.demo.common.GeoType;
 
+
 @Document(collection = "Boundary")
 public class Boundary implements Serializable{
 
