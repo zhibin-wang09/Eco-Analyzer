@@ -629,40 +629,139 @@ async function findDistrictRep(file, dest) {
   console.log("success");
 }
 
-function getColor(percentage) {
+function getColor(percentage, party) {
   // Define bins for every 5% with colors interpolated between #FFCBCB and #FF2222
-  const bins = [
-    { upperLimit: 5, color: "#CCE5FF" }, // Very light blue
-    { upperLimit: 10, color: "#99CCFF" },
-    { upperLimit: 15, color: "#66B2FF" },
-    { upperLimit: 20, color: "#3399FF" },
-    { upperLimit: 25, color: "#0080FF" },
-    { upperLimit: 30, color: "#0066CC" },
-    { upperLimit: 35, color: "#0052B2" },
-    { upperLimit: 40, color: "#003D99" },
-    { upperLimit: 45, color: "#002966" },
-    { upperLimit: 50, color: "#001A4D" }, // Medium blue
-    { upperLimit: 55, color: "#0033A0" },
-    { upperLimit: 60, color: "#0048D0" },
-    { upperLimit: 65, color: "#0059F0" },
-    { upperLimit: 70, color: "#006AF0" },
-    { upperLimit: 75, color: "#007BF0" },
-    { upperLimit: 80, color: "#008CF0" },
-    { upperLimit: 85, color: "#009DF0" },
-    { upperLimit: 90, color: "#00AEF0" },
-    { upperLimit: 95, color: "#00BFF0" },
-    { upperLimit: 100, color: "#00D0F0" }, // Deep blue
+  
+  // for demographic
+  // const bins = [
+  //   { upperLimit: 5, color: "#fff2f2" },
+  //   { upperLimit: 10, color: "#ffd9d9" },
+  //   { upperLimit: 15, color: "#ffbfbf" },
+  //   { upperLimit: 20, color: "#ffa6a6" },
+  //   { upperLimit: 25, color: "#ff8c8c" },
+  //   { upperLimit: 30, color: "#ff7373" },
+  //   { upperLimit: 35, color: "#ff5959" },
+  //   { upperLimit: 40, color: "#ff4040" },
+  //   { upperLimit: 45, color: "#ff2626" },
+  //   { upperLimit: 50, color: "#ff0d0d" },
+  //   { upperLimit: 55, color: "#f20000" },
+  //   { upperLimit: 60, color: "#d90000" },
+  //   { upperLimit: 65, color: "#bf0000" },
+  //   { upperLimit: 70, color: "#a60000" },
+  //   { upperLimit: 75, color: "#8c0000" },
+  //   { upperLimit: 80, color: "#730000" },
+  //   { upperLimit: 85, color: "#590000" },
+  //   { upperLimit: 90, color: "#400000" },
+  //   { upperLimit: 95, color: "#2e0000" },
+  //   { upperLimit: 100, color: "#1f0000" },
+  // ]
+
+  //   // for poverty
+  // const bins = [
+  //   { upperLimit: 5, color: "#f2f9ff" }, // Very light blue
+  //   { upperLimit: 10, color: "#d9ebff" },
+  //   { upperLimit: 15, color: "#bfdeff" },
+  //   { upperLimit: 20, color: "#a6d1ff" },
+  //   { upperLimit: 25, color: "#8cc4ff" },
+  //   { upperLimit: 30, color: "#73b7ff" },
+  //   { upperLimit: 35, color: "#59aaff" },
+  //   { upperLimit: 40, color: "#409dff" },
+  //   { upperLimit: 45, color: "#2690ff" },
+  //   { upperLimit: 50, color: "#0d83ff" }, // Medium blue
+  //   { upperLimit: 55, color: "#0077f2" },
+  //   { upperLimit: 60, color: "#006ad9" },
+  //   { upperLimit: 65, color: "#005ebf" },
+  //   { upperLimit: 70, color: "#0051a6" },
+  //   { upperLimit: 75, color: "#00458c" },
+  //   { upperLimit: 80, color: "#003873" },
+  //   { upperLimit: 85, color: "#002c59" },
+  //   { upperLimit: 90, color: "#001f40" },
+  //   { upperLimit: 95, color: "#00162e" },
+  //   { upperLimit: 100, color: "#001124" }, // Deep blue
+  // ];
+
+  //for income
+  // const bins = [
+  //   { upperLimit: 10000, color: "#f7fcf5" }, // Very light green
+  //   { upperLimit: 20000, color: "#e8f6e2" },
+  //   { upperLimit: 30000, color: "#d8f0ce" },
+  //   { upperLimit: 40000, color: "#c8eabb" },
+  //   { upperLimit: 50000, color: "#b9e4a7" },
+  //   { upperLimit: 60000, color: "#a9de94" },
+  //   { upperLimit: 70000, color: "#9ad880" },
+  //   { upperLimit: 80000, color: "#8ad26d" },
+  //   { upperLimit: 90000, color: "#7bcc59" },
+  //   { upperLimit: 100000, color: "#6bc646" }, // Medium green
+  //   { upperLimit: 110000, color: "#5eb939" },
+  //   { upperLimit: 120000, color: "#54a633" },
+  //   { upperLimit: 130000, color: "#4a922d" },
+  //   { upperLimit: 140000, color: "#417f27" },
+  //   { upperLimit: 150000, color: "#376b21" },
+  //   { upperLimit: 160000, color: "#2d581b" },
+  //   { upperLimit: 170000, color: "#234415" },
+  //   { upperLimit: 180000, color: "#19310f" },
+  //   { upperLimit: 190000, color: "#0f1f09" },
+  //   { upperLimit: 200000, color: "#060d04" }, // Dark green
+  // ];
+
+  const republican = [
+    { upperLimit: 10000, color: "#fff2f2" },
+    { upperLimit: 20000, color: "#ffd9d9" },
+    { upperLimit: 30000, color: "#ffbfbf" },
+    { upperLimit: 40000, color: "#ffa6a6" },
+    { upperLimit: 50000, color: "#ff8c8c" },
+    { upperLimit: 60000, color: "#ff7373" },
+    { upperLimit: 70000, color: "#ff5959" },
+    { upperLimit: 80000, color: "#ff4040" },
+    { upperLimit: 90000, color: "#ff2626" },
+    { upperLimit: 100000, color: "#ff0d0d" },
+    { upperLimit: 110000, color: "#f20000" },
+    { upperLimit: 120000, color: "#d90000" },
+    { upperLimit: 130000, color: "#bf0000" },
+    { upperLimit: 140000, color: "#a60000" },
+    { upperLimit: 150000, color: "#8c0000" },
+    { upperLimit: 160000, color: "#730000" },
+    { upperLimit: 170000, color: "#590000" },
+    { upperLimit: 180000, color: "#400000" },
+    { upperLimit: 190000, color: "#2e0000" },
+    { upperLimit: 200000, color: "#1f0000" },
   ];
 
-  // Validate input
-  if (percentage < 0 || percentage > 100) {
-    throw new Error("Percentage must be between 0 and 100");
-  }
+  const democrat = [
+      { upperLimit: 10000, color: "#f2f9ff" }, // Very light blue
+      { upperLimit: 20000, color: "#d9ebff" },
+      { upperLimit: 30000, color: "#bfdeff" },
+      { upperLimit: 40000, color: "#a6d1ff" },
+      { upperLimit: 50000, color: "#8cc4ff" },
+      { upperLimit: 60000, color: "#73b7ff" },
+      { upperLimit: 70000, color: "#59aaff" },
+      { upperLimit: 80000, color: "#409dff" },
+      { upperLimit: 90000, color: "#2690ff" },
+      { upperLimit: 100000, color: "#0d83ff" }, // Medium blue
+      { upperLimit: 110000, color: "#0077f2" },
+      { upperLimit: 120000, color: "#006ad9" },
+      { upperLimit: 130000, color: "#005ebf" },
+      { upperLimit: 140000, color: "#0051a6" },
+      { upperLimit: 150000, color: "#00458c" },
+      { upperLimit: 160000, color: "#003873" },
+      { upperLimit: 170000, color: "#002c59" },
+      { upperLimit: 180000, color: "#001f40" },
+      { upperLimit: 190000, color: "#00162e" },
+      { upperLimit: 200000, color: "#001124" }, // Deep blue
+    ];
 
   // Determine the appropriate bin
-  for (let bin of bins) {
-    if (percentage <= bin.upperLimit) {
-      return bin.color;
+  if(party == "Republican"){
+    for (let bin of republican) {
+      if (percentage <= bin.upperLimit) {
+        return bin.color;
+      }
+    }
+  }else if(party == "Democrat"){
+    for (let bin of democrat) {
+      if (percentage <= bin.upperLimit) {
+        return bin.color;
+      }
     }
   }
 
@@ -670,28 +769,36 @@ function getColor(percentage) {
   return "#FFFFFF"; // White
 }
 
-async function updateShading(file,type) {
+async function updateShading(file1, file2,type) {
   try {
-    const filePath = path.join(__dirname, file);
+    const filePath = path.join(__dirname, file1);
     const fileContent = await fsp.readFile(filePath, "utf8");
 
+    const filePath2 = path.join(__dirname, file2);
+    const fileContent2 = await fsp.readFile(filePath2, "utf8");
+
     const data = JSON.parse(fileContent);
-    const newData = data.map((m) => {
+    const data2 = JSON.parse(fileContent2);
+    const map = new Map();
+    data.forEach((m) => {
+      map.set(m.geoId, m["income"]["average_income"]);
+    })
+
+    const newData = data2.map((m) => {
       const newJson = {...m};
       // const races = ["white", "black", "asian", "hispanic", "other"]
       // for(const r of races){
       //   newJson[type][r + "_shading"] = getColor(newJson[type][r + "_percentage"] * 100);
       // }
-      newJson[type][type + "_shading"] = getColor(newJson[type][type + "_percentage"] * 100);
-      percentage = newJson[type]["poverty_percentage"];
-      newJson[type]["poverty_percentage"] = percentage == null ? 0 : percentage;
+      // newJson[type]["party_shading"] = stat == "Republican" ? "#ff0d0d" : stat == "Democrat" ? "0d83ff" : "ffffff";
+      newJson[type]["income_shading_by_party"] = getColor(map.get(m.geoId), m["election data"]["party"]);
       return newJson;
     });
-    await fsp.writeFile(filePath, JSON.stringify(newData, null, 2));
+    await fsp.writeFile(filePath2, JSON.stringify(newData, null, 2));
     console.log("success");
   } catch (e) {
     console.log(e);
   }
 }
 
-updateShading("./AR\ Poverty.json", "poverty");
+updateShading("./NY\ Income.json", "./NY\ Election.json", "election data");
