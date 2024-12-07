@@ -81,6 +81,17 @@ public class MapService {
 				return boundary;
 			case Category.POLITICALINCOME:
 				List<Votes> election = electionResultRepository.findVotesByStateIdAndGeoType(stateId, GeoType.PRECINCT);
+				Map<String, Votes> geoIdToVotes = new HashMap<>();
+				for (Votes e : election) {
+					geoIdToVotes.put(e.getGeoId(), e);
+				}
+
+				// Merge political/income data with boundary data
+				for (Boundary b : boundary) {
+					Votes i = geoIdToVotes.get(b.getProperties().getGeoId());
+					b.getProperties().setData(new HashMap<>());
+					b.getProperties().getData().put("income_shading_by_party", i.getElectionData().get("income_shading_by_party"));
+				}
 				return boundary;
 			case Category.POVERTY:
 				List<Poverty> povertyData = povertyRepository.findPovertyByStateIdAndGeoType(stateId, GeoType.PRECINCT);
