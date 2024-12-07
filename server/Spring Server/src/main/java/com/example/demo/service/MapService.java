@@ -80,7 +80,7 @@ public class MapService {
 				}
 				return boundary;
 			case Category.POLITICALINCOME:
-
+				List<Votes> election = electionResultRepository.findVotesByStateIdAndGeoType(stateId, GeoType.PRECINCT);
 				return boundary;
 			case Category.POVERTY:
 				List<Poverty> povertyData = povertyRepository.findPovertyByStateIdAndGeoType(stateId, GeoType.PRECINCT);
