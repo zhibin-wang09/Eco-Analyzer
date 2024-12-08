@@ -631,7 +631,7 @@ async function findDistrictRep(file, dest) {
 
 function getColor(percentage, party) {
   // Define bins for every 5% with colors interpolated between #FFCBCB and #FF2222
-  
+
   // for demographic
   // const bins = [
   //   { upperLimit: 5, color: "#fff2f2" },
@@ -728,36 +728,36 @@ function getColor(percentage, party) {
   ];
 
   const democrat = [
-      { upperLimit: 10000, color: "#f2f9ff" }, // Very light blue
-      { upperLimit: 20000, color: "#d9ebff" },
-      { upperLimit: 30000, color: "#bfdeff" },
-      { upperLimit: 40000, color: "#a6d1ff" },
-      { upperLimit: 50000, color: "#8cc4ff" },
-      { upperLimit: 60000, color: "#73b7ff" },
-      { upperLimit: 70000, color: "#59aaff" },
-      { upperLimit: 80000, color: "#409dff" },
-      { upperLimit: 90000, color: "#2690ff" },
-      { upperLimit: 100000, color: "#0d83ff" }, // Medium blue
-      { upperLimit: 110000, color: "#0077f2" },
-      { upperLimit: 120000, color: "#006ad9" },
-      { upperLimit: 130000, color: "#005ebf" },
-      { upperLimit: 140000, color: "#0051a6" },
-      { upperLimit: 150000, color: "#00458c" },
-      { upperLimit: 160000, color: "#003873" },
-      { upperLimit: 170000, color: "#002c59" },
-      { upperLimit: 180000, color: "#001f40" },
-      { upperLimit: 190000, color: "#00162e" },
-      { upperLimit: 200000, color: "#001124" }, // Deep blue
-    ];
+    { upperLimit: 10000, color: "#f2f9ff" }, // Very light blue
+    { upperLimit: 20000, color: "#d9ebff" },
+    { upperLimit: 30000, color: "#bfdeff" },
+    { upperLimit: 40000, color: "#a6d1ff" },
+    { upperLimit: 50000, color: "#8cc4ff" },
+    { upperLimit: 60000, color: "#73b7ff" },
+    { upperLimit: 70000, color: "#59aaff" },
+    { upperLimit: 80000, color: "#409dff" },
+    { upperLimit: 90000, color: "#2690ff" },
+    { upperLimit: 100000, color: "#0d83ff" }, // Medium blue
+    { upperLimit: 110000, color: "#0077f2" },
+    { upperLimit: 120000, color: "#006ad9" },
+    { upperLimit: 130000, color: "#005ebf" },
+    { upperLimit: 140000, color: "#0051a6" },
+    { upperLimit: 150000, color: "#00458c" },
+    { upperLimit: 160000, color: "#003873" },
+    { upperLimit: 170000, color: "#002c59" },
+    { upperLimit: 180000, color: "#001f40" },
+    { upperLimit: 190000, color: "#00162e" },
+    { upperLimit: 200000, color: "#001124" }, // Deep blue
+  ];
 
   // Determine the appropriate bin
-  if(party == "Republican"){
+  if (party == "Republican") {
     for (let bin of republican) {
       if (percentage <= bin.upperLimit) {
         return bin.color;
       }
     }
-  }else if(party == "Democrat"){
+  } else if (party == "Democrat") {
     for (let bin of democrat) {
       if (percentage <= bin.upperLimit) {
         return bin.color;
@@ -769,7 +769,7 @@ function getColor(percentage, party) {
   return "#FFFFFF"; // White
 }
 
-async function updateShading(file1, file2,type) {
+async function updateShading(file1, file2, type) {
   try {
     const filePath = path.join(__dirname, file1);
     const fileContent = await fsp.readFile(filePath, "utf8");
@@ -782,16 +782,19 @@ async function updateShading(file1, file2,type) {
     const map = new Map();
     data.forEach((m) => {
       map.set(m.geoId, m["income"]["average_income"]);
-    })
+    });
 
     const newData = data2.map((m) => {
-      const newJson = {...m};
+      const newJson = { ...m };
       // const races = ["white", "black", "asian", "hispanic", "other"]
       // for(const r of races){
       //   newJson[type][r + "_shading"] = getColor(newJson[type][r + "_percentage"] * 100);
       // }
       // newJson[type]["party_shading"] = stat == "Republican" ? "#ff0d0d" : stat == "Democrat" ? "0d83ff" : "ffffff";
-      newJson[type]["income_shading_by_party"] = getColor(map.get(m.geoId), m["election data"]["party"]);
+      newJson[type]["income_shading_by_party"] = getColor(
+        map.get(m.geoId),
+        m["election data"]["party"]
+      );
       return newJson;
     });
     await fsp.writeFile(filePath2, JSON.stringify(newData, null, 2));
@@ -801,4 +804,129 @@ async function updateShading(file1, file2,type) {
   }
 }
 
-updateShading("./NY\ Income.json", "./NY\ Election.json", "election data");
+async function combineJson(file1, file2) {
+  //file 1 is election data
+  //file2 is either racial/region/economic
+
+  try {
+    const filePath = path.join(__dirname, file1);
+    const fileContent = await fsp.readFile(filePath, "utf8");
+
+    const filePath2 = path.join(__dirname, file2);
+    const fileContent2 = await fsp.readFile(filePath2, "utf8");
+
+    const file2Data = JSON.parse(fileContent2);
+    const file1Data = JSON.parse(fileContent);
+    const map = new Map();
+    file2Data.forEach((m) => {
+      map.set(m.geoId, m);
+    });
+    const result = [];
+
+    function normalizePercentages(percentages) {
+      const total = percentages.reduce((sum, value) => sum + value, 0);
+      return percentages.map(value => value / total);
+    }
+
+    for (let data of file1Data) {
+      const total = data["election data"]["total_votes"];
+      const candidates = ["trump", "biden", "other"];
+      let percentages = [];
+      for (let c of candidates) {
+        percentages.push(data["election data"][c + "_votes"] / total);
+      }
+      percentages = normalizePercentages(percentages);
+      const json = {
+        precinct: data.geoId,
+        total: total,
+        pct_for_trump: percentages[0],
+        pct_for_biden: percentages[1],
+        pct_for_other: percentages[2],
+      };
+      map.set(data.geoId, json);
+    }
+
+    if (file2.toLowerCase().includes("race")) {
+      for (let data of file2Data) {
+        const json = map.get(data.geoId);
+        const races = ["white", "black", "asian", "hispanic", "other"];
+        let percentages = [];
+        for (let r of races) {
+          json["pct_" + r + "_pop"] = data["race"][r] / data["race"].population;
+          percentages.push(json["pct_" + r + "_pop"]);
+        }
+        percentages = normalizePercentages(percentages);
+        for (let i = 0; i < percentages.length; i++) {
+          json["pct_" + races[i] + "_pop"] = percentages[i];
+        }
+
+        result.push(json);
+      }
+    } else if (file2.toLowerCase().includes("income")) {
+      for (let data of file2Data) {
+        const json = map.get(data.geoId);
+
+        const incomeRanges = [
+          "from_0_to_9999",
+          "from_10000_to_14999",
+          "from_15000_to_24999",
+          "from_25000_to_34999",
+          "from_35000_to_49999",
+          "from_50000_to_74999",
+          "from_75000_to_99999",
+          "from_100000_and_more",
+        ];
+        let percentages = [];
+        for (let i of incomeRanges) {
+          json["pct_" + i + "_pop"] =
+            data["income"][i] / data["income"].total_household;
+          percentages.push(json["pct_" + i + "_pop"]);
+        }
+        percentages = percentages.map(a => parseFloat(a.toFixed(2)));
+
+        let sum = 0;
+        for(let p of percentages){
+          sum += p;
+        }
+        let diff = 1 - sum;
+        percentages[2] += diff;
+        for (let i = 0; i < percentages.length; i++) {
+          json["pct_" + incomeRanges[i] + "_pop"] = percentages[i];
+        }
+        sum = 0;
+        for(let p of percentages){
+          sum += p;
+        }
+        if(sum != 1) console.log(data.geoId, sum)
+        result.push(json);
+      }
+    } else if (file2.toLowerCase().includes("urbanicity")) {
+    }
+
+    const destination = path.join(__dirname, "el.json");
+    await fsp.writeFile(destination, JSON.stringify(result, null, 2));
+    console.log("success");
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+combineJson("./AR Election.json", "./AR Income.json");
+
+// async function fixFieldName(file1){
+//   const filePath = path.join(__dirname, file1);
+//   const fileContent = await fsp.readFile(filePath, "utf8");
+
+//   const data = JSON.parse(fileContent);
+//   const result = [];
+//   for(let d of data){
+//     d["income"]["from_35000_to_49999"] =  d.income.from_35000_to_49909
+//     delete d.income.from_35000_to_49909;
+//     result.push(d);
+//   }
+
+//   await fsp.writeFile(filePath, JSON.stringify(result, null, 2));
+//   console.log("success")
+// }
+
+// fixFieldName("./AR Income.json")
