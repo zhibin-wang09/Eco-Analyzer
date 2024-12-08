@@ -816,18 +816,8 @@ async function combineJson(file1, file2) {
     const file1Data = JSON.parse(fileContent);
     const map = new Map();
     
-    const sourceRanges = [
-      "from_0_to_9999",
-      "from_10000_to_14999",
-      "from_15000_to_24999",
-      "from_25000_to_34999",
-      "from_35000_to_49909",
-      "from_50000_to_74999",
-      "from_75000_to_99999",
-      "from_100000_and_more",
-    ];
 
-    const targetRanges = [
+    const incomeRanges = [
       "from_0_to_9999",
       "from_10000_to_14999",
       "from_15000_to_24999",
@@ -837,6 +827,14 @@ async function combineJson(file1, file2) {
       "from_75000_to_99999",
       "from_100000_and_more",
     ];
+
+    const races = [
+      "white",
+      "black",
+      "asian",
+      "hispanic",
+      "other"
+    ]
     
     file2Data.forEach((m) => {
       map.set(m.precinct_id, m);
@@ -854,31 +852,46 @@ async function combineJson(file1, file2) {
 
     // Election data processing
     for (let data of file1Data) {
-      const total = data.voting.total_votes;
+      const total = data["election data"].total_votes;
       const candidates = ["trump", "biden", "other"];
-      let percentages = candidates.map(c => data.voting[c + "_votes"] / total);
+      let percentages = candidates.map(c => data["election data"][c + "_votes"] / total);
       percentages = normalizePercentages(percentages);
       
       const json = {
-        precinct: data.precinct_id,
+        precinct: data.geoId,
         total: total,
         pct_for_trump: percentages[0],
         pct_for_biden: percentages[1],
         pct_for_other: percentages[2],
       };
-      map.set(data.precinct_id, json);
+      map.set(data.geoId, json);
     }
 
-    if (file2.toLowerCase().includes("income")) {
+    if (file2.toLowerCase().includes("race")) {
       for (let data of file2Data) {
-        const json = map.get(data.precinct_id);
+        const json = map.get(data.geoId);
+        let percentages = [];
+        for (let r of races) {
+          json["pct_" + r + "_pop"] = data["race"][r] / data["race"].population;
+          percentages.push(json["pct_" + r + "_pop"]);
+        }
+        percentages = normalizePercentages(percentages);
+        for (let i = 0; i < percentages.length; i++) {
+          json["pct_" + races[i] + "_pop"] = percentages[i];
+        }
+
+        result.push(json);
+      }
+    }else if (file2.toLowerCase().includes("income")) {
+      for (let data of file2Data) {
+        const json = map.get(data.geoId);
         if (!json) {
           console.log(`Warning: No matching election data for precinct ${data.precinct_id}`);
           continue;
         }
 
         // Calculate raw percentages
-        let percentages = sourceRanges.map(range => {
+        let percentages = incomeRanges.map(range => {
           const count = data.income[range] || 0; 
           const total = data.income.total_household;
           return total === 0 ? 0 : count / total;
@@ -887,17 +900,15 @@ async function combineJson(file1, file2) {
         // Normalize to ensure sum is 1
         const sum = percentages.reduce((a, b) => a + b, 0);
         if (sum === 0) {
-          percentages = percentages.map(() => 1 / sourceRanges.length);
-          console.log(`Warning: No income data for precinct ${data.precinct_id}, using equal distribution`);
+          percentages = percentages.map(() => 1 / incomeRanges.length);
+          console.log(`Warning: No income data for precinct ${data.geoId}, using equal distribution`);
         } else if (sum > 0) {
           percentages = percentages.map(p => p / sum);
         }
 
-        targetRanges.forEach((range, i) => {
+        incomeRanges.forEach((range, i) => {
           json["pct_" + range + "_pop"] = Number(percentages[i].toFixed(6));
         });
-
-        json["average_income"] = data.income.average_income || 0;
 
         result.push(json);
       }
