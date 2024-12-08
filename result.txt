@@ -1,0 +1,63 @@
+Computed from the raw b_ samples by multiplying by group populations and then
+            getting the proportion of the total pop
+            (total pop=summed across all districts):
+            The posterior mean for the district-level voting preference of
+                White. for Trump is
+                0.764
+                95% equal-tailed credible interval:  [0.75755522 0.77020896]
+                The posterior mean for the district-level voting preference of
+                White. for Biden is
+                0.233
+                95% equal-tailed credible interval:  [0.2268999  0.23923081]
+                The posterior mean for the district-level voting preference of
+                White. for Other is
+                0.003
+                95% equal-tailed credible interval:  [0.00250656 0.00354229]
+                The posterior mean for the district-level voting preference of
+                Black for Trump is
+                0.382
+                95% equal-tailed credible interval:  [0.36867809 0.3962638 ]
+                The posterior mean for the district-level voting preference of
+                Black for Biden is
+                0.601
+                95% equal-tailed credible interval:  [0.58710415 0.61482852]
+                The posterior mean for the district-level voting preference of
+                Black for Other is
+                0.017
+                95% equal-tailed credible interval:  [0.01435912 0.01959129]
+                The posterior mean for the district-level voting preference of
+                Asian for Trump is
+                0.294
+                95% equal-tailed credible interval:  [0.18856235 0.41121258]
+                The posterior mean for the district-level voting preference of
+                Asian for Biden is
+                0.662
+                95% equal-tailed credible interval:  [0.541201   0.77445769]
+                The posterior mean for the district-level voting preference of
+                Asian for Other is
+                0.044
+                95% equal-tailed credible interval:  [0.03461717 0.05466946]
+                The posterior mean for the district-level voting preference of
+                Hispanic for Trump is
+                0.450
+                95% equal-tailed credible interval:  [0.40509304 0.50489574]
+                The posterior mean for the district-level voting preference of
+                Hispanic for Biden is
+                0.493
+                95% equal-tailed credible interval:  [0.43649848 0.53651309]
+                The posterior mean for the district-level voting preference of
+                Hispanic for Other is
+                0.057
+                95% equal-tailed credible interval:  [0.04996229 0.06347054]
+                The posterior mean for the district-level voting preference of
+                Other for Trump is
+                0.125
+                95% equal-tailed credible interval:  [0.07929699 0.16204684]
+                The posterior mean for the district-level voting preference of
+                Other for Biden is
+                0.570
+                95% equal-tailed credible interval:  [0.53084472 0.61932534]
+                The posterior mean for the district-level voting preference of
+                Other for Other is
+                0.305
+                95% equal-tailed credible interval:  [0.29081059 0.31667827]
