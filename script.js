@@ -943,3 +943,25 @@ combineJson("./AR Election.json", "./AR Income.json");
 // }
 
 // fixFieldName("./AR Income.json")
+
+// async function findStateWideAverageIncome(file){
+//   try{
+//     const filePath = path.join(__dirname, file);
+//     const fileContent = await fsp.readFile(filePath, 'utf-8');
+//     const json = JSON.parse(fileContent);
+
+//     let totalIncome = 0;
+//     let totalPopulation =0;
+
+//     for(let d of json){
+//       totalIncome += d.income.average_income * d.income.total_household;
+//       totalPopulation += d.income.total_household;
+//     }
+
+//     console.log(totalIncome / totalPopulation);
+//   }catch(e){
+//     console.log(e);
+//   }
+// }
+
+// findStateWideAverageIncome("./ny_income.json")
