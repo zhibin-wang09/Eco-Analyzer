@@ -2,3 +2,13 @@
 **/newyork_precincts.json filter=lfs diff=lfs merge=lfs -text
 server/Spring[[:space:]]Server/src/main/resources/precinct/ar_data.json filter=lfs diff=lfs merge=lfs -text
 server/Spring[[:space:]]Server/src/main/resources/precinct/ny_data.json filter=lfs diff=lfs merge=lfs -text
+server/Spring[[:space:]]Server/src/main/resources/ar_district_plan_1.json filter=lfs diff=lfs merge=lfs -text
+server/Spring[[:space:]]Server/src/main/resources/ar_district_plan_2.json filter=lfs diff=lfs merge=lfs -text
+server/Spring[[:space:]]Server/src/main/resources/ar_district_plan_3.json filter=lfs diff=lfs merge=lfs -text
+server/Spring[[:space:]]Server/src/main/resources/ar_district_plan_4.json filter=lfs diff=lfs merge=lfs -text
+server/Spring[[:space:]]Server/src/main/resources/ar_district_plan_5.json filter=lfs diff=lfs merge=lfs -text
+server/Spring[[:space:]]Server/src/main/resources/ny_district_plan_3.json filter=lfs diff=lfs merge=lfs -text
+server/Spring[[:space:]]Server/src/main/resources/ny_district_plan_4.json filter=lfs diff=lfs merge=lfs -text
+server/Spring[[:space:]]Server/src/main/resources/ny_district_plan_5.json filter=lfs diff=lfs merge=lfs -text
+server/Spring[[:space:]]Server/src/main/resources/ny_district_plan_1.json filter=lfs diff=lfs merge=lfs -text
+server/Spring[[:space:]]Server/src/main/resources/ny_district_plan_2.json filter=lfs diff=lfs merge=lfs -text
