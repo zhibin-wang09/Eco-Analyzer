@@ -1,9 +1,14 @@
 package com.example.demo.service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +48,26 @@ public class MapService {
 	@Cacheable(value = "map")
 	public List<Boundary> getBoundaryData(int stateId, GeoType geoType) {
 		return boundaryRepository.findByStateIdAndGeoType(stateId, geoType);
+	}
+
+	public String getDistrictPlan(int stateId, int districtPlan){
+		String stateAbbrev = stateId == 36 ? "ny" : "ar";
+		StringBuilder jsonString = new StringBuilder();
+
+		try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(stateAbbrev + "_district_plan_" + districtPlan + ".json")){
+			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+				String line;
+
+				while ((line = reader.readLine()) != null) {
+					jsonString.append(line);
+				}
+		}
+		catch(IOException e){
+			e.printStackTrace();
+		}
+
+		JSONArray obj = new JSONArray(jsonString.toString());
+		return obj.toString();
 	}
 
 	@Cacheable(value = "heatmap")

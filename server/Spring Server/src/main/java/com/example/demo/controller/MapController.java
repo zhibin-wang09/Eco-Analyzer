@@ -49,6 +49,33 @@ public class MapController {
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
+	@GetMapping(value = "/api/map/districtplan", produces = "application/json")
+	public ResponseEntity<String> getDistrictPlan(@RequestParam("state") String state,
+			@RequestParam Integer districtPlan) {
+		int id = 0;
+		State s = null;
+		int districtPlanNum = -1;
+		try {
+			s = State.valueOf(state.toUpperCase());
+
+			id = StateIdConvertor.stringToId(s);
+			if (id == -1) {
+				throw new IllegalArgumentException("id does not match ");
+			}
+
+			if(districtPlan == null || (districtPlan < 0 || districtPlan > 5)){
+				throw new IllegalArgumentException("district plan does not exist");
+			}else{
+				districtPlanNum = districtPlan;
+			}
+		} catch (Exception e) {
+			ResponseEntity.status(404).body(e.toString());
+		}
+		
+		return ResponseEntity.ok(mapService.getDistrictPlan(id, districtPlanNum));
+	}
+
+	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping(value = "/api/heatmap/{category}")
 	public ResponseEntity<List<Boundary>> getHeapMaps(@PathVariable("category") String category,
 			@RequestParam String state, @RequestParam(required = false) String demographicGroup) {
@@ -58,7 +85,8 @@ public class MapController {
 		DemographicGroup d = null;
 		try {
 			cat = Category.valueOf(category.toUpperCase());
-			if(demographicGroup != null) d = DemographicGroup.valueOf(demographicGroup.toUpperCase());
+			if (demographicGroup != null)
+				d = DemographicGroup.valueOf(demographicGroup.toUpperCase());
 			s = State.valueOf(state.toUpperCase());
 
 			id = StateIdConvertor.stringToId(s);
