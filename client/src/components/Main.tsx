@@ -1,19 +1,48 @@
 import { useEffect, useState } from "react";
 import { 
   Box, 
-  Flex, 
+  Flex,
   useBreakpointValue, 
-  ResponsiveValue, 
+  ResponsiveValue,
   VStack,
   SlideFade,
   ScaleFade,
+  Tabs,
+  TabList,
+  Tab,
+  Container,
 } from "@chakra-ui/react";
 import USMap from "./USMap";
 import BaseChart from "./BaseChart";
 import Navbar from "./Navbar";
 import { VisualizationType } from "./ChartDataItemInterface";
 import Frame from "./ui";
-import InferenceMenu from "./InferenceMenu";
+import CongressionalTable from "./CongressionalTable";
+import RacePie from "./RacePie";
+import { HeatmapType } from "./HeatmapControls";
+
+const mockData = [
+  {
+    district: '1',
+    representative: 'John Doe',
+    party: 'Democrat',
+    ethnicity: 'White',
+    income: 55000,
+    poverty: 12.5,
+    regionType: { rural: 30, urban: 40, suburban: 30 },
+    voteMargin: 10.2,
+  },
+  {
+    district: '2',
+    representative: 'Jane Smith',
+    party: 'Republican',
+    ethnicity: 'Hispanic',
+    income: 42000,
+    poverty: 18.4,
+    regionType: { rural: 50, urban: 25, suburban: 25 },
+    voteMargin: 5.1,
+  },
+];
 
 const MainLayout = () => {
   const [selectedState, setSelectedState] = useState<string>("State");
@@ -21,14 +50,17 @@ const MainLayout = () => {
   const [districtData, setDistrictData] = useState("");
   const [isDataVisible, setIsDataVisible] = useState(false);
   const [shouldFadeOut, setShouldFadeOut] = useState(false);
-  const [selectedVisualization, setSelectedVisualization] = useState<VisualizationType>('gingles');
+  const [selectedVisualization, setSelectedVisualization] = useState<VisualizationType>('overview');
   const [geoLevel, setGeoLevel] = useState<'district' | 'precinct'>('district');
-  const [showHeatmap, setShowHeatmap] = useState(false);
+  const [heatmapType, setHeatmapType] = useState<HeatmapType>('none');
+  const [selectedDistrict, setSelectedDistrict] = useState<string | null>(null);
+  const [tabIndex, setTabIndex] = useState(0);
+  const [selectedDemographic, setSelectedDemographic] = useState<string>('white');
 
-  // Reset heatmap when changing geo level or state
-  useEffect(() => {
-    setShowHeatmap(false);
-  }, [geoLevel, selectedState]);
+  const direction = useBreakpointValue({
+    base: "column",
+    md: "row",
+  }) as ResponsiveValue<"column" | "row">;
 
   useEffect(() => {
     if (selectedState !== "State") {
@@ -53,77 +85,137 @@ const MainLayout = () => {
     }
   }, [selectedState]);
 
-  const direction = useBreakpointValue({
-    base: "column",
-    md: "row",
-  }) as ResponsiveValue<"column" | "row">;
+  const handleSelectDistrict = (district: string) => {
+    setSelectedDistrict(district);
+  };
+
+  const handleTabChange = (index: number) => {
+    setTabIndex(index);
+    const visualizations: VisualizationType[] = ['overview', 'gingles', 'goodman', 'income', 'normalizedgingles', 'hierarchical'];
+    setSelectedVisualization(visualizations[index]);
+  };
 
   return (
     <Frame>
-      <Box width="100%">
-        <VStack spacing={8} align="stretch">
-          <Navbar
-            onSelectChange={onSelectChange}
-            select={select}
-            onStateChange={setSelectedState}
-            state={selectedState}
-            setSelectedVisualization={setSelectedVisualization}
-            geoLevel={geoLevel}
-            onGeoLevelChange={setGeoLevel}
-            showHeatmap={showHeatmap}
-            onHeatmapChange={setShowHeatmap}
-          />
-          <Flex direction={direction} width="100%" gap={8}>
+      <Container maxW="100%" px={4}>
+        <VStack spacing={2} align="stretch" w="100%">
+          <Box>
+            <Navbar
+              onSelectChange={onSelectChange}
+              select={select}
+              onStateChange={setSelectedState}
+              state={selectedState}
+              setSelectedVisualization={setSelectedVisualization}
+              geoLevel={geoLevel}
+              onGeoLevelChange={setGeoLevel}
+              heatmapType={heatmapType}
+              onHeatmapChange={setHeatmapType}
+              onDemographicChange={setSelectedDemographic}
+            />
+          </Box>
+          
+          <Flex 
+            direction={direction} 
+            w="100%" 
+            gap={4}
+            justify="space-between"
+          >
             <Box
-              width={selectedState !== "State" ? "400px" : "100%"}
+              width={selectedState !== "State" ? { base: "100%", lg: "40%" } : "100%"}
               flexShrink={0}
               transition="width 0.5s ease-in-out"
             >
-              <USMap
-                onStateSelect={setSelectedState}
-                selectedState={selectedState}
-                selectedData={select}
-                setDistrictData={setDistrictData}
-                geoLevel={geoLevel}
-                showHeatmap={showHeatmap}
-              />
+              <VStack spacing={4} align="stretch">
+                <USMap
+                  onStateSelect={setSelectedState}
+                  selectedState={selectedState}
+                  selectedData={select}
+                  setDistrictData={setDistrictData}
+                  geoLevel={geoLevel}
+                  heatmapType={heatmapType}
+                  selectedDistrict={selectedDistrict}
+                  selectedDemographic={selectedDemographic}
+                />
+                {selectedState !== "State" && <RacePie />}
+              </VStack>
             </Box>
-            
-            <SlideFade
-              in={isDataVisible && !shouldFadeOut}
-              offsetX="20px"
-              transition={{ 
-                enter: { duration: 0.5, delay: 0.2 },
-                exit: { duration: 0.3 }
-              }}
-              style={{ flex: 1 }}
-            >
-              <ScaleFade
-                initialScale={0.9}
-                in={isDataVisible && !shouldFadeOut}
-                transition={{ 
-                  enter: { duration: 0.5, delay: 0.2 },
-                  exit: { duration: 0.3 }
-                }}
+            {selectedState !== "State" && (
+              <Box
+                flex={1}
+                minW={0}
               >
-                {selectedState !== "State" && (
-                  <Box 
-                    width="100%"
-                    bg="white" 
-                    p={6} 
-                    borderRadius="xl" 
-                    boxShadow="md"
+                <SlideFade
+                  in={isDataVisible && !shouldFadeOut}
+                  offsetX="20px"
+                  transition={{ enter: { duration: 0.5 }, exit: { duration: 0.3 } }}
+                >
+                  <ScaleFade
+                    initialScale={0.9}
+                    in={isDataVisible && !shouldFadeOut}
+                    transition={{ enter: { duration: 0.5 }, exit: { duration: 0.3 } }}
                   >
-                    <BaseChart
-                      selectedState={selectedState}
-                      selectedVisualization={selectedVisualization} />
-                  </Box>
-                )}
-              </ScaleFade>
-            </SlideFade>
+                    <Box 
+                      w="100%"
+                      bg="white" 
+                      p={3} 
+                      borderRadius="xl" 
+                      boxShadow="md"
+                      overflow="hidden"
+                    >
+                      <Tabs 
+                        variant="soft-rounded" 
+                        colorScheme="blue" 
+                        index={tabIndex} 
+                        onChange={handleTabChange}
+                        mb={2}
+                        size="sm"
+                      >
+                        <TabList 
+                          overflowX="auto" 
+                          pb={2}
+                          sx={{
+                            scrollbarWidth: 'thin',
+                            '&::-webkit-scrollbar': {
+                              height: '6px',
+                            },
+                            '&::-webkit-scrollbar-thumb': {
+                              backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                              borderRadius: '3px',
+                            }
+                          }}
+                        >
+                          <Tab>Overview</Tab>
+                          <Tab>Gingles</Tab>
+                          <Tab>Box & Whisker</Tab>
+                          <Tab>Income</Tab>
+                          <Tab>Normalized</Tab>
+                          <Tab>Hierarchical</Tab>
+                        </TabList>
+                      </Tabs>
+                      
+                      {selectedVisualization === 'overview' && (
+                        <Box overflow="auto">
+                          <CongressionalTable 
+                            data={mockData} 
+                            onSelectDistrict={handleSelectDistrict} 
+                          />
+                        </Box>
+                      )}
+                      
+                      <Box overflow="hidden">
+                        <BaseChart
+                          selectedState={selectedState}
+                          selectedVisualization={selectedVisualization} 
+                        />
+                      </Box>
+                    </Box>
+                  </ScaleFade>
+                </SlideFade>
+              </Box>
+            )}
           </Flex>
         </VStack>
-      </Box>
+      </Container>
     </Frame>
   );
 };

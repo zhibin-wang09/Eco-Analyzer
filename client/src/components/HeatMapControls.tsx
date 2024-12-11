@@ -1,19 +1,32 @@
-import React from 'react';
-import { Menu, MenuButton, MenuList, MenuItem, Button, Tooltip } from '@chakra-ui/react';
+import React, { useState } from 'react';
+import { 
+  Menu, 
+  MenuButton, 
+  MenuList, 
+  MenuItem, 
+  Button, 
+  Tooltip,
+  HStack,
+  Select,
+  Box 
+} from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 
 export type HeatmapType = 'none' | 'demographic' | 'poverty' | 'economic' | 'politicalincome';
+export type DemographicGroup = 'white' | 'black' | 'hispanic' | 'asian';
 
 interface HeatmapControlsProps {
   isEnabled: boolean;
   onHeatmapChange: (type: HeatmapType) => void;
   currentType: HeatmapType;
+  onDemographicChange?: (group: DemographicGroup) => void;
 }
 
 const HeatmapControls: React.FC<HeatmapControlsProps> = ({
   isEnabled,
   onHeatmapChange,
-  currentType
+  currentType,
+  onDemographicChange
 }) => {
   if (!isEnabled) return null;
 
@@ -29,11 +42,7 @@ const HeatmapControls: React.FC<HeatmapControlsProps> = ({
   };
 
   return (
-    <Tooltip
-      label="Select different heatmap visualizations"
-      hasArrow
-      placement="top"
-    >
+    <HStack spacing={2}>
       <Menu>
         <MenuButton
           as={Button}
@@ -61,7 +70,21 @@ const HeatmapControls: React.FC<HeatmapControlsProps> = ({
           </MenuItem>
         </MenuList>
       </Menu>
-    </Tooltip>
+
+      {currentType === 'demographic' && onDemographicChange && (
+        <Select
+          size="md"
+          width="150px"
+          bg="white"
+          onChange={(e) => onDemographicChange(e.target.value as DemographicGroup)}
+        >
+          <option value="white">White</option>
+          <option value="black">Black</option>
+          <option value="hispanic">Hispanic</option>
+          <option value="asian">Asian</option>
+        </Select>
+      )}
+    </HStack>
   );
 };
 
