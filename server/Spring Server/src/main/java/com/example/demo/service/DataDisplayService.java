@@ -19,6 +19,7 @@ import com.example.demo.model.Income;
 import com.example.demo.model.PrecinctDetail;
 import com.example.demo.model.Urbanicity;
 import com.example.demo.model.Votes;
+import com.example.demo.repository.BoxPlotRepository;
 import com.example.demo.repository.DemographicRepository;
 import com.example.demo.repository.ElectionResultRepository;
 import com.example.demo.repository.IncomeRepository;
@@ -33,16 +34,19 @@ public class DataDisplayService {
 	IncomeRepository incomeRepository;
 	DistrictDetailRepository districtDetailRepository;
 	UrbanicityRepository urbanicityRepository;
+	BoxPlotRepository boxPlotRepository;
 
 	public DataDisplayService(DemographicRepository demographicRepository,
 			ElectionResultRepository electionResultRepository, IncomeRepository incomeRepository,
 			DistrictDetailRepository districtDetailRepository,
-			UrbanicityRepository urbanicityRepository) {
+			UrbanicityRepository urbanicityRepository,
+			BoxPlotRepository boxPlotRepository) {
 		this.demographicRepository = demographicRepository;
 		this.electionResultRepository = electionResultRepository;
 		this.incomeRepository = incomeRepository;
 		this.districtDetailRepository = districtDetailRepository;
 		this.urbanicityRepository = urbanicityRepository;
+		this.boxPlotRepository = boxPlotRepository;
 	}
 
 	@Cacheable(value = "gingles")
@@ -237,10 +241,8 @@ public class DataDisplayService {
 		return new PrecinctDetail();
 	}
 
-	@Cacheable(value = "boxPlot")
 	public List<BoxPlot> getBoxPlot(int stateId, Category category, RegionType regionType){
-		BoxPlot box = new BoxPlot();
-
-		return new ArrayList<>();
+		System.out.println(stateId);
+		return boxPlotRepository.findBoxPlotByStateIdAndCategoryAndRegionType(stateId, category, regionType);
 	}
 }

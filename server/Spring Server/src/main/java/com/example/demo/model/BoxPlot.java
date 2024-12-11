@@ -7,18 +7,19 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import com.example.demo.common.Category;
 import com.example.demo.common.RegionType;
 
-@Document
+@Document(collection = "BoxPlot")
 public class BoxPlot {
 
     @Id
     private String id;
 
+    private String geoId;
+
     private int stateId;
 
     private RegionType regionType;
 
-    @Field("metric")
-    private Category metric;
+    private Category category;
 
     private String range;
 
@@ -29,6 +30,7 @@ public class BoxPlot {
         private Double q1;
         private Double median;
         private Double q3;
+        private Double max;
 
         public Double getMin() {
             return this.min;
@@ -70,7 +72,6 @@ public class BoxPlot {
             this.max = max;
         }
 
-        private Double max;
     }
 
 
@@ -98,12 +99,12 @@ public class BoxPlot {
         this.regionType = regionType;
     }
 
-    public Category getMetric() {
-        return this.metric;
+    public Category getCategory() {
+        return this.category;
     }
 
-    public void setMetric(Category metric) {
-        this.metric = metric;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public String getRange() {
@@ -120,6 +121,14 @@ public class BoxPlot {
 
     public void setBoxPlot(BoxPlotData boxPlot) {
         this.boxPlot = boxPlot;
+    }
+
+    public String getGeoId() {
+        return this.geoId;
+    }
+
+    public void setGeoId(String geoId) {
+        this.geoId = geoId;
     }
 
 }

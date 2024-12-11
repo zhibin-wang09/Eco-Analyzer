@@ -94,25 +94,24 @@ public class DataDisplayController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(value = "/api/graph/boxplot")
-    public ResponseEntity<List<BoxPlot>> getBoxplot(@RequestParam String state, @RequestParam String category, @RequestParam(required = false) String regionType) {
+    public ResponseEntity<List<BoxPlot>> getBoxplot(@RequestParam String state, @RequestParam String category,
+            @RequestParam String regionType) {
         int id = -1;
         Category c = null;
         RegionType r = null;
         try {
             id = StateIdConvertor.stringToId(State.valueOf(state.toUpperCase()));
-            c = Category.valueOf(category.toLowerCase());
-            if(regionType == null){
-                r = RegionType.ALL;
-            }else{
-                r = RegionType.valueOf(regionType.toLowerCase());
-            }
+            c = Category.valueOf(category.toUpperCase());
+            r = RegionType.valueOf(regionType.toUpperCase());
             if (id == -1) {
                 throw new IllegalArgumentException();
             }
 
         } catch (Exception e) {
+            System.out.println(e);
             return ResponseEntity.badRequest().body(null);
         }
+
         return ResponseEntity.ok(dataDisplayService.getBoxPlot(id, c, r));
     }
 }

@@ -971,7 +971,7 @@ async function processBoxWhisker(file1, sortByRegion) {
     const fileContent = await fsp.readFile(filePath, "utf8");
 
     const data = JSON.parse(fileContent);
-    const stateId = file1.toLowerCase().includes("ar") ? 5 : 36;
+    const stateId = file1.toLowerCase().includes("ny") ? 36 : 5;
     const result = [];
     if (sortByRegion) {
       for (let districtNumber in data) {
@@ -984,8 +984,8 @@ async function processBoxWhisker(file1, sortByRegion) {
               const json = {
                 geoId: districtNumber.padStart(2, "0"),
                 stateId: stateId,
-                regionType: regionType,
-                category: m,
+                regionType: regionType.toUpperCase(),
+                category: m == 'race' ? "DEMOGRAPHIC": "ECONOMIC",
                 range: r,
                 boxPlot: ranges[r],
               };
@@ -1003,8 +1003,8 @@ async function processBoxWhisker(file1, sortByRegion) {
               const json = {
                 geoId: districtNumber.padStart(2, "0"),
                 stateId: stateId,
-                regionType: "all",
-                category: "DEMOGRAPHIC",
+                regionType: "ALL",
+                category: file1.includes("income") ? "ECONOMIC" : file1.includes("race") ? "DEMOGRAPHIC" : "URBANICITY" ,
                 range: ranges,
                 boxPlot: boxPlot,
               };
@@ -1024,7 +1024,14 @@ async function processBoxWhisker(file1, sortByRegion) {
   }
 }
 
-processBoxWhisker(
-  "./boxplots/NY_district_summaries_race.json",
-  false
-);
+
+const fileNames = ["_district_region_summaries","_district_region_race_income_summary","_district_summaries_income","_district_summaries_race"];
+const states = ["AR", "NY"];
+
+for(let s of states){
+  for(let f of fileNames){
+    const dir = "./boxplots/";
+    const file = dir + s + f + ".json";
+    processBoxWhisker(file,f.includes("region_race_income") ? true: false );
+  }
+}
