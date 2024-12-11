@@ -1,6 +1,8 @@
+import React from 'react';
 import { Box } from '@chakra-ui/react';
-import { VisualizationType } from './ChartDataItemInterface';
 import Gingles from './Gingles';
+import StateOverviewChart from './StateOverviewChart'; // Import the new component
+import { VisualizationType } from './ChartDataItemInterface';
 import { 
   GoodmanRegression,
   RxCInference,
@@ -9,23 +11,22 @@ import {
 import IncomeGingles from './IncomeGingles';
 import NormalizedGingles from './NormalizedGingles';
 
-// Define the props interface for BaseChart component
 interface BaseChartProps {
   selectedState: string;
   selectedVisualization?: VisualizationType;
 }
 
-const BaseChart: React.FC<BaseChartProps> = ({ 
-  selectedState, 
-  selectedVisualization = 'gingles'
+const BaseChart: React.FC<BaseChartProps> = ({
+  selectedState,
+  selectedVisualization = 'overview', // Default to 'overview'
 }) => {
-  const renderVisualization = () => {
-    if (selectedVisualization === 'gingles') {
-      return <Gingles selectedState={selectedState} />;
-    }
 
-    // Then handle other visualization types
-    switch(selectedVisualization) {
+  const renderVisualization = () => {
+    switch (selectedVisualization) {
+      case 'gingles':
+        return <Gingles selectedState={selectedState} />;
+      case 'overview': 
+        return <StateOverviewChart />;
       case 'goodman':
         return <GoodmanRegression />;
       case 'income':
@@ -34,16 +35,14 @@ const BaseChart: React.FC<BaseChartProps> = ({
         return <NormalizedGingles selectedState={selectedState} />;
       case 'hierarchical':
         return <HierarchicalEI />;
+      
       default:
-        return <Gingles selectedState={selectedState} />; // Fallback to Gingles if no valid selection
+        return <StateOverviewChart/>; // Fallback to overview
     }
   };
 
-  return (
-    <Box>
-      {renderVisualization()}
-    </Box>
-  );
+
+  return <Box>{renderVisualization()}</Box>;
 };
 
 export default BaseChart;

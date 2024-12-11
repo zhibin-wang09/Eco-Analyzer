@@ -1,7 +1,9 @@
-import { Box, HStack, Heading, Select, Button, ButtonGroup, Tooltip } from "@chakra-ui/react";
-import { RepeatIcon, InfoIcon } from '@chakra-ui/icons';
+import React from 'react';
+import { Box, HStack, Heading, Select, Button, ButtonGroup } from "@chakra-ui/react";
+import { RepeatIcon } from '@chakra-ui/icons';
 import InferenceMenu from "./InferenceMenu";
 import { VisualizationType } from './ChartDataItemInterface';
+import HeatmapControls, { HeatmapType } from './HeatmapControls';
 
 interface NavbarProps {
   onSelectChange: (val: string) => void;
@@ -11,8 +13,9 @@ interface NavbarProps {
   setSelectedVisualization: (type: VisualizationType) => void;
   geoLevel: 'district' | 'precinct';
   onGeoLevelChange: (level: 'district' | 'precinct') => void;
-  showHeatmap: boolean;
-  onHeatmapChange: (show: boolean) => void;
+  heatmapType: HeatmapType;
+  onHeatmapChange: (type: HeatmapType) => void;
+  onDemographicChange: (group: string) => void;
 }
 
 const Navbar: React.FC<NavbarProps> = ({
@@ -23,12 +26,23 @@ const Navbar: React.FC<NavbarProps> = ({
   setSelectedVisualization,
   geoLevel,
   onGeoLevelChange,
-  showHeatmap,
+  heatmapType,
   onHeatmapChange,
+  onDemographicChange,
 }) => {
   const handleReset = () => {
     onStateChange("State");
     setSelectedVisualization('standard');
+    onHeatmapChange('none');
+  };
+
+  // New handler for geo level changes
+  const handleGeoLevelChange = (level: 'district' | 'precinct') => {
+    // If switching to district view, automatically disable heatmap
+    if (level === 'district') {
+      onHeatmapChange('none');
+    }
+    onGeoLevelChange(level);
   };
 
   return (
@@ -54,7 +68,7 @@ const Navbar: React.FC<NavbarProps> = ({
             <>
               <ButtonGroup isAttached variant="solid" size="md">
                 <Button
-                  onClick={() => onGeoLevelChange('district')}
+                  onClick={() => handleGeoLevelChange('district')}
                   bg={geoLevel === 'district' ? "#F7CFF2" : "white"}
                   _hover={{ bg: "#F7CFF2" }}
                   borderRadius="md"
@@ -64,7 +78,7 @@ const Navbar: React.FC<NavbarProps> = ({
                   Districts
                 </Button>
                 <Button
-                  onClick={() => onGeoLevelChange('precinct')}
+                  onClick={() => handleGeoLevelChange('precinct')}
                   bg={geoLevel === 'precinct' ? "#F7CFF2" : "white"}
                   _hover={{ bg: "#F7CFF2" }}
                   borderRadius="md"
@@ -73,20 +87,12 @@ const Navbar: React.FC<NavbarProps> = ({
                 </Button>
               </ButtonGroup>
               {geoLevel === 'precinct' && (
-                <Tooltip
-                  label="Toggle between regular map and heatmap visualization"
-                  hasArrow
-                  placement="top"
-                >
-                  <Button
-                    onClick={() => onHeatmapChange(!showHeatmap)}
-                    bg={showHeatmap ? "#F7CFF2" : "white"}
-                    _hover={{ bg: "#F7CFF2" }}
-                    leftIcon={<InfoIcon />}
-                  >
-                    {showHeatmap ? 'Hide Heatmap' : 'Show Heatmap'}
-                  </Button>
-                </Tooltip>
+                <HeatmapControls
+                  isEnabled={true}
+                  onHeatmapChange={onHeatmapChange}
+                  currentType={heatmapType}
+                  onDemographicChange={onDemographicChange}
+                />
               )}
             </>
           )}
