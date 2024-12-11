@@ -808,14 +808,13 @@ async function combineJson(file1, file2) {
   try {
     const filePath = path.join(__dirname, file1);
     const fileContent = await fsp.readFile(filePath, "utf8");
-    
+
     const filePath2 = path.join(__dirname, file2);
     const fileContent2 = await fsp.readFile(filePath2, "utf8");
-    
+
     const file2Data = JSON.parse(fileContent2);
     const file1Data = JSON.parse(fileContent);
     const map = new Map();
-    
 
     const incomeRanges = [
       "from_0_to_9999",
@@ -828,35 +827,34 @@ async function combineJson(file1, file2) {
       "from_100000_and_more",
     ];
 
-    const races = [
-      "white",
-      "black",
-      "asian",
-      "hispanic",
-      "other"
-    ]
-    
+    const races = ["white", "black", "asian", "hispanic", "other"];
+
     file2Data.forEach((m) => {
       map.set(m.precinct_id, m);
     });
-    
+
     const result = [];
 
     function normalizePercentages(percentages) {
-      const total = percentages.reduce((sum, value) => sum + (isNaN(value) ? 0 : value), 0);
+      const total = percentages.reduce(
+        (sum, value) => sum + (isNaN(value) ? 0 : value),
+        0
+      );
       if (total === 0) {
         return percentages.map(() => 0); // Return all zeros if total is 0
       }
-      return percentages.map(value => (isNaN(value) ? 0 : value) / total);
+      return percentages.map((value) => (isNaN(value) ? 0 : value) / total);
     }
 
     // Election data processing
     for (let data of file1Data) {
       const total = data["election data"].total_votes;
       const candidates = ["trump", "biden", "other"];
-      let percentages = candidates.map(c => data["election data"][c + "_votes"] / total);
+      let percentages = candidates.map(
+        (c) => data["election data"][c + "_votes"] / total
+      );
       percentages = normalizePercentages(percentages);
-      
+
       const json = {
         precinct: data.geoId,
         total: total,
@@ -882,17 +880,19 @@ async function combineJson(file1, file2) {
 
         result.push(json);
       }
-    }else if (file2.toLowerCase().includes("income")) {
+    } else if (file2.toLowerCase().includes("income")) {
       for (let data of file2Data) {
         const json = map.get(data.geoId);
         if (!json) {
-          console.log(`Warning: No matching election data for precinct ${data.precinct_id}`);
+          console.log(
+            `Warning: No matching election data for precinct ${data.precinct_id}`
+          );
           continue;
         }
 
         // Calculate raw percentages
-        let percentages = incomeRanges.map(range => {
-          const count = data.income[range] || 0; 
+        let percentages = incomeRanges.map((range) => {
+          const count = data.income[range] || 0;
           const total = data.income.total_household;
           return total === 0 ? 0 : count / total;
         });
@@ -901,9 +901,11 @@ async function combineJson(file1, file2) {
         const sum = percentages.reduce((a, b) => a + b, 0);
         if (sum === 0) {
           percentages = percentages.map(() => 1 / incomeRanges.length);
-          console.log(`Warning: No income data for precinct ${data.geoId}, using equal distribution`);
+          console.log(
+            `Warning: No income data for precinct ${data.geoId}, using equal distribution`
+          );
         } else if (sum > 0) {
-          percentages = percentages.map(p => p / sum);
+          percentages = percentages.map((p) => p / sum);
         }
 
         incomeRanges.forEach((range, i) => {
@@ -913,18 +915,15 @@ async function combineJson(file1, file2) {
         result.push(json);
       }
     }
-    
 
     const destination = path.join(__dirname, "el.json");
     await fsp.writeFile(destination, JSON.stringify(result, null, 2));
-
   } catch (e) {
     console.error("Error:", e);
   }
 }
 
-
-combineJson("./AR Election.json", "./AR Income.json");
+// combineJson("./AR Election.json", "./AR Income.json");
 
 // async function fixFieldName(file1){
 //   const filePath = path.join(__dirname, file1);
@@ -965,3 +964,67 @@ combineJson("./AR Election.json", "./AR Income.json");
 // }
 
 // findStateWideAverageIncome("./ny_income.json")
+
+async function processBoxWhisker(file1, sortByRegion) {
+  try {
+    const filePath = path.join(__dirname, file1);
+    const fileContent = await fsp.readFile(filePath, "utf8");
+
+    const data = JSON.parse(fileContent);
+    const stateId = file1.toLowerCase().includes("ar") ? 5 : 36;
+    const result = [];
+    if (sortByRegion) {
+      for (let districtNumber in data) {
+        const district = data[districtNumber];
+        for (let regionType in district) {
+          const metric = district[regionType];
+          for (let m in metric) {
+            const ranges = metric[m];
+            for (let r in ranges) {
+              const json = {
+                geoId: districtNumber.padStart(2, "0"),
+                stateId: stateId,
+                regionType: regionType,
+                category: m,
+                range: r,
+                boxPlot: ranges[r],
+              };
+
+              result.push(json);
+            }
+          }
+        }
+      }
+    } else {
+      for (let districtNumber in data) {
+        const district = data[districtNumber];
+          for (let ranges in district) {
+            const boxPlot = district[ranges];
+              const json = {
+                geoId: districtNumber.padStart(2, "0"),
+                stateId: stateId,
+                regionType: "all",
+                category: "DEMOGRAPHIC",
+                range: ranges,
+                boxPlot: boxPlot,
+              };
+
+              result.push(json);
+            }
+      }
+    }
+
+    await fsp.writeFile(
+      "./boxplots/ready_data/" + file1.toLowerCase().slice(11),
+      JSON.stringify(result, null, 2)
+    );
+    console.log("success");
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+processBoxWhisker(
+  "./boxplots/NY_district_summaries_race.json",
+  false
+);

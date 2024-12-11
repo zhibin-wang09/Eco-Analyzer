@@ -9,7 +9,10 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.common.GeoType;
+import com.example.demo.common.RegionType;
+import com.example.demo.common.Category;
 import com.example.demo.model.DistrictDetail;
+import com.example.demo.model.BoxPlot;
 import com.example.demo.model.Demographic;
 import com.example.demo.model.Gingles;
 import com.example.demo.model.Income;
@@ -232,5 +235,12 @@ public class DataDisplayService {
 
 	public PrecinctDetail getPrecinctDetail(int stateId, String geoId){
 		return new PrecinctDetail();
+	}
+
+	@Cacheable(value = "boxPlot")
+	public List<BoxPlot> getBoxPlot(int stateId, Category category, RegionType regionType){
+		BoxPlot box = new BoxPlot();
+
+		return new ArrayList<>();
 	}
 }
