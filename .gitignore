@@ -1,4 +1,3 @@
 .DS_Store
 server/Spring Server/dump.rdb
-client/package-lock.json
-client/package.json
+
