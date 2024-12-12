@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Box, VStack, HStack, Text, ButtonGroup, Button, useToast } from '@chakra-ui/react';
+import { Box, VStack, HStack, Text, Select, ButtonGroup, Button } from '@chakra-ui/react';
 import {
   ComposedChart,
   Scatter,
@@ -13,12 +13,13 @@ import {
   ResponsiveContainer
 } from 'recharts';
 
+type UrbanityFilter = 'all' | 'urban' | 'rural' | 'suburban';
+type DemographicKey = 'hispanic' | 'white' | 'black' | 'asian';
+
 type PrecinctData = {
   geoId: string;
-  demographicGroupPercentage: number;
-  totalPopulation: number;
-  averageHouseholdIncome: number;
   normalizedValue: number;
+  totalPopulation: number;
   urbanicity: string;
   electionData: {
     biden_votes: number;
@@ -27,145 +28,150 @@ type PrecinctData = {
     total_votes: number;
     biden_ratio: number;
     trump_ratio: number;
+    party: string;
   };
 };
 
-type UrbanityFilter = 'all' | 'urban' | 'rural' | 'suburban';
-
-interface IncomeGinglesProps {
+interface GinglesIncomeProps {
   selectedState: string;
 }
-const polynomialRegression = (points: Array<{x: number; y: number}>, degree: number = 3) => {
-    // Matrix operations for polynomial regression
-    const generateMatrix = (points: Array<{x: number; y: number}>, degree: number) => {
-      const matrix = Array(degree + 1).fill(0).map(() => Array(degree + 1).fill(0));
-      const vector = Array(degree + 1).fill(0);
+
+const NormalizedGingles: React.FC<GinglesIncomeProps> = ({ selectedState }) => {
+    const [urbanityFilter, setUrbanityFilter] = useState<UrbanityFilter>('all');
+    const [selectedDemographic, setSelectedDemographic] = useState<DemographicKey>('white');
+    const [rawData, setRawData] = useState<PrecinctData[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
   
-      points.forEach(point => {
-        for (let i = 0; i <= degree; i++) {
-          for (let j = 0; j <= degree; j++) {
-            matrix[i][j] += Math.pow(point.x, i + j);
-          }
-          vector[i] += point.y * Math.pow(point.x, i);
-        }
-      });
-  
-      return { matrix, vector };
-    };
-  
-    // Gaussian elimination
-    const solve = (matrix: number[][], vector: number[]) => {
-      const n = vector.length;
-      const coefficients = Array(n).fill(0);
-      
-      for (let i = 0; i < n; i++) {
-        // Find pivot
-        let maxRow = i;
-        for (let j = i + 1; j < n; j++) {
-          if (Math.abs(matrix[j][i]) > Math.abs(matrix[maxRow][i])) {
-            maxRow = j;
-          }
-        }
-  
-        // Swap maximum row with current row
-        [matrix[i], matrix[maxRow]] = [matrix[maxRow], matrix[i]];
-        [vector[i], vector[maxRow]] = [vector[maxRow], vector[i]];
-  
-        // Eliminate column
-        for (let j = i + 1; j < n; j++) {
-          const factor = matrix[j][i] / matrix[i][i];
-          vector[j] -= factor * vector[i];
-          for (let k = i; k < n; k++) {
-            matrix[j][k] -= factor * matrix[i][k];
-          }
-        }
+    // Define demographic options
+    const demographicOptions: Record<DemographicKey, { name: string; description: string }> = {
+      hispanic: { 
+        name: 'Hispanic or Latino',
+        description: 'Persons of Hispanic or Latino origin (of any race)'
+      },
+      white: { 
+        name: 'White',
+        description: 'Persons identifying as White alone'
+      },
+      black: { 
+        name: 'Black',
+        description: 'Persons identifying as Black or African American alone'
+      },
+      asian: { 
+        name: 'Asian',
+        description: 'Persons identifying as Asian alone'
       }
-  
-      // Back substitution
-      for (let i = n - 1; i >= 0; i--) {
+    };
+
+    
+    useEffect(() => {
+        const fetchPrecinctData = async () => {
+          setIsLoading(true);
+          setError(null);
+          try {
+            const url = new URL('http://localhost:8080/api/graph/gingles');
+            url.searchParams.append('state', selectedState.toLowerCase().replace(" ", ""));
+            url.searchParams.append('demographicGroup', selectedDemographic);
+            url.searchParams.append('includeIncome', 'true');
+    
+            console.log('Fetching from URL:', url.toString());
+    
+            const response = await fetch(url.toString());
+            
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+    
+            const data = await response.json();
+            setRawData(data);
+          } catch (err) {
+            const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
+            setError(`Failed to load precinct data: ${errorMessage}`);
+            console.error('Error fetching data:', err);
+          } finally {
+            setIsLoading(false);
+          }
+        };
+    
+        if (selectedState !== 'State') {
+          fetchPrecinctData();
+        }
+      }, [selectedState, selectedDemographic]);
+
+  // Helper function for polynomial regression
+  const polynomialRegression = (points: Array<{x: number; y: number}>, degree: number = 3) => {
+    if (points.length < degree + 1) return null;
+
+    const matrix: number[][] = [];
+    const vector: number[] = [];
+    
+    for (let i = 0; i <= degree; i++) {
+      matrix[i] = [];
+      for (let j = 0; j <= degree; j++) {
         let sum = 0;
-        for (let j = i + 1; j < n; j++) {
-          sum += matrix[i][j] * coefficients[j];
+        for (const point of points) {
+          sum += Math.pow(point.x, i + j);
         }
-        coefficients[i] = (vector[i] - sum) / matrix[i][i];
+        matrix[i][j] = sum;
       }
-  
-      return coefficients;
-    };
-  
-    const { matrix, vector } = generateMatrix(points, degree);
-    const coefficients = solve(matrix, vector);
-  
-    return (x: number) => {
-      return coefficients.reduce((sum, coeff, power) => 
-        sum + coeff * Math.pow(x, power), 0);
-    };
+      
+      let sum = 0;
+      for (const point of points) {
+        sum += point.y * Math.pow(point.x, i);
+      }
+      vector[i] = sum;
+    }
+
+    // Gaussian elimination
+    for (let i = 0; i < degree + 1; i++) {
+      let maxRow = i;
+      for (let j = i + 1; j < degree + 1; j++) {
+        if (Math.abs(matrix[j][i]) > Math.abs(matrix[maxRow][i])) {
+          maxRow = j;
+        }
+      }
+
+      [matrix[i], matrix[maxRow]] = [matrix[maxRow], matrix[i]];
+      [vector[i], vector[maxRow]] = [vector[maxRow], vector[i]];
+
+      for (let j = i + 1; j < degree + 1; j++) {
+        const factor = matrix[j][i] / matrix[i][i];
+        for (let k = i; k < degree + 1; k++) {
+          matrix[j][k] -= factor * matrix[i][k];
+        }
+        vector[j] -= factor * vector[i];
+      }
+    }
+
+    const coefficients = new Array(degree + 1).fill(0);
+    for (let i = degree; i >= 0; i--) {
+      let sum = vector[i];
+      for (let j = i + 1; j < degree + 1; j++) {
+        sum -= matrix[i][j] * coefficients[j];
+      }
+      coefficients[i] = sum / matrix[i][i];
+    }
+
+    return coefficients;
   };
 
-
-const IncomeGingles: React.FC<IncomeGinglesProps> = ({ selectedState }) => {
-  const [rawData, setRawData] = useState<PrecinctData[]>([]);
-  const [urbanityFilter, setUrbanityFilter] = useState<UrbanityFilter>('all');
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const toast = useToast();
-
-  useEffect(() => {
-    const fetchPrecinctData = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const url = new URL('http://localhost:8080/api/graph/gingles');
-        url.searchParams.append('state', selectedState.toLowerCase().replace(" ", ""));
-        url.searchParams.append('includeIncome', 'true');
-
-        const response = await fetch(url.toString());
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setRawData(data);
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
-        setError(`Failed to load precinct data: ${errorMessage}`);
-        console.error('Error fetching data:', err);
-        
-        toast({
-          title: 'Error fetching data',
-          description: errorMessage,
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-        });
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchPrecinctData();
-  }, [selectedState, toast]);
-
-    const processedData = useMemo(() => {
+  const processedData = useMemo(() => {
     if (!Array.isArray(rawData) || rawData.length === 0) return null;
 
-    // Filter data based on urbanicity selection
     const filteredData = urbanityFilter === 'all' 
       ? rawData 
       : rawData.filter(precinct => 
-          precinct.urbanicity?.toLowerCase() === urbanityFilter
+          precinct.urbanicity?.toLowerCase() === urbanityFilter.toLowerCase()
         );
 
-    // Transform data for Democratic vote share
     const democraticPoints = filteredData
       .filter(precinct => 
-        precinct?.averageHouseholdIncome != null && 
-        precinct?.electionData?.biden_votes != null &&
+        typeof precinct.normalizedValue === 'number' && 
+        precinct.electionData?.biden_ratio != null &&
         precinct.electionData.total_votes > 0
       )
       .map(precinct => ({
-        x: precinct.averageHouseholdIncome,
+        x: precinct.normalizedValue,
         y: precinct.electionData.biden_ratio * 100,
         party: 'Democratic',
         geoId: precinct.geoId,
@@ -177,12 +183,12 @@ const IncomeGingles: React.FC<IncomeGinglesProps> = ({ selectedState }) => {
 
     const republicanPoints = filteredData
       .filter(precinct => 
-        precinct?.averageHouseholdIncome != null && 
-        precinct?.electionData?.trump_votes != null &&
+        typeof precinct.normalizedValue === 'number' && 
+        precinct.electionData?.trump_ratio != null &&
         precinct.electionData.total_votes > 0
       )
       .map(precinct => ({
-        x: precinct.averageHouseholdIncome,
+        x: precinct.normalizedValue,
         y: precinct.electionData.trump_ratio * 100,
         party: 'Republican',
         geoId: precinct.geoId,
@@ -192,35 +198,29 @@ const IncomeGingles: React.FC<IncomeGinglesProps> = ({ selectedState }) => {
         urbanicity: precinct.urbanicity
       }));
 
-    // Calculate trend lines using polynomial regression
+          // Calculate trend lines using polynomial regression
     const calculateTrendLine = (points: any[]) => {
-      if (points.length === 0) return [];
-      
-      const xValues = points.map(p => p.x);
-      const minX = Math.min(...xValues);
-      const maxX = Math.max(...xValues);
-      
-      // Get regression function
-      const regression = polynomialRegression(
-        points.map(p => ({ x: p.x, y: p.y })),
-        3  // cubic polynomial
-      );
-      
-      // Generate smooth curve points
-      const numPoints = 100;
-      const step = (maxX - minX) / (numPoints - 1);
-      
-      return Array.from({ length: numPoints }, (_, i) => {
-        const x = minX + i * step;
-        const trendValue = regression(x);
-        // Clamp values to valid percentage range
-        return {
-          x,
-          trendValue: Math.min(Math.max(trendValue, 0), 100)
-        };
-      });
-    };
+        if (points.length < 4) return [];
+        
+        const coefficients = polynomialRegression(points, 3);
+        if (!coefficients) return [];
+  
+        const xValues = points.map(p => p.x);
+        const minX = Math.min(...xValues);
+        const maxX = Math.max(...xValues);
+        const numPoints = 100;
+        const step = (maxX - minX) / (numPoints - 1);
+        
+        return Array.from({ length: numPoints }, (_, i) => {
+          const x = minX + i * step;
+          const y = coefficients.reduce((sum, coeff, power) => 
+            sum + coeff * Math.pow(x, power), 0);
+          const trendValue = Math.min(Math.max(y, 0), 100);
+          return { x, trendValue };
+        });
+      };
 
+      
     return {
       democratic: democraticPoints,
       republican: republicanPoints,
@@ -228,7 +228,6 @@ const IncomeGingles: React.FC<IncomeGinglesProps> = ({ selectedState }) => {
       repTrend: calculateTrendLine(republicanPoints)
     };
   }, [rawData, urbanityFilter]);
-
 
   // Custom tooltip component
   const CustomTooltip: React.FC<{ active?: boolean; payload?: any[] }> = ({ active, payload }) => {
@@ -238,7 +237,7 @@ const IncomeGingles: React.FC<IncomeGinglesProps> = ({ selectedState }) => {
     return (
       <Box bg="white" p={3} border="1px solid" borderColor="gray.200" borderRadius="md" boxShadow="md">
         <Text fontWeight="bold">{`Precinct: ${data.geoId}`}</Text>
-        <Text>{`Income: $${data.x.toLocaleString()}`}</Text>
+        <Text>{`Normalized Income: ${data.x.toFixed(2)}`}</Text>
         <Text>{`Vote Share: ${(data.y ?? data.trendValue ?? 0).toFixed(1)}%`}</Text>
         {data.party && (
           <Text color={data.party === 'Democratic' ? '#2E5EAA' : '#AA2E2E'}>
@@ -246,6 +245,7 @@ const IncomeGingles: React.FC<IncomeGinglesProps> = ({ selectedState }) => {
           </Text>
         )}
         <Text>{`Area Type: ${data.urbanicity || 'Unknown'}`}</Text>
+        <Text>{`Total Population: ${data.population?.toLocaleString() ?? 'N/A'}`}</Text>
         {data.votes && (
           <Text>{`Votes: ${data.votes.toLocaleString()} / ${data.totalVotes.toLocaleString()}`}</Text>
         )}
@@ -255,7 +255,10 @@ const IncomeGingles: React.FC<IncomeGinglesProps> = ({ selectedState }) => {
 
   return (
     <VStack spacing={4} w="100%" p={4} bg="white" borderRadius="lg" boxShadow="sm">
-      {/* ... (previous JSX remains the same) */}
+      <Text fontSize="xl" fontWeight="bold">
+        {selectedState.toUpperCase()} Income vs. Voting Patterns
+      </Text>
+
       <Box w="100%" h="500px" position="relative">
         {isLoading ? (
           <Box position="absolute" top="50%" left="50%" transform="translate(-50%, -50%)">
@@ -269,10 +272,9 @@ const IncomeGingles: React.FC<IncomeGinglesProps> = ({ selectedState }) => {
                 type="number" 
                 dataKey="x" 
                 domain={['auto', 'auto']}
-                tickFormatter={(value) => `$${(value/1000).toFixed(0)}k`}
               >
                 <Label 
-                  value="Average Household Income" 
+                  value="Normalized Income" 
                   position="bottom" 
                   offset={20} 
                 />
@@ -357,18 +359,8 @@ const IncomeGingles: React.FC<IncomeGinglesProps> = ({ selectedState }) => {
           Rural
         </Button>
       </ButtonGroup>
-
-      <Box p={4} bg="blue.50" borderRadius="md" w="100%">
-        <Text fontWeight="bold" mb={2}>Analysis:</Text>
-        <Text>
-          This visualization shows the relationship between average household income and voting patterns
-          across precincts in {selectedState}. Each point represents a precinct, with trend lines 
-          showing the overall voting tendencies across the income spectrum. The data can be filtered
-          by urbanicity type to explore how voting patterns vary between urban, suburban, and rural areas.
-        </Text>
-      </Box>
     </VStack>
   );
 };
 
-export default IncomeGingles;
+export default NormalizedGingles;

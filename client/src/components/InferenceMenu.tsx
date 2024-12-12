@@ -93,28 +93,6 @@ const InferenceMenu: React.FC<InferenceMenuProps> = ({ setSelectedVisualization 
                 color="#494946"
                 _hover={{ bg: "#F7CFF2" }}
                 bg="#E4EDC4"
-                mb={1}
-                onClick={() => handleSelection('income')}
-              >
-                Gingles' Income
-              </Button>
-              <Button
-                variant="ghost"
-                justifyContent="flex-start"
-                color="#494946"
-                _hover={{ bg: "#F7CFF2" }}
-                bg="#E4EDC4"
-                mb={1}
-                onClick={() => handleSelection('normalizedgingles')}
-              >
-                Normalized Gingles
-              </Button>
-              <Button
-                variant="ghost"
-                justifyContent="flex-start"
-                color="#494946"
-                _hover={{ bg: "#F7CFF2" }}
-                bg="#E4EDC4"
                 onClick={() => handleSelection('hierarchical')}
               >
                 Hierarchical
