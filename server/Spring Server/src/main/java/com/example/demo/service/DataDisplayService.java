@@ -9,13 +9,16 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.common.GeoType;
+import com.example.demo.common.RegionType;
+import com.example.demo.common.Category;
 import com.example.demo.model.DistrictDetail;
+import com.example.demo.model.BoxPlot;
 import com.example.demo.model.Demographic;
 import com.example.demo.model.Gingles;
 import com.example.demo.model.Income;
-import com.example.demo.model.PrecinctDetail;
 import com.example.demo.model.Urbanicity;
 import com.example.demo.model.Votes;
+import com.example.demo.repository.BoxPlotRepository;
 import com.example.demo.repository.DemographicRepository;
 import com.example.demo.repository.ElectionResultRepository;
 import com.example.demo.repository.IncomeRepository;
@@ -30,16 +33,19 @@ public class DataDisplayService {
 	IncomeRepository incomeRepository;
 	DistrictDetailRepository districtDetailRepository;
 	UrbanicityRepository urbanicityRepository;
+	BoxPlotRepository boxPlotRepository;
 
 	public DataDisplayService(DemographicRepository demographicRepository,
 			ElectionResultRepository electionResultRepository, IncomeRepository incomeRepository,
 			DistrictDetailRepository districtDetailRepository,
-			UrbanicityRepository urbanicityRepository) {
+			UrbanicityRepository urbanicityRepository,
+			BoxPlotRepository boxPlotRepository) {
 		this.demographicRepository = demographicRepository;
 		this.electionResultRepository = electionResultRepository;
 		this.incomeRepository = incomeRepository;
 		this.districtDetailRepository = districtDetailRepository;
 		this.urbanicityRepository = urbanicityRepository;
+		this.boxPlotRepository = boxPlotRepository;
 	}
 
 	@Cacheable(value = "gingles")
@@ -230,7 +236,32 @@ public class DataDisplayService {
 		return percentagePopulationByRegionType;
 	}
 
-	public PrecinctDetail getPrecinctDetail(int stateId, String geoId){
-		return new PrecinctDetail();
+	public Map<String, Object> getPrecinctDetail(int stateId, String geoId){
+		Map<String, Object> precinctDetail = new HashMap<>();
+		Demographic demographic = demographicRepository.findDemographicByStateIdAndGeoId(stateId, geoId);
+		Urbanicity urbanicity = urbanicityRepository.findUrbanicityByStateIdAndGeoId(stateId, geoId);
+		Income income = incomeRepository.findIncomeByStateIdAndGeoId(stateId, geoId);
+		Votes vote = electionResultRepository.findVotesByStateIdAndGeoId(stateId, geoId);
+
+		precinctDetail.put("population", demographic.getRace().get("population"));
+
+		Map<String,Object> racialPopulation = new HashMap<>();
+		String[] races = new String[]{"white", "black", "asian", "hispanic", "other"};
+		for(int i =0; i< races.length ;i++){
+			racialPopulation.put(races[i], demographic.getRace().get(races[i]));
+		}
+		precinctDetail.put("racial populatoin", racialPopulation);
+		precinctDetail.put("region type", urbanicity.getUrbanicity().getType());
+
+		precinctDetail.put("average household income", income.getIncome().get("average_income"));
+
+		precinctDetail.put("republic votes", vote.getElectionData().get("trump_votes"));
+		precinctDetail.put("republic votes", vote.getElectionData().get("biden_votes"));
+		return precinctDetail;
+	}
+
+	public List<BoxPlot> getBoxPlot(int stateId, Category category, RegionType regionType){
+		System.out.println(stateId);
+		return boxPlotRepository.findBoxPlotByStateIdAndCategoryAndRegionType(stateId, category, regionType);
 	}
 }

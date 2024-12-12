@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.common.Category;
+import com.example.demo.common.RegionType;
 import com.example.demo.common.State;
+import com.example.demo.model.BoxPlot;
 import com.example.demo.model.DistrictDetail;
 import com.example.demo.model.Gingles;
-import com.example.demo.model.PrecinctDetail;
 import com.example.demo.service.DataDisplayService;
 import com.example.demo.util.StateIdConvertor;
 
@@ -65,8 +67,8 @@ public class DataDisplayController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping(value = "/api/precicnt/table", produces = "application/json")
-    public ResponseEntity<PrecinctDetail> getPrecinctDetail(
+    @GetMapping(value = "/api/precinct/table", produces = "application/json")
+    public ResponseEntity<Map<String,Object>> getPrecinctDetail(
             @RequestParam String state, @RequestParam String geoId) {
         int id = StateIdConvertor.stringToId(State.valueOf(state.toUpperCase()));
 
@@ -74,7 +76,7 @@ public class DataDisplayController {
             return ResponseEntity.badRequest().body(null);
         }
 
-        PrecinctDetail precinctDetail = dataDisplayService.getPrecinctDetail(id, geoId);
+        Map<String,Object> precinctDetail = dataDisplayService.getPrecinctDetail(id, geoId);
         return ResponseEntity.ok(precinctDetail);
     }
 
@@ -88,5 +90,27 @@ public class DataDisplayController {
         }
         return ResponseEntity.ok(dataDisplayService.getStateSummary(id));
     }
-    
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping(value = "/api/graph/boxplot")
+    public ResponseEntity<List<BoxPlot>> getBoxplot(@RequestParam String state, @RequestParam String category,
+            @RequestParam String regionType) {
+        int id = -1;
+        Category c = null;
+        RegionType r = null;
+        try {
+            id = StateIdConvertor.stringToId(State.valueOf(state.toUpperCase()));
+            c = Category.valueOf(category.toUpperCase());
+            r = RegionType.valueOf(regionType.toUpperCase());
+            if (id == -1) {
+                throw new IllegalArgumentException();
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        return ResponseEntity.ok(dataDisplayService.getBoxPlot(id, c, r));
+    }
 }

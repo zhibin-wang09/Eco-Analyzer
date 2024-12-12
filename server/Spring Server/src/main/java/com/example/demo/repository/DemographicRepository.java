@@ -13,4 +13,6 @@ public interface DemographicRepository extends MongoRepository<Demographic, Stri
 
     public List<Demographic> findDemographicByStateIdAndGeoType(int stateId, GeoType geoType);
 
+    public Demographic findDemographicByStateIdAndGeoId(int stateId, String GeoId);
+    
 }

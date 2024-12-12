@@ -13,4 +13,6 @@ public interface IncomeRepository extends MongoRepository<Income, String> {
 
     public List<Income> findIncomeByStateIdAndGeoType(int stateId, GeoType geoType);
 
+    public Income findIncomeByStateIdAndGeoId(int stateId, String geoId);
+
 }
