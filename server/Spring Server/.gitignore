@@ -34,3 +34,8 @@ build/
 
 ### local variable ###
 set_env.sh
+
+### large files in resources folder ###
+**/ar_district_plan_?.json
+**/ny_district_plan_?.json
+**/FeatureCollectinCoordinate.json

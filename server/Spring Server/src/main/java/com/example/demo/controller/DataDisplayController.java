@@ -16,7 +16,6 @@ import com.example.demo.common.State;
 import com.example.demo.model.BoxPlot;
 import com.example.demo.model.DistrictDetail;
 import com.example.demo.model.Gingles;
-import com.example.demo.model.PrecinctDetail;
 import com.example.demo.service.DataDisplayService;
 import com.example.demo.util.StateIdConvertor;
 
@@ -68,8 +67,8 @@ public class DataDisplayController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping(value = "/api/precicnt/table", produces = "application/json")
-    public ResponseEntity<PrecinctDetail> getPrecinctDetail(
+    @GetMapping(value = "/api/precinct/table", produces = "application/json")
+    public ResponseEntity<Map<String,Object>> getPrecinctDetail(
             @RequestParam String state, @RequestParam String geoId) {
         int id = StateIdConvertor.stringToId(State.valueOf(state.toUpperCase()));
 
@@ -77,7 +76,7 @@ public class DataDisplayController {
             return ResponseEntity.badRequest().body(null);
         }
 
-        PrecinctDetail precinctDetail = dataDisplayService.getPrecinctDetail(id, geoId);
+        Map<String,Object> precinctDetail = dataDisplayService.getPrecinctDetail(id, geoId);
         return ResponseEntity.ok(precinctDetail);
     }
 
