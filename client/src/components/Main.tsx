@@ -32,7 +32,7 @@ const MainLayout = () => {
   const [geoLevel, setGeoLevel] = useState<"district" | "precinct">("district");
   const [heatmapType, setHeatmapType] = useState<HeatmapType>("none");
   const [selectedDistrict, setSelectedDistrict] = useState<number | null>(null);
-  const [tabIndex, setTabIndex] = useState(-1);
+  const [tabIndex, setTabIndex] = useState(0);
   const [selectedDemographic, setSelectedDemographic] =
     useState<string>("white");
 
@@ -97,6 +97,7 @@ const MainLayout = () => {
               heatmapType={heatmapType}
               onHeatmapChange={setHeatmapType}
               onDemographicChange={setSelectedDemographic}
+              setTabIndex={handleTabChange}
             />
           </Box>
 
