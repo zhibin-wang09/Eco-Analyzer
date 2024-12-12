@@ -19,7 +19,7 @@ import Frame from "./ui";
 import RacePie from "./dataVisuals/Pie";
 import { HeatmapType } from "./controls/HeatMapControls";
 import { stateConversion } from "../utils/util";
-import Summary from "./controls/InformationControl";
+import InformationControl from "./controls/InformationControl";
 
 const MainLayout = () => {
   const [selectedState, setSelectedState] = useState<string>("State");
@@ -31,8 +31,8 @@ const MainLayout = () => {
     useState<VisualizationType>("summary");
   const [geoLevel, setGeoLevel] = useState<"district" | "precinct">("district");
   const [heatmapType, setHeatmapType] = useState<HeatmapType>("none");
-  const [selectedDistrict, setSelectedDistrict] = useState<string | null>(null);
-  const [tabIndex, setTabIndex] = useState(0);
+  const [selectedDistrict, setSelectedDistrict] = useState<number | null>(null);
+  const [tabIndex, setTabIndex] = useState(-1);
   const [selectedDemographic, setSelectedDemographic] =
     useState<string>("white");
 
@@ -138,7 +138,7 @@ const MainLayout = () => {
                       exit: { duration: 0.3 },
                     }}
                   >
-                    <Summary
+                    <InformationControl
                       tabIndex={tabIndex}
                       handleSelectDistrict={setSelectedDistrict}
                       handleTabChange={handleTabChange}

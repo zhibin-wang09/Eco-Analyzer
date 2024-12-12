@@ -35,7 +35,7 @@ interface USMapProps {
   setDistrictData: (state: string) => void;
   geoLevel: 'district' | 'precinct';
   heatmapType: HeatmapType;
-  selectedDistrict: string | null;
+  selectedDistrict: number | null;
   selectedDemographic: string;
   onDistrictSelect?: (district: string | null) => void;
 }
@@ -218,7 +218,7 @@ const USMap: React.FC<USMapProps> = ({
     if (districtNumber) {
       onDistrictSelect?.(districtNumber);
     }
-  }, [selectedFeature, onDistrictSelect]);
+  }, [selectedFeature, onDistrictSelect, selectedDistrict]);
 
 
   const handleCompare = useCallback((planNumber: string) => {

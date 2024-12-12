@@ -3,21 +3,21 @@ import { VisualizationType } from "../../types/ChartDataItemInterface";
 import CongressionalTable from "../dataVisuals/StateSummary";
 import BaseChart from "../dataVisuals/BaseChart";
 
-interface SummaryProps {
+interface InformationControlProps {
   tabIndex: number;
   handleTabChange: (tabIndex: number) => void;
   selectedVisualization: VisualizationType;
-  handleSelectDistrict: (district: string) => void;
+  handleSelectDistrict: (district: number) => void;
   selectedState: string;
 }
 
-const Summary = ({
+const InformationControl = ({
   tabIndex,
   handleTabChange,
   selectedVisualization,
   handleSelectDistrict,
   selectedState,
-}: SummaryProps) => {
+}: InformationControlProps) => {
   return (
     <Box
       w="100%"
@@ -72,10 +72,11 @@ const Summary = ({
         <BaseChart
           selectedState={selectedState}
           selectedVisualization={selectedVisualization}
+          onSelectDistrict={handleSelectDistrict}
         />
       </Box>
     </Box>
   );
 };
 
-export default Summary;
+export default InformationControl;

@@ -12,6 +12,7 @@ import com.example.demo.common.GeoType;
 import com.example.demo.common.RegionType;
 import com.example.demo.common.Category;
 import com.example.demo.model.DistrictDetail;
+import com.example.demo.model.DistrictDetail.Data;
 import com.example.demo.model.BoxPlot;
 import com.example.demo.model.Demographic;
 import com.example.demo.model.Gingles;
@@ -143,6 +144,13 @@ public class DataDisplayService {
 	public List<DistrictDetail> getDistrictDetails(int stateId) {
 		List<DistrictDetail> result = districtDetailRepository
 				.findDistrictDetailsByStateId(stateId);
+		for(DistrictDetail d: result){
+			Data data = d.getData();
+			data.setPovertyPercentage(data.getPovertyPercentage() * 100);
+			data.setRuralPercentage(data.getRuralPercentage() * 100);
+			data.setUrbanPercentage(data.getUrbanPercentage() * 100);
+			data.setSubUrbanPercentage(data.getSubUrbanPercentage() * 100);
+		}
 		return result;
 	}
 
