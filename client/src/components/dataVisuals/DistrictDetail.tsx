@@ -39,7 +39,7 @@ const DistrictDetail = ({
         const rawDistrictTable = await fetchDistribtTable(
           stateConversion(selectedState)
         );
-        console.log(rawDistrictTable);
+
         // Transform congressional representatives into an array of objects with name and party
         setDistrictTable(
           rawDistrictTable
@@ -79,7 +79,7 @@ const DistrictDetail = ({
     <Box
       overflowX="auto"
       overflowY="scroll" // Enables vertical scrolling
-      maxH="400px" // Sets maximum height for the box
+      maxH="50vh" // Sets maximum height for the box
       p={1}
       borderWidth="1px"
       borderRadius="md"
