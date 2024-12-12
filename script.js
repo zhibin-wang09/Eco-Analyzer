@@ -1025,13 +1025,111 @@ async function processBoxWhisker(file1, sortByRegion) {
 }
 
 
-const fileNames = ["_district_region_summaries","_district_region_race_income_summary","_district_summaries_income","_district_summaries_race"];
-const states = ["AR", "NY"];
+// const fileNames = ["_district_region_summaries","_district_region_race_income_summary","_district_summaries_income","_district_summaries_race"];
+// const states = ["AR", "NY"];
 
-for(let s of states){
-  for(let f of fileNames){
-    const dir = "./boxplots/";
-    const file = dir + s + f + ".json";
-    processBoxWhisker(file,f.includes("region_race_income") ? true: false );
+// for(let s of states){
+//   for(let f of fileNames){
+//     const dir = "./boxplots/";
+//     const file = dir + s + f + ".json";
+//     processBoxWhisker(file,f.includes("region_race_income") ? true: false );
+//   }
+// }
+
+// file1 is geoemtries.json
+// file2 is test_ensemble file
+async function generateDistrictPlan(file1, file2, districtPlanNum){
+  try {
+      const file1Path = path.join(__dirname, file1);
+      const file2Path = path.join(__dirname, file2);
+
+      const file1Content = await fsp.readFile(file1Path, 'utf-8');
+      const file2Content = await fsp.readFile(file2Path, 'utf-8');
+
+      const file1Json = JSON.parse(file1Content);
+      const file2Json = JSON.parse(file2Content);
+      const colors = [
+        '#2F0147',
+        '#043565',
+        '#553555',
+        '#FFFD98',
+        '#5158BB',
+        '#6E9887',
+        '#32E875',
+        '#5438DC',
+        '#EB4B98',
+        '#5C1A1B',
+        '#AED4E6',
+        '#96C5B0',
+        '#59C9A5',
+        '#F26DF9',
+        '#23395B',
+        '#755B69',
+        '#C5AFA4',
+        '#ADF1D2',
+        '#56EEF4',
+        '#1AC8ED',
+        '#F283B6',
+        '#AF7595',
+        '#B9E3C6',
+        '#02394A',
+        '#D81E5B',
+        '#76818E'
+      ];
+
+      const map = new Map();
+      const plans = file2Json.plan;
+      for(let p in plans){
+        map.set(Number(p), plans[p]); // precinct -> district
+      }
+
+      const result = [];
+      const stateId = file1.toLowerCase().includes('ar') ? 5 : 36;
+      for(let features of file1Json){
+        if(map.has(features.node)){
+          // this precinct belongs in the geojson
+          result.push({
+            type: "Feature",
+            geometry: features.geometry,
+            properties: {
+              stateId: stateId,
+              geoType: "PRECINCT",
+              districtPlan: districtPlanNum,
+              district: map.get(features.node),
+              shading: colors[map.get(features.node)],
+            }
+          })
+        }
+      }
+
+    const stateAbbrev = file1.toLowerCase().includes('ar') ? 'ar' : 'ny';
+    await fsp.writeFile(stateAbbrev + "_district_plan_" + districtPlanNum +".json", JSON.stringify(result))
+    console.log("success");
+  } catch (error) {
+    console.log(error);
   }
 }
+
+// get colors used in a geojson
+async function getColor(file1){
+  try {
+      const file1Path = path.join(__dirname, file1);
+
+      const file1Content = await fsp.readFile(file1Path, 'utf-8');
+
+      const file1Json = JSON.parse(file1Content);
+
+      const set = new Set();
+      for(let feature of file1Json){
+        set.add(feature.properties.shading);
+      }
+
+      console.log(set);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const files = [];
+
+generateDistrictPlan("ar_geometries.json", "test_ensemble_core_3_step_222.json", 1);
