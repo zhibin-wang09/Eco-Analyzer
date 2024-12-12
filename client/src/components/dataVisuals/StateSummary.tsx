@@ -109,6 +109,7 @@ const StateSummary = ({ selectedState }: StateSummaryProp) => {
           </Tbody>
         </Table>
       </Box>
+        <Text>Total Population: {stateSummary?.population}</Text>
       <HStack
         spacing={4}
         align="stretch"
@@ -119,6 +120,7 @@ const StateSummary = ({ selectedState }: StateSummaryProp) => {
       >
         <PieChart data={objectToArray(stateSummary?.populationPercentageByRegion)} title={"distribution of population by urbanicity"}/>
         <PieChart data={objectToArray(stateSummary?.populationByIncome)} title={"distribution of population by income"}/>
+        <PieChart data={objectToArray(stateSummary?.voteDistribution)} title={"State Voter Distribution"}/>
       </HStack>
       <StateOverviewChart
         data={objectToArray(stateSummary?.racialPopulation)}
