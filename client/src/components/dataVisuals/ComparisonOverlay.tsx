@@ -4,6 +4,7 @@ import { CloseIcon } from "@chakra-ui/icons";
 import L from "leaflet";
 import axios from "axios";
 import { GeoJsonObject } from "geojson";
+import { stateConversion } from "../../utils/util";
 
 interface ComparisonOverlayProps {
   isOpen: boolean;
@@ -54,11 +55,9 @@ const ComparisonOverlay: React.FC<ComparisonOverlayProps> = ({
     const fetchDistrictPlan = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/map/districtplan?state=${currentState.toLowerCase()}&districtPlan=${districtPlanNumber}`
+          `http://localhost:8080/api/map/districtplan?state=${(stateConversion(currentState)).toLowerCase()}&districtPlan=${districtPlanNumber}`
         );
 
-        // log the response
-        console.log(response.data);
         setDistrictPlanData(response.data);
       } catch (error) {
         console.error("Error fetching district plan:", error);
