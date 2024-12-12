@@ -12,7 +12,7 @@ import DistrictDetail from "./DistrictDetail";
 interface BaseChartProps {
   selectedState: string;
   selectedVisualization?: VisualizationType;
-  onSelectDistrict: (district: number) => void;
+  onSelectDistrict: (district: number | null) => void;
 }
 
 const BaseChart: React.FC<BaseChartProps> = ({

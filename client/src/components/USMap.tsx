@@ -9,15 +9,13 @@ import "leaflet/dist/leaflet.css";
 import { HeatmapType } from "./controls/HeatMapControls";
 import MapLegend from "./MapLegend";
 import DistrictPlanControls from "./controls/DistrictPlanControls";
-import { Layer, PathOptions } from 'leaflet';
+import { Layer, PathOptions } from "leaflet";
 import ComparisonOverlay from "./ComparisonOverlay";
-
 
 interface FeatureLayer extends L.Layer {
   feature?: any;
   setStyle(style: L.PathOptions): this;
 }
-
 
 interface MapData {
   type: string;
@@ -33,7 +31,7 @@ interface USMapProps {
   selectedState: string | null;
   selectedData: string | null;
   setDistrictData: (state: string) => void;
-  geoLevel: 'district' | 'precinct';
+  geoLevel: "district" | "precinct";
   heatmapType: HeatmapType;
   selectedDistrict: number | null;
   selectedDemographic: string;
@@ -61,13 +59,11 @@ const USMap: React.FC<USMapProps> = ({
   }>({});
   const [map, setMap] = useState<L.Map | null>(null);
   const [heatmapData, setHeatmapData] = useState<any>(null);
-  const [selectedFeature, setSelectedFeature] = useState<FeatureLayer | null>(null);
   const [districtPlanData, setDistrictPlanData] = useState<any>(null);
   const mapRef = useRef<HTMLDivElement>(null);
   const geoLayerRef = useRef<L.GeoJSON | null>(null);
   const [isComparisonOpen, setIsComparisonOpen] = useState(false);
-  const [selectedPlanNumber, setSelectedPlanNumber] = useState<string>('');
-
+  const [selectedPlanNumber, setSelectedPlanNumber] = useState<string>("");
 
   const fetchDistrictPlan = async (state: string, planNumber: string) => {
     try {
@@ -76,94 +72,101 @@ const USMap: React.FC<USMapProps> = ({
       );
       setDistrictPlanData(response.data);
     } catch (error) {
-      console.error('Error fetching district plan:', error);
+      console.error("Error fetching district plan:", error);
     }
   };
 
-  const fetchHeatmapData = useCallback(async (
-    state: string,
-    type: HeatmapType,
-    demographicGroup?: string
-  ) => {
-    if (type === 'none') return null;
+  const fetchHeatmapData = useCallback(
+    async (state: string, type: HeatmapType, demographicGroup?: string) => {
+      if (type === "none") return null;
 
-    const stateCode = state.toLowerCase().replace(" ", "");
-    const baseUrl = 'http://localhost:8080/api/heatmap';
-    
-    let url = '';
-    switch (type) {
-      case 'demographic':
-        url = `${baseUrl}/demographic?state=${stateCode}&demographicGroup=${demographicGroup || 'white'}`;
-        break;
-      case 'poverty':
-        url = `${baseUrl}/poverty?state=${stateCode}`;
-        break;
-      case 'economic':
-        url = `${baseUrl}/economic?state=${stateCode}`;
-        break;
-      case 'politicalincome':
-        url = `${baseUrl}/politicalincome?state=${stateCode}`;
-        break;
-      default:
+      const stateCode = state.toLowerCase().replace(" ", "");
+      const baseUrl = "http://localhost:8080/api/heatmap";
+
+      let url = "";
+      switch (type) {
+        case "demographic":
+          url = `${baseUrl}/demographic?state=${stateCode}&demographicGroup=${
+            demographicGroup || "white"
+          }`;
+          break;
+        case "poverty":
+          url = `${baseUrl}/poverty?state=${stateCode}`;
+          break;
+        case "economic":
+          url = `${baseUrl}/economic?state=${stateCode}`;
+          break;
+        case "politicalincome":
+          url = `${baseUrl}/politicalincome?state=${stateCode}`;
+          break;
+        default:
+          return null;
+      }
+
+      try {
+        const response = await axios.get(url);
+        setHeatmapData(response.data);
+        return response.data;
+      } catch (error) {
+        console.error(`Error fetching heatmap data: ${error}`);
         return null;
-    }
+      }
+    },
+    []
+  );
 
-    try {
-      const response = await axios.get(url);
-      setHeatmapData(response.data);
-      return response.data;
-    } catch (error) {
-      console.error(`Error fetching heatmap data: ${error}`);
-      return null;
-    }
-  }, []);
+  const getHeatmapStyle = useCallback(
+    (feature: any): L.PathOptions => {
+      const defaultStyle: L.PathOptions = {
+        color: "#000",
+        weight: 0.5,
+        fillOpacity: 0.8,
+      };
 
-  const getHeatmapStyle = useCallback((feature: any): L.PathOptions => {
-    const defaultStyle: L.PathOptions = {
-      color: '#000',
-      weight: 0.5,
-      fillOpacity: 0.8,
-    };
+      if (!feature.properties?.data) {
+        return {
+          ...defaultStyle,
+          fillColor: "#FFFFFF",
+        };
+      }
 
-    if (!feature.properties?.data) {
+      if (heatmapType === "none") {
+        const isDemo =
+          feature.properties?.["election data"]?.["bidenVotes"] >
+          feature.properties?.["election data"]?.["trumpVotes"];
+        return {
+          ...defaultStyle,
+          fillColor: isDemo ? "#0000FF" : "#FF5733",
+        };
+      }
+
+      let fillColor;
+      switch (heatmapType) {
+        case "demographic":
+          fillColor =
+            feature.properties.data["demographic shading"] || "#FFFFFF";
+          break;
+        case "poverty":
+          fillColor = feature.properties.data["poverty shading"] || "#FFFFFF";
+          break;
+        case "economic":
+          fillColor = feature.properties.data["income shading"] || "#FFFFFF";
+          break;
+        case "politicalincome":
+          fillColor =
+            feature.properties.data["income_shading_by_party"] || "#FFFFFF";
+          break;
+        default:
+          fillColor = "#FFFFFF";
+      }
+
       return {
         ...defaultStyle,
-        fillColor: '#FFFFFF',
+        fillColor,
       };
-    }
-
-    if (heatmapType === 'none') {
-      const isDemo = feature.properties?.['election data']?.['bidenVotes'] > 
-                    feature.properties?.['election data']?.['trumpVotes'];
-      return {
-        ...defaultStyle,
-        fillColor: isDemo ? '#0000FF' : '#FF5733',
-      };
-    }
-
-    let fillColor;
-    switch (heatmapType) {
-      case 'demographic':
-        fillColor = feature.properties.data['demographic shading'] || '#FFFFFF';
-        break;
-      case 'poverty':
-        fillColor = feature.properties.data['poverty shading'] || '#FFFFFF';
-        break;
-      case 'economic':
-        fillColor = feature.properties.data['income shading'] || '#FFFFFF';
-        break;
-      case 'politicalincome':
-        fillColor = feature.properties.data['income_shading_by_party'] || '#FFFFFF';
-        break;
-      default:
-        fillColor = '#FFFFFF';
-    }
-
-    return {
-      ...defaultStyle,
-      fillColor,
-    };
-  }, [heatmapType]);
+    },
+    [heatmapType]
+  );
 
   const highlightFeatures = useCallback((e: L.LeafletMouseEvent) => {
     const layer = e.target as FeatureLayer;
@@ -175,63 +178,33 @@ const USMap: React.FC<USMapProps> = ({
     });
   }, []);
 
-  
   const resetHighlight = useCallback(
     (e: L.LeafletMouseEvent, geojson: L.GeoJSON) => {
-      if (e.target !== selectedFeature) {
-        geojson.resetStyle(e.target);
-      }
+      geojson.resetStyle(e.target);
     },
-    [selectedFeature]
+    []
   );
 
   const zoomToFeature = useCallback((e: L.LeafletMouseEvent, map: L.Map) => {
     map.fitBounds(e.target.getBounds());
   }, []);
 
-  // const handleDistrictClick = useCallback((e: L.LeafletMouseEvent) => {
-  //   console.log("hihi");
-  //   if (selectedFeature) {
-  //     // Reset previous selection style
-  //     if (selectedFeature !== e.target) {
-  //       selectedFeature.setStyle({
-  //         weight: 0.5,
-  //         color: '#000',
-  //         fillOpacity: 0.8
-  //       });
-  //     }
-  //   }
-  
-  //   const layer = e.target as FeatureLayer;
-    
-  //   // Extract district number from geoId
-  //   const districtNumber = layer.feature?.properties?.geoId;
-  
-  //   // Set new selection style
-  //   layer.setStyle({
-  //     weight: 3,
-  //     color: '#FFD700',
-  //     fillOpacity: 0.8
-  //   });
-  
-  //   setSelectedFeature(layer);
-    
-  //   if (districtNumber) {
-  //     onDistrictSelect?.(districtNumber);
-  //   }
-  // }, [selectedFeature, onDistrictSelect, selectedDistrict]);
-  
   useEffect(() => {
     if (selectedDistrict && geoLayerRef.current) {
       geoLayerRef.current.eachLayer((layer: any) => {
-        if (layer.feature && Number(layer.feature.properties.geoId) === selectedDistrict) {
+        if (
+          layer.feature &&
+          Number(layer.feature.properties.geoId) === selectedDistrict
+        ) {
           // Highlight the selected district
           layer.setStyle({
-            weight: 3,
-            color: "#FFD700",
-            fillOpacity: 0.8,
+            weight: 5,
+            color: "#666",
+            dashArray: "",
+            fillOpacity: 0.7,
           });
-          setSelectedFeature(layer); // Store the highlighted layer as selected
+          const bounds = layer.getBounds();
+          map?.fitBounds(bounds, { padding: [50, 50] }); // Adjust padding for better visibility
         } else if (layer.feature) {
           // Reset other layers' styles
           layer.setStyle({
@@ -252,16 +225,42 @@ const USMap: React.FC<USMapProps> = ({
           });
         }
       });
-      setSelectedFeature(null); // Clear selected feature
-    }
-  }, [selectedDistrict]);
 
-
-  const handleCompare = useCallback((planNumber: string) => {
-    if (selectedState) {
-      fetchDistrictPlan(selectedState, planNumber);
+      // if no district is selected zoom back out to the state level
+      if (selectedState === "Arkansas") {
+        map?.flyToBounds(
+          new L.LatLngBounds(
+            new L.LatLng(36.501861, -89.730812),
+            new L.LatLng(33.002096, -94.616242)
+          ),
+          { duration: 1.5, easeLinearity: 0.25 }
+        );
+      } else if (selectedState === "New York") {
+        map?.flyToBounds(
+          new L.LatLngBounds(
+            new L.LatLng(45.018503, -72.100541),
+            new L.LatLng(40.543843, -79.76278)
+          ),
+          { duration: 1.5, easeLinearity: 0.25 }
+        );
+      } else {
+        // Default to a region-level zoom if no specific state is selected
+        map?.flyTo([37.8, -96], 4, {
+          duration: 1.5,
+          easeLinearity: 0.25,
+        });
+      }
     }
-  }, [selectedState]);
+  }, [selectedDistrict, selectedState]);
+
+  const handleCompare = useCallback(
+    (planNumber: string) => {
+      if (selectedState) {
+        fetchDistrictPlan(selectedState, planNumber);
+      }
+    },
+    [selectedState]
+  );
 
   const onClick = useCallback(
     (e: L.LeafletMouseEvent, map: L.Map, feature: Feature) => {
@@ -274,30 +273,36 @@ const USMap: React.FC<USMapProps> = ({
     [onStateSelect, zoomToFeature]
   );
 
-  const fetchMapData = useCallback(async (state: string, type: 'DISTRICT' | 'PRECINCT') => {
-    try {
-      const stateCode = state.toLowerCase().replace(" ", "");
-      const response = await axios.get(
-        `http://localhost:8080/api/map?state=${stateCode}&geoType=${type}`
-      );
+  const fetchMapData = useCallback(
+    async (state: string, type: "DISTRICT" | "PRECINCT") => {
+      try {
+        const stateCode = state.toLowerCase().replace(" ", "");
+        const response = await axios.get(
+          `http://localhost:8080/api/map?state=${stateCode}&geoType=${type}`
+        );
 
-      if (response.data) {
-        if (state === 'Arkansas') {
-          setArkansasData(prev => ({
-            ...prev,
-            [type.toLowerCase()]: response.data
-          }));
-        } else if (state === 'New York') {
-          setNewYorkData(prev => ({
-            ...prev,
-            [type.toLowerCase()]: response.data
-          }));
+        if (response.data) {
+          if (state === "Arkansas") {
+            setArkansasData((prev) => ({
+              ...prev,
+              [type.toLowerCase()]: response.data,
+            }));
+          } else if (state === "New York") {
+            setNewYorkData((prev) => ({
+              ...prev,
+              [type.toLowerCase()]: response.data,
+            }));
+          }
         }
+      } catch (error) {
+        console.error(
+          `Error fetching ${type.toLowerCase()} data for ${state}:`,
+          error
+        );
       }
-    } catch (error) {
-      console.error(`Error fetching ${type.toLowerCase()} data for ${state}:`, error);
-    }
-  }, []);
+    },
+    []
+  );
 
   // Initialize the base map
   useEffect(() => {
@@ -311,7 +316,8 @@ const USMap: React.FC<USMapProps> = ({
       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         minZoom: 3,
         maxZoom: 24,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        attribution:
+          '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       }).addTo(initialMap);
 
       const onEachFeature = (feature: Feature, layer: L.Layer) => {
@@ -343,29 +349,43 @@ const USMap: React.FC<USMapProps> = ({
 
   // Effect to fetch data when state or geoLevel changes
   useEffect(() => {
-    if (selectedState === 'Arkansas' || selectedState === 'New York') {
-      const stateData = selectedState === 'Arkansas' ? arkansasData : newYorkData;
-      
+    if (selectedState === "Arkansas" || selectedState === "New York") {
+      const stateData =
+        selectedState === "Arkansas" ? arkansasData : newYorkData;
+
       if (!stateData[geoLevel]) {
-        fetchMapData(selectedState, geoLevel.toUpperCase() as 'DISTRICT' | 'PRECINCT');
+        fetchMapData(
+          selectedState,
+          geoLevel.toUpperCase() as "DISTRICT" | "PRECINCT"
+        );
       }
     }
   }, [selectedState, geoLevel, fetchMapData, arkansasData, newYorkData]);
 
   // Effect to handle heatmap updates
   useEffect(() => {
-    if (selectedState && geoLevel === 'precinct' && heatmapType !== 'none') {
+    if (selectedState && geoLevel === "precinct" && heatmapType !== "none") {
       fetchHeatmapData(selectedState, heatmapType, selectedDemographic);
     }
-  }, [selectedState, geoLevel, heatmapType, selectedDemographic, fetchHeatmapData]);
+  }, [
+    selectedState,
+    geoLevel,
+    heatmapType,
+    selectedDemographic,
+    fetchHeatmapData,
+  ]);
 
   // Handle state selection and map updates
   useEffect(() => {
     if (!map) return;
+    // Ensure map resizes correctly when container size changes
+    if (map) {
+      setTimeout(() => map.invalidateSize(), 400) // This will make sure that the map recalculates its size after layout changes)
+    }
 
     const fitToBound = (selectedState: string | null) => {
       map.invalidateSize();
-      
+
       if (selectedState === "Arkansas") {
         map.flyToBounds(
           new L.LatLngBounds(
@@ -374,7 +394,7 @@ const USMap: React.FC<USMapProps> = ({
           ),
           {
             duration: 1.5,
-            easeLinearity: 0.25
+            easeLinearity: 0.25,
           }
         );
       } else if (selectedState === "New York") {
@@ -385,13 +405,13 @@ const USMap: React.FC<USMapProps> = ({
           ),
           {
             duration: 1.5,
-            easeLinearity: 0.25
+            easeLinearity: 0.25,
           }
         );
       } else {
         map.flyTo([37.8, -96], 4, {
           duration: 1.5,
-          easeLinearity: 0.25
+          easeLinearity: 0.25,
         });
       }
     };
@@ -404,33 +424,35 @@ const USMap: React.FC<USMapProps> = ({
       geoLayerRef.current = null;
     }
 
-    if (selectedState !== 'State') {
-      const stateData = selectedState === 'Arkansas' ? arkansasData : newYorkData;
+    if (selectedState !== "State") {
+      const stateData =
+        selectedState === "Arkansas" ? arkansasData : newYorkData;
       const currentGeoData = stateData[geoLevel];
 
       if (currentGeoData) {
-        const layerData = heatmapType !== 'none' && heatmapData 
-          ? heatmapData 
-          : { type: 'FeatureCollection', features: currentGeoData };
+        const layerData =
+          heatmapType !== "none" && heatmapData
+            ? heatmapData
+            : { type: "FeatureCollection", features: currentGeoData };
 
         const getLayerStyle = (feature: any) => {
-          if (geoLevel === 'district') {
+          if (geoLevel === "district") {
             // Handle district plan comparison view
             if (districtPlanData) {
               const planFeature = districtPlanData.features.find(
                 (f: any) => f.properties.number === feature.properties.number
               );
               return {
-                fillColor: planFeature ? '#FFD700' : '#FFFFFF',
-                color: '#000',
+                fillColor: planFeature ? "#FFD700" : "#FFFFFF",
+                color: "#000",
                 weight: 0.5,
                 fillOpacity: 0.8,
               };
             }
             // Default district style
             return {
-              fillColor: '#FFFFFF',
-              color: '#000',
+              fillColor: "#FFFFFF",
+              color: "#000",
               weight: 0.5,
               fillOpacity: 0.8,
             };
@@ -439,18 +461,15 @@ const USMap: React.FC<USMapProps> = ({
           return getHeatmapStyle(feature);
         };
 
-        geoLayerRef.current = L.geoJSON(
-          layerData as GeoJsonObject,
-          {
-            style: getLayerStyle,
-            onEachFeature: (feature, layer) => {
-              layer.on({
-                mouseover: highlightFeatures,
-                mouseout: (e) => resetHighlight(e, geoLayerRef.current!),
-              });
-            },
-          }
-        ).addTo(map);
+        geoLayerRef.current = L.geoJSON(layerData as GeoJsonObject, {
+          style: getLayerStyle,
+          onEachFeature: (feature, layer) => {
+            layer.on({
+              mouseover: highlightFeatures,
+              mouseout: (e) => resetHighlight(e, geoLayerRef.current!),
+            });
+          },
+        }).addTo(map);
       }
     }
   }, [
@@ -464,88 +483,59 @@ const USMap: React.FC<USMapProps> = ({
     districtPlanData,
     highlightFeatures,
     resetHighlight,
-    getHeatmapStyle
+    getHeatmapStyle,
   ]);
 
-  useEffect(() => {
-    // Reset selected feature
-    if (selectedFeature) {
-      selectedFeature.setStyle({
-        weight: 0.5,
-        color: '#000',
-        fillOpacity: 0.8
-      });
-    }
-    setSelectedFeature(null);
-    
-    // Reset district selection in parent
-    onDistrictSelect?.(null);
-  }, [selectedState, geoLevel]); // Dependencies that should trigger reset
-  const handleStateChange = useCallback((newState: string) => {
-    // Reset selection before changing state
-    if (selectedFeature) {
-      selectedFeature.setStyle({
-        weight: 0.5,
-        color: '#000',
-        fillOpacity: 0.8
-      });
-    }
-    setSelectedFeature(null);
-    onDistrictSelect?.(null);
-    onStateSelect(newState);
-  }, [selectedFeature, onDistrictSelect, onStateSelect]);
-
-
-return (
-  <Box 
-    height={selectedState !== "State" ? "calc(55vh - 20px)" : "400px"} 
-    position="relative"
-  >
-    <Box 
-      id="map" 
-      ref={mapRef} 
-      position="absolute"
-      top="0"
-      left="0"
-      right="0"
-      bottom="0"
-      borderRadius="lg"
-      overflow="hidden"
-      boxShadow="sm"
-    />
-    
-    {selectedState !== "State" && geoLevel === 'district' && (
-      <>
-        <DistrictPlanControls
-          selectedDistrict={selectedFeature?.feature?.properties?.geoId ?? null}
-          onCompare={(planNumber) => {
-            setSelectedPlanNumber(planNumber);
-            setIsComparisonOpen(true);
-          }}
-          state={selectedState}
-          isVisible={true}
-        />
-      <ComparisonOverlay 
-        isOpen={isComparisonOpen}
-        onClose={() => setIsComparisonOpen(false)}
-        currentState={selectedState ?? ''}
-        currentGeoJson={geoLayerRef.current?.toGeoJSON()}
-        districtPlanNumber={selectedPlanNumber}
+  return (
+    <Box
+      height={selectedState !== "State" ? "calc(55vh - 20px)" : "400px"}
+      position="relative"
+    >
+      <Box
+        id="map"
+        ref={mapRef}
+        position="absolute"
+        top="0"
+        left="0"
+        right="0"
+        bottom="0"
+        borderRadius="lg"
+        overflow="hidden"
+        boxShadow="sm"
       />
-      </>
-    )}
+
+      {selectedState !== "State" && geoLevel === "district" && (
+        <>
+          <DistrictPlanControls
+            selectedDistrict={null}
+            onCompare={(planNumber) => {
+              setSelectedPlanNumber(planNumber);
+              setIsComparisonOpen(true);
+            }}
+            state={selectedState}
+            isVisible={true}
+          />
+          <ComparisonOverlay
+            isOpen={isComparisonOpen}
+            onClose={() => setIsComparisonOpen(false)}
+            currentState={selectedState ?? ""}
+            currentGeoJson={geoLayerRef.current?.toGeoJSON()}
+            districtPlanNumber={selectedPlanNumber}
+          />
+        </>
+      )}
 
       {/* Heatmap Legend */}
-      {selectedState !== "State" && geoLevel === 'precinct' && (
-        <MapLegend 
+      {selectedState !== "State" && geoLevel === "precinct" && (
+        <MapLegend
           heatmapType={heatmapType}
           selectedDemographic={selectedDemographic}
         />
       )}
 
       {/* District Plan Comparison Legend */}
-      {districtPlanData && geoLevel === 'district' && (
-        <Box 
+      {districtPlanData && geoLevel === "district" && (
+        <Box
           position="absolute"
           bottom="20px"
           left="10px"
@@ -564,7 +554,14 @@ return (
               <Text fontSize="xs">Changed Districts</Text>
             </HStack>
             <HStack>
-              <Box w="12px" h="12px" bg="#FFFFFF" border="1px solid" borderColor="gray.300" borderRadius="sm" />
+              <Box
+                w="12px"
+                h="12px"
+                bg="#FFFFFF"
+                border="1px solid"
+                borderColor="gray.300"
+                borderRadius="sm"
+              />
               <Text fontSize="xs">Unchanged Districts</Text>
             </HStack>
           </HStack>
