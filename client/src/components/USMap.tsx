@@ -380,7 +380,7 @@ const USMap: React.FC<USMapProps> = ({
     if (!map) return;
     // Ensure map resizes correctly when container size changes
     if (map) {
-      setTimeout(() => map.invalidateSize(), 400) // This will make sure that the map recalculates its size after layout changes)
+      setTimeout(() => map.invalidateSize(), 1000) // This will make sure that the map recalculates its size after layout changes)
     }
 
     const fitToBound = (selectedState: string | null) => {
