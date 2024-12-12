@@ -5,39 +5,25 @@ import {
   HStack,
   Select,
   Button,
-  useToast,
   Text
 } from '@chakra-ui/react';
 
 interface DistrictPlanControlsProps {
-  selectedDistrict: string | null;
   onCompare: (planNumber: string) => void;
   state: string | null;
   isVisible: boolean;
 }
 
 const DistrictPlanControls: React.FC<DistrictPlanControlsProps> = ({
-  selectedDistrict,
   onCompare,
   state,
   isVisible
 }) => {
   const [selectedPlan, setSelectedPlan] = useState<string>('');
-  const toast = useToast();
 
   if (!isVisible) return null;
 
   const handleCompareClick = () => {
-    if (!selectedDistrict) {
-      toast({
-        title: 'No district selected',
-        description: 'Please select a district on the map first',
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      });
-      return;
-    }
     onCompare(selectedPlan);
   };
 
@@ -53,9 +39,6 @@ const DistrictPlanControls: React.FC<DistrictPlanControlsProps> = ({
       boxShadow="sm"
     >
       <HStack spacing={2}>
-        <Text fontSize="sm" fontWeight="medium">
-          {selectedDistrict ? `District ${selectedDistrict} selected` : 'No district selected'}
-        </Text>
         <Select 
           size="sm"
           placeholder="Select plan"
@@ -71,7 +54,7 @@ const DistrictPlanControls: React.FC<DistrictPlanControlsProps> = ({
           size="sm"
           colorScheme="blue"
           onClick={handleCompareClick}
-          isDisabled={!selectedDistrict || !selectedPlan}
+          isDisabled={!selectedPlan}
         >
           Compare
         </Button>

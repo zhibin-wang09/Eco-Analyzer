@@ -10,7 +10,7 @@ import { HeatmapType } from "./controls/HeatMapControls";
 import MapLegend from "./MapLegend";
 import DistrictPlanControls from "./controls/DistrictPlanControls";
 import { Layer, PathOptions } from "leaflet";
-import ComparisonOverlay from "./ComparisonOverlay";
+import ComparisonOverlay from "./dataVisuals/ComparisonOverlay";
 
 interface FeatureLayer extends L.Layer {
   feature?: any;
@@ -507,7 +507,6 @@ const USMap: React.FC<USMapProps> = ({
       {selectedState !== "State" && geoLevel === "district" && (
         <>
           <DistrictPlanControls
-            selectedDistrict={null}
             onCompare={(planNumber) => {
               setSelectedPlanNumber(planNumber);
               setIsComparisonOpen(true);

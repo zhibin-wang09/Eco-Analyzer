@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Box, Flex, IconButton, Text } from '@chakra-ui/react';
-import { CloseIcon } from '@chakra-ui/icons';
-import L from 'leaflet';
-import axios from 'axios';
-import { GeoJsonObject } from 'geojson';
+import React, { useEffect, useRef, useState } from "react";
+import { Box, Flex, IconButton, Text } from "@chakra-ui/react";
+import { CloseIcon } from "@chakra-ui/icons";
+import L from "leaflet";
+import axios from "axios";
+import { GeoJsonObject } from "geojson";
 
 interface ComparisonOverlayProps {
   isOpen: boolean;
@@ -18,14 +18,14 @@ const ComparisonOverlay: React.FC<ComparisonOverlayProps> = ({
   onClose,
   currentState,
   currentGeoJson,
-  districtPlanNumber
+  districtPlanNumber,
 }) => {
   const originalMapRef = useRef<HTMLDivElement>(null);
   const planMapRef = useRef<HTMLDivElement>(null);
   const [originalMap, setOriginalMap] = useState<L.Map | null>(null);
   const [planMap, setPlanMap] = useState<L.Map | null>(null);
   const [districtPlanData, setDistrictPlanData] = useState<any>(null);
-  
+
   // Refs to track GeoJSON layers
   const originalLayerRef = useRef<L.GeoJSON | null>(null);
   const planLayerRef = useRef<L.GeoJSON | null>(null);
@@ -61,7 +61,7 @@ const ComparisonOverlay: React.FC<ComparisonOverlayProps> = ({
         console.log(response.data);
         setDistrictPlanData(response.data);
       } catch (error) {
-        console.error('Error fetching district plan:', error);
+        console.error("Error fetching district plan:", error);
       }
     };
 
@@ -91,7 +91,8 @@ const ComparisonOverlay: React.FC<ComparisonOverlayProps> = ({
       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         minZoom: 3,
         maxZoom: 24,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        attribution:
+          '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       }).addTo(map);
 
       return map;
@@ -121,12 +122,24 @@ const ComparisonOverlay: React.FC<ComparisonOverlayProps> = ({
     // Add current districts to original map
     const addGeoJsonToMap = (map: L.Map, data: any, isOriginal: boolean) => {
       const layer = L.geoJSON(data as GeoJsonObject, {
-        style: (feature) => ({
-          fillColor: '#FFFFFF',
-          color: '#000',
-          weight: 0.5,
-          fillOpacity: 0.8,
-        }),
+        style: (feature) => {
+          const defaultStyle: L.PathOptions = {
+            fillColor: "#FFFFFF", // Default fill color if shading is not present
+            color: "#000", // Border color
+            weight: 0.5, // Border weight
+            fillOpacity: 0.8, // Opacity of the fill
+          };
+
+          // Use the shading property to determine the fill color
+          if (feature?.properties?.shading) {
+            return {
+              ...defaultStyle,
+              fillColor: feature.properties.shading,
+            };
+          }
+
+          return defaultStyle;
+        },
       });
 
       // Store the layer reference
@@ -136,9 +149,10 @@ const ComparisonOverlay: React.FC<ComparisonOverlayProps> = ({
         planLayerRef.current = layer;
       }
 
+      // Add the layer to the map
       layer.addTo(map);
-      
-      // Fit bounds to the layer
+
+      // Adjust map bounds to fit the layer
       map.fitBounds(layer.getBounds());
     };
 
@@ -189,12 +203,14 @@ const ComparisonOverlay: React.FC<ComparisonOverlayProps> = ({
           zIndex={2}
           onClick={handleClose}
         />
-        
+
         <Flex h="100%" gap={4}>
           <Box flex={1} position="relative">
-            <Text fontSize="lg" fontWeight="bold" mb={2}>Current Districts</Text>
-            <Box 
-              ref={originalMapRef} 
+            <Text fontSize="lg" fontWeight="bold" mb={2}>
+              Current Districts
+            </Text>
+            <Box
+              ref={originalMapRef}
               h="calc(100% - 40px)"
               borderRadius="md"
               overflow="hidden"
@@ -202,13 +218,13 @@ const ComparisonOverlay: React.FC<ComparisonOverlayProps> = ({
               borderColor="gray.200"
             />
           </Box>
-          
+
           <Box flex={1} position="relative">
             <Text fontSize="lg" fontWeight="bold" mb={2}>
               Proposed District Plan {districtPlanNumber}
             </Text>
-            <Box 
-              ref={planMapRef} 
+            <Box
+              ref={planMapRef}
               h="calc(100% - 40px)"
               borderRadius="md"
               overflow="hidden"

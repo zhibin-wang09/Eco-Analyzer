@@ -357,16 +357,6 @@ const IncomeGingles: React.FC<IncomeGinglesProps> = ({ selectedState }) => {
           Rural
         </Button>
       </ButtonGroup>
-
-      <Box p={4} bg="blue.50" borderRadius="md" w="100%">
-        <Text fontWeight="bold" mb={2}>Analysis:</Text>
-        <Text>
-          This visualization shows the relationship between average household income and voting patterns
-          across precincts in {selectedState}. Each point represents a precinct, with trend lines 
-          showing the overall voting tendencies across the income spectrum. The data can be filtered
-          by urbanicity type to explore how voting patterns vary between urban, suburban, and rural areas.
-        </Text>
-      </Box>
     </VStack>
   );
 };

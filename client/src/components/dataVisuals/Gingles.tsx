@@ -386,19 +386,6 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
           Rural
         </Button>
       </ButtonGroup>
-
-      <Box p={4} bg="blue.50" borderRadius="md" w="100%">
-        <Text fontWeight="bold" mb={2}>Visualization Analysis:</Text>
-        <Text>
-          This chart shows the relationship between {demographicOptions[selectedDemographic].name.toLowerCase()} 
-          population percentage and voting patterns across precincts in {selectedState.toUpperCase()}. 
-          {selectedDemographic === 'hispanic' && 
-            " Note that Hispanic/Latino identification is considered an ethnicity and can overlap with any racial category."} 
-          The trend lines use weighted regression that considers both precinct population and voter turnout, 
-          providing a more accurate representation of voting patterns. 
-          Data can be filtered by area type (urban, suburban, or rural) to explore geographic patterns.
-        </Text>
-      </Box>
     </VStack>
   );
 };

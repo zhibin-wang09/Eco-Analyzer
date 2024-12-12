@@ -359,17 +359,6 @@ const NormalizedGingles: React.FC<GinglesIncomeProps> = ({ selectedState }) => {
           Rural
         </Button>
       </ButtonGroup>
-
-      <Box p={4} bg="blue.50" borderRadius="md" w="100%">
-        <Text fontWeight="bold" mb={2}>Analysis:</Text>
-        <Text>
-          This visualization shows the relationship between normalized income levels and voting patterns
-          across precincts in {selectedState}. Each point represents a precinct, with trend lines 
-          showing the overall voting tendencies across the income spectrum. The data can be filtered
-          by area type (urban, suburban, or rural) to explore how voting patterns vary across different
-          types of communities.
-        </Text>
-      </Box>
     </VStack>
   );
 };
