@@ -28,4 +28,6 @@ interface IncomeGroup {
 	age: AgeGroup[];
   }
   
-export type VisualizationType = 'standard' | 'goodman' | 'income' | 'normalizedgingles' | 'hierarchical' | 'gingles' | 'summary' | 'districtDetail';
+export type VisualizationType = 'standard' | 'goodman' | 'hierarchical' | 'gingles' | 'summary' | 'districtDetail';
+
+export type GingleMode = 'Income' | 'Demographic' | 'Income/Race'

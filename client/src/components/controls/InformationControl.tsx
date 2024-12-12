@@ -53,8 +53,6 @@ const InformationControl = ({
           <Tab>Districts Detail</Tab>
           <Tab>Gingles</Tab>
           <Tab>Box & Whisker</Tab>
-          <Tab>Income</Tab>
-          <Tab>Normalized</Tab>
           <Tab>Hierarchical</Tab>
         </TabList>
       </Tabs>

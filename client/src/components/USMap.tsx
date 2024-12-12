@@ -8,9 +8,9 @@ import "../style/legend.css";
 import "leaflet/dist/leaflet.css";
 import { HeatmapType } from "./controls/HeatMapControls";
 import MapLegend from "./MapLegend";
-import DistrictPlanControls from "./controls/DistrictPlanControls";
-import { Layer, PathOptions } from "leaflet";
-import ComparisonOverlay from "./dataVisuals/ComparisonOverlay";
+// import DistrictPlanControls from "./controls/DistrictPlanControls";
+// import { Layer, PathOptions } from "leaflet";
+// import ComparisonOverlay from "./dataVisuals/ComparisonOverlay";
 
 interface FeatureLayer extends L.Layer {
   feature?: any;
@@ -504,7 +504,7 @@ const USMap: React.FC<USMapProps> = ({
         boxShadow="sm"
       />
 
-      {selectedState !== "State" && geoLevel === "district" && (
+      {/* {selectedState !== "State" && geoLevel === "district" && (
         <>
           <DistrictPlanControls
             onCompare={(planNumber) => {
@@ -522,7 +522,7 @@ const USMap: React.FC<USMapProps> = ({
             districtPlanNumber={selectedPlanNumber}
           />
         </>
-      )}
+      )} */}
 
       {/* Heatmap Legend */}
       {selectedState !== "State" && geoLevel === "precinct" && (

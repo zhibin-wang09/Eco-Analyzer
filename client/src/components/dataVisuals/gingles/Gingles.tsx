@@ -12,9 +12,10 @@ import {
   Line,
   ResponsiveContainer
 } from 'recharts';
+import { stateConversion } from '../../../utils/util';
 
 // Define available demographic categories
-type DemographicKey = 'hispanic' | 'white' | 'black' | 'asian';
+type DemographicKey = 'hispanic' | 'white' | 'black' | 'asian' | 'other';
 type UrbanityFilter = 'all' | 'urban' | 'rural' | 'suburban';
 
 // Define the structure of precinct data
@@ -46,6 +47,7 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
   const [rawData, setRawData] = useState<PrecinctData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [includeIncome, setIncludeIncome] = useState<boolean>(false);
 
   const demographicOptions: Record<DemographicKey, { name: string; description: string }> = {
     hispanic: { 
@@ -63,6 +65,10 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
     asian: { 
       name: 'Asian',
       description: 'Persons identifying as Asian alone'
+    },
+    other: {
+      name: 'Other',
+      description: 'Any other race'
     }
   };
 
@@ -72,7 +78,7 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
       setError(null);
       try {
         const url = new URL('http://localhost:8080/api/graph/gingles');
-        url.searchParams.append('state', selectedState.toLowerCase().replace(" ", ""));
+        url.searchParams.append('state', stateConversion(selectedState));
         url.searchParams.append('demographicGroup', selectedDemographic);
         url.searchParams.append('includeIncome', 'false');
 
@@ -99,68 +105,6 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
     }
   }, [selectedState, selectedDemographic]);
 
-  const regression = (points: Array<{x: number; y: number}>, degree: number = 3) => {
-    // Skip if not enough points
-    if (points.length < degree + 1) return null;
-
-    // Create matrices for the linear system
-    const matrix: number[][] = [];
-    const vector: number[] = [];
-    
-    // Fill the matrices based on the polynomial degree
-    for (let i = 0; i <= degree; i++) {
-      matrix[i] = [];
-      for (let j = 0; j <= degree; j++) {
-        let sum = 0;
-        for (const point of points) {
-          sum += Math.pow(point.x, i + j);
-        }
-        matrix[i][j] = sum;
-      }
-      
-      let sum = 0;
-      for (const point of points) {
-        sum += point.y * Math.pow(point.x, i);
-      }
-      vector[i] = sum;
-    }
-
-    // Solve using Gaussian elimination
-    for (let i = 0; i < degree + 1; i++) {
-      // Find pivot
-      let maxRow = i;
-      for (let j = i + 1; j < degree + 1; j++) {
-        if (Math.abs(matrix[j][i]) > Math.abs(matrix[maxRow][i])) {
-          maxRow = j;
-        }
-      }
-
-      // Swap rows if needed
-      [matrix[i], matrix[maxRow]] = [matrix[maxRow], matrix[i]];
-      [vector[i], vector[maxRow]] = [vector[maxRow], vector[i]];
-
-      // Eliminate column
-      for (let j = i + 1; j < degree + 1; j++) {
-        const factor = matrix[j][i] / matrix[i][i];
-        for (let k = i; k < degree + 1; k++) {
-          matrix[j][k] -= factor * matrix[i][k];
-        }
-        vector[j] -= factor * vector[i];
-      }
-    }
-
-    // Back substitution
-    const coefficients = new Array(degree + 1).fill(0);
-    for (let i = degree; i >= 0; i--) {
-      let sum = vector[i];
-      for (let j = i + 1; j < degree + 1; j++) {
-        sum -= matrix[i][j] * coefficients[j];
-      }
-      coefficients[i] = sum / matrix[i][i];
-    }
-
-    return coefficients;
-  };
 
   const processedData = useMemo(() => {
     if (!Array.isArray(rawData) || rawData.length === 0) return null;
@@ -391,3 +335,66 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
 };
 
 export default Gingles;
+
+const regression = (points: Array<{x: number; y: number}>, degree: number = 3) => {
+  // Skip if not enough points
+  if (points.length < degree + 1) return null;
+
+  // Create matrices for the linear system
+  const matrix: number[][] = [];
+  const vector: number[] = [];
+  
+  // Fill the matrices based on the polynomial degree
+  for (let i = 0; i <= degree; i++) {
+    matrix[i] = [];
+    for (let j = 0; j <= degree; j++) {
+      let sum = 0;
+      for (const point of points) {
+        sum += Math.pow(point.x, i + j);
+      }
+      matrix[i][j] = sum;
+    }
+    
+    let sum = 0;
+    for (const point of points) {
+      sum += point.y * Math.pow(point.x, i);
+    }
+    vector[i] = sum;
+  }
+
+  // Solve using Gaussian elimination
+  for (let i = 0; i < degree + 1; i++) {
+    // Find pivot
+    let maxRow = i;
+    for (let j = i + 1; j < degree + 1; j++) {
+      if (Math.abs(matrix[j][i]) > Math.abs(matrix[maxRow][i])) {
+        maxRow = j;
+      }
+    }
+
+    // Swap rows if needed
+    [matrix[i], matrix[maxRow]] = [matrix[maxRow], matrix[i]];
+    [vector[i], vector[maxRow]] = [vector[maxRow], vector[i]];
+
+    // Eliminate column
+    for (let j = i + 1; j < degree + 1; j++) {
+      const factor = matrix[j][i] / matrix[i][i];
+      for (let k = i; k < degree + 1; k++) {
+        matrix[j][k] -= factor * matrix[i][k];
+      }
+      vector[j] -= factor * vector[i];
+    }
+  }
+
+  // Back substitution
+  const coefficients = new Array(degree + 1).fill(0);
+  for (let i = degree; i >= 0; i--) {
+    let sum = vector[i];
+    for (let j = i + 1; j < degree + 1; j++) {
+      sum -= matrix[i][j] * coefficients[j];
+    }
+    coefficients[i] = sum / matrix[i][i];
+  }
+
+  return coefficients;
+};

@@ -71,8 +71,6 @@ const MainLayout = () => {
       "districtDetail",
       "gingles",
       "goodman",
-      "income",
-      "normalizedgingles",
       "hierarchical",
     ];
     setSelectedVisualization(visualizations[index]);
