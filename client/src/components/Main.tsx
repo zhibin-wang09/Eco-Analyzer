@@ -139,7 +139,7 @@ const MainLayout = () => {
                   >
                     <InformationControl
                       tabIndex={tabIndex}
-                      handleSelectDistrict={(district: number ) => setSelectedDistrict(district)}
+                      handleSelectDistrict={(district: number | null ) => setSelectedDistrict(district)}
                       handleTabChange={handleTabChange}
                       selectedVisualization={selectedVisualization}
                       selectedState={selectedState}

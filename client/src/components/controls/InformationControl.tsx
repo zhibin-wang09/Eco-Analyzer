@@ -7,7 +7,7 @@ interface InformationControlProps {
   tabIndex: number;
   handleTabChange: (tabIndex: number) => void;
   selectedVisualization: VisualizationType;
-  handleSelectDistrict: (district: number) => void;
+  handleSelectDistrict: (district: number | null) => void;
   selectedState: string;
 }
 

@@ -6,7 +6,7 @@ import CongressionalDistrictData, {
 import { stateConversion } from "../../utils/util";
 
 interface DistrictDetailProps {
-  onSelectDistrict: (district: number) => void;
+  onSelectDistrict: (district: number | null) => void;
   selectedState: string;
 }
 
@@ -20,8 +20,15 @@ const DistrictDetail = ({
   >([]);
 
   const handleRowClick = (district: number) => {
-    setSelectedDistrict(district);
-    onSelectDistrict(district);
+    if (selectedDistrict == district) {
+      // if the same selected district is clicked again we will undo
+      setSelectedDistrict(null);
+      onSelectDistrict(null);
+    } else {
+      // district has not been selected we will select
+      setSelectedDistrict(district);
+      onSelectDistrict(district);
+    }
   };
 
   useEffect(() => {
