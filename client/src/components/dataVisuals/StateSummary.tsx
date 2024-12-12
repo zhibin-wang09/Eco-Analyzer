@@ -41,7 +41,7 @@ const StateSummary = ({ selectedState }: StateSummaryProp) => {
         const rawStateSummary = await fetchStateSummary(
           stateConversion(selectedState)
         );
-        console.log(rawStateSummary);
+
         // Transform congressional representatives into an array of objects with name and party
         const representatives = rawStateSummary[
           "congressional representatives"
@@ -56,8 +56,11 @@ const StateSummary = ({ selectedState }: StateSummaryProp) => {
           populationByIncome: rawStateSummary["population by income"],
           voteDistribution: rawStateSummary["vote distribution"],
           congressionalRepresentatives: representatives,
-          populationPercentageByRegion:
-            rawStateSummary["population percentage by region"],
+          populationPercentageByRegion:{
+            rural: parseInt(rawStateSummary["population percentage by region"].Rural),
+            suburban: parseInt(rawStateSummary["population percentage by region"].Urban),
+            urban: parseInt(rawStateSummary["population percentage by region"].Suburban),
+          },
           population: rawStateSummary["population"],
         };
 
