@@ -22,6 +22,7 @@ interface NavbarProps {
   heatmapType: HeatmapType;
   onHeatmapChange: (type: HeatmapType) => void;
   onDemographicChange: (group: string) => void;
+  setTabIndex: (tabIndex: number) => void;
 }
 
 const Navbar: React.FC<NavbarProps> = ({
@@ -35,11 +36,13 @@ const Navbar: React.FC<NavbarProps> = ({
   heatmapType,
   onHeatmapChange,
   onDemographicChange,
+  setTabIndex
 }) => {
   const handleReset = () => {
     onStateChange("State");
     setSelectedVisualization("standard");
     onHeatmapChange("none");
+    setTabIndex(0);
   };
 
   // New handler for geo level changes
