@@ -64,10 +64,6 @@ const MainLayout = () => {
     }
   }, [selectedState]);
 
-  // const handleSelectDistrict = (district: string) => {
-  //   setSelectedDistrict(district);
-  // };
-
   const handleTabChange = (index: number) => {
     setTabIndex(index);
     const visualizations: VisualizationType[] = [
@@ -140,7 +136,7 @@ const MainLayout = () => {
                   >
                     <InformationControl
                       tabIndex={tabIndex}
-                      handleSelectDistrict={setSelectedDistrict}
+                      handleSelectDistrict={(district: number ) => setSelectedDistrict(district)}
                       handleTabChange={handleTabChange}
                       selectedVisualization={selectedVisualization}
                       selectedState={selectedState}

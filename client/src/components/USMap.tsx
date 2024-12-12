@@ -189,36 +189,72 @@ const USMap: React.FC<USMapProps> = ({
     map.fitBounds(e.target.getBounds());
   }, []);
 
-  const handleDistrictClick = useCallback((e: L.LeafletMouseEvent) => {
-    if (selectedFeature) {
-      // Reset previous selection style
-      if (selectedFeature !== e.target) {
-        selectedFeature.setStyle({
-          weight: 0.5,
-          color: '#000',
-          fillOpacity: 0.8
-        });
-      }
-    }
+  // const handleDistrictClick = useCallback((e: L.LeafletMouseEvent) => {
+  //   console.log("hihi");
+  //   if (selectedFeature) {
+  //     // Reset previous selection style
+  //     if (selectedFeature !== e.target) {
+  //       selectedFeature.setStyle({
+  //         weight: 0.5,
+  //         color: '#000',
+  //         fillOpacity: 0.8
+  //       });
+  //     }
+  //   }
   
-    const layer = e.target as FeatureLayer;
+  //   const layer = e.target as FeatureLayer;
     
-    // Extract district number from geoId
-    const districtNumber = layer.feature?.properties?.geoId;
+  //   // Extract district number from geoId
+  //   const districtNumber = layer.feature?.properties?.geoId;
   
-    // Set new selection style
-    layer.setStyle({
-      weight: 3,
-      color: '#FFD700',
-      fillOpacity: 0.8
-    });
+  //   // Set new selection style
+  //   layer.setStyle({
+  //     weight: 3,
+  //     color: '#FFD700',
+  //     fillOpacity: 0.8
+  //   });
   
-    setSelectedFeature(layer);
+  //   setSelectedFeature(layer);
     
-    if (districtNumber) {
-      onDistrictSelect?.(districtNumber);
+  //   if (districtNumber) {
+  //     onDistrictSelect?.(districtNumber);
+  //   }
+  // }, [selectedFeature, onDistrictSelect, selectedDistrict]);
+  
+  useEffect(() => {
+    if (selectedDistrict && geoLayerRef.current) {
+      geoLayerRef.current.eachLayer((layer: any) => {
+        if (layer.feature && Number(layer.feature.properties.geoId) === selectedDistrict) {
+          // Highlight the selected district
+          layer.setStyle({
+            weight: 3,
+            color: "#FFD700",
+            fillOpacity: 0.8,
+          });
+          setSelectedFeature(layer); // Store the highlighted layer as selected
+        } else if (layer.feature) {
+          // Reset other layers' styles
+          layer.setStyle({
+            weight: 0.5,
+            color: "#000",
+            fillOpacity: 0.8,
+          });
+        }
+      });
+    } else if (!selectedDistrict && geoLayerRef.current) {
+      // Reset styles when no district is selected
+      geoLayerRef.current.eachLayer((layer: any) => {
+        if (layer.feature) {
+          layer.setStyle({
+            weight: 0.5,
+            color: "#000",
+            fillOpacity: 0.8,
+          });
+        }
+      });
+      setSelectedFeature(null); // Clear selected feature
     }
-  }, [selectedFeature, onDistrictSelect, selectedDistrict]);
+  }, [selectedDistrict]);
 
 
   const handleCompare = useCallback((planNumber: string) => {
@@ -411,7 +447,6 @@ const USMap: React.FC<USMapProps> = ({
               layer.on({
                 mouseover: highlightFeatures,
                 mouseout: (e) => resetHighlight(e, geoLayerRef.current!),
-                click: geoLevel === 'district' ? handleDistrictClick : undefined,
               });
             },
           }
@@ -429,7 +464,6 @@ const USMap: React.FC<USMapProps> = ({
     districtPlanData,
     highlightFeatures,
     resetHighlight,
-    handleDistrictClick,
     getHeatmapStyle
   ]);
 

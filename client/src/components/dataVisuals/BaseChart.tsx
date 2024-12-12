@@ -18,6 +18,7 @@ interface BaseChartProps {
 const BaseChart: React.FC<BaseChartProps> = ({
   selectedState,
   selectedVisualization = "summary", // Default to 'overview'
+  onSelectDistrict
 }) => {
   const renderVisualization = () => {
     switch (selectedVisualization) {
@@ -26,7 +27,7 @@ const BaseChart: React.FC<BaseChartProps> = ({
       case "districtDetail":
         return (
           <DistrictDetail
-            onSelectDistrict={() => {}}
+            onSelectDistrict={onSelectDistrict}
             selectedState={selectedState}
           />
         );

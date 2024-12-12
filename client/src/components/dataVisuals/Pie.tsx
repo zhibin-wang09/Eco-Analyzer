@@ -25,7 +25,7 @@ const PieChart = ({data, title}: PieChartProp) => {
       </Text>
       <Box height="180px">
         <ResponsiveContainer width="100%" height="100%">
-          <Chart margin={{ top: 10, right: 10, bottom: 10, left: 10 }}>
+          <Chart margin={{ top: 30, right: 10, bottom: 20, left: 10 }}>
             <Pie
               data={data}
               cx="50%"
@@ -42,7 +42,7 @@ const PieChart = ({data, title}: PieChartProp) => {
             </Pie>
             <Tooltip 
               formatter={(value) => `${value}%`}
-              contentStyle={{ backgroundColor: 'white', borderRadius: '8px', border: '1px solid #ccc' }}
+              contentStyle={{ backgroundColor: 'white', borderRadius: '8px', border: '1px solid #ccc', zIndex: '1'}}
             />
             <Legend 
               layout="horizontal" 
