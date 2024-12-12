@@ -6,7 +6,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
-import { VisualizationType } from './ChartDataItemInterface';
+import { VisualizationType } from '../types/ChartDataItemInterface';
 
 interface InferenceMenuProps {
   setSelectedVisualization: (type: VisualizationType) => void;

@@ -2,13 +2,13 @@ import React, { useEffect, useRef, useCallback, useState } from "react";
 import L from "leaflet";
 import { GeoJsonObject, Feature, Geometry } from "geojson";
 import axios from "axios";
-import statesData from "./state";
+import statesData from "../map/state";
 import { Box, HStack, Text } from "@chakra-ui/react";
 import "../style/legend.css";
 import "leaflet/dist/leaflet.css";
-import { HeatmapType } from "./HeatMapControls";
+import { HeatmapType } from "./controls/HeatMapControls";
 import MapLegend from "./MapLegend";
-import DistrictPlanControls from "./DistrictPlanControls";
+import DistrictPlanControls from "./controls/DistrictPlanControls";
 import { Layer, PathOptions } from 'leaflet';
 import ComparisonOverlay from "./ComparisonOverlay";
 

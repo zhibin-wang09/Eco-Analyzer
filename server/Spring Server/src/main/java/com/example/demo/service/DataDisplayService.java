@@ -154,36 +154,121 @@ public class DataDisplayService {
 		int population = 0;
 		int democratVotes = 0;
 		int republicanVotes = 0;
+		int otherVotes = 0;
 		for (DistrictDetail c : districtData) {
 			population += c.getData().getPopulation(); // state population
-			democratVotes += c.getData().getBidenVotes();
-			republicanVotes += c.getData().getTrumpVotes(); // state voter distribution
 		}
+
+		List<Votes> electionData = electionResultRepository.findVotesByStateIdAndGeoType(stateId, GeoType.PRECINCT);
+		for (Votes v : electionData) {
+			otherVotes += (Integer) v.getElectionData().get("other_votes");
+			democratVotes += (Integer) v.getElectionData().get("biden_votes");
+			republicanVotes += (Integer) v.getElectionData().get("trump_votes"); // state voter distribution
+		}
+
+		Map<String, Double> voteDistribution = new HashMap<>();
+		voteDistribution.put("Democratic Votes", Double.valueOf(democratVotes));
+		voteDistribution.put("Republican Votes", Double.valueOf(republicanVotes));
+		voteDistribution.put("Other Votes", Double.valueOf(otherVotes));
 
 		Map<String, Integer> racialPopulation = getRacialPopulationAsState(stateId); // race -> population
 		Map<String, Double> percentagePopulationByRegionType = getPercentagePopulationByRegionType(stateId); // regionType
 																												// ->
-																												// population percentage
+																												// population
+																												// percentage
 
-		List<Map<String, String>> congressionalRepresentativeData = new ArrayList<>();
-		List<DistrictDetail> districtDetails = districtDetailRepository.findDistrictDetailsByStateId(stateId);
-
-		for(DistrictDetail d : districtDetails){
-			Map<String, String> m = new HashMap<>();
-			m.put("representative", d.getData().getRep());
-			m.put("representative party", d.getData().getParty());
-			m.put("district", d.getGeoId());
-			congressionalRepresentativeData.add(m);
+		List<Map<String, String>> stateRepresentative = new ArrayList<>();
+		if (stateId == 36) {
+			Map<String, String> rep = new HashMap<>();
+			rep.put("Kirsten Gillibrand", "Democratic");
+			stateRepresentative.add(rep);
+			rep = new HashMap<>();
+			rep.put("Chuck Schumer", "Democratic");
+			stateRepresentative.add(rep);
+		} else {
+			Map<String, String> rep = new HashMap<>();
+			rep.put("Tom Cotton", "Republican");
+			stateRepresentative.add(rep);
+			rep = new HashMap<>();
+			rep.put("John Boozman", "Republican");
+			stateRepresentative.add(rep);
 		}
-
-		double totalVotes = democratVotes + republicanVotes;
+		Map<String, Double> populationByIncome = getPopulationByAverageHouseholdIncome(stateId);
 		// summary of congressional representatives by party
 		stateSummary.put("population", population);
 		stateSummary.put("racial population", racialPopulation);
-		stateSummary.put("vote margin", (democratVotes / totalVotes) - (republicanVotes / totalVotes));
-		stateSummary.put("percentage by region type", percentagePopulationByRegionType);
-		stateSummary.put("congressional representatives", congressionalRepresentativeData);
+		stateSummary.put("vote distribution", voteDistribution);
+		stateSummary.put("population percentage by region", percentagePopulationByRegionType);
+		stateSummary.put("congressional representatives", stateRepresentative);
+		stateSummary.put("population by income", populationByIncome);
 		return stateSummary;
+	}
+
+	public Map<String, Double> getPopulationByAverageHouseholdIncome(int stateId) {
+		List<Income> income = incomeRepository.findIncomeByStateIdAndGeoType(stateId, GeoType.PRECINCT);
+	
+		Map<String, Double> result = new HashMap<>();
+		result.put("0-25k", 0.0);
+		result.put("25k-50k", 0.0);
+		result.put("50k-75k", 0.0);
+		result.put("75k-100k", 0.0);
+		result.put("100k+", 0.0);
+	
+		double total = 0;
+	
+		// Aggregate values
+		for (Income i : income) {
+			Map<String, Object> incomeData = i.getIncome();
+			double one = getIncomeValue(incomeData.get("from_0_to_9999"));
+			double two = getIncomeValue(incomeData.get("from_10000_to_14999"));
+			double three = getIncomeValue(incomeData.get("from_15000_to_24999"));
+			double four = getIncomeValue(incomeData.get("from_25000_to_34999"));
+			double five = getIncomeValue(incomeData.get("from_35000_to_49909"));
+			double six = getIncomeValue(incomeData.get("from_50000_to_74999"));
+			double seven = getIncomeValue(incomeData.get("from_75000_to_99999"));
+			double eight = getIncomeValue(incomeData.get("from_100000_and_more"));
+	
+			total += getIncomeValue(incomeData.get("total_household"));
+	
+			result.put("0-25k", result.get("0-25k") + one + two + three);
+			result.put("25k-50k", result.get("25k-50k") + four + five);
+			result.put("50k-75k", result.get("50k-75k") + six);
+			result.put("75k-100k", result.get("75k-100k") + seven);
+			result.put("100k+", result.get("100k+") + eight);
+		}
+	
+		// Normalize to percentages
+		if (total > 0) {
+			double sum = 0; // Track sum for adjustment
+			for (String key : result.keySet()) {
+				double percentage = (result.get(key) / total * 100);
+				percentage = Math.round(percentage * 100.0) / 100.0; // Round to 2 decimal places
+				result.put(key, percentage);
+				sum += percentage;
+			}
+	
+			// Adjust for rounding errors
+			double difference = 100.0 - sum;
+			if (Math.abs(difference) > 0.01) { // Only adjust if meaningful
+				String largestKey = result.entrySet().stream()
+										  .max(Map.Entry.comparingByValue())
+										  .get()
+										  .getKey();
+				result.put(largestKey, result.get(largestKey) + difference);
+			}
+		} else {
+			System.err.println("Total income is zero. Skipping percentage calculations.");
+		}
+	
+		return result;
+	}
+	
+	public double getIncomeValue(Object income) {
+		if (income instanceof Number) {
+			return ((Number) income).doubleValue(); // Retain precision
+		} else {
+			return 0.0;
+		}
 	}
 
 	public Map<String, Integer> getRacialPopulationAsState(int stateId) {
@@ -217,26 +302,26 @@ public class DataDisplayService {
 
 		List<Urbanicity> urbanicityData = urbanicityRepository.findUrbanicityByStateId(stateId); // has region type
 																									// information
-		
+
 		int statePopulation = 0;
 
 		for (Urbanicity u : urbanicityData) {
 			String regionType = u.getUrbanicity().getType();
 			String geoId = u.getGeoId();
-			double population = precinctPopulation.getOrDefault(geoId,0);
+			double population = precinctPopulation.getOrDefault(geoId, 0);
 			statePopulation += population;
 
 			percentagePopulationByRegionType.put(regionType,
 					percentagePopulationByRegionType.getOrDefault(regionType, 0.0) + population);
 		}
 
-		for(Map.Entry<String, Double> entry : percentagePopulationByRegionType.entrySet()){
-			percentagePopulationByRegionType.put(entry.getKey(), entry.getValue() / statePopulation);
+		for (Map.Entry<String, Double> entry : percentagePopulationByRegionType.entrySet()) {
+			percentagePopulationByRegionType.put(entry.getKey(), entry.getValue() / statePopulation * 100);
 		}
 		return percentagePopulationByRegionType;
 	}
 
-	public Map<String, Object> getPrecinctDetail(int stateId, String geoId){
+	public Map<String, Object> getPrecinctDetail(int stateId, String geoId) {
 		Map<String, Object> precinctDetail = new HashMap<>();
 		Demographic demographic = demographicRepository.findDemographicByStateIdAndGeoId(stateId, geoId);
 		Urbanicity urbanicity = urbanicityRepository.findUrbanicityByStateIdAndGeoId(stateId, geoId);
@@ -245,9 +330,9 @@ public class DataDisplayService {
 
 		precinctDetail.put("population", demographic.getRace().get("population"));
 
-		Map<String,Object> racialPopulation = new HashMap<>();
-		String[] races = new String[]{"white", "black", "asian", "hispanic", "other"};
-		for(int i =0; i< races.length ;i++){
+		Map<String, Object> racialPopulation = new HashMap<>();
+		String[] races = new String[] { "white", "black", "asian", "hispanic", "other" };
+		for (int i = 0; i < races.length; i++) {
 			racialPopulation.put(races[i], demographic.getRace().get(races[i]));
 		}
 		precinctDetail.put("racial populatoin", racialPopulation);
@@ -260,7 +345,7 @@ public class DataDisplayService {
 		return precinctDetail;
 	}
 
-	public List<BoxPlot> getBoxPlot(int stateId, Category category, RegionType regionType){
+	public List<BoxPlot> getBoxPlot(int stateId, Category category, RegionType regionType) {
 		System.out.println(stateId);
 		return boxPlotRepository.findBoxPlotByStateIdAndCategoryAndRegionType(stateId, category, regionType);
 	}

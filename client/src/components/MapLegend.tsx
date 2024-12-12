@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, VStack, HStack, Text, Square } from '@chakra-ui/react';
-import { HeatmapType } from './HeatMapControls';
+import { HeatmapType } from './controls/HeatMapControls';
 
 interface MapLegendProps {
   heatmapType: HeatmapType;

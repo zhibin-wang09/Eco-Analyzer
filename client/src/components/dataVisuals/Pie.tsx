@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Text } from '@chakra-ui/react';
-import { PieChart, Pie, Cell, Legend, ResponsiveContainer, Tooltip } from 'recharts';
+import { PieChart as Chart , Pie, Cell, Legend, ResponsiveContainer, Tooltip } from 'recharts';
 
 const data = [
   { name: 'White', value: 65 },
@@ -12,15 +12,20 @@ const data = [
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
 
-const RacePie = () => {
+interface PieChartProp{
+  data: {name: string, value: number}[],
+  title: string
+}
+
+const PieChart = ({data, title}: PieChartProp) => {
   return (
     <Box bg="white" p={2} borderRadius="lg" boxShadow="sm" mt={2}>
       <Text fontSize="sm" fontWeight="bold" mb={1} textAlign="center">
-        Racial Demographics Distribution
+        {title}
       </Text>
       <Box height="180px">
         <ResponsiveContainer width="100%" height="100%">
-          <PieChart margin={{ top: 10, right: 10, bottom: 10, left: 10 }}>
+          <Chart margin={{ top: 10, right: 10, bottom: 10, left: 10 }}>
             <Pie
               data={data}
               cx="50%"
@@ -47,11 +52,11 @@ const RacePie = () => {
               iconSize={8}
               fontSize={12}
             />
-          </PieChart>
+          </Chart>
         </ResponsiveContainer>
       </Box>
     </Box>
   );
 };
 
-export default RacePie;
+export default PieChart;
