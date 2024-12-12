@@ -30,6 +30,7 @@ public class DistrictDetail implements Serializable {
 
         private String race;
 
+        @Field("average_income")
         private int averageIncome;
 
         private int population;

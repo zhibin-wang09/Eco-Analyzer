@@ -1,59 +1,85 @@
 import { Box, Table, Thead, Tr, Th, Tbody, Td, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-
-const mockData = [
-  {
-    district: "1",
-    representative: "John Doe",
-    party: "Democrat",
-    ethnicity: "White",
-    income: 55000,
-    poverty: 12.5,
-    regionType: { rural: 30, urban: 40, suburban: 30 },
-    voteMargin: 10.2,
-  },
-  {
-    district: "2",
-    representative: "Jane Smith",
-    party: "Republican",
-    ethnicity: "Hispanic",
-    income: 42000,
-    poverty: 18.4,
-    regionType: { rural: 50, urban: 25, suburban: 25 },
-    voteMargin: 5.1,
-  },
-  {
-    district: "2",
-    representative: "Jane Smith",
-    party: "Republican",
-    ethnicity: "Hispanic",
-    income: 42000,
-    poverty: 18.4,
-    regionType: { rural: 50, urban: 25, suburban: 25 },
-    voteMargin: 5.1,
-  },
-];
+import CongressionalDistrictData, {
+  CongressionalDistrictDataJson,
+} from "../../types/CongressionalDistrictData";
+import { stateConversion } from "../../utils/util";
 
 interface DistrictDetailProps {
-  onSelectDistrict: (district: string) => void;
+  onSelectDistrict: (district: number) => void;
+  selectedState: string;
 }
 
-const DistrictDetail = ({ onSelectDistrict }: DistrictDetailProps) => {
-  const [selectedDistrict, setSelectedDistrict] = useState<string | null>(null);
+const DistrictDetail = ({
+  onSelectDistrict,
+  selectedState,
+}: DistrictDetailProps) => {
+  const [selectedDistrict, setSelectedDistrict] = useState<number | null>(null);
+  const [districtTable, setDistrictTable] = useState<
+    CongressionalDistrictData[]
+  >([]);
 
-  const handleRowClick = (district: string) => {
+  const handleRowClick = (district: number) => {
     setSelectedDistrict(district);
     onSelectDistrict(district);
   };
 
   useEffect(() => {
-    
-  })
+    const fetchDistribtTable = async (selectedState: string) => {
+      const query = new URLSearchParams({
+        state: selectedState,
+      }).toString();
+      const response = await fetch("http://localhost:8080/api/table?" + query);
+      const json = await response.json();
+      return json;
+    };
+
+    const loadDistrictTable = async () => {
+      try {
+        const rawDistrictTable = await fetchDistribtTable(
+          stateConversion(selectedState)
+        );
+        console.log(rawDistrictTable);
+        // Transform congressional representatives into an array of objects with name and party
+        setDistrictTable(
+          rawDistrictTable
+            .map((rawDistrictDetail: CongressionalDistrictDataJson) => {
+              const districtDetail: CongressionalDistrictData = {
+                district: Number(rawDistrictDetail.geoId),
+                representative: rawDistrictDetail.data.rep,
+                party: rawDistrictDetail.data.party,
+                averageHouseholdIncome: rawDistrictDetail.data.averageIncome,
+                povertyPercentage: rawDistrictDetail.data.povertyPercentage,
+                regionType: {
+                  rural: parseInt(rawDistrictDetail.data.ruralPercentage),
+                  suburban: parseInt(rawDistrictDetail.data.subUrbanPercentage),
+                  urban: parseInt(rawDistrictDetail.data.urbanPercentage),
+                },
+                voteMargin: Math.abs(
+                  rawDistrictDetail.data.trumpVotes -
+                    rawDistrictDetail.data.bidenVotes
+                ),
+              };
+              return districtDetail;
+            })
+            .sort(
+              (a: CongressionalDistrictData, b: CongressionalDistrictData) =>
+                a.district - b.district
+            )
+        );
+      } catch (error) {
+        console.error("Error fetching state summary:", error);
+      }
+    };
+
+    loadDistrictTable();
+  }, [selectedState]);
 
   return (
     <Box
       overflowX="auto"
-      overflowY="auto"
+      overflowY="scroll" // Enables vertical scrolling
+      maxH="400px" // Sets maximum height for the box
       p={1}
       borderWidth="1px"
       borderRadius="md"
@@ -66,34 +92,103 @@ const DistrictDetail = ({ onSelectDistrict }: DistrictDetailProps) => {
       <Table variant="simple" size="sm">
         <Thead>
           <Tr>
-            <Th py={1} fontSize="xs">
+            <Th
+              py={1}
+              fontSize="xs"
+              position="sticky" // Makes the header sticky
+              top="-1" // Sticks the header to the top of the scrolling container
+              bg="white" // Background color to avoid transparency issues
+              zIndex="1" // Ensures the header appears above table content
+            >
               District
             </Th>
-            <Th py={1} fontSize="xs">
+            <Th
+              py={1}
+              fontSize="xs"
+              position="sticky"
+              top="-1"
+              bg="white"
+              zIndex="1"
+            >
               Rep.
             </Th>
-            <Th py={1} fontSize="xs">
+            <Th
+              py={1}
+              fontSize="xs"
+              position="sticky"
+              top="-1"
+              bg="white"
+              zIndex="1"
+            >
               Party
             </Th>
-            <Th py={1} fontSize="xs">
-              Ethnicity
+            <Th
+              py={1}
+              fontSize="xs"
+              isNumeric
+              position="sticky"
+              top="-1"
+              bg="white"
+              zIndex="1"
+            >
+              Average Household Income
             </Th>
-            <Th py={1} fontSize="xs" isNumeric>
-              Income
+            <Th
+              py={1}
+              fontSize="xs"
+              isNumeric
+              position="sticky"
+              top="-1"
+              bg="white"
+              zIndex="1"
+            >
+              Poverty%
             </Th>
-            <Th py={1} fontSize="xs" isNumeric>
-              Pov%
+            <Th
+              py={1}
+              fontSize="xs"
+              position="sticky"
+              top="-1"
+              bg="white"
+              zIndex="1"
+            >
+              Rural Region%
             </Th>
-            <Th py={1} fontSize="xs">
-              Region
+            <Th
+              py={1}
+              fontSize="xs"
+              position="sticky"
+              top="-1"
+              bg="white"
+              zIndex="1"
+            >
+              Suburban Region%
             </Th>
-            <Th py={1} fontSize="xs" isNumeric>
+            <Th
+              py={1}
+              fontSize="xs"
+              position="sticky"
+              top="-1"
+              bg="white"
+              zIndex="1"
+            >
+              Urban Region%
+            </Th>
+            <Th
+              py={1}
+              fontSize="xs"
+              isNumeric
+              position="sticky"
+              top="-1"
+              bg="white"
+              zIndex="1"
+            >
               Margin
             </Th>
           </Tr>
         </Thead>
         <Tbody>
-          {mockData.map((item) => (
+          {districtTable.map((item) => (
             <Tr
               key={item.district}
               onClick={() => handleRowClick(item.district)}
@@ -109,20 +204,23 @@ const DistrictDetail = ({ onSelectDistrict }: DistrictDetailProps) => {
               <Td py={0.5} fontSize="xs">
                 {item.party}
               </Td>
-              <Td py={0.5} fontSize="xs">
-                {item.ethnicity}
+              <Td py={0.5} fontSize="xs" isNumeric>
+                ${item.averageHouseholdIncome.toLocaleString()}
               </Td>
               <Td py={0.5} fontSize="xs" isNumeric>
-                ${item.income.toLocaleString()}
-              </Td>
-              <Td py={0.5} fontSize="xs" isNumeric>
-                {item.poverty.toFixed(1)}
+                {item.povertyPercentage.toFixed(1)}
               </Td>
               <Td py={0.5} fontSize="xs">
-                {`${item.regionType.rural}/${item.regionType.urban}/${item.regionType.suburban}`}
+                {`${item.regionType.rural}%`}
+              </Td>
+              <Td py={0.5} fontSize="xs">
+                {`${item.regionType.suburban}%`}
+              </Td>
+              <Td py={0.5} fontSize="xs">
+                {`${item.regionType.urban}%`}
               </Td>
               <Td py={0.5} fontSize="xs" isNumeric>
-                {item.voteMargin.toFixed(1)}%
+                {item.voteMargin.toFixed(1)}
               </Td>
             </Tr>
           ))}

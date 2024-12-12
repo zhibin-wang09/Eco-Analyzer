@@ -1,11 +1,24 @@
 
+export interface CongressionalDistrictDataJson {
+  geoId: string;
+  data: {
+    rep: any;
+    party: any;
+    averageIncome: any;
+    povertyPercentage: any;
+    ruralPercentage: any;
+    subUrbanPercentage: any;
+    urbanPercentage: any;
+    trumpVotes: number;
+    bidenVotes: number;
+  };
+}
 interface CongressionalDistrictData {
-    district: string;
+    district: number;
     representative: string;
     party: string;
-    ethnicity: string;
-    income: number;
-    poverty: number;
+    averageHouseholdIncome: number;
+    povertyPercentage: number;
     regionType: {
       rural: number;
       urban: number;

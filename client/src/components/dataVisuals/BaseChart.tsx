@@ -12,6 +12,7 @@ import DistrictDetail from "./DistrictDetail";
 interface BaseChartProps {
   selectedState: string;
   selectedVisualization?: VisualizationType;
+  onSelectDistrict: (district: number) => void;
 }
 
 const BaseChart: React.FC<BaseChartProps> = ({
@@ -21,9 +22,14 @@ const BaseChart: React.FC<BaseChartProps> = ({
   const renderVisualization = () => {
     switch (selectedVisualization) {
       case "summary":
-        return <StateSummary selectedState = {selectedState}/>;
+        return <StateSummary selectedState={selectedState} />;
       case "districtDetail":
-        return <DistrictDetail onSelectDistrict={() => {}} />;
+        return (
+          <DistrictDetail
+            onSelectDistrict={() => {}}
+            selectedState={selectedState}
+          />
+        );
       case "gingles":
         return <Gingles selectedState={selectedState} />;
       case "goodman":
