@@ -76,6 +76,9 @@ const MainLayout = () => {
       "hierarchical",
     ];
     setSelectedVisualization(visualizations[index]);
+    if(index != 1){ // once we leave the district detail tab we can undo the highlighting
+      setSelectedDistrict(null);
+    }
   };
 
   return (

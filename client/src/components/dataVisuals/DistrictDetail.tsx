@@ -77,7 +77,7 @@ const DistrictDetail = ({
 
   return (
     <Box
-      overflowX="auto"
+      overflowX="scroll"
       overflowY="scroll" // Enables vertical scrolling
       maxH="50vh" // Sets maximum height for the box
       p={1}
@@ -87,7 +87,7 @@ const DistrictDetail = ({
       boxShadow="sm"
     >
       <Text fontSize="sm" fontWeight="bold" mb={1} ml={2}>
-        Congressional District Data
+        District Details
       </Text>
       <Table variant="simple" size="sm">
         <Thead>
@@ -208,7 +208,7 @@ const DistrictDetail = ({
                 ${item.averageHouseholdIncome.toLocaleString()}
               </Td>
               <Td py={0.5} fontSize="xs" isNumeric>
-                {item.povertyPercentage.toFixed(1)}
+                {item.povertyPercentage.toFixed(1)}%
               </Td>
               <Td py={0.5} fontSize="xs">
                 {`${item.regionType.rural}%`}

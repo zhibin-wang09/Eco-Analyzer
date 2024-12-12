@@ -61,7 +61,6 @@ const USMap: React.FC<USMapProps> = ({
   }>({});
   const [map, setMap] = useState<L.Map | null>(null);
   const [heatmapData, setHeatmapData] = useState<any>(null);
-  const [selectedFeature, setSelectedFeature] = useState<FeatureLayer | null>(null);
   const [districtPlanData, setDistrictPlanData] = useState<any>(null);
   const mapRef = useRef<HTMLDivElement>(null);
   const geoLayerRef = useRef<L.GeoJSON | null>(null);
@@ -178,48 +177,14 @@ const USMap: React.FC<USMapProps> = ({
   
   const resetHighlight = useCallback(
     (e: L.LeafletMouseEvent, geojson: L.GeoJSON) => {
-      if (e.target !== selectedFeature) {
         geojson.resetStyle(e.target);
-      }
     },
-    [selectedFeature]
+    []
   );
 
   const zoomToFeature = useCallback((e: L.LeafletMouseEvent, map: L.Map) => {
     map.fitBounds(e.target.getBounds());
   }, []);
-
-  // const handleDistrictClick = useCallback((e: L.LeafletMouseEvent) => {
-  //   console.log("hihi");
-  //   if (selectedFeature) {
-  //     // Reset previous selection style
-  //     if (selectedFeature !== e.target) {
-  //       selectedFeature.setStyle({
-  //         weight: 0.5,
-  //         color: '#000',
-  //         fillOpacity: 0.8
-  //       });
-  //     }
-  //   }
-  
-  //   const layer = e.target as FeatureLayer;
-    
-  //   // Extract district number from geoId
-  //   const districtNumber = layer.feature?.properties?.geoId;
-  
-  //   // Set new selection style
-  //   layer.setStyle({
-  //     weight: 3,
-  //     color: '#FFD700',
-  //     fillOpacity: 0.8
-  //   });
-  
-  //   setSelectedFeature(layer);
-    
-  //   if (districtNumber) {
-  //     onDistrictSelect?.(districtNumber);
-  //   }
-  // }, [selectedFeature, onDistrictSelect, selectedDistrict]);
   
   useEffect(() => {
     if (selectedDistrict && geoLayerRef.current) {
@@ -227,11 +192,11 @@ const USMap: React.FC<USMapProps> = ({
         if (layer.feature && Number(layer.feature.properties.geoId) === selectedDistrict) {
           // Highlight the selected district
           layer.setStyle({
-            weight: 3,
-            color: "#FFD700",
-            fillOpacity: 0.8,
+            weight: 5,
+            color: "#666",
+            dashArray: "",
+            fillOpacity: 0.7,
           });
-          setSelectedFeature(layer); // Store the highlighted layer as selected
         } else if (layer.feature) {
           // Reset other layers' styles
           layer.setStyle({
@@ -241,7 +206,8 @@ const USMap: React.FC<USMapProps> = ({
           });
         }
       });
-    } else if (!selectedDistrict && geoLayerRef.current) {
+    } 
+    else if (!selectedDistrict && geoLayerRef.current) {
       // Reset styles when no district is selected
       geoLayerRef.current.eachLayer((layer: any) => {
         if (layer.feature) {
@@ -252,7 +218,6 @@ const USMap: React.FC<USMapProps> = ({
           });
         }
       });
-      setSelectedFeature(null); // Clear selected feature
     }
   }, [selectedDistrict]);
 
@@ -467,35 +432,6 @@ const USMap: React.FC<USMapProps> = ({
     getHeatmapStyle
   ]);
 
-  useEffect(() => {
-    // Reset selected feature
-    if (selectedFeature) {
-      selectedFeature.setStyle({
-        weight: 0.5,
-        color: '#000',
-        fillOpacity: 0.8
-      });
-    }
-    setSelectedFeature(null);
-    
-    // Reset district selection in parent
-    onDistrictSelect?.(null);
-  }, [selectedState, geoLevel]); // Dependencies that should trigger reset
-  const handleStateChange = useCallback((newState: string) => {
-    // Reset selection before changing state
-    if (selectedFeature) {
-      selectedFeature.setStyle({
-        weight: 0.5,
-        color: '#000',
-        fillOpacity: 0.8
-      });
-    }
-    setSelectedFeature(null);
-    onDistrictSelect?.(null);
-    onStateSelect(newState);
-  }, [selectedFeature, onDistrictSelect, onStateSelect]);
-
-
 return (
   <Box 
     height={selectedState !== "State" ? "calc(55vh - 20px)" : "400px"} 
@@ -517,7 +453,7 @@ return (
     {selectedState !== "State" && geoLevel === 'district' && (
       <>
         <DistrictPlanControls
-          selectedDistrict={selectedFeature?.feature?.properties?.geoId ?? null}
+          selectedDistrict={null}
           onCompare={(planNumber) => {
             setSelectedPlanNumber(planNumber);
             setIsComparisonOpen(true);
