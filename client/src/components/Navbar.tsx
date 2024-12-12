@@ -3,7 +3,7 @@ import { Box, HStack, Heading, Select, Button, ButtonGroup } from "@chakra-ui/re
 import { RepeatIcon } from '@chakra-ui/icons';
 import InferenceMenu from "./InferenceMenu";
 import { VisualizationType } from './ChartDataItemInterface';
-import HeatmapControls, { HeatmapType } from './HeatmapControls';
+import HeatmapControls, { HeatmapType } from './HeatMapControls';
 
 interface NavbarProps {
   onSelectChange: (val: string) => void;

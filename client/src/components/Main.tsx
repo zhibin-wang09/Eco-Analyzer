@@ -19,7 +19,7 @@ import { VisualizationType } from "./ChartDataItemInterface";
 import Frame from "./ui";
 import CongressionalTable from "./CongressionalTable";
 import RacePie from "./RacePie";
-import { HeatmapType } from "./HeatmapControls";
+import { HeatmapType } from "./HeatMapControls";
 
 const mockData = [
   {
