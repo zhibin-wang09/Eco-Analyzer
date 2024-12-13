@@ -3,7 +3,7 @@ import * as d3 from "d3";
 import { DataItem } from "../../types/BoxPlot";
 import { Box, HStack, Select, VStack } from "@chakra-ui/react";
 import { stateConversion } from "../../utils/util";
-import { BoxplotWrapper } from "./BoxplotComponent/BoxplotWrapper";
+import { BoxplotWrapper } from "./boxplotComponent/BoxplotWrapper";
 
 const BoxPlot = ({ selectedState }: { selectedState: string }) => {
   const [boxPlotData, setBoxPlotData] = useState<DataItem[]>([]);
