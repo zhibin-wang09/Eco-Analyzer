@@ -66,6 +66,7 @@ const BoxPlot = ({ selectedState }: { selectedState: string }) => {
         category !== "urbanicity" ? regionType : "all",
         range
       );
+      result.sort((a: DataItem, b:DataItem) => Number(a.geoId) - Number(b.geoId));
       setBoxPlotData(result);
       if (result.length == 0) {
         toast({
