@@ -9,6 +9,7 @@ import NormalizedGingles from "./gingles/NormalizedGingles";
 import StateSummary from "./StateSummary";
 import DistrictDetail from "./DistrictDetail";
 import GinglesControl from "../controls/GinglesControl";
+import BoxPlot from "./Boxplot";
 
 interface BaseChartProps {
   selectedState: string;
@@ -35,7 +36,7 @@ const BaseChart: React.FC<BaseChartProps> = ({
       case "gingles":
         return <GinglesControl selectedState={selectedState} />;
       case "goodman":
-        return <GoodmanRegression />;
+        return <BoxPlot selectedState={selectedState} />;
       // case "income":
       //   return <IncomeGingles selectedState={selectedState} />;
       // case "normalizedgingles":

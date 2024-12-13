@@ -354,7 +354,10 @@ public class DataDisplayService {
 	}
 
 	public List<BoxPlot> getBoxPlot(int stateId, Category category, RegionType regionType) {
-		System.out.println(stateId);
 		return boxPlotRepository.findBoxPlotByStateIdAndCategoryAndRegionType(stateId, category, regionType);
+	}
+
+	public List<BoxPlot> getBoxPlotByRange(int stateId, Category category, RegionType regionType, String range){
+		return boxPlotRepository.findBoxPlotByStateIdAndCategoryAndRegionTypeAndRange(stateId, category, regionType, range);
 	}
 }
