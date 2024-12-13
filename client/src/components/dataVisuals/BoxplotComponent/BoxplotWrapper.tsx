@@ -3,6 +3,7 @@ import * as d3 from "d3";
 import { AxisLeft } from "./AxisLeft";
 import { AxisBottom } from "./AxisBottomCategoric";
 import { VerticalBox } from "./VerticalBox";
+import { useToast } from "@chakra-ui/react";
 
 const MARGIN = { top: 30, right: 30, bottom: 100, left: 100 }; // Increased bottom and left margins for labels
 const JITTER_WIDTH = 40;
@@ -17,6 +18,7 @@ type BoxplotWrapperProps = {
 export const BoxplotWrapper = ({ width, height, data, yAxis }: BoxplotWrapperProps) => {
   const boundsWidth = width - MARGIN.right - MARGIN.left;
   const boundsHeight = height - MARGIN.top - MARGIN.bottom;
+  const toast = useToast();
 
   // Compute derived data
   const { chartMax, groups } = useMemo(() => {
@@ -59,7 +61,7 @@ export const BoxplotWrapper = ({ width, height, data, yAxis }: BoxplotWrapperPro
       </g>
     );
   });
-
+  
   return (
     <svg width={width} height={height}>
       <g

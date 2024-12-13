@@ -359,6 +359,7 @@ public class DataDisplayService {
 		double totalPopulation = stateId == 36 ? 17161215 : 2096286;
 		for(BoxPlot b : boxplots){
 			BoxPlotData boxplot = b.getBoxPlot();
+			if(boxplot == null) return new ArrayList<>();
 			boxplot.setMax(boxplot.getMax()/ totalPopulation);
 			boxplot.setMin(boxplot.getMin()/ totalPopulation);
 			boxplot.setMedian(boxplot.getMedian()/ totalPopulation);
@@ -373,6 +374,7 @@ public class DataDisplayService {
 		double totalPopulation = stateId == 36 ? 17161215 : 2096286;
 		for(BoxPlot b : boxplots){
 			BoxPlotData boxplot = b.getBoxPlot();
+			if(boxplot == null) return new ArrayList<>();
 			boxplot.setMax(boxplot.getMax()/ totalPopulation);
 			boxplot.setMin(boxplot.getMin()/ totalPopulation);
 			boxplot.setMedian(boxplot.getMedian()/ totalPopulation);
