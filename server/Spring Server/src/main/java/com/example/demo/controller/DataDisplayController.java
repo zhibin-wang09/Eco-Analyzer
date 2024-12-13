@@ -68,7 +68,7 @@ public class DataDisplayController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(value = "/api/precinct/table", produces = "application/json")
-    public ResponseEntity<Map<String,Object>> getPrecinctDetail(
+    public ResponseEntity<Map<String, Object>> getPrecinctDetail(
             @RequestParam String state, @RequestParam String geoId) {
         int id = StateIdConvertor.stringToId(State.valueOf(state.toUpperCase()));
 
@@ -76,7 +76,7 @@ public class DataDisplayController {
             return ResponseEntity.badRequest().body(null);
         }
 
-        Map<String,Object> precinctDetail = dataDisplayService.getPrecinctDetail(id, geoId);
+        Map<String, Object> precinctDetail = dataDisplayService.getPrecinctDetail(id, geoId);
         return ResponseEntity.ok(precinctDetail);
     }
 
@@ -94,7 +94,7 @@ public class DataDisplayController {
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(value = "/api/graph/boxplot")
     public ResponseEntity<List<BoxPlot>> getBoxplot(@RequestParam String state, @RequestParam String category,
-            @RequestParam String regionType) {
+            @RequestParam String regionType, @RequestParam(required = false) String range) {
         int id = -1;
         Category c = null;
         RegionType r = null;
@@ -111,6 +111,11 @@ public class DataDisplayController {
             return ResponseEntity.badRequest().body(null);
         }
 
-        return ResponseEntity.ok(dataDisplayService.getBoxPlot(id, c, r));
+        if(range == null){
+            return ResponseEntity.ok(dataDisplayService.getBoxPlot(id, c, r));
+        }else{
+            // user specify the range of the category(i.e. white/black/asian of race category, or urban/suburban of urbanicity category)
+            return ResponseEntity.ok(dataDisplayService.getBoxPlotByRange(id, c, r,range));
+        }
     }
 }

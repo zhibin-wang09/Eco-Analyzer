@@ -10,4 +10,7 @@ import com.example.demo.model.BoxPlot;
 
 public interface BoxPlotRepository extends MongoRepository<BoxPlot, String>{
     public List<BoxPlot> findBoxPlotByStateIdAndCategoryAndRegionType(int stateId, Category category, RegionType regionType);
+
+    public List<BoxPlot> findBoxPlotByStateIdAndCategoryAndRegionTypeAndRange(int stateId, Category category, RegionType regionType, String range);
+
 }
