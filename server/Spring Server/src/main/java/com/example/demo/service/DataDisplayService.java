@@ -19,6 +19,7 @@ import com.example.demo.model.Gingles;
 import com.example.demo.model.Income;
 import com.example.demo.model.Urbanicity;
 import com.example.demo.model.Votes;
+import com.example.demo.model.BoxPlot.BoxPlotData;
 import com.example.demo.repository.BoxPlotRepository;
 import com.example.demo.repository.DemographicRepository;
 import com.example.demo.repository.ElectionResultRepository;
@@ -354,10 +355,30 @@ public class DataDisplayService {
 	}
 
 	public List<BoxPlot> getBoxPlot(int stateId, Category category, RegionType regionType) {
-		return boxPlotRepository.findBoxPlotByStateIdAndCategoryAndRegionType(stateId, category, regionType);
+		List<BoxPlot> boxplots = boxPlotRepository.findBoxPlotByStateIdAndCategoryAndRegionType(stateId, category, regionType);
+		double totalPopulation = stateId == 36 ? 17161215 : 2096286;
+		for(BoxPlot b : boxplots){
+			BoxPlotData boxplot = b.getBoxPlot();
+			boxplot.setMax(boxplot.getMax()/ totalPopulation);
+			boxplot.setMin(boxplot.getMin()/ totalPopulation);
+			boxplot.setMedian(boxplot.getMedian()/ totalPopulation);
+			boxplot.setQ1(boxplot.getQ1()/ totalPopulation);
+			boxplot.setQ3(boxplot.getQ3()/ totalPopulation);
+		}
+		return boxplots;
 	}
 
 	public List<BoxPlot> getBoxPlotByRange(int stateId, Category category, RegionType regionType, String range){
-		return boxPlotRepository.findBoxPlotByStateIdAndCategoryAndRegionTypeAndRange(stateId, category, regionType, range);
+		List<BoxPlot> boxplots = boxPlotRepository.findBoxPlotByStateIdAndCategoryAndRegionTypeAndRange(stateId, category, regionType, range);
+		double totalPopulation = stateId == 36 ? 17161215 : 2096286;
+		for(BoxPlot b : boxplots){
+			BoxPlotData boxplot = b.getBoxPlot();
+			boxplot.setMax(boxplot.getMax()/ totalPopulation);
+			boxplot.setMin(boxplot.getMin()/ totalPopulation);
+			boxplot.setMedian(boxplot.getMedian()/ totalPopulation);
+			boxplot.setQ1(boxplot.getQ1()/ totalPopulation);
+			boxplot.setQ3(boxplot.getQ3()/ totalPopulation);
+		}
+		return boxplots;
 	}
 }
