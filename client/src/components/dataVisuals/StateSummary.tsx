@@ -1,110 +1,51 @@
-import React, { useEffect, useState } from "react";
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Box,
-  Text,
-  HStack,
-} from "@chakra-ui/react";
-import StateOverviewChart from "./StateOverviewChart";
-import RacePie from "./Pie";
-import Summary from "../../types/StateSummary";
-import { objectToArray, stateConversion } from "../../utils/util";
-import { title } from "process";
-import PieChart from "./Pie";
+import React from 'react';
+import { Box, Grid, Text, VStack } from '@chakra-ui/react';
+import PieChartComponent from './Pie';
+import StateOverviewChart from './StateOverviewChart';
+import { Table, Thead, Tbody, Tr, Th, Td } from '@chakra-ui/react';
 
-interface StateSummaryProp {
-  selectedState: string;
+interface ChartDataItem {
+  name: string;
+  value: number;
 }
 
-const StateSummary = ({ selectedState }: StateSummaryProp) => {
-  const [stateSummary, setStateSummary] = useState<Summary | null>(null);
+interface StateSummaryProps {
+  racialData: ChartDataItem[];
+  incomeData: ChartDataItem[];
+  voteData: ChartDataItem[];
+  regionData: ChartDataItem[];
+  totalPopulation: number;
+  representatives?: Array<{ name: string; party: string }>;
+}
 
-  useEffect(() => {
-    const fetchStateSummary = async (selectedState: string) => {
-      const query = new URLSearchParams({
-        state: selectedState,
-      }).toString();
-      const response = await fetch(
-        "http://localhost:8080/api/summary?" + query
-      );
-      const json = await response.json();
-      return json;
-    };
-
-    const loadStateSummary = async () => {
-      try {
-        const rawStateSummary = await fetchStateSummary(
-          stateConversion(selectedState)
-        );
-
-        // Transform congressional representatives into an array of objects with name and party
-        const representatives = rawStateSummary[
-          "congressional representatives"
-        ].map((rep: Record<string, string>) => {
-          const name = Object.keys(rep)[0];
-          const party = rep[name];
-          return { name, party };
-        });
-
-        const transformedStateSummary: Summary = {
-          racialPopulation: rawStateSummary["racial population"],
-          populationByIncome: rawStateSummary["population by income"],
-          voteDistribution: rawStateSummary["vote distribution"],
-          congressionalRepresentatives: representatives,
-          populationPercentageByRegion:{
-            rural: parseInt(rawStateSummary["population percentage by region"].Rural),
-            suburban: parseInt(rawStateSummary["population percentage by region"].Urban),
-            urban: parseInt(rawStateSummary["population percentage by region"].Suburban),
-          },
-          population: rawStateSummary["population"],
-        };
-
-        setStateSummary(transformedStateSummary);
-      } catch (error) {
-        console.error("Error fetching state summary:", error);
-      }
-    };
-
-    loadStateSummary();
-  }, [selectedState]);
-
+const StateSummary = ({
+  racialData,
+  incomeData,
+  voteData,
+  regionData,
+  totalPopulation,
+  representatives = []
+}: StateSummaryProps) => {
   return (
-    <>
-      <Box
-        overflowX="auto"
-        overflowY="auto"
-        p={1}
-        borderWidth="1px"
-        borderRadius="md"
-        bg="white"
-        boxShadow="sm"
-      >
-        <Text fontSize="sm" fontWeight="bold" mb={1} ml={2}>
-          Congressional Representatives
-        </Text>
+    <Box p={5}>
+      <Text fontSize="lg" fontWeight="semibold" mb={-3}>
+        Total Population: {totalPopulation.toLocaleString()}
+      </Text>
+
+      {/* Congressional Representatives Table */}
+      <Box bg="white" p={4} borderRadius="xl" boxShadow="sm" mb={-3}>
         <Table variant="simple" size="sm">
           <Thead>
             <Tr>
-              <Th py={1} fontSize="xs">
-                Representative
-              </Th>
-              <Th py={1} fontSize="xs">
-                Party
-              </Th>
+              <Th fontSize="xs">Representative</Th>
+              <Th fontSize="xs">Party</Th>
             </Tr>
           </Thead>
           <Tbody>
-            {stateSummary?.congressionalRepresentatives.map((rep) => (
-              <Tr key={rep.name} _hover={{ cursor: "pointer", bg: "blue.100" }}>
-                <Td py={0.5} fontSize="xs">
-                  {rep.name}
-                </Td>
-                <Td py={0.5} fontSize="xs">
+            {representatives.map((rep, index) => (
+              <Tr key={index} _hover={{ bg: "gray.50" }}>
+                <Td fontSize="xs">{rep.name}</Td>
+                <Td fontSize="xs" color={rep.party === 'Democratic' ? 'blue.600' : 'red.600'}>
                   {rep.party}
                 </Td>
               </Tr>
@@ -112,25 +53,33 @@ const StateSummary = ({ selectedState }: StateSummaryProp) => {
           </Tbody>
         </Table>
       </Box>
-        <Text>Total Population: {stateSummary?.population}</Text>
-      <HStack
-        spacing={4}
-        align="stretch"
-        p={4}
-        bg="white"
-        borderRadius="lg"
-        boxShadow="sm"
-      >
-        <PieChart data={objectToArray(stateSummary?.populationPercentageByRegion)} title={"distribution of population by urbanicity"}/>
-        <PieChart data={objectToArray(stateSummary?.populationByIncome)} title={"distribution of population by income"}/>
-        <PieChart data={objectToArray(stateSummary?.voteDistribution)} title={"State Voter Distribution"}/>
-      </HStack>
-      <StateOverviewChart
-        data={objectToArray(stateSummary?.racialPopulation)}
-        title={"Distribution of population of race"}
-        xAxisLabel={"race"}
-      />
-    </>
+      
+      {/* Pie Charts Grid */}
+      <Grid templateColumns="repeat(2, 1fr)" gap={3} mb={-2}>
+        <Box bg="white" p={4} borderRadius="xl" boxShadow="sm" height="160px">
+          <PieChartComponent
+            data={voteData}
+            title="Voter Distribution"
+          />
+        </Box>
+        <Box bg="white" p={4} borderRadius="xl" boxShadow="sm" height="160px">
+          <PieChartComponent
+            data={incomeData}
+            title="Income Distribution"
+          />
+        </Box>
+      </Grid>
+
+      {/* Bar Chart */}
+      <Box height="250px">
+        <StateOverviewChart
+          data={racialData} 
+          title="Population Distribution by Race"
+          xAxisLabel="Race"
+          height="350px"
+        />
+      </Box>
+    </Box>
   );
 };
 

@@ -3,7 +3,7 @@ import L from "leaflet";
 import { GeoJsonObject, Feature, Geometry } from "geojson";
 import axios from "axios";
 import statesData from "../map/state";
-import { Box, HStack, Text } from "@chakra-ui/react";
+import { Box, Flex, HStack, Text, VStack } from "@chakra-ui/react";
 import "../style/legend.css";
 import "leaflet/dist/leaflet.css";
 import { HeatmapType } from "./controls/HeatMapControls";
@@ -486,10 +486,71 @@ const USMap: React.FC<USMapProps> = ({
     getHeatmapStyle,
   ]);
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  const resizeObserverRef = useRef<ResizeObserver | null>(null);
+
+  // Initialize resize observer
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const updateMapSize = () => {
+      if (map) {
+        map.invalidateSize();
+      }
+    };
+
+    resizeObserverRef.current = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.target === containerRef.current) {
+          updateMapSize();
+        }
+      }
+    });
+
+    resizeObserverRef.current.observe(containerRef.current);
+
+    return () => {
+      if (resizeObserverRef.current) {
+        resizeObserverRef.current.disconnect();
+      }
+    };
+  }, [map]);
+
+  // Add state legend component
+  const StateLegend = () => (
+    <Box
+      position="absolute"
+      bottom="20px"
+      left="10px"
+      bg="rgba(255, 255, 255, 0.9)"
+      p={2}
+      borderRadius="md"
+      boxShadow="sm"
+      zIndex={1000}
+    >
+      <Text fontSize="sm" fontWeight="medium" mb={1}>
+        State Political Leaning
+      </Text>
+      <VStack align="start" spacing={1}>
+        <Flex align="center" gap={2}>
+          <Box w="12px" h="12px" bg="#0000FF" opacity={0.7} />
+          <Text fontSize="xs">Democratic (New York)</Text>
+        </Flex>
+        <Flex align="center" gap={2}>
+          <Box w="12px" h="12px" bg="#FF5733" opacity={0.7} />
+          <Text fontSize="xs">Republican (Arkansas)</Text>
+        </Flex>
+      </VStack>
+    </Box>
+  );
+
   return (
     <Box
-      height={selectedState !== "State" ? "calc(55vh - 20px)" : "400px"}
+      ref={containerRef}
       position="relative"
+      height="100%"
+      flex={1}
+      minHeight={selectedState !== "State" ? "0" : "400px"}
     >
       <Box
         id="map"
@@ -504,27 +565,10 @@ const USMap: React.FC<USMapProps> = ({
         boxShadow="sm"
       />
 
-      {/* {selectedState !== "State" && geoLevel === "district" && (
-        <>
-          <DistrictPlanControls
-            onCompare={(planNumber) => {
-              setSelectedPlanNumber(planNumber);
-              setIsComparisonOpen(true);
-            }}
-            state={selectedState}
-            isVisible={true}
-          />
-          <ComparisonOverlay
-            isOpen={isComparisonOpen}
-            onClose={() => setIsComparisonOpen(false)}
-            currentState={selectedState ?? ""}
-            currentGeoJson={geoLayerRef.current?.toGeoJSON()}
-            districtPlanNumber={selectedPlanNumber}
-          />
-        </>
-      )} */}
+      {/* Show state legend only when no state is selected */}
+      {selectedState === "State" && <StateLegend />}
 
-      {/* Heatmap Legend */}
+      {/* Existing legends and overlays */}
       {selectedState !== "State" && geoLevel === "precinct" && (
         <MapLegend
           heatmapType={heatmapType}
@@ -532,7 +576,6 @@ const USMap: React.FC<USMapProps> = ({
         />
       )}
 
-      {/* District Plan Comparison Legend */}
       {districtPlanData && geoLevel === "district" && (
         <Box
           position="absolute"
@@ -547,12 +590,12 @@ const USMap: React.FC<USMapProps> = ({
           <Text fontSize="sm" fontWeight="medium">
             District Plan Comparison
           </Text>
-          <HStack mt={1} spacing={3}>
-            <HStack>
+          <Flex mt={1} gap={3}>
+            <Flex align="center" gap={2}>
               <Box w="12px" h="12px" bg="#FFD700" borderRadius="sm" />
               <Text fontSize="xs">Changed Districts</Text>
-            </HStack>
-            <HStack>
+            </Flex>
+            <Flex align="center" gap={2}>
               <Box
                 w="12px"
                 h="12px"
@@ -562,8 +605,8 @@ const USMap: React.FC<USMapProps> = ({
                 borderRadius="sm"
               />
               <Text fontSize="xs">Unchanged Districts</Text>
-            </HStack>
-          </HStack>
+            </Flex>
+          </Flex>
         </Box>
       )}
     </Box>
