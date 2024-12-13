@@ -18,15 +18,14 @@ export const BoxplotWrapper = ({ width, height, data }: BoxplotWrapperProps) => 
   const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
   // Compute derived data
-  const { chartMin, chartMax, groups } = useMemo(() => {
-    const chartMin = d3.min(data.map((d) => d.boxPlot.min))!;
+  const { chartMax, groups } = useMemo(() => {
     const chartMax = d3.max(data.map((d) => d.boxPlot.max))!;
     const groups = data.map((d) => d.geoId);
-    return { chartMin, chartMax, groups };
+    return { chartMax, groups };
   }, [data]);
 
-  // Y Scale
-  const yScale = d3.scaleLinear().domain([chartMin, chartMax]).range([boundsHeight, 0]);
+  // Y Scale: Start from 0 and go to the maximum value
+  const yScale = d3.scaleLinear().domain([0, chartMax]).range([boundsHeight, 0]);
 
   // X Scale
   const xScale = d3.scaleBand().range([0, boundsWidth]).domain(groups).padding(0.25);
