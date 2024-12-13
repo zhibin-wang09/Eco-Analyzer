@@ -70,8 +70,8 @@ const MainLayout = () => {
       "summary",
       "districtDetail",
       "gingles",
-      "goodman",
-      "hierarchical",
+      "boxplot",
+      "ecologicalInference",
     ];
     setSelectedVisualization(visualizations[index]);
     if(index != 1){ // once we leave the district detail tab we can undo the highlighting

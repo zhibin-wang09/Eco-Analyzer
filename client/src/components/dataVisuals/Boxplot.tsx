@@ -1,15 +1,16 @@
 import React, { useEffect, useState, useRef } from "react";
 import * as d3 from "d3";
 import { DataItem } from "../../types/BoxPlot";
-import { Box, HStack, Select, VStack } from "@chakra-ui/react";
+import { Box, HStack, Select, useToast, VStack } from "@chakra-ui/react";
 import { stateConversion } from "../../utils/util";
-import { BoxplotWrapper } from "./BoxplotComponent/BoxplotWrapper";
+import { BoxplotWrapper } from "./boxplotComponent/BoxplotWrapper";
 
 const BoxPlot = ({ selectedState }: { selectedState: string }) => {
   const [boxPlotData, setBoxPlotData] = useState<DataItem[]>([]);
   const [category, setCategory] = useState("demographic");
   const [range, setRange] = useState("white");
   const [regionType, setRegionTye] = useState("all");
+  const toast = useToast();
 
   const race = ["white", "black", "asian", "hispanic", "other"];
   const incomeRanges = [
@@ -66,6 +67,15 @@ const BoxPlot = ({ selectedState }: { selectedState: string }) => {
         range
       );
       setBoxPlotData(result);
+      if (result.length == 0) {
+        toast({
+          title: `Error fetching data`,
+          description: `No data for ${regionType + " " + category + " data"}`,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
     };
 
     loadBoxPlot();
@@ -133,6 +143,7 @@ const BoxPlot = ({ selectedState }: { selectedState: string }) => {
         <div>
           <h2>Boxplot Visualization</h2>
           <BoxplotWrapper
+            yAxis={category + " percentage"}
             width={750}
             height={400}
             data={boxPlotData.map((item) => ({
