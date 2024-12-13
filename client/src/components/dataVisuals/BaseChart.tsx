@@ -3,7 +3,6 @@ import { Box } from "@chakra-ui/react";
 import Gingles from "./gingles/Gingles";
 import StateOverviewChart from "./StateOverviewChart"; // Import the new component
 import { VisualizationType } from "../../types/ChartDataItemInterface";
-import { GoodmanRegression, HierarchicalEI } from "./Visualizations";
 import IncomeGingles from "./gingles/IncomeGingles";
 import NormalizedGingles from "./gingles/NormalizedGingles";
 import StateSummary from "./StateSummary";
@@ -35,14 +34,10 @@ const BaseChart: React.FC<BaseChartProps> = ({
         );
       case "gingles":
         return <GinglesControl selectedState={selectedState} />;
-      case "goodman":
+      case "boxplot":
         return <BoxPlot selectedState={selectedState} />;
-      // case "income":
-      //   return <IncomeGingles selectedState={selectedState} />;
-      // case "normalizedgingles":
-      //   return <NormalizedGingles selectedState={selectedState} />;
-      case "hierarchical":
-        return <HierarchicalEI />;
+      case "ecologicalInference":
+        return <></>;
     }
   };
 
