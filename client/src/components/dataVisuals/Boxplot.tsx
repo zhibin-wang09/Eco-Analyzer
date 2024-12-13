@@ -133,6 +133,7 @@ const BoxPlot = ({ selectedState }: { selectedState: string }) => {
         <div>
           <h2>Boxplot Visualization</h2>
           <BoxplotWrapper
+            yAxis={category + " percentage"}
             width={750}
             height={400}
             data={boxPlotData.map((item) => ({

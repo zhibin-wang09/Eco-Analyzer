@@ -4,16 +4,17 @@ import { AxisLeft } from "./AxisLeft";
 import { AxisBottom } from "./AxisBottomCategoric";
 import { VerticalBox } from "./VerticalBox";
 
-const MARGIN = { top: 30, right: 30, bottom: 30, left: 50 };
+const MARGIN = { top: 30, right: 30, bottom: 100, left: 100 }; // Increased bottom and left margins for labels
 const JITTER_WIDTH = 40;
 
 type BoxplotWrapperProps = {
   width: number;
   height: number;
   data: { geoId: string; boxPlot: { min: number; q1: number; median: number; q3: number; max: number } }[];
+  yAxis: string;
 };
 
-export const BoxplotWrapper = ({ width, height, data }: BoxplotWrapperProps) => {
+export const BoxplotWrapper = ({ width, height, data, yAxis }: BoxplotWrapperProps) => {
   const boundsWidth = width - MARGIN.right - MARGIN.left;
   const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
@@ -72,6 +73,24 @@ export const BoxplotWrapper = ({ width, height, data }: BoxplotWrapperProps) => 
           <AxisBottom xScale={xScale} />
         </g>
       </g>
+      {/* Y-axis Label */}
+      <text
+        transform={`translate(${MARGIN.left / 2}, ${height / 2}) rotate(-90)`}
+        textAnchor="middle"
+        fontSize="12"
+        fill="black"
+      >
+        {yAxis}
+      </text>
+      {/* X-axis Label */}
+      <text
+        transform={`translate(${width / 2}, ${height - MARGIN.bottom / 2})`}
+        textAnchor="middle"
+        fontSize="12"
+        fill="black"
+      >
+        District
+      </text>
     </svg>
   );
 };
