@@ -1,12 +1,17 @@
 import {
   Box,
   HStack,
-  Select,
   VStack,
   Text,
   Checkbox,
   CheckboxGroup,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Button,
 } from "@chakra-ui/react";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 import { ChangeEvent, useEffect, useState } from "react";
 import { EIInfo } from "../../../types/EIInfo";
 import { stateConversion } from "../../../utils/util";
@@ -26,16 +31,7 @@ const EcologicalInference = ({ selectedState }: EcologicalInference) => {
   );
   const [selectedRegionTypes, setSelectedRegionTypes] = useState<string[]>([]);
 
-  const onCategoryChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setCategory(e.target.value);
-  };
-
-  const onCandidateChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setCandidate(e.target.value);
-  };
-
   const race = ["White", "Black", "Asian", "Hispanic", "Other"];
-
   const incomeRanges = [
     "0-9999",
     "10k-15k",
@@ -46,7 +42,6 @@ const EcologicalInference = ({ selectedState }: EcologicalInference) => {
     "75k-100k",
     "100k+",
   ];
-
   const incomeMap: Record<string, string> = {
     "0-9999": "0_to_9999",
     "10k-15k": "10000_to_14999",
@@ -57,7 +52,6 @@ const EcologicalInference = ({ selectedState }: EcologicalInference) => {
     "75k-100k": "75000_to_99999",
     "100k+": "100000_and_more",
   };
-
   const regionType = ["urban", "suburban", "rural"];
 
   const handleCheckboxChange = (selectedItems: any) => {
@@ -79,29 +73,23 @@ const EcologicalInference = ({ selectedState }: EcologicalInference) => {
       regions: string[],
       candidate: string
     ) => {
-      // Start building the query params
       const query = new URLSearchParams({
         state: stateConversion(selectedState),
         category: category,
         candidate: candidate,
       });
       query.set("range", "");
-      // Handle "income" category if selected
       if (category === "Economic" && incomes.length > 0) {
-        // Map income ranges to backend values
         const incomeRangesParam = incomes
           .map((income) => incomeMap[income])
           .join(",");
         query.set("range", incomeRangesParam);
       }
-
-      // Add selected races, incomes, and region types to query if available
       if (category === "Demographic" && races.length)
         query.set("range", races.join(","));
       if (category === "Urbanicity" && regions.length)
         query.set("range", regions.join(","));
 
-      // Make the fetch call with the dynamic query params
       const response = await fetch(
         "http://localhost:8080/api/graph/ecologicalinference?" +
           query.toString()
@@ -110,7 +98,6 @@ const EcologicalInference = ({ selectedState }: EcologicalInference) => {
       setEiInfo(json);
     };
 
-    // Call the function with selected parameters
     fetchStateSummary(
       selectedState,
       category,
@@ -125,7 +112,7 @@ const EcologicalInference = ({ selectedState }: EcologicalInference) => {
     selectedRaces,
     selectedIncomeRanges,
     selectedRegionTypes,
-    candidate
+    candidate,
   ]);
 
   return (
@@ -135,21 +122,52 @@ const EcologicalInference = ({ selectedState }: EcologicalInference) => {
           <Text fontSize="lg" fontWeight="semibold">
             Comparison Groups
           </Text>
-          <Select onChange={onCategoryChange}>
-            <option value="Demographic">Demographic</option>
-            <option value="Economic">Economic</option>
-            <option value="Urbanicity">Region Type</option>
-          </Select>
+          <Menu>
+            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+              {category}
+            </MenuButton>
+            <MenuList>
+              <MenuItem
+                onClick={() => {
+                  setCategory("Demographic");
+                  setSelectedRaces([]);
+                }}
+              >
+                Demographic
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  setCategory("Economic");
+                  setSelectedIncomeRanges([]);
+                }}
+              >
+                Economic
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  setCategory("Urbanicity");
+                  setSelectedRegionTypes([]);
+                }}
+              >
+                Region Type
+              </MenuItem>
+            </MenuList>
+          </Menu>
         </VStack>
         <VStack>
           <Text fontSize="lg" fontWeight="semibold">
             Candidate
           </Text>
-          <Select onChange={onCandidateChange}>
-            <option value="Trump">Trump</option>
-            <option value="Biden">Biden</option>
-            <option value="Other">Other</option>
-          </Select>
+          <Menu>
+            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+              {candidate}
+            </MenuButton>
+            <MenuList>
+              <MenuItem onClick={() => setCandidate("Trump")}>Trump</MenuItem>
+              <MenuItem onClick={() => setCandidate("Biden")}>Biden</MenuItem>
+              <MenuItem onClick={() => setCandidate("Other")}>Other</MenuItem>
+            </MenuList>
+          </Menu>
         </VStack>
       </HStack>
 
@@ -158,9 +176,7 @@ const EcologicalInference = ({ selectedState }: EcologicalInference) => {
           <Text fontWeight="bold">Races</Text>
           <CheckboxGroup
             value={selectedRaces}
-            onChange={(e: any) =>
-              handleCheckboxChange( e)
-            }
+            onChange={(e: any) => handleCheckboxChange(e)}
           >
             <HStack wrap="wrap" spacing="20px">
               {race.map((r) => (
@@ -178,9 +194,7 @@ const EcologicalInference = ({ selectedState }: EcologicalInference) => {
           <Text fontWeight="bold">Income Ranges</Text>
           <CheckboxGroup
             value={selectedIncomeRanges}
-            onChange={(e: any) =>
-              handleCheckboxChange( e)
-            }
+            onChange={(e: any) => handleCheckboxChange(e)}
           >
             <HStack wrap="wrap" spacing="20px">
               {incomeRanges.map((i) => (
@@ -198,9 +212,7 @@ const EcologicalInference = ({ selectedState }: EcologicalInference) => {
           <Text fontWeight="bold">Region Types</Text>
           <CheckboxGroup
             value={selectedRegionTypes}
-            onChange={(e: any) =>
-              handleCheckboxChange( e)
-            }
+            onChange={(e: any) => handleCheckboxChange(e)}
           >
             <HStack wrap="wrap" spacing="20px">
               {regionType.map((t) => (
@@ -213,18 +225,10 @@ const EcologicalInference = ({ selectedState }: EcologicalInference) => {
         </VStack>
       )}
 
-      <KDEGraph 
-      width={400}
-      height={400}
-      data={eiInfo.map(e => {
-        const dataPoint : DataPoint = {
-          range: e.range,
-          posteriorMean: e.posteriorMean,
-          interval: e.interval
-        }
-
-        return dataPoint;
-      })}
+      <KDEGraph
+        width={400}
+        height={400}
+        data={eiInfo}
       />
     </VStack>
   );

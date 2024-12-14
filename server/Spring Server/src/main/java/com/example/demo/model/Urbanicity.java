@@ -1,12 +1,14 @@
 package com.example.demo.model;
 
+import java.io.Serializable;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.example.demo.common.GeoType;
 
 @Document("Urbanicity")
-public class Urbanicity {
+public class Urbanicity implements Serializable{
     @Id
     private String id;
 
@@ -18,7 +20,7 @@ public class Urbanicity {
 
     private UrbanicityInfo urbanicity;
 
-    public static class UrbanicityInfo{
+    public static class UrbanicityInfo implements Serializable{
         private Object density;
     
         private String type;

@@ -1203,11 +1203,11 @@ async function regionTypeHeatMap(file) {
 
   const getColor = (regionType) => {
     if (regionType == "urban") {
-      return "#5158BB";
+      return "#FF6060";
     } else if (regionType == "rural") {
-      return "#6E9887";
+      return "#41A043";
     } else {
-      return "#32E875";
+      return "#2953a0";
     }
   }
 
@@ -1223,4 +1223,4 @@ async function regionTypeHeatMap(file) {
   console.log("success");
 }
 
-regionTypeHeatMap('NY Urbanicity New.json')
+regionTypeHeatMap('AR Urbanicity.json')
