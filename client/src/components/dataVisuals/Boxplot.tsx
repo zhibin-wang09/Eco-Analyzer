@@ -19,12 +19,12 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 
 const BoxPlot = ({ selectedState }: { selectedState: string }) => {
   const [boxPlotData, setBoxPlotData] = useState<DataItem[]>([]);
-  const [category, setCategory] = useState("demographic");
-  const [range, setRange] = useState("white");
-  const [regionType, setRegionTye] = useState("all");
+  const [category, setCategory] = useState("Demographic");
+  const [range, setRange] = useState("White");
+  const [regionType, setRegionTye] = useState("All");
   const toast = useToast();
 
-  const race = ["white", "black", "asian", "hispanic", "other"];
+  const race = ["White", "Black", "Asian", "Hispanic", "Other"];
   const incomeRanges = [
     "0-9999",
     "10k-15k",
@@ -55,19 +55,21 @@ const BoxPlot = ({ selectedState }: { selectedState: string }) => {
     ) => {
       const query = new URLSearchParams({
         state: stateConversion(selectedState),
-        category: category,
-        regionType: regionType,
+        category: category.toLowerCase(),
+        regionType: regionType.toLowerCase(),
       });
-      if (category === "economic") {
+      range = range.toLowerCase();
+      if (category === "Economic") {
         range = incomeMap[range];
       }
       if (range) {
-        query.set("range", range);
+        query.set("range", range.toLowerCase());
       }
       const response = await fetch(
         "http://localhost:8080/api/graph/boxplot?" + query
       );
       const json = await response.json();
+      console.log(query.toString())
       return json;
     };
 
@@ -75,7 +77,7 @@ const BoxPlot = ({ selectedState }: { selectedState: string }) => {
       const result = await fetchStateSummary(
         selectedState,
         category,
-        category !== "urbanicity" ? regionType : "all",
+        category !== "Urbanicity" ? regionType : "All",
         range
       );
       result.sort((a: DataItem, b: DataItem) => Number(a.geoId) - Number(b.geoId));
@@ -106,15 +108,15 @@ const BoxPlot = ({ selectedState }: { selectedState: string }) => {
             <MenuList>
               <MenuItem
                 onClick={() => {
-                  setCategory("demographic");
-                  setRange("white");
+                  setCategory("Demographic");
+                  setRange("White");
                 }}
               >
                 Demographic
               </MenuItem>
               <MenuItem
                 onClick={() => {
-                  setCategory("economic");
+                  setCategory("Economic");
                   setRange("0-9999");
                 }}
               >
@@ -122,8 +124,8 @@ const BoxPlot = ({ selectedState }: { selectedState: string }) => {
               </MenuItem>
               <MenuItem
                 onClick={() => {
-                  setCategory("urbanicity");
-                  setRange("rural");
+                  setCategory("Urbanicity");
+                  setRange("Rural");
                 }}
               >
                 Urbanicity
@@ -132,7 +134,7 @@ const BoxPlot = ({ selectedState }: { selectedState: string }) => {
           </Menu>
 
           {/* Range Menu */}
-          {category === "demographic" && (
+          {category === "Demographic" && (
             <Menu>
               <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>{range}</MenuButton>
               <MenuList>
@@ -145,18 +147,18 @@ const BoxPlot = ({ selectedState }: { selectedState: string }) => {
             </Menu>
           )}
 
-          {category === "urbanicity" && (
+          {category === "Urbanicity" && (
             <Menu>
               <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>{range}</MenuButton>
               <MenuList>
-                <MenuItem onClick={() => setRange("rural")}>Rural</MenuItem>
-                <MenuItem onClick={() => setRange("suburban")}>Suburban</MenuItem>
-                <MenuItem onClick={() => setRange("urban")}>Urban</MenuItem>
+                <MenuItem onClick={() => setRange("Rural")}>Rural</MenuItem>
+                <MenuItem onClick={() => setRange("Suburban")}>Suburban</MenuItem>
+                <MenuItem onClick={() => setRange("Urban")}>Urban</MenuItem>
               </MenuList>
             </Menu>
           )}
 
-          {category === "economic" && (
+          {category === "Economic" && (
             <Menu>
               <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>{range}</MenuButton>
               <MenuList>
@@ -170,16 +172,16 @@ const BoxPlot = ({ selectedState }: { selectedState: string }) => {
           )}
 
           {/* Region Type Menu */}
-          {category !== "urbanicity" && (
+          {category !== "Urbanicity" && (
             <Menu>
               <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>{regionType}</MenuButton>
               <MenuList>
-                <MenuItem onClick={() => setRegionTye("all")}>All</MenuItem>
-                <MenuItem onClick={() => setRegionTye("rural")}>Rural</MenuItem>
-                <MenuItem onClick={() => setRegionTye("suburban")}>
+                <MenuItem onClick={() => setRegionTye("All")}>All</MenuItem>
+                <MenuItem onClick={() => setRegionTye("Rural")}>Rural</MenuItem>
+                <MenuItem onClick={() => setRegionTye("Suburban")}>
                   Suburban
                 </MenuItem>
-                <MenuItem onClick={() => setRegionTye("urban")}>Urban</MenuItem>
+                <MenuItem onClick={() => setRegionTye("Urban")}>Urban</MenuItem>
               </MenuList>
             </Menu>
           )}

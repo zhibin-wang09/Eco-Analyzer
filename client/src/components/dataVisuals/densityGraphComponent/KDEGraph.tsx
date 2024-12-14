@@ -12,9 +12,22 @@ export interface DataPoint {
   color?: string;
 }
 
-const KDEGraph = ({ width = 800, height = 400, data }: { width: number; height: number; data: DataPoint[] }) => {
+const KDEGraph = ({
+  width = 800,
+  height = 400,
+  data,
+}: {
+  width: number;
+  height: number;
+  data: DataPoint[];
+}) => {
   // Get Chakra UI colors
-  const [blue600, red600, gray200, gray700] = useToken("colors", ["blue.600", "red.600", "gray.200", "gray.700"]);
+  const [blue600, red600, gray200, gray700] = useToken("colors", [
+    "blue.600",
+    "red.600",
+    "gray.200",
+    "gray.700",
+  ]);
 
   // Generate unique colors for each data point
   const assignedColors = useMemo(() => {
@@ -24,7 +37,7 @@ const KDEGraph = ({ width = 800, height = 400, data }: { width: number; height: 
       "#AA2E2E", // Red
       "#2EAA5E", // Green
       "#AA2E8C", // Purple
-      "#AA8C2E"  // Gold
+      "#AA8C2E", // Gold
     ];
 
     const incomeColors = [
@@ -35,19 +48,20 @@ const KDEGraph = ({ width = 800, height = 400, data }: { width: number; height: 
       "#E76F51", // Salmon
       "#843B62", // Purple
       "#621B00", // Brown
-      "#6B0F1A"  // Dark Red
+      "#6B0F1A", // Dark Red
     ];
 
     const regionColors = {
-      rural: "#68D391",     // Green
-      suburban: "#4299E1",  // Blue
-      urban: "#F56565"      // Red
+      rural: "#68D391", // Green
+      suburban: "#4299E1", // Blue
+      urban: "#F56565", // Red
     };
 
     return data.map((d, index) => {
       // Check if it's a region type
       if (d.range.toLowerCase().includes("rural")) return regionColors.rural;
-      if (d.range.toLowerCase().includes("suburban")) return regionColors.suburban;
+      if (d.range.toLowerCase().includes("suburban"))
+        return regionColors.suburban;
       if (d.range.toLowerCase().includes("urban")) return regionColors.urban;
 
       // Check if it's an income range
@@ -65,11 +79,8 @@ const KDEGraph = ({ width = 800, height = 400, data }: { width: number; height: 
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
 
-  // Compute overall domain for X scale
-  const xDomain = useMemo(() => {
-    const allIntervals = data.flatMap((d) => d.interval);
-    return [Math.min(...allIntervals) * 0.95, Math.max(...allIntervals) * 1.05];
-  }, [data]);
+  // Fixed xDomain for 0% to 100%
+  const xDomain: [number, number] = [0, 1]; // 0 to 1 represents 0% to 100%
 
   // X scale
   const xScale = useMemo(() => {
@@ -77,15 +88,22 @@ const KDEGraph = ({ width = 800, height = 400, data }: { width: number; height: 
   }, [xDomain, innerWidth]);
 
   // Kernel Density Estimation function
-  const kde = (kernel: (v: number) => number, X: number[], bandwidth = 0.05) => {
+  const kde = (
+    kernel: (v: number) => number,
+    X: number[],
+    bandwidth = 0.05
+  ) => {
     return (V: number[]): [number, number][] => {
-      return X.map((x) => [x, d3.mean(V, (v) => kernel((x - v) / bandwidth)) || 0]);
+      return X.map((x) => [
+        x,
+        d3.mean(V, (v) => kernel((x - v) / bandwidth)) || 0,
+      ]);
     };
   };
 
   // Epanechnikov kernel
   const kernelEpanechnikov = (bandwidth: number) => {
-    return (v: number) => Math.abs(v) <= 1 ? 0.75 * (1 - v * v) : 0;
+    return (v: number) => (Math.abs(v) <= 1 ? 0.75 * (1 - v * v) : 0);
   };
 
   // Compute density data
@@ -98,21 +116,31 @@ const KDEGraph = ({ width = 800, height = 400, data }: { width: number; height: 
       density: kdeFunc([
         ...group.interval,
         group.posteriorMean,
-        ...Array(10).fill(0).map(() => 
-          group.posteriorMean + (Math.random() - 0.5) * (group.interval[1] - group.interval[0])
-        ),
+        ...Array(10)
+          .fill(0)
+          .map(
+            () =>
+              group.posteriorMean +
+              (Math.random() - 0.5) * (group.interval[1] - group.interval[0])
+          ),
       ]),
     }));
   }, [data, xScale, assignedColors]);
 
   // Y scale
   const yScale = useMemo(() => {
-    const maxDensity = Math.max(...densityData.flatMap((d) => d.density.map((point) => point[1])));
-    return d3.scaleLinear().range([innerHeight, 0]).domain([0, maxDensity * 1.1]);
+    const maxDensity = Math.max(
+      ...densityData.flatMap((d) => d.density.map((point) => point[1]))
+    );
+    return d3
+      .scaleLinear()
+      .range([innerHeight, 0])
+      .domain([0, maxDensity * 1.1]);
   }, [densityData, innerHeight]);
 
   // Line generator
-  const lineGenerator = d3.line()
+  const lineGenerator = d3
+    .line()
     .x((d: any) => xScale(d[0]))
     .y((d: any) => yScale(d[1]))
     .curve(d3.curveBasis);
@@ -149,7 +177,11 @@ const KDEGraph = ({ width = 800, height = 400, data }: { width: number; height: 
           {densityData.map((data, index) => (
             <React.Fragment key={index}>
               <path
-                d={`${lineGenerator(data.density)}L${xScale(data.group.interval[1])},${yScale(0)}L${xScale(data.group.interval[0])},${yScale(0)}Z`}
+                d={`${lineGenerator(data.density)}L${xScale(
+                  data.group.interval[1]
+                )},${yScale(0)}L${xScale(data.group.interval[0])},${yScale(
+                  0
+                )}Z`}
                 fill={data.color}
                 opacity={0.2}
               />
@@ -174,12 +206,7 @@ const KDEGraph = ({ width = 800, height = 400, data }: { width: number; height: 
             {xScale.ticks(5).map((tick, i) => (
               <g key={i} transform={`translate(${xScale(tick)},0)`}>
                 <line y2="6" stroke={gray700} />
-                <text
-                  y="20"
-                  textAnchor="middle"
-                  fill={gray700}
-                  fontSize="12px"
-                >
+                <text y="20" textAnchor="middle" fill={gray700} fontSize="12px">
                   {(tick * 100).toFixed(0)}%
                 </text>
               </g>
@@ -217,7 +244,7 @@ const KDEGraph = ({ width = 800, height = 400, data }: { width: number; height: 
               fill={gray700}
               fontSize="14px"
             >
-              Density
+              Probability
             </text>
           </g>
         </g>

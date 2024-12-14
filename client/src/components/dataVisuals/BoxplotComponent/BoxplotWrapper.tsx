@@ -11,14 +11,27 @@ const JITTER_WIDTH = 40;
 type BoxplotWrapperProps = {
   width: number;
   height: number;
-  data: { geoId: string; boxPlot: { min: number; q1: number; median: number; q3: number; max: number } }[];
+  data: {
+    geoId: string;
+    boxPlot: {
+      min: number;
+      q1: number;
+      median: number;
+      q3: number;
+      max: number;
+    };
+  }[];
   yAxis: string;
 };
 
-export const BoxplotWrapper = ({ width, height, data, yAxis }: BoxplotWrapperProps) => {
+export const BoxplotWrapper = ({
+  width,
+  height,
+  data,
+  yAxis,
+}: BoxplotWrapperProps) => {
   const boundsWidth = width - MARGIN.right - MARGIN.left;
   const boundsHeight = height - MARGIN.top - MARGIN.bottom;
-  const toast = useToast();
 
   // Compute derived data
   const { chartMax, groups } = useMemo(() => {
@@ -28,16 +41,17 @@ export const BoxplotWrapper = ({ width, height, data, yAxis }: BoxplotWrapperPro
   }, [data]);
 
   // Y Scale: Start from 0 and go to the maximum value
-  const yScale = d3.scaleLinear().domain([0, chartMax]).range([boundsHeight, 0]);
+  const yScale = d3
+    .scaleLinear()
+    .domain([0, chartMax])
+    .range([boundsHeight, 0]);
 
   // X Scale
-  const xScale = d3.scaleBand().range([0, boundsWidth]).domain(groups).padding(0.25);
-
-  // Color Scale
-  const colorScale = d3
-    .scaleOrdinal<string>()
+  const xScale = d3
+    .scaleBand()
+    .range([0, boundsWidth])
     .domain(groups)
-    .range(["#e0ac2b", "#e85252", "#6689c6", "#9a6fb0", "#a53253"]);
+    .padding(0.25);
 
   // Render the shapes for each group
   const allShapes = groups.map((geoId, i) => {
@@ -56,12 +70,12 @@ export const BoxplotWrapper = ({ width, height, data, yAxis }: BoxplotWrapperPro
           min={yScale(min)}
           max={yScale(max)}
           stroke="black"
-          fill={colorScale(geoId)}
+          fill={"#FFFFFF"}
         />
       </g>
     );
   });
-  
+
   return (
     <svg width={width} height={height}>
       <g

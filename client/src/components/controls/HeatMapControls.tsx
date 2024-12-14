@@ -37,7 +37,7 @@ const HeatmapControls: React.FC<HeatmapControlsProps> = ({
       case 'poverty': return 'Poverty Heatmap';
       case 'economic': return 'Economic Heatmap';
       case 'politicalincome': return 'Political Income Heatmap';
-      case 'urbanicity': return 'Urbanicity HeatMap';
+      case 'urbanicity': return 'Region Type Heatmap';
       default: return 'Show Heatmap';
     }
   };
@@ -60,19 +60,19 @@ const HeatmapControls: React.FC<HeatmapControlsProps> = ({
             </MenuItem>
           )}
           <MenuItem onClick={() => onHeatmapChange('demographic')}>
-            Demographic Distribution
+            Demographic Heatmap
           </MenuItem>
           <MenuItem onClick={() => onHeatmapChange('poverty')}>
-            Poverty Levels
+            Poverty Heatmap
           </MenuItem>
           <MenuItem onClick={() => onHeatmapChange('economic')}>
-            Economic Indicators
+            Economic Heatmap
           </MenuItem>
           <MenuItem onClick={() => onHeatmapChange('politicalincome')}>
-            Political Income Distribution
+            Political Income Heatmap
           </MenuItem>
           <MenuItem onClick={() => onHeatmapChange('urbanicity')}>
-            Region Type
+            Region Type Heatmap
           </MenuItem>
         </MenuList>
       </Menu>

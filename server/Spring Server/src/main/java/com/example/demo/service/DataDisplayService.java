@@ -369,11 +369,11 @@ public class DataDisplayService {
 			BoxPlotData boxplot = b.getBoxPlot();
 			if (boxplot == null)
 				return new ArrayList<>();
-			boxplot.setMax(boxplot.getMax() / totalPopulation);
-			boxplot.setMin(boxplot.getMin() / totalPopulation);
-			boxplot.setMedian(boxplot.getMedian() / totalPopulation);
-			boxplot.setQ1(boxplot.getQ1() / totalPopulation);
-			boxplot.setQ3(boxplot.getQ3() / totalPopulation);
+			boxplot.setMax(boxplot.getMax() / totalPopulation * 100);
+			boxplot.setMin(boxplot.getMin() / totalPopulation * 100);
+			boxplot.setMedian(boxplot.getMedian() / totalPopulation * 100);
+			boxplot.setQ1(boxplot.getQ1() / totalPopulation * 100);
+			boxplot.setQ3(boxplot.getQ3() / totalPopulation * 100);
 		}
 		return boxplots;
 	}
@@ -387,12 +387,12 @@ public class DataDisplayService {
 			BoxPlotData boxplot = b.getBoxPlot();
 			if (boxplot == null)
 				return new ArrayList<>();
-			boxplot.setMax(boxplot.getMax() / totalPopulation);
-			boxplot.setMin(boxplot.getMin() / totalPopulation);
-			boxplot.setMedian(boxplot.getMedian() / totalPopulation);
-			boxplot.setQ1(boxplot.getQ1() / totalPopulation);
-			boxplot.setQ3(boxplot.getQ3() / totalPopulation);
-		}
+			boxplot.setMax(boxplot.getMax() / totalPopulation * 100);
+			boxplot.setMin(boxplot.getMin() / totalPopulation * 100);
+			boxplot.setMedian(boxplot.getMedian() / totalPopulation * 100);
+			boxplot.setQ1(boxplot.getQ1() / totalPopulation * 100);
+			boxplot.setQ3(boxplot.getQ3() / totalPopulation * 100);
+		} 
 		return boxplots;
 	}
 

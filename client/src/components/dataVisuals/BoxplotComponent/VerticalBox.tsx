@@ -1,8 +1,3 @@
-const STROKE_WIDTH = 40;
-
-// A reusable component that builds a vertical box shape using svg
-// Note: numbers here are px, not the real values in the dataset.
-
 type VerticalBoxProps = {
   min: number;
   q1: number;
@@ -24,31 +19,59 @@ export const VerticalBox = ({
   stroke,
   fill,
 }: VerticalBoxProps) => {
+  const centerX = width / 2; // Center point for vertical lines
+
   return (
     <>
+      {/* Whisker (bottom to top line) */}
       <line
-        x1={width / 2}
-        x2={width / 2}
+        x1={centerX}
+        x2={centerX}
         y1={min}
         y2={max}
         stroke={stroke}
-        width={STROKE_WIDTH}
+        strokeWidth={1} // Thin stroke for whiskers
       />
+
+      {/* Horizontal line for min */}
+      <line
+        x1={centerX - width / 4}
+        x2={centerX + width / 4}
+        y1={min}
+        y2={min}
+        stroke={stroke}
+        strokeWidth={1}
+      />
+
+      {/* Horizontal line for max */}
+      <line
+        x1={centerX - width / 4}
+        x2={centerX + width / 4}
+        y1={max}
+        y2={max}
+        stroke={stroke}
+        strokeWidth={1}
+      />
+
+      {/* Box (IQR) */}
       <rect
         x={0}
         y={q3}
         width={width}
-        height={q1 - q3}
+        height={q1 - q3} // Height spans from Q1 to Q3
         stroke={stroke}
         fill={fill}
+        strokeWidth={1}
       />
+
+      {/* Median line */}
       <line
         x1={0}
         x2={width}
         y1={median}
         y2={median}
         stroke={stroke}
-        width={STROKE_WIDTH}
+        strokeWidth={1}
       />
     </>
   );

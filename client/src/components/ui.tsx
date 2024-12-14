@@ -29,7 +29,7 @@ const UI: React.FC<UIProps> = ({ children }) => {
 
   return (
     <Box 
-      bg="#FFF0E6" 
+      bg="#E51CA61" 
       minHeight="100vh"
       maxWidth="1600px"
       margin="0 auto"
@@ -45,7 +45,7 @@ const UI: React.FC<UIProps> = ({ children }) => {
         >
           <Box 
             as="nav" 
-            bg="rgba(255, 240, 229, 0)" 
+            bg="rgba(52, 81, 96, 0)" 
             py={1}
             px={2}
             backdropFilter="blur(5px)" 

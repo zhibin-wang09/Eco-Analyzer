@@ -43,7 +43,7 @@ export const AxisLeft = ({ yScale, pixelsPerTick }: AxisLeftProps) => {
               transform: "translateX(-20px)",
             }}
           >
-            {value}
+            {value}%
           </text>
         </g>
       ))}
