@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 
-export type HeatmapType = 'none' | 'demographic' | 'poverty' | 'economic' | 'politicalincome';
+export type HeatmapType = 'none' | 'demographic' | 'poverty' | 'economic' | 'politicalincome' | 'urbanicity';
 export type DemographicGroup = 'white' | 'black' | 'hispanic' | 'asian';
 
 interface HeatmapControlsProps {
@@ -37,6 +37,7 @@ const HeatmapControls: React.FC<HeatmapControlsProps> = ({
       case 'poverty': return 'Poverty Heatmap';
       case 'economic': return 'Economic Heatmap';
       case 'politicalincome': return 'Political Income Heatmap';
+      case 'urbanicity': return 'Urbanicity HeatMap';
       default: return 'Show Heatmap';
     }
   };
@@ -69,6 +70,9 @@ const HeatmapControls: React.FC<HeatmapControlsProps> = ({
           </MenuItem>
           <MenuItem onClick={() => onHeatmapChange('politicalincome')}>
             Political Income Distribution
+          </MenuItem>
+          <MenuItem onClick={() => onHeatmapChange('urbanicity')}>
+            Region Type
           </MenuItem>
         </MenuList>
       </Menu>

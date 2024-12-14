@@ -19,12 +19,14 @@ import com.example.demo.model.Boundary;
 import com.example.demo.model.Demographic;
 import com.example.demo.model.Income;
 import com.example.demo.model.Poverty;
+import com.example.demo.model.Urbanicity;
 import com.example.demo.model.Votes;
 import com.example.demo.repository.BoundaryRepository;
 import com.example.demo.repository.DemographicRepository;
 import com.example.demo.repository.ElectionResultRepository;
 import com.example.demo.repository.IncomeRepository;
 import com.example.demo.repository.PovertyRepository;
+import com.example.demo.repository.UrbanicityRepository;
 
 @Service
 public class MapService {
@@ -34,15 +36,17 @@ public class MapService {
 	private IncomeRepository incomeRepository;
 	private PovertyRepository povertyRepository;
 	private ElectionResultRepository electionResultRepository;
+	private UrbanicityRepository urbanicityRepository;
 
 	public MapService(BoundaryRepository boundaryRepository, DemographicRepository demographicRepository,
 			IncomeRepository incomeRepository, PovertyRepository povertyRepository,
-			ElectionResultRepository electionResultRepository) {
+			ElectionResultRepository electionResultRepository, UrbanicityRepository urbanicityRepository) {
 		this.boundaryRepository = boundaryRepository;
 		this.demographicRepository = demographicRepository;
 		this.incomeRepository = incomeRepository;
 		this.povertyRepository = povertyRepository;
 		this.electionResultRepository = electionResultRepository;
+		this.urbanicityRepository = urbanicityRepository;
 	}
 
 	@Cacheable(value = "map")
@@ -50,19 +54,19 @@ public class MapService {
 		return boundaryRepository.findByStateIdAndGeoType(stateId, geoType);
 	}
 
-	public String getDistrictPlan(int stateId, int districtPlan){
+	public String getDistrictPlan(int stateId, int districtPlan) {
 		String stateAbbrev = stateId == 36 ? "ny" : "ar";
 		StringBuilder jsonString = new StringBuilder();
 
-		try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(stateAbbrev + "_district_plan_" + districtPlan + ".json")){
+		try (InputStream inputStream = getClass().getClassLoader()
+				.getResourceAsStream(stateAbbrev + "_district_plan_" + districtPlan + ".json")) {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-				String line;
+			String line;
 
-				while ((line = reader.readLine()) != null) {
-					jsonString.append(line);
-				}
-		}
-		catch(IOException e){
+			while ((line = reader.readLine()) != null) {
+				jsonString.append(line);
+			}
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
@@ -84,9 +88,10 @@ public class MapService {
 					geoIdToDemographic.put(d.getGeoId(), d);
 				}
 				for (Boundary b : boundary) {
-					Demographic d =  geoIdToDemographic.get(b.getProperties().getGeoId());
+					Demographic d = geoIdToDemographic.get(b.getProperties().getGeoId());
 					b.getProperties().setData(new HashMap<>());
-					b.getProperties().getData().put("demographic shading", d.getRace().get(demographicGroup.toString().toLowerCase() + "_shading"));
+					b.getProperties().getData().put("demographic shading",
+							d.getRace().get(demographicGroup.toString().toLowerCase() + "_shading"));
 				}
 				return boundary;
 			case Category.ECONOMIC:
@@ -115,7 +120,8 @@ public class MapService {
 				for (Boundary b : boundary) {
 					Votes i = geoIdToVotes.get(b.getProperties().getGeoId());
 					b.getProperties().setData(new HashMap<>());
-					b.getProperties().getData().put("income_shading_by_party", i.getElectionData().get("income_shading_by_party"));
+					b.getProperties().getData().put("income_shading_by_party",
+							i.getElectionData().get("income_shading_by_party"));
 				}
 				return boundary;
 			case Category.POVERTY:
@@ -131,6 +137,21 @@ public class MapService {
 					Poverty p = geoIdToPoverty.get(b.getProperties().getGeoId());
 					b.getProperties().setData(new HashMap<>());
 					b.getProperties().getData().put("poverty shading", p.getPoverty().getPovertyShading());
+				}
+				return boundary;
+			case Category.URBANICITY:
+				List<Urbanicity> urbanicity = urbanicityRepository.findUrbanicityByStateId(stateId);
+				Map<String, Urbanicity> geoIdToUrbanicity = new HashMap<>();
+				// store povertyData into a mapping of geoId -> poverty
+				for (Urbanicity u : urbanicity) {
+					geoIdToUrbanicity.put(u.getGeoId(), u);
+				}
+
+				// Merge poverty data with boundary data
+				for (Boundary b : boundary) {
+					Urbanicity u = geoIdToUrbanicity.get(b.getProperties().getGeoId());
+					b.getProperties().setData(new HashMap<>());
+					b.getProperties().getData().put("urbanicity shading", u.getUrbanicity().getShading());
 				}
 				return boundary;
 			default:

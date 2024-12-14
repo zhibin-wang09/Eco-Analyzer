@@ -79,7 +79,7 @@ const USMap: React.FC<USMapProps> = ({
   const fetchHeatmapData = useCallback(
     async (state: string, type: HeatmapType, demographicGroup?: string) => {
       if (type === "none") return null;
-
+      console.log(type);
       const stateCode = state.toLowerCase().replace(" ", "");
       const baseUrl = "http://localhost:8080/api/heatmap";
 
@@ -99,12 +99,16 @@ const USMap: React.FC<USMapProps> = ({
         case "politicalincome":
           url = `${baseUrl}/politicalincome?state=${stateCode}`;
           break;
+        case "urbanicity":
+          url = `${baseUrl}/urbanicity?state=${stateCode}`;
+          break;
         default:
           return null;
       }
 
       try {
         const response = await axios.get(url);
+        console.log(response);
         setHeatmapData(response.data);
         return response.data;
       } catch (error) {
@@ -155,6 +159,10 @@ const USMap: React.FC<USMapProps> = ({
         case "politicalincome":
           fillColor =
             feature.properties.data["income_shading_by_party"] || "#FFFFFF";
+          break;
+        case "urbanicity":
+          fillColor =
+            feature.properties.data["urbanicity shading"] || "#FFFFFF";
           break;
         default:
           fillColor = "#FFFFFF";
@@ -380,7 +388,7 @@ const USMap: React.FC<USMapProps> = ({
     if (!map) return;
     // Ensure map resizes correctly when container size changes
     if (map) {
-      setTimeout(() => map.invalidateSize(), 1000) // This will make sure that the map recalculates its size after layout changes)
+      setTimeout(() => map.invalidateSize(), 1000); // This will make sure that the map recalculates its size after layout changes)
     }
 
     const fitToBound = (selectedState: string | null) => {

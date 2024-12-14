@@ -1161,7 +1161,7 @@ async function pyeiSummaryIntoDatabaseFormat(file, type) {
       let j = {
         stateId: stateId,
         category: type.toUpperCase(),
-        range: range,
+        range: "Rural",
         posteriorMean: posteriorMean,
         candidate: candidate,
         interval: [
@@ -1182,17 +1182,45 @@ async function pyeiSummaryIntoDatabaseFormat(file, type) {
   }
 }
 
-async function test(file){
+async function test(file) {
   const filePath = path.join(__dirname, file);
-    const fileContent = await fsp.readFile(filePath, "utf8");
+  const fileContent = await fsp.readFile(filePath, "utf8");
 
-    const data = JSON.parse(fileContent);
+  const data = JSON.parse(fileContent);
 
-    for(let d of data){
-      d.posteriorMean = Number(d.posteriorMean);
-    }
+  for (let d of data) {
+    d.posteriorMean = Number(d.posteriorMean);
+  }
 
-    await fsp.writeFile(file, JSON.stringify(data,null,2));
+  await fsp.writeFile(file, JSON.stringify(data, null, 2));
 }
 
-pyeiSummaryIntoDatabaseFormat("ar pyei mggg urban.txt", 'urbanicity')
+// pyeiSummaryIntoDatabaseFormat("ny pyei mggg rural.txt", 'urbanicity')
+
+async function regionTypeHeatMap(file) {
+  const filePath = path.join(__dirname, file);
+  const fileContent = await fsp.readFile(filePath, "utf8");
+
+  const getColor = (regionType) => {
+    if (regionType == "urban") {
+      return "#5158BB";
+    } else if (regionType == "rural") {
+      return "#6E9887";
+    } else {
+      return "#32E875";
+    }
+  }
+
+  const data = await fsp.readFile(file, 'utf8');
+
+  const dataJson = JSON.parse(data);
+
+  for(let data of dataJson){
+    data['urbanicity']['shading'] = getColor(data['urbanicity']['type']);
+  }
+
+  await fsp.writeFile(file, JSON.stringify(dataJson,null ,2));
+  console.log("success");
+}
+
+regionTypeHeatMap('NY Urbanicity New.json')
