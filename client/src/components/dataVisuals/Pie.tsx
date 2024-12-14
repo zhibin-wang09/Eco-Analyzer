@@ -105,7 +105,6 @@ const PieChartComponent = ({
         borderColor={borderColor}
       >
         <Text fontWeight="semibold">{formattedName}</Text>
-        <Text fontSize="sm">Count: {value.toLocaleString()}</Text>
         <Text fontSize="sm" color="gray.600">
           Percentage: {percent}%
         </Text>
