@@ -389,7 +389,7 @@ public class DataDisplayService {
 		return boxplots;
 	}
 
-	public EcologicalInference getEcologicalInferenceData(int stateId, Category category, String range){
+	public List<EcologicalInference> getEcologicalInferenceData(int stateId, Category category, String range){
 		return ecologicalInferenceRepository.findEcologicalInferenceByStateIdAndCategoryAndRange(stateId, category, range);
 	}
 }

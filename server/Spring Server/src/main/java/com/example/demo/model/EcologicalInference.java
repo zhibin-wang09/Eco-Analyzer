@@ -18,7 +18,7 @@ public class EcologicalInference {
 
     private double posteriorMean;
 
-    private String group;
+    private String candidate;
 
     private double[] interval;
 
@@ -71,12 +71,12 @@ public class EcologicalInference {
         this.interval = interval;
     }
 
-    public String getGroup() {
-        return this.group;
+    public String getCandidate() {
+        return this.candidate;
     }
 
-    public void setGroup(String group) {
-        this.group = group;
+    public void setCandidate(String group) {
+        this.candidate = group;
     }
 
 }

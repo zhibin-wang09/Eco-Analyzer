@@ -123,7 +123,7 @@ public class DataDisplayController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(value = "/api/graph/ecologicalinference")
-    public ResponseEntity<EcologicalInference> getEcologicalInferenceData(@RequestParam String state,
+    public ResponseEntity<List<EcologicalInference>> getEcologicalInferenceData(@RequestParam String state,
             @RequestParam String category, @RequestParam() String range) {
         int id = -1;
         Category c = null;

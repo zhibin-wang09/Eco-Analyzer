@@ -8,7 +8,7 @@ import com.example.demo.common.Category;
 import com.example.demo.model.EcologicalInference;
 
 public interface EcologicalInferenceRepository extends MongoRepository<EcologicalInference, String>{
-    EcologicalInference findEcologicalInferenceByStateIdAndCategoryAndRange(int stateId, Category category, String range);
+    List<EcologicalInference> findEcologicalInferenceByStateIdAndCategoryAndRange(int stateId, Category category, String range);
 
     List<EcologicalInference> findAll();
 }
