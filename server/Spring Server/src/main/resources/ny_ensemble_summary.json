@@ -1,0 +1,20 @@
+{
+    "stateId": 36,
+    "total_plans": 5000,
+    "total_districts": 130000,
+    "total_republican_votes": 16508670000,
+    "total_democratic_votes": 23771565000,
+    "republican_democratic_split": "16508670000:23771565000",
+    "split_frequencies": {
+        "24/2": 75,
+        "23/3": 378,
+        "20/6": 1205,
+        "19/7": 565,
+        "18/8": 188,
+        "22/4": 1000,
+        "21/5": 1543,
+        "17/9": 34,
+        "16/10": 6,
+        "25/1": 6
+    }
+}

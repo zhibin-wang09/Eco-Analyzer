@@ -76,12 +76,12 @@ const Navbar: React.FC<NavbarProps> = ({
             >
               {state === "State" ? "Select State" : state}
             </MenuButton>
-            <MenuList>
+            <MenuList zIndex={"dropdown"}>
               <MenuItem onClick={() => onStateChange("State")}>State</MenuItem>
-              <MenuItem onClick={() => onStateChange("New York")}>
+              <MenuItem  onClick={() => onStateChange("New York")}>
                 New York
               </MenuItem>
-              <MenuItem onClick={() => onStateChange("Arkansas")}>
+              <MenuItem zIndex={2} onClick={() => onStateChange("Arkansas")}>
                 Arkansas
               </MenuItem>
             </MenuList>
