@@ -150,7 +150,7 @@ public class DataDisplayService {
 	public List<DistrictDetail> getDistrictDetails(int stateId) {
 		List<DistrictDetail> result = districtDetailRepository
 				.findDistrictDetailsByStateId(stateId);
-		for(DistrictDetail d: result){
+		for (DistrictDetail d : result) {
 			Data data = d.getData();
 			data.setPovertyPercentage(data.getPovertyPercentage() * 100);
 			data.setRuralPercentage(data.getRuralPercentage() * 100);
@@ -220,16 +220,16 @@ public class DataDisplayService {
 
 	public Map<String, Double> getPopulationByAverageHouseholdIncome(int stateId) {
 		List<Income> income = incomeRepository.findIncomeByStateIdAndGeoType(stateId, GeoType.PRECINCT);
-	
+
 		Map<String, Double> result = new HashMap<>();
 		result.put("0-25k", 0.0);
 		result.put("25k-50k", 0.0);
 		result.put("50k-75k", 0.0);
 		result.put("75k-100k", 0.0);
 		result.put("100k+", 0.0);
-	
+
 		double total = 0;
-	
+
 		// Aggregate values
 		for (Income i : income) {
 			Map<String, Object> incomeData = i.getIncome();
@@ -241,16 +241,16 @@ public class DataDisplayService {
 			double six = getIncomeValue(incomeData.get("from_50000_to_74999"));
 			double seven = getIncomeValue(incomeData.get("from_75000_to_99999"));
 			double eight = getIncomeValue(incomeData.get("from_100000_and_more"));
-	
+
 			total += getIncomeValue(incomeData.get("total_household"));
-	
+
 			result.put("0-25k", result.get("0-25k") + one + two + three);
 			result.put("25k-50k", result.get("25k-50k") + four + five);
 			result.put("50k-75k", result.get("50k-75k") + six);
 			result.put("75k-100k", result.get("75k-100k") + seven);
 			result.put("100k+", result.get("100k+") + eight);
 		}
-	
+
 		// Normalize to percentages
 		if (total > 0) {
 			double sum = 0; // Track sum for adjustment
@@ -260,23 +260,23 @@ public class DataDisplayService {
 				result.put(key, percentage);
 				sum += percentage;
 			}
-	
+
 			// Adjust for rounding errors
 			double difference = 100.0 - sum;
 			if (Math.abs(difference) > 0.01) { // Only adjust if meaningful
 				String largestKey = result.entrySet().stream()
-										  .max(Map.Entry.comparingByValue())
-										  .get()
-										  .getKey();
+						.max(Map.Entry.comparingByValue())
+						.get()
+						.getKey();
 				result.put(largestKey, result.get(largestKey) + difference);
 			}
 		} else {
 			System.err.println("Total income is zero. Skipping percentage calculations.");
 		}
-	
+
 		return result;
 	}
-	
+
 	public double getIncomeValue(Object income) {
 		if (income instanceof Number) {
 			return ((Number) income).doubleValue(); // Retain precision
@@ -360,36 +360,45 @@ public class DataDisplayService {
 	}
 
 	public List<BoxPlot> getBoxPlot(int stateId, Category category, RegionType regionType) {
-		List<BoxPlot> boxplots = boxPlotRepository.findBoxPlotByStateIdAndCategoryAndRegionType(stateId, category, regionType);
+		List<BoxPlot> boxplots = boxPlotRepository.findBoxPlotByStateIdAndCategoryAndRegionType(stateId, category,
+				regionType);
 		double totalPopulation = stateId == 36 ? 17161215 : 2096286;
-		for(BoxPlot b : boxplots){
+		for (BoxPlot b : boxplots) {
 			BoxPlotData boxplot = b.getBoxPlot();
-			if(boxplot == null) return new ArrayList<>();
-			boxplot.setMax(boxplot.getMax()/ totalPopulation);
-			boxplot.setMin(boxplot.getMin()/ totalPopulation);
-			boxplot.setMedian(boxplot.getMedian()/ totalPopulation);
-			boxplot.setQ1(boxplot.getQ1()/ totalPopulation);
-			boxplot.setQ3(boxplot.getQ3()/ totalPopulation);
+			if (boxplot == null)
+				return new ArrayList<>();
+			boxplot.setMax(boxplot.getMax() / totalPopulation);
+			boxplot.setMin(boxplot.getMin() / totalPopulation);
+			boxplot.setMedian(boxplot.getMedian() / totalPopulation);
+			boxplot.setQ1(boxplot.getQ1() / totalPopulation);
+			boxplot.setQ3(boxplot.getQ3() / totalPopulation);
 		}
 		return boxplots;
 	}
 
-	public List<BoxPlot> getBoxPlotByRange(int stateId, Category category, RegionType regionType, String range){
-		List<BoxPlot> boxplots = boxPlotRepository.findBoxPlotByStateIdAndCategoryAndRegionTypeAndRange(stateId, category, regionType, range);
+	public List<BoxPlot> getBoxPlotByRange(int stateId, Category category, RegionType regionType, String range) {
+		List<BoxPlot> boxplots = boxPlotRepository.findBoxPlotByStateIdAndCategoryAndRegionTypeAndRange(stateId,
+				category, regionType, range);
 		double totalPopulation = stateId == 36 ? 17161215 : 2096286;
-		for(BoxPlot b : boxplots){
+		for (BoxPlot b : boxplots) {
 			BoxPlotData boxplot = b.getBoxPlot();
-			if(boxplot == null) return new ArrayList<>();
-			boxplot.setMax(boxplot.getMax()/ totalPopulation);
-			boxplot.setMin(boxplot.getMin()/ totalPopulation);
-			boxplot.setMedian(boxplot.getMedian()/ totalPopulation);
-			boxplot.setQ1(boxplot.getQ1()/ totalPopulation);
-			boxplot.setQ3(boxplot.getQ3()/ totalPopulation);
+			if (boxplot == null)
+				return new ArrayList<>();
+			boxplot.setMax(boxplot.getMax() / totalPopulation);
+			boxplot.setMin(boxplot.getMin() / totalPopulation);
+			boxplot.setMedian(boxplot.getMedian() / totalPopulation);
+			boxplot.setQ1(boxplot.getQ1() / totalPopulation);
+			boxplot.setQ3(boxplot.getQ3() / totalPopulation);
 		}
 		return boxplots;
 	}
 
-	public List<EcologicalInference> getEcologicalInferenceData(int stateId, Category category, String range){
-		return ecologicalInferenceRepository.findEcologicalInferenceByStateIdAndCategoryAndRange(stateId, category, range);
+	public List<EcologicalInference> getEcologicalInferenceData(int stateId, Category category, String candidate,
+			String[] range) {
+		for (int i = 0; i < range.length; i++) {
+			range[i] = range[i].substring(0, 1).toUpperCase() + range[i].substring(1);
+		}
+		return ecologicalInferenceRepository.findByStateIdAndCategoryAndCandidateAndRangeIn(stateId, category,
+				candidate.substring(0, 1).toUpperCase() + candidate.substring(1), range);
 	}
 }

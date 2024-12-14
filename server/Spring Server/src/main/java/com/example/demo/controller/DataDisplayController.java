@@ -124,7 +124,7 @@ public class DataDisplayController {
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(value = "/api/graph/ecologicalinference")
     public ResponseEntity<List<EcologicalInference>> getEcologicalInferenceData(@RequestParam String state,
-            @RequestParam String category, @RequestParam() String range) {
+            @RequestParam String category, @RequestParam String candidate, @RequestParam String[] range) {
         int id = -1;
         Category c = null;
         try {
@@ -139,6 +139,6 @@ public class DataDisplayController {
             return ResponseEntity.badRequest().body(null);
         }
 
-        return ResponseEntity.ok(dataDisplayService.getEcologicalInferenceData(id, c, range));
+        return ResponseEntity.ok(dataDisplayService.getEcologicalInferenceData(id, c, candidate, range));
     }
 }

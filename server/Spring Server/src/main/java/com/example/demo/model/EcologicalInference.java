@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.example.demo.common.Category;
 
@@ -16,6 +17,7 @@ public class EcologicalInference {
 
     private String range;
 
+    @Field("posteriorMean")
     private double posteriorMean;
 
     private String candidate;
