@@ -52,7 +52,7 @@ const EcologicalInference = ({ selectedState }: EcologicalInference) => {
     "75k-100k": "75000_to_99999",
     "100k+": "100000_and_more",
   };
-  const regionType = ["urban", "suburban", "rural"];
+  const regionType = ["Urban", "Suburban", "Rural"];
 
   const handleCheckboxChange = (selectedItems: any) => {
     if (category === "Demographic") {

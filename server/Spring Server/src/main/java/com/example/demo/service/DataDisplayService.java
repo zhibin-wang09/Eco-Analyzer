@@ -360,7 +360,7 @@ public class DataDisplayService {
 		return precinctDetail;
 	}
 
-	@Cacheable(value ="boxplot")
+	@Cacheable(value = "boxplot")
 	public List<BoxPlot> getBoxPlot(int stateId, Category category, RegionType regionType) {
 		List<BoxPlot> boxplots = boxPlotRepository.findBoxPlotByStateIdAndCategoryAndRegionType(stateId, category,
 				regionType);
@@ -378,11 +378,18 @@ public class DataDisplayService {
 		return boxplots;
 	}
 
-	@Cacheable(value ="boxplotByRange")
+	@Cacheable(value = "boxplotByRange")
 	public List<BoxPlot> getBoxPlotByRange(int stateId, Category category, RegionType regionType, String range) {
 		List<BoxPlot> boxplots = boxPlotRepository.findBoxPlotByStateIdAndCategoryAndRegionTypeAndRange(stateId,
 				category, regionType, range);
-		double totalPopulation = stateId == 36 ? 17161215 : 2096286;
+		double totalPopulation = 0;
+		if (category == Category.DEMOGRAPHIC) {
+			totalPopulation = stateId == 36 ? 17161215 : 2096286;
+		} else if (category == Category.ECONOMIC) {
+			totalPopulation = stateId == 36 ? 6320329 : 869004;
+		} else if (category == Category.URBANICITY) {
+			totalPopulation = stateId == 36 ? 13283 : 2589;
+		}
 		for (BoxPlot b : boxplots) {
 			BoxPlotData boxplot = b.getBoxPlot();
 			if (boxplot == null)
@@ -392,7 +399,7 @@ public class DataDisplayService {
 			boxplot.setMedian(boxplot.getMedian() / totalPopulation * 100);
 			boxplot.setQ1(boxplot.getQ1() / totalPopulation * 100);
 			boxplot.setQ3(boxplot.getQ3() / totalPopulation * 100);
-		} 
+		}
 		return boxplots;
 	}
 

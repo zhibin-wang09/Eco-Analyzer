@@ -96,7 +96,7 @@ const MainLayout = () => {
     if (!data) return [];
     const regionData = data["population percentage by region"];
     return Object.entries(regionData).map(([name, value]) => ({
-      name: name.toLowerCase(),
+      name: name,
       value: typeof value === 'string' ? parseFloat(value) : (value as number)
     }));
   };

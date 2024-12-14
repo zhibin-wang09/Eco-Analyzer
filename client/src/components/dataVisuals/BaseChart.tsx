@@ -90,7 +90,7 @@ const BaseChart: React.FC<BaseChartProps> = ({
   ): ChartDataItem[] => {
     if (!data) return [];
     return Object.entries(data).map(([name, value]) => ({
-      name: name.toLowerCase(),
+      name: name,
       value: parseFloat(value),
     }));
   };

@@ -9,7 +9,7 @@ import com.example.demo.common.Category;
 import com.example.demo.common.RegionType;
 
 @Document(collection = "BoxPlot")
-public class BoxPlot implements Serializable{
+public class BoxPlot implements Serializable {
 
     @Id
     private String id;
@@ -26,7 +26,7 @@ public class BoxPlot implements Serializable{
 
     private BoxPlotData boxPlot;
 
-    public static class BoxPlotData implements Serializable{
+    public static class BoxPlotData implements Serializable {
         private Double min;
         private Double q1;
         private Double median;
@@ -72,9 +72,7 @@ public class BoxPlot implements Serializable{
         public void setMax(Double max) {
             this.max = max;
         }
-
     }
-
 
     public String getId() {
         return this.id;
