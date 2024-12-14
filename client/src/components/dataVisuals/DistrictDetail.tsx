@@ -20,12 +20,10 @@ const DistrictDetail = ({
   >([]);
 
   const handleRowClick = (district: number) => {
-    if (selectedDistrict == district) {
-      // if the same selected district is clicked again we will undo
+    if (selectedDistrict === district) {
       setSelectedDistrict(null);
       onSelectDistrict(null);
     } else {
-      // district has not been selected we will select
       setSelectedDistrict(district);
       onSelectDistrict(district);
     }
@@ -47,7 +45,6 @@ const DistrictDetail = ({
           stateConversion(selectedState)
         );
 
-        // Transform congressional representatives into an array of objects with name and party
         setDistrictTable(
           rawDistrictTable
             .map((rawDistrictDetail: CongressionalDistrictDataJson) => {
@@ -85,8 +82,8 @@ const DistrictDetail = ({
   return (
     <Box
       overflowX="scroll"
-      overflowY="scroll" // Enables vertical scrolling
-      maxH="50vh" // Sets maximum height for the box
+      overflowY="scroll"
+      maxH="50vh"
       p={1}
       borderWidth="1px"
       borderRadius="md"
@@ -102,10 +99,10 @@ const DistrictDetail = ({
             <Th
               py={1}
               fontSize="xs"
-              position="sticky" // Makes the header sticky
-              top="-1" // Sticks the header to the top of the scrolling container
-              bg="white" // Background color to avoid transparency issues
-              zIndex="1" // Ensures the header appears above table content
+              position="sticky"
+              top="-1"
+              bg="white"
+              zIndex="1"
             >
               District
             </Th>
@@ -217,14 +214,14 @@ const DistrictDetail = ({
               <Td py={0.5} fontSize="xs" isNumeric>
                 {item.povertyPercentage.toFixed(1)}%
               </Td>
-              <Td py={0.5} fontSize="xs">
-                {`${item.regionType.rural}%`}
+              <Td py={0.5} fontSize="xs" isNumeric>
+                {item.regionType.rural}%
               </Td>
-              <Td py={0.5} fontSize="xs">
-                {`${item.regionType.suburban}%`}
+              <Td py={0.5} fontSize="xs" isNumeric>
+                {item.regionType.suburban}%
               </Td>
-              <Td py={0.5} fontSize="xs">
-                {`${item.regionType.urban}%`}
+              <Td py={0.5} fontSize="xs" isNumeric>
+                {item.regionType.urban}%
               </Td>
               <Td py={0.5} fontSize="xs" isNumeric>
                 {item.voteMargin.toFixed(1)}
