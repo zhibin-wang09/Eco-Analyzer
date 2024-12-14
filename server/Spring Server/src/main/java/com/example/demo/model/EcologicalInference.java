@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import java.io.Serializable;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -7,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import com.example.demo.common.Category;
 
 @Document(collection = "EcologicalInference")
-public class EcologicalInference {
+public class EcologicalInference implements Serializable{
     @Id
     String id;
 

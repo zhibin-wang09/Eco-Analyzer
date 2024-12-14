@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import java.io.Serializable;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -7,7 +9,7 @@ import com.example.demo.common.Category;
 import com.example.demo.common.RegionType;
 
 @Document(collection = "BoxPlot")
-public class BoxPlot {
+public class BoxPlot implements Serializable{
 
     @Id
     private String id;
@@ -24,7 +26,7 @@ public class BoxPlot {
 
     private BoxPlotData boxPlot;
 
-    public static class BoxPlotData {
+    public static class BoxPlotData implements Serializable{
         private Double min;
         private Double q1;
         private Double median;

@@ -1,9 +1,21 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import * as d3 from "d3";
 import { DataItem } from "../../types/BoxPlot";
-import { Box, HStack, Select, useToast, VStack } from "@chakra-ui/react";
+import { 
+  Box, 
+  HStack, 
+  VStack, 
+  Menu, 
+  MenuButton, 
+  MenuList, 
+  MenuItem, 
+  Button, 
+  useToast 
+} from "@chakra-ui/react";
 import { stateConversion } from "../../utils/util";
 import { BoxplotWrapper } from "./BoxplotComponent/BoxplotWrapper";
+import { ChevronDownIcon } from "@chakra-ui/icons";
+
 
 const BoxPlot = ({ selectedState }: { selectedState: string }) => {
   const [boxPlotData, setBoxPlotData] = useState<DataItem[]>([]);
@@ -66,9 +78,9 @@ const BoxPlot = ({ selectedState }: { selectedState: string }) => {
         category !== "urbanicity" ? regionType : "all",
         range
       );
-      result.sort((a: DataItem, b:DataItem) => Number(a.geoId) - Number(b.geoId));
+      result.sort((a: DataItem, b: DataItem) => Number(a.geoId) - Number(b.geoId));
       setBoxPlotData(result);
-      if (result.length == 0) {
+      if (result.length === 0) {
         toast({
           title: `Error fetching data`,
           description: `No data for ${regionType + " " + category + " data"}`,
@@ -86,60 +98,95 @@ const BoxPlot = ({ selectedState }: { selectedState: string }) => {
     <VStack>
       <Box>
         <HStack>
-          <Select
-            onChange={(e) => {
-              setCategory(e.target.value);
-              switch (e.target.value) {
-                case "demographic":
+          {/* Category Menu */}
+          <Menu>
+            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+              {category.charAt(0).toUpperCase() + category.slice(1)}
+            </MenuButton>
+            <MenuList>
+              <MenuItem
+                onClick={() => {
+                  setCategory("demographic");
                   setRange("white");
-                  break;
-                case "economic":
+                }}
+              >
+                Demographic
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  setCategory("economic");
                   setRange("0-9999");
-                  break;
-                case "urbanicity":
+                }}
+              >
+                Economic
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  setCategory("urbanicity");
                   setRange("rural");
-                  break;
-              }
-            }}
-          >
-            <option>demographic</option>
-            <option>economic</option>
-            <option>urbanicity</option>
-          </Select>
+                }}
+              >
+                Urbanicity
+              </MenuItem>
+            </MenuList>
+          </Menu>
+
+          {/* Range Menu */}
           {category === "demographic" && (
-            <Select onChange={(e) => setRange(e.target.value)}>
-              {race.map((r) => (
-                <option key={r}>{r}</option>
-              ))}
-            </Select>
+            <Menu>
+              <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>{range}</MenuButton>
+              <MenuList>
+                {race.map((r) => (
+                  <MenuItem key={r} onClick={() => setRange(r)}>
+                    {r}
+                  </MenuItem>
+                ))}
+              </MenuList>
+            </Menu>
           )}
 
           {category === "urbanicity" && (
-            <Select onChange={(e) => setRange(e.target.value)}>
-              <option>rural</option>
-              <option>suburban</option>
-              <option>urban</option>
-            </Select>
+            <Menu>
+              <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>{range}</MenuButton>
+              <MenuList>
+                <MenuItem onClick={() => setRange("rural")}>Rural</MenuItem>
+                <MenuItem onClick={() => setRange("suburban")}>Suburban</MenuItem>
+                <MenuItem onClick={() => setRange("urban")}>Urban</MenuItem>
+              </MenuList>
+            </Menu>
           )}
 
           {category === "economic" && (
-            <Select onChange={(e) => setRange(e.target.value)}>
-              {incomeRanges.map((i) => (
-                <option key={i}>{i}</option>
-              ))}
-            </Select>
+            <Menu>
+              <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>{range}</MenuButton>
+              <MenuList>
+                {incomeRanges.map((i) => (
+                  <MenuItem key={i} onClick={() => setRange(i)}>
+                    {i}
+                  </MenuItem>
+                ))}
+              </MenuList>
+            </Menu>
           )}
 
+          {/* Region Type Menu */}
           {category !== "urbanicity" && (
-            <Select onChange={(e) => setRegionTye(e.target.value)}>
-              <option>all</option>
-              <option>rural</option>
-              <option>suburban</option>
-              <option>urban</option>
-            </Select>
+            <Menu>
+              <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>{regionType}</MenuButton>
+              <MenuList>
+                <MenuItem onClick={() => setRegionTye("all")}>All</MenuItem>
+                <MenuItem onClick={() => setRegionTye("rural")}>Rural</MenuItem>
+                <MenuItem onClick={() => setRegionTye("suburban")}>
+                  Suburban
+                </MenuItem>
+                <MenuItem onClick={() => setRegionTye("urban")}>Urban</MenuItem>
+              </MenuList>
+            </Menu>
           )}
         </HStack>
       </Box>
+
+      {/* Boxplot Visualization */}
       <Box>
         <div>
           <h2>Boxplot Visualization</h2>
