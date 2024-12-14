@@ -15,6 +15,7 @@ import com.example.demo.common.RegionType;
 import com.example.demo.common.State;
 import com.example.demo.model.BoxPlot;
 import com.example.demo.model.DistrictDetail;
+import com.example.demo.model.EcologicalInference;
 import com.example.demo.model.Gingles;
 import com.example.demo.service.DataDisplayService;
 import com.example.demo.util.StateIdConvertor;
@@ -111,11 +112,33 @@ public class DataDisplayController {
             return ResponseEntity.badRequest().body(null);
         }
 
-        if(range == null){
+        if (range == null) {
             return ResponseEntity.ok(dataDisplayService.getBoxPlot(id, c, r));
-        }else{
-            // user specify the range of the category(i.e. white/black/asian of race category, or urban/suburban of urbanicity category)
-            return ResponseEntity.ok(dataDisplayService.getBoxPlotByRange(id, c, r,range));
+        } else {
+            // user specify the range of the category(i.e. white/black/asian of race
+            // category, or urban/suburban of urbanicity category)
+            return ResponseEntity.ok(dataDisplayService.getBoxPlotByRange(id, c, r, range));
         }
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping(value = "/api/graph/ecologicalinference")
+    public ResponseEntity<List<EcologicalInference>> getEcologicalInferenceData(@RequestParam String state,
+            @RequestParam String category, @RequestParam String candidate, @RequestParam String[] range) {
+        int id = -1;
+        Category c = null;
+        try {
+            id = StateIdConvertor.stringToId(State.valueOf(state.toUpperCase()));
+            c = Category.valueOf(category.toUpperCase());
+            if (id == -1) {
+                throw new IllegalArgumentException();
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        return ResponseEntity.ok(dataDisplayService.getEcologicalInferenceData(id, c, candidate, range));
     }
 }

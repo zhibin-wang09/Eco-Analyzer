@@ -7,6 +7,7 @@ import DistrictDetail from "./DistrictDetail";
 import GinglesControl from "../controls/GinglesControl";
 import BoxPlot from "./Boxplot";
 import { stateConversion } from "../../utils/util";
+import EcologicalInference from "./densityGraphComponent/EcologicalInference";
 
 interface ChartDataItem {
   name: string;
@@ -35,9 +36,10 @@ interface BaseChartProps {
 const BaseChart: React.FC<BaseChartProps> = ({
   selectedState,
   selectedVisualization = "summary",
-  onSelectDistrict
+  onSelectDistrict,
 }) => {
-  const [stateSummaryData, setStateSummaryData] = React.useState<SummaryData | null>(null);
+  const [stateSummaryData, setStateSummaryData] =
+    React.useState<SummaryData | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
 
@@ -47,7 +49,9 @@ const BaseChart: React.FC<BaseChartProps> = ({
       setError(null);
       try {
         const response = await fetch(
-          `http://localhost:8080/api/summary?state=${stateConversion(selectedState)}`
+          `http://localhost:8080/api/summary?state=${stateConversion(
+            selectedState
+          )}`
         );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -57,7 +61,9 @@ const BaseChart: React.FC<BaseChartProps> = ({
         setStateSummaryData(data);
       } catch (error) {
         console.error("Error fetching state summary:", error);
-        setError(error instanceof Error ? error.message : "Failed to fetch data");
+        setError(
+          error instanceof Error ? error.message : "Failed to fetch data"
+        );
         setStateSummaryData(null);
       } finally {
         setIsLoading(false);
@@ -69,25 +75,31 @@ const BaseChart: React.FC<BaseChartProps> = ({
     }
   }, [selectedState, selectedVisualization]);
 
-  const transformDataToArray = (data: Record<string, number>): ChartDataItem[] => {
+  const transformDataToArray = (
+    data: Record<string, number>
+  ): ChartDataItem[] => {
     if (!data) return [];
     return Object.entries(data).map(([name, value]) => ({
       name,
-      value: typeof value === 'string' ? parseFloat(value) : value
+      value: typeof value === "string" ? parseFloat(value) : value,
     }));
   };
 
-  const transformRegionData = (data: Record<string, string>): ChartDataItem[] => {
+  const transformRegionData = (
+    data: Record<string, string>
+  ): ChartDataItem[] => {
     if (!data) return [];
     return Object.entries(data).map(([name, value]) => ({
       name: name.toLowerCase(),
-      value: parseFloat(value)
+      value: parseFloat(value),
     }));
   };
 
-  const transformRepresentativesData = (data: Array<Record<string, string>>) => {
+  const transformRepresentativesData = (
+    data: Array<Record<string, string>>
+  ) => {
     if (!data) return [];
-    return data.map(rep => {
+    return data.map((rep) => {
       const name = Object.keys(rep)[0];
       const party = rep[name];
       return { name, party };
@@ -114,15 +126,25 @@ const BaseChart: React.FC<BaseChartProps> = ({
     switch (selectedVisualization) {
       case "summary":
         if (!stateSummaryData) return null;
-        
+
         return (
           <StateSummary
-            racialData={transformDataToArray(stateSummaryData["racial population"])}
-            incomeData={transformDataToArray(stateSummaryData["population by income"])}
-            voteData={transformDataToArray(stateSummaryData["vote distribution"])}
-            regionData={transformRegionData(stateSummaryData["population percentage by region"])}
+            racialData={transformDataToArray(
+              stateSummaryData["racial population"]
+            )}
+            incomeData={transformDataToArray(
+              stateSummaryData["population by income"]
+            )}
+            voteData={transformDataToArray(
+              stateSummaryData["vote distribution"]
+            )}
+            regionData={transformRegionData(
+              stateSummaryData["population percentage by region"]
+            )}
             totalPopulation={stateSummaryData.population}
-            representatives={transformRepresentativesData(stateSummaryData["congressional representatives"])}
+            representatives={transformRepresentativesData(
+              stateSummaryData["congressional representatives"]
+            )}
           />
         );
       case "districtDetail":
@@ -137,7 +159,7 @@ const BaseChart: React.FC<BaseChartProps> = ({
       case "boxplot":
         return <BoxPlot selectedState={selectedState} />;
       case "ecologicalInference":
-        return null;
+        return <EcologicalInference selectedState={selectedState} />;
       default:
         return null;
     }
