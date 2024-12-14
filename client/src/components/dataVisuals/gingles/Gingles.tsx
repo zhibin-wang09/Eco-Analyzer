@@ -211,9 +211,9 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
   return (
     <VStack spacing={4} w="100%" p={4} bg="white" borderRadius="lg" boxShadow="sm">
       <HStack justify="space-between" w="100%" align="center">
-        <Text fontSize="xl" fontWeight="bold">
-          {selectedState.toUpperCase()} Precinct-Level Election Results
-        </Text>
+      <Text fontSize="xl" fontWeight="bold">
+        {selectedState} Precinct Analysis: {demographicOptions[selectedDemographic].name}
+      </Text>
         <Select 
           value={selectedDemographic} 
           onChange={(e) => setSelectedDemographic(e.target.value as DemographicKey)}
@@ -229,7 +229,7 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
         </Select>
       </HStack>
 
-      <Box w="100%" h="500px" position="relative">
+      <Box w="100%" h="450px" position="relative">
         {isLoading ? (
           <Box position="absolute" top="50%" left="50%" transform="translate(-50%, -50%)">
             <Text fontSize="lg">Loading precinct data...</Text>

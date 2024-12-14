@@ -18,8 +18,8 @@ const MapLegend: React.FC<MapLegendProps> = ({ heatmapType, selectedDemographic 
             { color: '#FF9999', label: '20-40%' },
             { color: '#FF4D4D', label: '40-60%' },
             { color: '#CC0000', label: '60-80%' },
-            { color: '#660000', label: '80-100%' }
-          ]
+            { color: '#660000', label: '80-100%' },
+          ],
         };
 
       case 'poverty':
@@ -30,8 +30,8 @@ const MapLegend: React.FC<MapLegendProps> = ({ heatmapType, selectedDemographic 
             { color: '#99CCF3', label: 'Medium-Low' },
             { color: '#4D9BE6', label: 'Medium' },
             { color: '#0066CC', label: 'Medium-High' },
-            { color: '#003366', label: 'High' }
-          ]
+            { color: '#003366', label: 'High' },
+          ],
         };
 
       case 'economic':
@@ -42,8 +42,8 @@ const MapLegend: React.FC<MapLegendProps> = ({ heatmapType, selectedDemographic 
             { color: '#99FF99', label: 'Medium-Low' },
             { color: '#4DFF4D', label: 'Medium' },
             { color: '#00CC00', label: 'Medium-High' },
-            { color: '#006600', label: 'High' }
-          ]
+            { color: '#006600', label: 'High' },
+          ],
         };
 
       case 'politicalincome':
@@ -53,23 +53,25 @@ const MapLegend: React.FC<MapLegendProps> = ({ heatmapType, selectedDemographic 
             { color: '#FF9999', label: 'Low Rep.' },
             { color: '#FF0000', label: 'High Rep.' },
             { color: '#9999FF', label: 'Low Dem.' },
-            { color: '#0000FF', label: 'High Dem.' }
-          ]
+            { color: '#0000FF', label: 'High Dem.' },
+          ],
         };
 
       case 'none':
       default:
         return {
-          title: 'Political Leaning',
-          items: [
-            { color: '#0000FF', label: 'Democratic' },
-            { color: '#FF5733', label: 'Republican' }
-          ]
+          title: '',
+          items: [],
         };
     }
   };
 
   const legend = getLegendItems();
+
+  // If there are no items, render nothing
+  if (legend.items.length === 0) {
+    return null;
+  }
 
   return (
     <Box

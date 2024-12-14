@@ -53,9 +53,11 @@ const HeatmapControls: React.FC<HeatmapControlsProps> = ({
           {getButtonText()}
         </MenuButton>
         <MenuList>
-          <MenuItem onClick={() => onHeatmapChange('none')}>
-            Hide Heatmap
-          </MenuItem>
+        {currentType !== 'none' && (
+            <MenuItem onClick={() => onHeatmapChange('none')}>
+              Hide Heatmap
+            </MenuItem>
+          )}
           <MenuItem onClick={() => onHeatmapChange('demographic')}>
             Demographic Distribution
           </MenuItem>

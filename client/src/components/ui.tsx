@@ -96,18 +96,6 @@ const UI: React.FC<UIProps> = ({ children }) => {
               </Box>
             </Flex>
           </ScaleFade>
-
-          <Box 
-            as="footer" 
-            mt={4} 
-            p={2} 
-            textAlign="center" 
-            color="#72726E"
-            opacity={0}
-            animation={`${fadeInColor} 4s ease-in forwards`}
-          >
-            © 2024. Team Hurricane
-          </Box>
         </VStack>
       </Flex>
     </Box>
