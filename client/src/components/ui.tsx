@@ -1,6 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Flex, VStack, Text, keyframes, SlideFade, ScaleFade } from '@chakra-ui/react';
-import { ReactNode } from 'react';
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Flex,
+  VStack,
+  Text,
+  keyframes,
+  SlideFade,
+  ScaleFade,
+  Image,
+} from "@chakra-ui/react";
+import { ReactNode } from "react";
 
 const fadeInColor = keyframes`
   0% { opacity: 0; }
@@ -28,8 +37,8 @@ const UI: React.FC<UIProps> = ({ children }) => {
   const fadeAnimation = `${fadeInColor} 2s ease-in`;
 
   return (
-    <Box 
-      bg="#E51CA61" 
+    <Box
+      bg="#E51CA61"
       minHeight="100vh"
       maxWidth="1600px"
       margin="0 auto"
@@ -38,19 +47,19 @@ const UI: React.FC<UIProps> = ({ children }) => {
       overflow="hidden"
     >
       <Flex direction="column" width="100%" p={2} gap={2}>
-        <SlideFade 
-          in={showNav} 
+        <SlideFade
+          in={showNav}
           offsetY="-20px"
           transition={{ enter: { duration: 1.2 } }}
         >
-          <Box 
-            as="nav" 
-            bg="rgba(52, 81, 96, 0)" 
+          <Box
+            as="nav"
+            bg="rgba(52, 81, 96, 0)"
             py={1}
             px={2}
-            backdropFilter="blur(5px)" 
-            position="sticky" 
-            top={0} 
+            backdropFilter="blur(5px)"
+            position="sticky"
+            top={0}
             zIndex={10}
             borderRadius="lg"
             boxShadow="sm"
@@ -58,14 +67,24 @@ const UI: React.FC<UIProps> = ({ children }) => {
             _hover={{ bg: "rgba(255, 240, 229, 0.70)" }}
           >
             <Flex justify="center" align="center">
-              <Text 
+              <Image
+                src="/hurricane.jpg"
+                alt="Hurricane"
+                boxSize="40px"
+                objectFit="contain"
+                _hover={{ transform: "scale(1.1)", cursor: "pointer" }} // Hover effect
+                borderRadius="full" // Optional: makes it a rounded icon
+                animation={`${fadeInColor} 2s ease-in forwards`}
+                transition="all 0.3s ease-in-out"
+              />
+              <Text
                 fontSize="md"
-                fontWeight="bold" 
+                fontWeight="bold"
                 color="#494946"
                 opacity={0}
                 animation={`${fadeInColor} 2s ease-in forwards`}
                 transition="all 0.3s ease-in-out"
-                _hover={{ transform: 'scale(1.05)' }}
+                _hover={{ transform: "scale(1.05)" }}
               >
                 Team Hurricane
               </Text>
@@ -74,17 +93,17 @@ const UI: React.FC<UIProps> = ({ children }) => {
         </SlideFade>
 
         <VStack spacing={4} align="stretch">
-          <ScaleFade 
-            in={showContent} 
+          <ScaleFade
+            in={showContent}
             initialScale={0.95}
             transition={{ enter: { duration: 1.2 } }}
           >
             <Flex>
-              <Box 
-                flex={1} 
-                bg="#E4EDC4" 
-                borderRadius="xl" 
-                p={4} 
+              <Box
+                flex={1}
+                bg="#E4EDC4"
+                borderRadius="xl"
+                p={4}
                 mr={4}
                 boxShadow="md"
                 opacity={0}
