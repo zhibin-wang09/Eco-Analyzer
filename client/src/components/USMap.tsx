@@ -87,7 +87,7 @@ const USMap: React.FC<USMapProps> = ({
       switch (type) {
         case "demographic":
           url = `${baseUrl}/demographic?state=${stateCode}&demographicGroup=${
-            demographicGroup || "white"
+            demographicGroup?.toLowerCase() || "white"
           }`;
           break;
         case "poverty":

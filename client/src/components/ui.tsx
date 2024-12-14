@@ -38,7 +38,7 @@ const UI: React.FC<UIProps> = ({ children }) => {
 
   return (
     <Box
-      bg="#E51CA61"
+      bg="#1F2833"
       minHeight="100vh"
       maxWidth="1600px"
       margin="0 auto"
@@ -64,9 +64,8 @@ const UI: React.FC<UIProps> = ({ children }) => {
             borderRadius="lg"
             boxShadow="sm"
             transition="background-color 2s ease-in-out, box-shadow 0.3s ease-in-out"
-            _hover={{ bg: "rgba(255, 240, 229, 0.70)" }}
           >
-            <Flex justify="center" align="center">
+            <Flex justify="center" align="center" gap={4}>
               <Image
                 src="/hurricane.jpg"
                 alt="Hurricane"
@@ -80,11 +79,10 @@ const UI: React.FC<UIProps> = ({ children }) => {
               <Text
                 fontSize="md"
                 fontWeight="bold"
-                color="#494946"
+                color="#FFFFFF"
                 opacity={0}
                 animation={`${fadeInColor} 2s ease-in forwards`}
                 transition="all 0.3s ease-in-out"
-                _hover={{ transform: "scale(1.05)" }}
               >
                 Team Hurricane
               </Text>
@@ -101,7 +99,7 @@ const UI: React.FC<UIProps> = ({ children }) => {
             <Flex>
               <Box
                 flex={1}
-                bg="#E4EDC4"
+                bg="#C5C6C7"
                 borderRadius="xl"
                 p={4}
                 mr={4}

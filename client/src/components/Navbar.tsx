@@ -3,11 +3,14 @@ import {
   Box,
   HStack,
   Heading,
-  Select,
   Button,
   ButtonGroup,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from "@chakra-ui/react";
-import { RepeatIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, RepeatIcon } from "@chakra-ui/icons";
 import { VisualizationType } from "../types/ChartDataItemInterface";
 import HeatmapControls, { HeatmapType } from "./controls/HeatMapControls";
 
@@ -23,6 +26,7 @@ interface NavbarProps {
   onHeatmapChange: (type: HeatmapType) => void;
   onDemographicChange: (group: string) => void;
   setTabIndex: (tabIndex: number) => void;
+  selectedDemographic: string;
 }
 
 const Navbar: React.FC<NavbarProps> = ({
@@ -36,7 +40,8 @@ const Navbar: React.FC<NavbarProps> = ({
   heatmapType,
   onHeatmapChange,
   onDemographicChange,
-  setTabIndex
+  setTabIndex,
+  selectedDemographic,
 }) => {
   const handleReset = () => {
     onStateChange("State");
@@ -61,25 +66,34 @@ const Navbar: React.FC<NavbarProps> = ({
       </Heading>
       <HStack spacing={4}>
         <HStack spacing={2}>
-          <Select
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-              onStateChange(e.target.value);
-            }}
-            value={state}
-            bg="white"
-            width="200px"
-          >
-            <option>State</option>
-            <option>New York</option>
-            <option>Arkansas</option>
-          </Select>
+          {/* State Selection Menu */}
+          <Menu>
+            <MenuButton
+              as={Button}
+              rightIcon={<ChevronDownIcon />}
+              bg="#DEF2F1"
+              _hover={{ bg: "#45A29E" }}
+            >
+              {state === "State" ? "Select State" : state}
+            </MenuButton>
+            <MenuList>
+              <MenuItem onClick={() => onStateChange("State")}>State</MenuItem>
+              <MenuItem onClick={() => onStateChange("New York")}>
+                New York
+              </MenuItem>
+              <MenuItem onClick={() => onStateChange("Arkansas")}>
+                Arkansas
+              </MenuItem>
+            </MenuList>
+          </Menu>
+
           {state !== "State" && (
             <>
               <ButtonGroup isAttached variant="solid" size="md">
                 <Button
                   onClick={() => handleGeoLevelChange("district")}
-                  bg={geoLevel === "district" ? "#F7CFF2" : "white"}
-                  _hover={{ bg: "#F7CFF2" }}
+                  bg={geoLevel === "district" ? "#DEF2F1" : "white"}
+                  _hover={{ bg: "#45A29E" }}
                   borderRadius="md"
                   borderRight="1px solid"
                   borderColor="gray.200"
@@ -88,8 +102,8 @@ const Navbar: React.FC<NavbarProps> = ({
                 </Button>
                 <Button
                   onClick={() => handleGeoLevelChange("precinct")}
-                  bg={geoLevel === "precinct" ? "#F7CFF2" : "white"}
-                  _hover={{ bg: "#F7CFF2" }}
+                  bg={geoLevel === "precinct" ? "#DEF2F1" : "white"}
+                  _hover={{ bg: "#45A29E" }}
                   borderRadius="md"
                 >
                   Precincts
@@ -101,6 +115,7 @@ const Navbar: React.FC<NavbarProps> = ({
                   onHeatmapChange={onHeatmapChange}
                   currentType={heatmapType}
                   onDemographicChange={onDemographicChange}
+                  selectedDemographic={selectedDemographic}
                 />
               )}
             </>
@@ -108,7 +123,7 @@ const Navbar: React.FC<NavbarProps> = ({
           <Button
             onClick={handleReset}
             bg="white"
-            _hover={{ bg: "#F7CFF2" }}
+            _hover={{ bg: "#45A29E" }}
             aria-label="Reset selection"
             title="Reset selection"
           >

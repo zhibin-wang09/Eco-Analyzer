@@ -29,7 +29,7 @@ const MainLayout = () => {
   const [heatmapType, setHeatmapType] = useState<HeatmapType>("none");
   const [selectedDistrict, setSelectedDistrict] = useState<number | null>(null);
   const [tabIndex, setTabIndex] = useState(0);
-  const [selectedDemographic, setSelectedDemographic] = useState<string>("white");
+  const [selectedDemographic, setSelectedDemographic] = useState<string>("White");
   const [stateSummaryData, setStateSummaryData] = useState<any>(null);
 
   const direction = useBreakpointValue({
@@ -126,6 +126,7 @@ const MainLayout = () => {
                 onHeatmapChange={setHeatmapType}
                 onDemographicChange={setSelectedDemographic}
                 setTabIndex={handleTabChange}
+                selectedDemographic={selectedDemographic}
               />
             </Box>
   
