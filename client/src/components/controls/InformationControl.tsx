@@ -53,7 +53,7 @@ const InformationControl = ({
           <Tab>Districts Detail</Tab>
           <Tab>Gingles</Tab>
           <Tab>Box & Whisker</Tab>
-          <Tab>Hierarchical</Tab>
+          <Tab>Ecological Inference</Tab>
         </TabList>
       </Tabs>
 
