@@ -224,7 +224,7 @@ const KDEGraph = ({ width = 800, height = 400, data }: { width: number; height: 
       </svg>
 
       {/* Legend */}
-      <HStack spacing={6} mt={4} px={4} justify="center" wrap="wrap">
+      <HStack spacing={6} mt={1} px={4} justify="center" wrap="wrap">
         {densityData.map((data, index) => (
           <HStack key={index} spacing={2} align="center">
             <Box w="16px" h="16px" bg={data.color} borderRadius="sm" />

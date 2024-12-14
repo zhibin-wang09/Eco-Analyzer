@@ -32,12 +32,13 @@ const InformationControl = ({
         colorScheme="blue"
         index={tabIndex}
         onChange={handleTabChange}
-        mb={2}
+        mb={-2}
         size="sm"
       >
         <TabList
           overflowX="auto"
           pb={2}
+          justifyContent="center"
           sx={{
             scrollbarWidth: "thin",
             "&::-webkit-scrollbar": {
@@ -49,11 +50,11 @@ const InformationControl = ({
             },
           }}
         >
-          <Tab>Summary</Tab>
-          <Tab>Districts Detail</Tab>
-          <Tab>Gingles</Tab>
-          <Tab>Box & Whisker</Tab>
-          <Tab>Ecological Inference</Tab>
+          <Tab mr={5}>Summary</Tab>
+          <Tab mr={5}>Districts Detail</Tab>
+          <Tab mr={5}>Gingles</Tab>
+          <Tab mr={5}>Box & Whisker</Tab>
+          <Tab mr={5}>Ecological Inference</Tab>
         </TabList>
       </Tabs>
 
