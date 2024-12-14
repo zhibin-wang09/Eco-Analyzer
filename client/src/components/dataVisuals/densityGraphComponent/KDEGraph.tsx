@@ -14,8 +14,8 @@ export interface DataPoint {
 
 // Kernel Density Estimator with more flexible implementation
 function kernelDensityEstimator(
-  kernel: (v: number) => number, 
-  X: number[], 
+  kernel: (v: number) => number,
+  X: number[],
   bandwidth: number = 0.05
 ) {
   return function (V: number[]): [number, number][] {
@@ -43,26 +43,16 @@ interface KDEGraphProps {
   bandwidth?: number; // Optional custom bandwidth
 }
 
-const KDEGraph: React.FC<KDEGraphProps> = ({ 
-  width, 
-  height, 
-  data, 
-  bandwidth = 0.05 
+const KDEGraph: React.FC<KDEGraphProps> = ({
+  width,
+  height,
+  data,
+  bandwidth = 0.05,
 }) => {
-  // Prepare color scale for multiple groups
-  const colorScale = useMemo(() => {
-    // Explicitly filter out undefined categories and convert to string
-    const uniqueCategories = Array.from(
-      new Set(
-        data
-          .map(d => d.category)
-          .filter((category): category is string => category !== undefined)
-      )
-    );
-    
-    return d3.scaleOrdinal()
-      .domain(uniqueCategories)
-      .range(d3.schemeCategory10);
+  // Generate unique colors for each data point
+  const assignedColors = useMemo(() => {
+    const colorScale = d3.scaleOrdinal(d3.schemeTableau10);
+    return data.map((d, i) => d.color || colorScale(String(i)));
   }, [data]);
 
   // Extract posteriorMeans
@@ -70,19 +60,16 @@ const KDEGraph: React.FC<KDEGraphProps> = ({
 
   // Compute overall domain for X scale (proportion)
   const xDomain = useMemo(() => {
-    const allIntervals = data.flatMap(d => d.interval);
+    const allIntervals = data.flatMap((d) => d.interval);
     return [
-      Math.min(...allIntervals) * 0.95, 
-      Math.max(...allIntervals) * 1.05
+      Math.min(...allIntervals) * 0.95,
+      Math.max(...allIntervals) * 1.05,
     ];
   }, [data]);
 
   // X scale (Proportion scale)
   const xScale = useMemo(() => {
-    return d3
-      .scaleLinear()
-      .domain(xDomain)
-      .range([40, width - 40]);
+    return d3.scaleLinear().domain(xDomain).range([40, width - 40]);
   }, [width, xDomain]);
 
   // Compute kernel density estimation for each group
@@ -92,30 +79,29 @@ const KDEGraph: React.FC<KDEGraphProps> = ({
       xScale.ticks(100)
     );
 
-    return data.map(group => ({
+    return data.map((group, i) => ({
       group,
-      density: kde(
-        // Sample points around the posterior mean and interval
-        [
-          ...group.interval, 
-          group.posteriorMean,
-          ...(Array(10).fill(0).map((_, i) => 
-            group.posteriorMean + (Math.random() - 0.5) * (group.interval[1] - group.interval[0])
-          ))
-        ]
-      )
+      color: assignedColors[i],
+      density: kde([
+        ...group.interval,
+        group.posteriorMean,
+        ...Array(10)
+          .fill(0)
+          .map(
+            () =>
+              group.posteriorMean +
+              (Math.random() - 0.5) * (group.interval[1] - group.interval[0])
+          ),
+      ]),
     }));
-  }, [data, xScale, bandwidth]);
+  }, [data, xScale, bandwidth, assignedColors]);
 
   // Y scale (Density scale)
   const yScale = useMemo(() => {
-    const maxDensity = Math.max(...densityData.flatMap(
-      d => d.density.map(point => point[1])
-    ));
-    return d3
-      .scaleLinear()
-      .range([height - 40, 40])
-      .domain([0, maxDensity * 1.1]);
+    const maxDensity = Math.max(
+      ...densityData.flatMap((d) => d.density.map((point) => point[1]))
+    );
+    return d3.scaleLinear().range([height - 40, 40]).domain([0, maxDensity * 1.1]);
   }, [densityData, height]);
 
   // Line generator for KDE
@@ -128,44 +114,37 @@ const KDEGraph: React.FC<KDEGraphProps> = ({
   return (
     <svg width={width} height={height}>
       {/* KDE Lines and Shaded Areas */}
-      {densityData.map((data, index) => {
-        const color = data.group.color || 
-          (data.group.category 
-            ? colorScale(data.group.category) as string 
-            : d3.schemeCategory10[index % 10]);
-        
-        return (
-          <React.Fragment key={index}>
-            {/* Shaded Area */}
-            <path
-              d={`
-                ${lineGenerator(data.density)!} 
-                L ${xScale(data.group.interval[1])} ${yScale(0)}
-                L ${xScale(data.group.interval[0])} ${yScale(0)}
-                Z
-              `}
-              fill={color}
-              opacity={0.2}
-            />
+      {densityData.map((data, index) => (
+        <React.Fragment key={index}>
+          {/* Shaded Area */}
+          <path
+            d={`
+              ${lineGenerator(data.density)!} 
+              L ${xScale(data.group.interval[1])} ${yScale(0)}
+              L ${xScale(data.group.interval[0])} ${yScale(0)}
+              Z
+            `}
+            fill={data.color}
+            opacity={0.2}
+          />
 
-            {/* Density Line */}
-            <path
-              d={lineGenerator(data.density)!}
-              fill="none"
-              stroke={color}
-              strokeWidth={2}
-            />
+          {/* Density Line */}
+          <path
+            d={lineGenerator(data.density)!}
+            fill="none"
+            stroke={data.color}
+            strokeWidth={2}
+          />
 
-            {/* Posterior Mean Point */}
-            <circle
-              cx={xScale(data.group.posteriorMean)}
-              cy={yScale(0)}
-              r={5}
-              fill={color}
-            />
-          </React.Fragment>
-        );
-      })}
+          {/* Posterior Mean Point */}
+          <circle
+            cx={xScale(data.group.posteriorMean)}
+            cy={yScale(0)}
+            r={5}
+            fill={data.color}
+          />
+        </React.Fragment>
+      ))}
 
       {/* X-axis */}
       <g transform={`translate(0,${height - 40})`}>
@@ -178,9 +157,9 @@ const KDEGraph: React.FC<KDEGraphProps> = ({
             </text>
           </g>
         ))}
-        <text 
-          x={width / 2} 
-          y={40} 
+        <text
+          x={width / 2}
+          y={40}
           textAnchor="middle"
           fontWeight="bold"
         >
