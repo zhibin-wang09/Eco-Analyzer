@@ -32,24 +32,24 @@ const KDEGraph = ({
   // Generate unique colors for each data point
   const assignedColors = useMemo(() => {
     // Color schemes for different types of data
-    const demographicColors = [
-      "#2E5EAA", // Blue
-      "#AA2E2E", // Red
-      "#2EAA5E", // Green
-      "#AA2E8C", // Purple
-      "#AA8C2E", // Gold
-    ];
+    const demographicColors: Record<string, string> = {
+      'White': "#2E5EAA",    // Blue
+      'Black': "#AA2E2E",    // Red
+      'Asian': "#2EAA5E",    // Green
+      'Hispanic': "#AA2E8C", // Purple
+      'Other': "#AA8C2E",    // Gold
+    }
 
-    const incomeColors = [
-      "#264653", // Dark Blue
-      "#2A9D8F", // Teal
-      "#E9C46A", // Yellow
-      "#F4A261", // Orange
-      "#E76F51", // Salmon
-      "#843B62", // Purple
-      "#621B00", // Brown
-      "#6B0F1A", // Dark Red
-    ];
+    const incomeColors :  Record<string, string> = {
+      "0_to_9999": "#264653",        // Dark Blue
+      "10000_to_14999": "#2A9D8F",   // Teal
+      "15000_to_24999": "#E9C46A",   // Yellow
+      "25000_to_34999": "#F4A261",   // Orange
+      "35000_to_49999": "#E76F51",   // Salmon
+      "50000_to_74999": "#843B62",   // Purple
+      "75000_to_99999": "#621B00",   // Brown
+      "100000_and_more": "#6B0F1A",  // Dark Red
+    }
 
     const regionColors = {
       rural: "#68D391", // Green
@@ -59,18 +59,22 @@ const KDEGraph = ({
 
     return data.map((d, index) => {
       // Check if it's a region type
-      if (d.range.toLowerCase().includes("rural")) return regionColors.rural;
-      if (d.range.toLowerCase().includes("suburban"))
+      if (d.range.toLowerCase().includes("rural")) {
+        return regionColors.rural;
+      }
+      if (d.range.toLowerCase().includes("suburban")) {
         return regionColors.suburban;
-      if (d.range.toLowerCase().includes("urban")) return regionColors.urban;
-
-      // Check if it's an income range
-      if (d.range.includes("k") || d.range.includes("-")) {
-        return incomeColors[index % incomeColors.length];
+      }
+      if (d.range.toLowerCase().includes("urban")) {
+        return regionColors.urban;
+      }
+      
+      if(d.category === 'DEMOGRAPHIC'){
+        return demographicColors[d.range];
+      }else if(d.category === 'ECONOMIC'){
+        return incomeColors[d.range];
       }
 
-      // Default to demographic colors
-      return demographicColors[index % demographicColors.length];
     });
   }, [data]);
 
