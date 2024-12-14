@@ -335,6 +335,7 @@ public class DataDisplayService {
 		return percentagePopulationByRegionType;
 	}
 
+	@Cacheable(value = "precinctDetail")
 	public Map<String, Object> getPrecinctDetail(int stateId, String geoId) {
 		Map<String, Object> precinctDetail = new HashMap<>();
 		Demographic demographic = demographicRepository.findDemographicByStateIdAndGeoId(stateId, geoId);
@@ -359,6 +360,7 @@ public class DataDisplayService {
 		return precinctDetail;
 	}
 
+	@Cacheable(value ="boxplot")
 	public List<BoxPlot> getBoxPlot(int stateId, Category category, RegionType regionType) {
 		List<BoxPlot> boxplots = boxPlotRepository.findBoxPlotByStateIdAndCategoryAndRegionType(stateId, category,
 				regionType);
@@ -376,6 +378,7 @@ public class DataDisplayService {
 		return boxplots;
 	}
 
+	@Cacheable(value ="boxplotByRange")
 	public List<BoxPlot> getBoxPlotByRange(int stateId, Category category, RegionType regionType, String range) {
 		List<BoxPlot> boxplots = boxPlotRepository.findBoxPlotByStateIdAndCategoryAndRegionTypeAndRange(stateId,
 				category, regionType, range);
@@ -393,6 +396,7 @@ public class DataDisplayService {
 		return boxplots;
 	}
 
+	@Cacheable(value = "ecologicalInference")
 	public List<EcologicalInference> getEcologicalInferenceData(int stateId, Category category, String candidate,
 			String[] range) {
 		for (int i = 0; i < range.length; i++) {

@@ -1,66 +1,81 @@
-import React from 'react';
-import { Box, VStack, HStack, Text, Square } from '@chakra-ui/react';
-import { HeatmapType } from './controls/HeatMapControls';
+import React from "react";
+import { Box, VStack, HStack, Text, Square } from "@chakra-ui/react";
+import { HeatmapType } from "./controls/HeatMapControls";
 
 interface MapLegendProps {
   heatmapType: HeatmapType;
   selectedDemographic?: string;
 }
 
-const MapLegend: React.FC<MapLegendProps> = ({ heatmapType, selectedDemographic }) => {
+const MapLegend: React.FC<MapLegendProps> = ({
+  heatmapType,
+  selectedDemographic,
+}) => {
   const getLegendItems = () => {
     switch (heatmapType) {
-      case 'demographic':
+      case "demographic":
         return {
-          title: `${selectedDemographic?.charAt(0).toUpperCase()}${selectedDemographic?.slice(1)} %`,
+          title: `${selectedDemographic
+            ?.charAt(0)
+            .toUpperCase()}${selectedDemographic?.slice(1)} %`,
           items: [
-            { color: '#FFE5E5', label: '0-20%' },
-            { color: '#FF9999', label: '20-40%' },
-            { color: '#FF4D4D', label: '40-60%' },
-            { color: '#CC0000', label: '60-80%' },
-            { color: '#660000', label: '80-100%' },
+            { color: "#FFE5E5", label: "0-20%" },
+            { color: "#FF9999", label: "20-40%" },
+            { color: "#FF4D4D", label: "40-60%" },
+            { color: "#CC0000", label: "60-80%" },
+            { color: "#660000", label: "80-100%" },
           ],
         };
 
-      case 'poverty':
+      case "poverty":
         return {
-          title: 'Poverty Level',
+          title: "Poverty Level",
           items: [
-            { color: '#E5F2FF', label: 'Low' },
-            { color: '#99CCF3', label: 'Medium-Low' },
-            { color: '#4D9BE6', label: 'Medium' },
-            { color: '#0066CC', label: 'Medium-High' },
-            { color: '#003366', label: 'High' },
+            { color: "#E5F2FF", label: "Low" },
+            { color: "#99CCF3", label: "Medium-Low" },
+            { color: "#4D9BE6", label: "Medium" },
+            { color: "#0066CC", label: "Medium-High" },
+            { color: "#003366", label: "High" },
           ],
         };
 
-      case 'economic':
+      case "economic":
         return {
-          title: 'Income Level',
+          title: "Income Level",
           items: [
-            { color: '#E5FFE5', label: 'Low' },
-            { color: '#99FF99', label: 'Medium-Low' },
-            { color: '#4DFF4D', label: 'Medium' },
-            { color: '#00CC00', label: 'Medium-High' },
-            { color: '#006600', label: 'High' },
+            { color: "#E5FFE5", label: "Low" },
+            { color: "#99FF99", label: "Medium-Low" },
+            { color: "#4DFF4D", label: "Medium" },
+            { color: "#00CC00", label: "Medium-High" },
+            { color: "#006600", label: "High" },
           ],
         };
 
-      case 'politicalincome':
+      case "politicalincome":
         return {
-          title: 'Income by Party',
+          title: "Income by Party",
           items: [
-            { color: '#FF9999', label: 'Low Rep.' },
-            { color: '#FF0000', label: 'High Rep.' },
-            { color: '#9999FF', label: 'Low Dem.' },
-            { color: '#0000FF', label: 'High Dem.' },
+            { color: "#FF9999", label: "Low Rep." },
+            { color: "#FF0000", label: "High Rep." },
+            { color: "#9999FF", label: "Low Dem." },
+            { color: "#0000FF", label: "High Dem." },
           ],
         };
 
-      case 'none':
+      case "urbanicity":
+        return {
+          title: "Region Type",
+          items: [
+            { color: "#5158BB", label: "Rural" },
+            { color: "#6E9887", label: "Suburban" },
+            { color: "#32E875", label: "Urban" },
+          ],
+        };
+
+      case "none":
       default:
         return {
-          title: '',
+          title: "",
           items: [],
         };
     }
@@ -92,10 +107,10 @@ const MapLegend: React.FC<MapLegendProps> = ({ heatmapType, selectedDemographic 
         </Text>
         {legend.items.map((item, index) => (
           <HStack key={index} spacing={1} w="100%">
-            <Square 
-              size="12px" 
-              bg={item.color} 
-              border="1px solid" 
+            <Square
+              size="12px"
+              bg={item.color}
+              border="1px solid"
               borderColor="gray.300"
               opacity={0.7}
             />
