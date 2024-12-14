@@ -13,6 +13,7 @@ import com.example.demo.common.RegionType;
 import com.example.demo.common.Category;
 import com.example.demo.model.DistrictDetail;
 import com.example.demo.model.DistrictDetail.Data;
+import com.example.demo.model.EcologicalInference;
 import com.example.demo.model.BoxPlot;
 import com.example.demo.model.Demographic;
 import com.example.demo.model.Gingles;
@@ -26,6 +27,7 @@ import com.example.demo.repository.ElectionResultRepository;
 import com.example.demo.repository.IncomeRepository;
 import com.example.demo.repository.UrbanicityRepository;
 import com.example.demo.repository.DistrictDetailRepository;
+import com.example.demo.repository.EcologicalInferenceRepository;
 
 @Service
 public class DataDisplayService {
@@ -36,18 +38,21 @@ public class DataDisplayService {
 	DistrictDetailRepository districtDetailRepository;
 	UrbanicityRepository urbanicityRepository;
 	BoxPlotRepository boxPlotRepository;
+	EcologicalInferenceRepository ecologicalInferenceRepository;
 
 	public DataDisplayService(DemographicRepository demographicRepository,
 			ElectionResultRepository electionResultRepository, IncomeRepository incomeRepository,
 			DistrictDetailRepository districtDetailRepository,
 			UrbanicityRepository urbanicityRepository,
-			BoxPlotRepository boxPlotRepository) {
+			BoxPlotRepository boxPlotRepository,
+			EcologicalInferenceRepository ecologicalInferenceRepository) {
 		this.demographicRepository = demographicRepository;
 		this.electionResultRepository = electionResultRepository;
 		this.incomeRepository = incomeRepository;
 		this.districtDetailRepository = districtDetailRepository;
 		this.urbanicityRepository = urbanicityRepository;
 		this.boxPlotRepository = boxPlotRepository;
+		this.ecologicalInferenceRepository = ecologicalInferenceRepository;
 	}
 
 	@Cacheable(value = "gingles")
@@ -382,5 +387,9 @@ public class DataDisplayService {
 			boxplot.setQ3(boxplot.getQ3()/ totalPopulation);
 		}
 		return boxplots;
+	}
+
+	public EcologicalInference getEcologicalInferenceData(int stateId, Category category, String range){
+		return ecologicalInferenceRepository.findEcologicalInferenceByStateIdAndCategoryAndRange(stateId, category, range);
 	}
 }

@@ -985,7 +985,7 @@ async function processBoxWhisker(file1, sortByRegion) {
                 geoId: districtNumber.padStart(2, "0"),
                 stateId: stateId,
                 regionType: regionType.toUpperCase(),
-                category: m == 'race' ? "DEMOGRAPHIC": "ECONOMIC",
+                category: m == "race" ? "DEMOGRAPHIC" : "ECONOMIC",
                 range: r,
                 boxPlot: ranges[r],
               };
@@ -998,19 +998,23 @@ async function processBoxWhisker(file1, sortByRegion) {
     } else {
       for (let districtNumber in data) {
         const district = data[districtNumber];
-          for (let ranges in district) {
-            const boxPlot = district[ranges];
-              const json = {
-                geoId: districtNumber.padStart(2, "0"),
-                stateId: stateId,
-                regionType: "ALL",
-                category: file1.includes("income") ? "ECONOMIC" : file1.includes("race") ? "DEMOGRAPHIC" : "URBANICITY" ,
-                range: ranges,
-                boxPlot: boxPlot,
-              };
+        for (let ranges in district) {
+          const boxPlot = district[ranges];
+          const json = {
+            geoId: districtNumber.padStart(2, "0"),
+            stateId: stateId,
+            regionType: "ALL",
+            category: file1.includes("income")
+              ? "ECONOMIC"
+              : file1.includes("race")
+              ? "DEMOGRAPHIC"
+              : "URBANICITY",
+            range: ranges,
+            boxPlot: boxPlot,
+          };
 
-              result.push(json);
-            }
+          result.push(json);
+        }
       }
     }
 
@@ -1023,7 +1027,6 @@ async function processBoxWhisker(file1, sortByRegion) {
     console.log(e);
   }
 }
-
 
 // const fileNames = ["_district_region_summaries","_district_region_race_income_summary","_district_summaries_income","_district_summaries_race"];
 // const states = ["AR", "NY"];
@@ -1038,72 +1041,75 @@ async function processBoxWhisker(file1, sortByRegion) {
 
 // file1 is geoemtries.json
 // file2 is test_ensemble file
-async function generateDistrictPlan(file1, file2, districtPlanNum){
+async function generateDistrictPlan(file1, file2, districtPlanNum) {
   try {
-      const file1Path = path.join(__dirname, file1);
-      const file2Path = path.join(__dirname, file2);
+    const file1Path = path.join(__dirname, file1);
+    const file2Path = path.join(__dirname, file2);
 
-      const file1Content = await fsp.readFile(file1Path, 'utf-8');
-      const file2Content = await fsp.readFile(file2Path, 'utf-8');
+    const file1Content = await fsp.readFile(file1Path, "utf-8");
+    const file2Content = await fsp.readFile(file2Path, "utf-8");
 
-      const file1Json = JSON.parse(file1Content);
-      const file2Json = JSON.parse(file2Content);
-      const colors = [
-        '#2F0147',
-        '#043565',
-        '#553555',
-        '#FFFD98',
-        '#5158BB',
-        '#6E9887',
-        '#32E875',
-        '#5438DC',
-        '#EB4B98',
-        '#5C1A1B',
-        '#AED4E6',
-        '#96C5B0',
-        '#59C9A5',
-        '#F26DF9',
-        '#23395B',
-        '#755B69',
-        '#C5AFA4',
-        '#ADF1D2',
-        '#56EEF4',
-        '#1AC8ED',
-        '#F283B6',
-        '#AF7595',
-        '#B9E3C6',
-        '#02394A',
-        '#D81E5B',
-        '#76818E'
-      ];
+    const file1Json = JSON.parse(file1Content);
+    const file2Json = JSON.parse(file2Content);
+    const colors = [
+      "#2F0147",
+      "#043565",
+      "#553555",
+      "#FFFD98",
+      "#5158BB",
+      "#6E9887",
+      "#32E875",
+      "#5438DC",
+      "#EB4B98",
+      "#5C1A1B",
+      "#AED4E6",
+      "#96C5B0",
+      "#59C9A5",
+      "#F26DF9",
+      "#23395B",
+      "#755B69",
+      "#C5AFA4",
+      "#ADF1D2",
+      "#56EEF4",
+      "#1AC8ED",
+      "#F283B6",
+      "#AF7595",
+      "#B9E3C6",
+      "#02394A",
+      "#D81E5B",
+      "#76818E",
+    ];
 
-      const map = new Map();
-      const plans = file2Json.plan;
-      for(let p in plans){
-        map.set(Number(p), plans[p]); // precinct -> district
+    const map = new Map();
+    const plans = file2Json.plan;
+    for (let p in plans) {
+      map.set(Number(p), plans[p]); // precinct -> district
+    }
+
+    const result = [];
+    const stateId = file1.toLowerCase().includes("ar") ? 5 : 36;
+    for (let features of file1Json) {
+      if (map.has(features.node)) {
+        // this precinct belongs in the geojson
+        result.push({
+          type: "Feature",
+          geometry: features.geometry,
+          properties: {
+            stateId: stateId,
+            geoType: "PRECINCT",
+            districtPlan: districtPlanNum,
+            district: map.get(features.node),
+            shading: colors[map.get(features.node)],
+          },
+        });
       }
+    }
 
-      const result = [];
-      const stateId = file1.toLowerCase().includes('ar') ? 5 : 36;
-      for(let features of file1Json){
-        if(map.has(features.node)){
-          // this precinct belongs in the geojson
-          result.push({
-            type: "Feature",
-            geometry: features.geometry,
-            properties: {
-              stateId: stateId,
-              geoType: "PRECINCT",
-              districtPlan: districtPlanNum,
-              district: map.get(features.node),
-              shading: colors[map.get(features.node)],
-            }
-          })
-        }
-      }
-
-    const stateAbbrev = file1.toLowerCase().includes('ar') ? 'ar' : 'ny';
-    await fsp.writeFile(stateAbbrev + "_district_plan_" + districtPlanNum +".json", JSON.stringify(result))
+    const stateAbbrev = file1.toLowerCase().includes("ar") ? "ar" : "ny";
+    await fsp.writeFile(
+      stateAbbrev + "_district_plan_" + districtPlanNum + ".json",
+      JSON.stringify(result)
+    );
     console.log("success");
   } catch (error) {
     console.log(error);
@@ -1111,25 +1117,82 @@ async function generateDistrictPlan(file1, file2, districtPlanNum){
 }
 
 // get colors used in a geojson
-async function getColor(file1){
+async function getColor(file1) {
   try {
-      const file1Path = path.join(__dirname, file1);
+    const file1Path = path.join(__dirname, file1);
 
-      const file1Content = await fsp.readFile(file1Path, 'utf-8');
+    const file1Content = await fsp.readFile(file1Path, "utf-8");
 
-      const file1Json = JSON.parse(file1Content);
+    const file1Json = JSON.parse(file1Content);
 
-      const set = new Set();
-      for(let feature of file1Json){
-        set.add(feature.properties.shading);
-      }
+    const set = new Set();
+    for (let feature of file1Json) {
+      set.add(feature.properties.shading);
+    }
 
-      console.log(set);
+    console.log(set);
   } catch (error) {
     console.log(error);
   }
 }
 
-const files = [];
+// generateDistrictPlan("ar_geometries.json", "test_ensemble_core_3_step_222.json", 1);
 
-generateDistrictPlan("ar_geometries.json", "test_ensemble_core_3_step_222.json", 1);
+async function pyeiSummaryIntoDatabaseFormat(file, type) {
+  try {
+    const filePath = path.join(__dirname, file);
+    const fileContent = await fsp.readFile(filePath, "utf8");
+
+    const json = [];
+    let lines = fileContent.toString().split("\n").slice(3);
+    lines = lines.map((line) => line.trim());
+    let count = 0;
+    let stateId = file.toLowerCase().includes("ar") ? 5 : 36;
+    for (let i = 0; i < lines.length; i += 4) {
+      let words = lines[i + 1].split(" ");
+      let range = words[0];
+      let candidate = words[2];
+
+      words = lines[i + 2].split(" ");
+      let posteriorMean = words[0];
+
+      let interval = lines[i + 3].slice(lines[i + 3].indexOf("[")).split(" ");
+
+      let j = {
+        stateId: stateId,
+        category: type.toUpperCase(),
+        range: range,
+        posteriorMean: posteriorMean,
+        candidate: candidate,
+        interval: [
+          Number(interval[0].slice(1)),
+          Number(interval[1].slice(0, interval[1].length - 1)),
+        ],
+      };
+
+      json.push(j);
+    }
+
+    await fsp.writeFile(
+      file.slice(0, file.length - 4) + ".json",
+      JSON.stringify(json, null, 2)
+    );
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function test(file){
+  const filePath = path.join(__dirname, file);
+    const fileContent = await fsp.readFile(filePath, "utf8");
+
+    const data = JSON.parse(fileContent);
+
+    for(let d of data){
+      d.posteriorMean = Number(d.posteriorMean);
+    }
+
+    await fsp.writeFile(file, JSON.stringify(data,null,2));
+}
+
+pyeiSummaryIntoDatabaseFormat("ar pyei mggg urban.txt", 'urbanicity')
