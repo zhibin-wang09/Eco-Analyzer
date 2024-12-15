@@ -10,14 +10,18 @@ import {
 } from "recharts";
 
 const COLORS = [
-  "#2E5EAA", // Primary blue
-  "#FF6B6B", // Coral
-  "#4CAF50", // Green
-  "#FFA726", // Orange
-  "#9575CD", // Purple
-  "#4DB6AC", // Teal
-  "#FFD54F", // Amber
-  "#7986CB", // Indigo
+  "#1E88E5", // Bright Blue
+  "#D81B60", // Deep Pink
+  "#43A047", // Forest Green
+  "#FB8C00", // Vibrant Orange
+  "#8E24AA", // Rich Purple
+  "#00ACC1", // Cyan
+  "#FDD835", // Yellow
+  "#5C6BC0", // Indigo
+  "#F4511E", // Burnt Orange
+  "#3949AB", // Deep Indigo
+  "#00C853", // Neon Green
+  "#FF7043", // Coral Red
 ];
 
 interface ChartDataItem {

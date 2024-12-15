@@ -27,12 +27,14 @@ const StateOverviewChart = ({
   data,
   title,
   xAxisLabel,
-  height
+  height,
+  yaxis
 }: {
   data: ChartDataItem[];
   title: string;
   xAxisLabel: string;
   height: string;
+  yaxis: string;
 }) => {
   const bgColor = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.100', 'gray.700');
@@ -51,7 +53,7 @@ const StateOverviewChart = ({
       >
         <Text fontWeight="semibold">{label}</Text>
         <Text fontSize="sm">
-          Population: {payload[0].value.toLocaleString()}
+          {yaxis}: {payload[0].value.toLocaleString()}
         </Text>
       </Box>
     );
@@ -105,7 +107,7 @@ const StateOverviewChart = ({
               tickFormatter={(value) => value.toLocaleString()}  // Format large numbers
             >
               <Label
-                value="Population"
+                value={yaxis}
                 angle={-90}
                 position="insideLeft"
                 offset={-15}

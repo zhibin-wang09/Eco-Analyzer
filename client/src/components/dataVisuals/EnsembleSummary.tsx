@@ -17,11 +17,12 @@ const EnsembleSummary = ({ensembleSummary}: EnsembleSummaryProp) => {
 
       <Box height="250px">
         <StateOverviewChart
+        yaxis="# District Plan"
           data={Object.entries(ensembleSummary?.split_frequencies!).map(([name, value]) => ({
             name,
             value,
           })).sort((a, b) => Number(a.name.split('/')[0]) - Number(b.name.split('/')[0]))}
-          title="Republican/Democrat Split"
+          title="Democrat/Republican Split"
           xAxisLabel="Race"
           height="350px"
         />

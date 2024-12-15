@@ -1,8 +1,8 @@
-import React from 'react';
-import { Box, Grid, Text, VStack } from '@chakra-ui/react';
-import PieChartComponent from './Pie';
-import StateOverviewChart from './StateOverviewChart';
-import { Table, Thead, Tbody, Tr, Th, Td } from '@chakra-ui/react';
+import React from "react";
+import { Box, Grid, Text, VStack } from "@chakra-ui/react";
+import PieChartComponent from "./Pie";
+import StateOverviewChart from "./StateOverviewChart";
+import { Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
 
 interface ChartDataItem {
   name: string;
@@ -24,10 +24,10 @@ const StateSummary = ({
   voteData,
   regionData,
   totalPopulation,
-  representatives = []
+  representatives = [],
 }: StateSummaryProps) => {
   return (
-    <Box p={5} >
+    <Box p={5}>
       <Text fontSize="lg" fontWeight="semibold" mb={-3}>
         Total Population: {totalPopulation.toLocaleString()}
       </Text>
@@ -45,7 +45,10 @@ const StateSummary = ({
             {representatives.map((rep, index) => (
               <Tr key={index} _hover={{ bg: "gray.50" }}>
                 <Td fontSize="xs">{rep.name}</Td>
-                <Td fontSize="xs" color={rep.party === 'Democratic' ? 'blue.600' : 'red.600'}>
+                <Td
+                  fontSize="xs"
+                  color={rep.party === "Democratic" ? "blue.600" : "red.600"}
+                >
                   {rep.party}
                 </Td>
               </Tr>
@@ -53,27 +56,27 @@ const StateSummary = ({
           </Tbody>
         </Table>
       </Box>
-      
+
       {/* Pie Charts Grid */}
       <Grid templateColumns="repeat(2, 1fr)" gap={3} mb={-2}>
         <Box bg="white" p={4} borderRadius="xl" boxShadow="sm" height="160px">
-          <PieChartComponent
-            data={voteData}
-            title="Voter Distribution"
-          />
+          <PieChartComponent data={voteData} title="Voter Distribution" />
         </Box>
         <Box bg="white" p={4} borderRadius="xl" boxShadow="sm" height="160px">
-          <PieChartComponent
-            data={incomeData}
-            title="Income Distribution"
-          />
+          <PieChartComponent data={incomeData} title="Income Distribution" />
         </Box>
       </Grid>
 
       {/* Bar Chart */}
       <Box height="250px">
         <StateOverviewChart
-          data={racialData} 
+          yaxis="Population"
+          data={racialData.map(({ name, value }) => {
+            return {
+              name: name.slice(0, 1).toUpperCase() + name.slice(1),
+              value,
+            };
+          }).filter(({name, value}) => name !== 'American indian' && name !== 'Native hawaiian')}
           title="Population Distribution by Race"
           xAxisLabel="Race"
           height="350px"
