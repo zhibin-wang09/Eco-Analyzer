@@ -58,11 +58,11 @@ const StateSummary = ({
       </Box>
 
       {/* Pie Charts Grid */}
-      <Grid templateColumns="repeat(2, 1fr)" gap={3} mb={-2}>
-        <Box bg="white" p={4} borderRadius="xl" boxShadow="sm" height="160px">
+      <Grid templateColumns="repeat(2, 1fr)" gap={0}>
+        <Box bg="white" borderRadius="xl" boxShadow="sm" height="160px">
           <PieChartComponent data={voteData} title="Voter Distribution" />
         </Box>
-        <Box bg="white" p={4} borderRadius="xl" boxShadow="sm" height="160px">
+        <Box bg="white"borderRadius="xl" boxShadow="sm" height="160px">
           <PieChartComponent data={incomeData} title="Income Distribution" />
         </Box>
       </Grid>

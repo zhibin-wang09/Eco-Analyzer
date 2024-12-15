@@ -8,11 +8,13 @@ import { stateConversion } from "../../utils/util";
 interface DistrictDetailProps {
   onSelectDistrict: (district: number | null) => void;
   selectedState: string;
+  chosenDistrict?: string;
 }
 
 const DistrictDetail = ({
   onSelectDistrict,
   selectedState,
+  chosenDistrict,
 }: DistrictDetailProps) => {
   const [selectedDistrict, setSelectedDistrict] = useState<number | null>(null);
   const [districtTable, setDistrictTable] = useState<
