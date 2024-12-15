@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -366,11 +367,80 @@ public class DataDisplayService {
 		return precinctDetail;
 	}
 
+	public List<Map<String, Object>> getPrecincts(int stateId) {
+
+		List<Demographic> demographic = demographicRepository.findDemographicByStateIdAndGeoType(stateId,
+				GeoType.PRECINCT);
+		List<Urbanicity> urbanicity = urbanicityRepository.findUrbanicityByStateId(stateId);
+		List<Income> income = incomeRepository.findIncomeByStateIdAndGeoType(stateId, GeoType.PRECINCT);
+		List<Votes> vote = electionResultRepository.findVotesByStateIdAndGeoType(stateId, GeoType.PRECINCT);
+		Map<String, Income> geoIdToIncome = new HashMap<>();
+		Map<String, Votes> geoIdToVote = new HashMap<>();
+		Map<String, Urbanicity> geoIdToUrbanicity = new HashMap<>();
+
+		for (Income i : income) {
+			geoIdToIncome.put(i.getGeoId(), i);
+		}
+
+		for (Urbanicity u : urbanicity) {
+			geoIdToUrbanicity.put(u.getGeoId(), u);
+		}
+
+		for (Votes v : vote) {
+			geoIdToVote.put(v.getGeoId(), v);
+		}
+
+		List<Map<String, Object>> precincts = new ArrayList<>();
+		for (Demographic d : demographic) {
+			Map<String, Object> precinctDetail = new HashMap<>();
+			Map<String, Object> racialPopulation = new HashMap<>();
+			Urbanicity u = geoIdToUrbanicity.get(d.getGeoId());
+			Income ic = geoIdToIncome.get(d.getGeoId());
+			Votes v = geoIdToVote.get(d.getGeoId());
+
+			precinctDetail.put("precinct name", d.getGeoId());
+			precinctDetail.put("population", d.getRace().get("population"));
+			String[] races = new String[] { "white", "black", "asian", "hispanic", "other" };
+			for (int i = 0; i < races.length; i++) {
+				racialPopulation.put(races[i], d.getRace().get(races[i]));
+			}
+			precinctDetail.put("racial populatoin", racialPopulation);
+			precinctDetail.put("region type", u == null ? null : u.getUrbanicity().getType());
+
+			precinctDetail.put("average household income", ic == null ? null : ic.getIncome().get("average_income"));
+
+			precinctDetail.put("republic votes", v == null ? null : v.getElectionData().get("trump_votes"));
+			precinctDetail.put("republic votes", v == null ? null : v.getElectionData().get("biden_votes"));
+			precincts.add(precinctDetail);
+		}
+		return precincts;
+	}
+
 	@Cacheable(value = "boxplot")
 	public List<BoxPlot> getBoxPlot(int stateId, Category category, RegionType regionType) {
 		List<BoxPlot> boxplots = boxPlotRepository.findBoxPlotByStateIdAndCategoryAndRegionType(stateId, category,
 				regionType);
-		double totalPopulation = stateId == 36 ? 17161215 : 2096286;
+		double totalPopulation = getTotalPopulation(stateId, category);
+
+		for (BoxPlot b : boxplots) {
+			BoxPlotData boxplot = b.getBoxPlot();
+			if (boxplot == null)
+				return new ArrayList<>();
+			boxplot.setMax(boxplot.getMax() / totalPopulation * 100);
+			boxplot.setMin(boxplot.getMin() / totalPopulation * 100);
+			boxplot.setMedian(boxplot.getMedian() / totalPopulation * 100);
+			boxplot.setQ1(boxplot.getQ1() / totalPopulation * 100);
+			boxplot.setQ3(boxplot.getQ3() / totalPopulation * 100);
+		}
+
+		return boxplots;
+	}
+
+	@Cacheable(value = "boxplotByRange")
+	public List<BoxPlot> getBoxPlotByRange(int stateId, Category category, RegionType regionType, String range) {
+		List<BoxPlot> boxplots = boxPlotRepository.findBoxPlotByStateIdAndCategoryAndRegionTypeAndRange(stateId,
+				category, regionType, range);
+		double totalPopulation = getTotalPopulation(stateId, category);
 		for (BoxPlot b : boxplots) {
 			BoxPlotData boxplot = b.getBoxPlot();
 			if (boxplot == null)
@@ -384,10 +454,7 @@ public class DataDisplayService {
 		return boxplots;
 	}
 
-	@Cacheable(value = "boxplotByRange")
-	public List<BoxPlot> getBoxPlotByRange(int stateId, Category category, RegionType regionType, String range) {
-		List<BoxPlot> boxplots = boxPlotRepository.findBoxPlotByStateIdAndCategoryAndRegionTypeAndRange(stateId,
-				category, regionType, range);
+	public double getTotalPopulation(int stateId, Category category) {
 		double totalPopulation = 0;
 		if (category == Category.DEMOGRAPHIC) {
 			totalPopulation = stateId == 36 ? 17161215 : 2096286;
@@ -396,17 +463,51 @@ public class DataDisplayService {
 		} else if (category == Category.URBANICITY) {
 			totalPopulation = stateId == 36 ? 13283 : 2589;
 		}
-		for (BoxPlot b : boxplots) {
-			BoxPlotData boxplot = b.getBoxPlot();
-			if (boxplot == null)
-				return new ArrayList<>();
-			boxplot.setMax(boxplot.getMax() / totalPopulation * 100);
-			boxplot.setMin(boxplot.getMin() / totalPopulation * 100);
-			boxplot.setMedian(boxplot.getMedian() / totalPopulation * 100);
-			boxplot.setQ1(boxplot.getQ1() / totalPopulation * 100);
-			boxplot.setQ3(boxplot.getQ3() / totalPopulation * 100);
+
+		return totalPopulation;
+	}
+
+	public List<Map<String, Object>> getBoxPlotDots(int stateId, Category category, RegionType regionType,
+			String range) {
+		List<Map<String, Object>> result = new ArrayList<>();
+		List<Urbanicity> urbanicities = urbanicityRepository.findUrbanicityByStateId(stateId);
+		Map<String, Urbanicity> geoIdToUrbanicity = new HashMap<>();
+		for (Urbanicity u : urbanicities) {
+			geoIdToUrbanicity.put(u.getGeoId(), u);
 		}
-		return boxplots;
+
+		switch (category) {
+			case Category.DEMOGRAPHIC:
+				List<Demographic> demographics = demographicRepository.findDemographicByStateIdAndGeoType(stateId,
+						GeoType.PRECINCT);
+				urbanicities = filterUrbanicity(urbanicities, regionType);
+				int population = 0;
+				for (Demographic d : demographics) {
+					Urbanicity u = geoIdToUrbanicity.get(d.getGeoId());
+					if (u != null && u.getUrbanicity().getType().toLowerCase() == regionType
+							.toString().toLowerCase()) { // we got the desired precinct data
+						population += (Integer) d.getRace().get(range.toLowerCase());
+					}
+				}
+
+				break;
+
+			default:
+				break;
+		}
+		return new ArrayList<>();
+	}
+
+	public List<Urbanicity> filterUrbanicity(List<Urbanicity> urbanicity, RegionType regionType) {
+		List<Urbanicity> filtered = new ArrayList<>();
+		for (Urbanicity u : urbanicity) {
+
+			if (u.getUrbanicity().getType().toLowerCase() == regionType.toString().toLowerCase()
+					|| regionType.toString().toLowerCase() == "all") {
+				filtered.add(u);
+			}
+		}
+		return filtered;
 	}
 
 	@Cacheable(value = "ecologicalInference")

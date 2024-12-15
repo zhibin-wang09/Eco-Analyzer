@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -25,6 +27,8 @@ public class BoxPlot implements Serializable {
     private String range;
 
     private BoxPlotData boxPlot;
+
+    private List<Map<String, Object>> dots;
 
     public static class BoxPlotData implements Serializable {
         private Double min;

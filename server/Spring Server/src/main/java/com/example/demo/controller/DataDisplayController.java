@@ -68,7 +68,7 @@ public class DataDisplayController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping(value = "/api/precinct/table", produces = "application/json")
+    @GetMapping(value = "/api/precinct", produces = "application/json")
     public ResponseEntity<Map<String, Object>> getPrecinctDetail(
             @RequestParam String state, @RequestParam String geoId) {
         int id = StateIdConvertor.stringToId(State.valueOf(state.toUpperCase()));
@@ -79,6 +79,20 @@ public class DataDisplayController {
 
         Map<String, Object> precinctDetail = dataDisplayService.getPrecinctDetail(id, geoId);
         return ResponseEntity.ok(precinctDetail);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping(value = "/api/precinct/table", produces = "application/json")
+    public ResponseEntity<List<Map<String, Object>>> getPrecincs(
+            @RequestParam String state) {
+        int id = StateIdConvertor.stringToId(State.valueOf(state.toUpperCase()));
+
+        if (id == -1) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        List<Map<String, Object>> precincts = dataDisplayService.getPrecincts(id);
+        return ResponseEntity.ok(precincts);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
