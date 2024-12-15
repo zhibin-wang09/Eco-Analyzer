@@ -3,3 +3,4 @@ AR Election.json
 /el
 
 **/.DS_Store
+server/set_env.sh
