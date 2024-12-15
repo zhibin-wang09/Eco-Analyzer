@@ -4,8 +4,9 @@
     "total_republican_votes": 3648375000,
     "total_democratic_votes": 1948740000,
     "republican_democratic_split": "3648375000:1948740000",
+    "population_threshold": "524071.5 +- 5%",
     "split_frequencies": {
-        "4/0": 4284,
-        "3/1": 716
+        "0/4": 4284,
+        "1/3": 716
     }
 }

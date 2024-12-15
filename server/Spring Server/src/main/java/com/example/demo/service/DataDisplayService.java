@@ -416,7 +416,6 @@ public class DataDisplayService {
 		return precincts;
 	}
 
-	@Cacheable(value = "boxplot")
 	public List<BoxPlot> getBoxPlot(int stateId, Category category, RegionType regionType) {
 		List<BoxPlot> boxplots = boxPlotRepository.findBoxPlotByStateIdAndCategoryAndRegionType(stateId, category,
 				regionType);
@@ -499,11 +498,17 @@ public class DataDisplayService {
 			e.printStackTrace();
 			return new HashMap<>();
 		}
-
+		int totalPopulation = 0;
+		if (category == Category.DEMOGRAPHIC) {
+			totalPopulation = stateId == 36 ? 17161215 : 2096286;
+		} else if (category == Category.ECONOMIC) {
+			totalPopulation = stateId == 36 ? 6320329 : 869004;
+		} else if (category == Category.URBANICITY) {
+			totalPopulation = stateId == 36 ? 13283 : 2589;
+		}
 		if (regionType == RegionType.ALL) {
 			Map<String, Object> districtMap = new HashMap<>();
 			if (category == Category.DEMOGRAPHIC) {
-				double totalPopulation = 0;
 				double racePopulation = 0;
 				Map<String, Object> innerMap = new HashMap<>();
 				innerMap.put("regionType", "ALL");
@@ -518,7 +523,6 @@ public class DataDisplayService {
 				innerMap.put("percentage", racePopulation / totalPopulation * 100);
 				districtMap.put(String.valueOf(Integer.valueOf(geoId)), innerMap);
 			} else if (category == Category.ECONOMIC) {
-				double totalPopulation = 0;
 				double incomeRangePopulation = 0;
 				Map<String, Object> innerMap = new HashMap<>();
 				innerMap.put("regionType", "ALL");
@@ -570,8 +574,7 @@ public class DataDisplayService {
 				JSONObject incomeRangesObj = regionObj.optJSONObject("income_ranges");
 				if (incomeRangesObj != null) {
 					double incomeRangePopulation = incomeRangesObj.optDouble(range, 0);
-					double totalHousehold = regionObj.optDouble("total_household", 0);
-					innerMap.put("percentage", incomeRangePopulation/totalHousehold * 100);
+					innerMap.put("percentage", incomeRangePopulation/totalPopulation * 100);
 				} else {
 					System.err.println("'income_ranges' not found in region '" + regionTypeKey + "' of district '"
 							+ districtKey + "'");

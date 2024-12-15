@@ -38,6 +38,7 @@ export interface EnsembleSummaryData {
   total_plans: number;
   total_republican_votes: number;
   split_frequencies: SplitFrequencies;
+  population_threshold: string;
 }
 
 export default CongressionalDistrictData;

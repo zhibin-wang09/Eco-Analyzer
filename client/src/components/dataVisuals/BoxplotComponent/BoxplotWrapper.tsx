@@ -5,8 +5,9 @@ import { AxisBottom } from "./AxisBottomCategoric";
 import { VerticalBox } from "./VerticalBox";
 import { useToast } from "@chakra-ui/react";
 
-const MARGIN = { top: 30, right: 30, bottom: 100, left: 100 }; // Increased bottom and left margins for labels
-const JITTER_WIDTH = 40;
+const MARGIN = { top: 30, right: 30, bottom: 100, left: 100 };
+const DOT_RADIUS = 3;
+const DOT_COLOR = "#FF6B6B"; // Customize as needed
 
 type BoxplotWrapperProps = {
   width: number;
@@ -20,6 +21,12 @@ type BoxplotWrapperProps = {
       q3: number;
       max: number;
     };
+    dot?: {
+      [key: string]: {
+        regionType: string;
+        percentage: number;
+      };
+    };
   }[];
   yAxis: string;
 };
@@ -30,7 +37,7 @@ export const BoxplotWrapper = ({
   data,
   yAxis,
 }: BoxplotWrapperProps) => {
-  const boundsWidth = width - MARGIN.right - MARGIN.left;
+  const boundsWidth = width - MARGIN.left - MARGIN.right;
   const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
   // Compute derived data
@@ -41,40 +48,64 @@ export const BoxplotWrapper = ({
   }, [data]);
 
   // Y Scale: Start from 0 and go to the maximum value
-  const yScale = d3
-    .scaleLinear()
-    .domain([0, chartMax])
-    .range([boundsHeight, 0]);
+  const yScale = useMemo(() => {
+    return d3
+      .scaleLinear()
+      .domain([0, chartMax])
+      .range([boundsHeight, 0]);
+  }, [chartMax, boundsHeight]);
 
   // X Scale
-  const xScale = d3
-    .scaleBand()
-    .range([0, boundsWidth])
-    .domain(groups)
-    .padding(0.25);
+  const xScale = useMemo(() => {
+    return d3
+      .scaleBand()
+      .range([0, boundsWidth])
+      .domain(groups)
+      .padding(0.25);
+  }, [groups, boundsWidth]);
 
-  // Render the shapes for each group
-  const allShapes = groups.map((geoId, i) => {
-    const boxData = data.find((d) => d.geoId === geoId)?.boxPlot;
-    if (!boxData) return null;
+  // Render the box plot shapes and dots for each group
+  const allShapes = useMemo(() => {
+    return groups.map((geoId, i) => {
+      const groupData = data.find((d) => d.geoId === geoId);
+      console.log(groupData);
+      if (!groupData) return null;
 
-    const { min, q1, median, q3, max } = boxData;
+      const boxData = groupData.boxPlot;
+      const dotsData = groupData.dot ? Object.values(groupData.dot) : [];
+      if (!boxData) return null;
 
-    return (
-      <g key={i} transform={`translate(${xScale(geoId)},0)`}>
-        <VerticalBox
-          width={xScale.bandwidth()}
-          q1={yScale(q1)}
-          median={yScale(median)}
-          q3={yScale(q3)}
-          min={yScale(min)}
-          max={yScale(max)}
-          stroke="black"
-          fill={"#FFFFFF"}
-        />
-      </g>
-    );
-  });
+      const { min, q1, median, q3, max } = boxData;
+
+      return (
+        <g key={i} transform={`translate(${xScale(geoId)},0)`}>
+          {/* Draw the vertical box */}
+          <VerticalBox
+            width={xScale.bandwidth()}
+            q1={yScale(q1)}
+            median={yScale(median)}
+            q3={yScale(q3)}
+            min={yScale(min)}
+            max={yScale(max)}
+            stroke="black"
+            fill="#FFFFFF"
+          />
+
+          {/* Draw the dots */}
+          {dotsData.map((dot, index) => (
+            <circle
+              key={index}
+              cx={xScale.bandwidth() / 2} // Center within the box
+              cy={yScale(dot.percentage)} // Y position based on percentage
+              r={DOT_RADIUS}
+              fill={DOT_COLOR}
+              stroke="black"
+            />
+          ))}
+        </g>
+      );
+    });
+  }, [groups, data, xScale, yScale]);
 
   return (
     <svg width={width} height={height}>

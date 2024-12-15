@@ -6,6 +6,11 @@ export interface BoxPlot {
   max: number;
 }
 
+export interface Dot {
+  regionType: string;
+  percentage: number;
+}
+
 export interface DataItem {
   id: string;
   geoId: string;
@@ -14,4 +19,5 @@ export interface DataItem {
   category: string;
   range: string;
   boxPlot: BoxPlot;
+  dots: Record<string, Dot>; // Mapping geoId to Dot objects
 }

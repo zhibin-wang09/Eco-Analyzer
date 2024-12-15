@@ -22,7 +22,7 @@ export const AxisBottom = ({ xScale }: AxisBottomProps) => {
     <>
       {/* Main horizontal line */}
       <path
-        d={["M", min + 20, 0, "L", max - 20, 0].join(" ")}
+        d={["M", min, 0, "L", max, 0].join(" ")}
         fill="none"
         stroke="currentColor"
       />
