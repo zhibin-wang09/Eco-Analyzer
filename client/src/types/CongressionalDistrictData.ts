@@ -27,4 +27,17 @@ interface CongressionalDistrictData {
     voteMargin: number;
 }
 
+export interface SplitFrequencies {
+  [key: string]: number;
+}
+
+export interface EnsembleSummaryData {
+  total_districts: number;
+  republican_democratic_split: string;
+  total_democratic_votes: number;
+  total_plans: number;
+  total_republican_votes: number;
+  split_frequencies: SplitFrequencies;
+}
+
 export default CongressionalDistrictData;

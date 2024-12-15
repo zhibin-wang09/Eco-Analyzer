@@ -37,7 +37,7 @@ const InformationControl = ({
       >
         <TabList
           overflowX="auto"
-          pb={2}
+          pb={5}
           justifyContent="center"
           sx={{
             scrollbarWidth: "thin",
@@ -50,11 +50,12 @@ const InformationControl = ({
             },
           }}
         >
-          <Tab mr={5}>Summary</Tab>
-          <Tab mr={5}>Districts Detail</Tab>
-          <Tab mr={5}>Gingles</Tab>
-          <Tab mr={5}>Box & Whisker</Tab>
-          <Tab mr={5}>Ecological Inference</Tab>
+          <Tab fontSize="sm">State Summary</Tab>
+          <Tab fontSize="sm">Ensemble Summary</Tab>
+          <Tab fontSize="sm">Districts Detail</Tab>
+          <Tab fontSize="sm">Gingles</Tab>
+          <Tab fontSize="sm">Box & Whisker</Tab>
+          <Tab fontSize="sm">Ecological Inference</Tab>
         </TabList>
       </Tabs>
 

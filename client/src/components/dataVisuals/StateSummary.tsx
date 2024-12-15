@@ -27,7 +27,7 @@ const StateSummary = ({
   representatives = []
 }: StateSummaryProps) => {
   return (
-    <Box p={5}>
+    <Box p={5} >
       <Text fontSize="lg" fontWeight="semibold" mb={-3}>
         Total Population: {totalPopulation.toLocaleString()}
       </Text>

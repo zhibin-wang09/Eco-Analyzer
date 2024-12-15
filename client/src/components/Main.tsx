@@ -81,6 +81,7 @@ const MainLayout = () => {
     setTabIndex(index);
     const visualizations: VisualizationType[] = [
       "summary",
+      "ensembleSummary",
       "districtDetail",
       "gingles",
       "boxplot",
@@ -135,6 +136,8 @@ const MainLayout = () => {
               w="100%" 
               gap={6}  // Increased gap
               justify="space-between"
+              alignItems="stretch" // Ensures children have the same height
+              height="100%"
               flex={1}
               minH={0}
               pb={6}  // Added bottom padding
@@ -176,6 +179,7 @@ const MainLayout = () => {
                 )}
               </Flex>
   
+
               {selectedState !== "State" && (
                 <Box flex={1} minH={0}>
                   <SlideFade

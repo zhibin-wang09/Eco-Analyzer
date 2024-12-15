@@ -28,6 +28,6 @@ interface IncomeGroup {
 	age: AgeGroup[];
   }
   
-export type VisualizationType = 'standard' | 'boxplot' | 'ecologicalInference' | 'gingles' | 'summary' | 'districtDetail';
+export type VisualizationType = 'standard' | 'boxplot' | 'ecologicalInference' | 'gingles' | 'summary' | 'districtDetail' | 'ensembleSummary';
 
 export type GingleMode = 'Income' | 'Demographic' | 'Income/Race'

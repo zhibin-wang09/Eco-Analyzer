@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Spinner, Center } from "@chakra-ui/react";
 import Gingles from "./gingles/Gingles";
 import { VisualizationType } from "../../types/ChartDataItemInterface";
@@ -8,6 +8,8 @@ import GinglesControl from "../controls/GinglesControl";
 import BoxPlot from "./Boxplot";
 import { stateConversion } from "../../utils/util";
 import EcologicalInference from "./densityGraphComponent/EcologicalInference";
+import EnsembleSummary from "./EnsembleSummary";
+import { EnsembleSummaryData } from "../../types/CongressionalDistrictData";
 
 interface ChartDataItem {
   name: string;
@@ -42,6 +44,7 @@ const BaseChart: React.FC<BaseChartProps> = ({
     React.useState<SummaryData | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const [ensembleSummary, setEnsembleSummary] = useState<EnsembleSummaryData>();
 
   React.useEffect(() => {
     const fetchStateSummary = async () => {
@@ -69,6 +72,22 @@ const BaseChart: React.FC<BaseChartProps> = ({
         setIsLoading(false);
       }
     };
+    const fetchEnsembleSummary = async (selectedState: string) => {
+      const query = new URLSearchParams({
+        state: stateConversion(selectedState),
+      }).toString();
+      const response = await fetch(
+        "http://localhost:8080/api/ensembleSummary?" + query
+      );
+      const json = await response.json();
+      setEnsembleSummary(json);
+      console.log(json);
+      return json;
+    };
+
+    if(selectedState && selectedVisualization === 'ensembleSummary'){
+      fetchEnsembleSummary(selectedState);
+    }
 
     if (selectedState && selectedVisualization === "summary") {
       fetchStateSummary();
@@ -147,6 +166,9 @@ const BaseChart: React.FC<BaseChartProps> = ({
             )}
           />
         );
+      case "ensembleSummary":
+       if(ensembleSummary == null) return null;
+       return <EnsembleSummary ensembleSummary={ensembleSummary}/>;
       case "districtDetail":
         return (
           <DistrictDetail
