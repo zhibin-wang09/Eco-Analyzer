@@ -295,7 +295,7 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
               ? demographicOptions[selectedDemographic].name 
               : dataMode === 'Income' 
                 ? 'Income Distribution'
-                : 'Normalized Income Distribution'
+                : `${demographicOptions[selectedDemographic].name} Income Distribution`
           }
         </Text>
         <HStack spacing={4}>
@@ -310,7 +310,8 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
             </MenuList>
           </Menu>
 
-          {dataMode === 'Demographic' && (
+          {/* Show demographic selector for both Demographic and Income/Race modes */}
+          {(dataMode === 'Demographic' || dataMode === 'Income/Race') && (
             <Select 
               value={selectedDemographic} 
               onChange={(e) => setSelectedDemographic(e.target.value as DemographicKey)}
