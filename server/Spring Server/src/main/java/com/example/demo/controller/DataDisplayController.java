@@ -141,4 +141,23 @@ public class DataDisplayController {
 
         return ResponseEntity.ok(dataDisplayService.getEcologicalInferenceData(id, c, candidate, range));
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping(value = "/api/ensembleSummary")
+    public ResponseEntity<String> getEcologicalInferenceData(@RequestParam String state) {
+        int id = -1;
+
+        try {
+            id = StateIdConvertor.stringToId(State.valueOf(state.toUpperCase()));
+            if (id == -1) {
+                throw new IllegalArgumentException();
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        return ResponseEntity.ok(dataDisplayService.getEnsembleSummary(id));
+    }
 }
