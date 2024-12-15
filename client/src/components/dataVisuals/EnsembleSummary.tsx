@@ -20,7 +20,7 @@ const EnsembleSummary = ({ensembleSummary}: EnsembleSummaryProp) => {
           data={Object.entries(ensembleSummary?.split_frequencies!).map(([name, value]) => ({
             name,
             value,
-          })).sort((a, b) => a.value - b.value)}
+          })).sort((a, b) => Number(a.name.split('/')[0]) - Number(b.name.split('/')[0]))}
           title="Republican/Democrat Split"
           xAxisLabel="Race"
           height="350px"
