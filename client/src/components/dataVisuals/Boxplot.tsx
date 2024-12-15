@@ -69,7 +69,6 @@ const BoxPlot = ({ selectedState }: { selectedState: string }) => {
         "http://localhost:8080/api/graph/boxplot?" + query
       );
       const json = await response.json();
-      console.log(json)
       return json;
     };
 
@@ -199,7 +198,7 @@ const BoxPlot = ({ selectedState }: { selectedState: string }) => {
             data={boxPlotData.map((item) => ({
               geoId: item.geoId,
               boxPlot: item.boxPlot,
-              dot: item.dots
+              dot: item.dot
             }))}
           />
         </div>

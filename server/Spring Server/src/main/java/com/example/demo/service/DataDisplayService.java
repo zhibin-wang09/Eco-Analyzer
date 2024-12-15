@@ -448,7 +448,7 @@ public class DataDisplayService {
 			boxplot.setMedian(boxplot.getMedian() / totalPopulation * 100);
 			boxplot.setQ1(boxplot.getQ1() / totalPopulation * 100);
 			boxplot.setQ3(boxplot.getQ3() / totalPopulation * 100);
-			b.setDots(getBoxPlotDots(stateId, category, regionType, range, b.getGeoId()));
+			b.setDot(getBoxPlotDots(stateId, category, regionType, range, b.getGeoId()));
 		}
 		return boxplots;
 	}

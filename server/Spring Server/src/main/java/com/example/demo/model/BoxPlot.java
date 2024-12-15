@@ -27,7 +27,7 @@ public class BoxPlot implements Serializable {
 
     private BoxPlotData boxPlot;
 
-    private Map<String, Object> dots;
+    private Map<String, Object> dot;
 
     public static class BoxPlotData implements Serializable {
         private Double min;
@@ -77,12 +77,12 @@ public class BoxPlot implements Serializable {
         }
     }
 
-    public Map<String, Object> getDots() {
-        return this.dots;
+    public Map<String, Object> getDot() {
+        return this.dot;
     }
 
-    public void setDots(Map<String, Object> dots) {
-        this.dots = dots;
+    public void setDot(Map<String, Object> dot) {
+        this.dot = dot;
     }
 
     public String getId() {

@@ -21,7 +21,7 @@ type BoxplotWrapperProps = {
       q3: number;
       max: number;
     };
-    dot?: {
+    dot: {
       [key: string]: {
         regionType: string;
         percentage: number;
@@ -68,9 +68,7 @@ export const BoxplotWrapper = ({
   const allShapes = useMemo(() => {
     return groups.map((geoId, i) => {
       const groupData = data.find((d) => d.geoId === geoId);
-      console.log(groupData);
       if (!groupData) return null;
-
       const boxData = groupData.boxPlot;
       const dotsData = groupData.dot ? Object.values(groupData.dot) : [];
       if (!boxData) return null;
@@ -92,16 +90,18 @@ export const BoxplotWrapper = ({
           />
 
           {/* Draw the dots */}
-          {dotsData.map((dot, index) => (
-            <circle
-              key={index}
-              cx={xScale.bandwidth() / 2} // Center within the box
-              cy={yScale(dot.percentage)} // Y position based on percentage
-              r={DOT_RADIUS}
-              fill={DOT_COLOR}
-              stroke="black"
-            />
-          ))}
+          {dotsData.map((dot, index) => {
+            return (
+              <circle
+                key={index}
+                cx={xScale.bandwidth() / 2} // Center within the box
+                cy={yScale(dot.percentage)} // Y position based on percentage
+                r={DOT_RADIUS}
+                fill={DOT_COLOR}
+                stroke="black"
+              />
+            )
+          })}
         </g>
       );
     });
