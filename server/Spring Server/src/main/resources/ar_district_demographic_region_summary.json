@@ -1,0 +1,192 @@
+{
+    "2": {
+        "rural": {
+            "population": 311231,
+            "white": 226165,
+            "black": 45033,
+            "asian": 4651,
+            "hispanic": 17299,
+            "other": 17911,
+            "white_percentage": 72.66788976676489,
+            "black_percentage": 14.469317002483686,
+            "asian_percentage": 1.4943884124653393,
+            "hispanic_percentage": 5.558250945439239,
+            "other_percentage": 5.754889455099267
+        },
+        "suburban": {
+            "population": 59899,
+            "white": 35841,
+            "black": 15941,
+            "asian": 1381,
+            "hispanic": 3810,
+            "other": 2919,
+            "white_percentage": 59.83572346783753,
+            "black_percentage": 26.61313210571128,
+            "asian_percentage": 2.3055476719143893,
+            "hispanic_percentage": 6.360707190437235,
+            "other_percentage": 4.8732032254294735
+        },
+        "urban": {
+            "population": 65098,
+            "white": 44694,
+            "black": 10615,
+            "asian": 1316,
+            "hispanic": 4722,
+            "other": 3739,
+            "white_percentage": 68.65648714246213,
+            "black_percentage": 16.306184521797903,
+            "asian_percentage": 2.0215674828719776,
+            "hispanic_percentage": 7.253679068481366,
+            "other_percentage": 5.743648038342192
+        }
+    },
+    "4": {
+        "rural": {
+            "population": 548786,
+            "white": 386886,
+            "black": 88771,
+            "asian": 4494,
+            "hispanic": 38197,
+            "other": 29797,
+            "white_percentage": 70.4985185482137,
+            "black_percentage": 16.175886411096492,
+            "asian_percentage": 0.8188984412867676,
+            "hispanic_percentage": 6.960272310153686,
+            "other_percentage": 5.429621018028886
+        },
+        "suburban": {
+            "population": 19148,
+            "white": 10940,
+            "black": 5171,
+            "asian": 388,
+            "hispanic": 1512,
+            "other": 1121,
+            "white_percentage": 57.13390432421141,
+            "black_percentage": 27.005431376645078,
+            "asian_percentage": 2.0263212868184666,
+            "hispanic_percentage": 7.896386045540005,
+            "other_percentage": 5.854397326091497
+        },
+        "urban": {
+            "population": 64617,
+            "white": 39247,
+            "black": 18073,
+            "asian": 495,
+            "hispanic": 3592,
+            "other": 3134,
+            "white_percentage": 60.737886314746895,
+            "black_percentage": 27.969419812123746,
+            "asian_percentage": 0.7660522772644969,
+            "hispanic_percentage": 5.55890864633146,
+            "other_percentage": 4.850116842317037
+        }
+    },
+    "1": {
+        "rural": {
+            "population": 620653,
+            "white": 464733,
+            "black": 91830,
+            "asian": 4636,
+            "hispanic": 26672,
+            "other": 31993,
+            "white_percentage": 74.87807196613889,
+            "black_percentage": 14.795707102036083,
+            "asian_percentage": 0.7469552229667785,
+            "hispanic_percentage": 4.297409341451665,
+            "other_percentage": 5.1547321933511965
+        },
+        "suburban": {
+            "population": 42558,
+            "white": 26944,
+            "black": 10963,
+            "asian": 527,
+            "hispanic": 2135,
+            "other": 1958,
+            "white_percentage": 63.3112458292213,
+            "black_percentage": 25.760139104281215,
+            "asian_percentage": 1.2383100709619814,
+            "hispanic_percentage": 5.016683114808027,
+            "other_percentage": 4.600780111847361
+        },
+        "urban": {
+            "population": 49720,
+            "white": 35680,
+            "black": 8884,
+            "asian": 357,
+            "hispanic": 2424,
+            "other": 2350,
+            "white_percentage": 71.76186645213194,
+            "black_percentage": 17.868061142397426,
+            "asian_percentage": 0.7180209171359614,
+            "hispanic_percentage": 4.875301689460981,
+            "other_percentage": 4.726468222043443
+        }
+    },
+    "3": {
+        "rural": {
+            "population": 301140,
+            "white": 219524,
+            "black": 10391,
+            "asian": 8011,
+            "hispanic": 36190,
+            "other": 26836,
+            "white_percentage": 72.89765557547985,
+            "black_percentage": 3.45055455934117,
+            "asian_percentage": 2.660224480308162,
+            "hispanic_percentage": 12.017666201766621,
+            "other_percentage": 8.911469748289832
+        },
+        "suburban": {
+            "population": 82807,
+            "white": 51615,
+            "black": 6340,
+            "asian": 4737,
+            "hispanic": 12598,
+            "other": 7508,
+            "white_percentage": 62.33168693467943,
+            "black_percentage": 7.656357554313041,
+            "asian_percentage": 5.720530872993829,
+            "hispanic_percentage": 15.213689663917302,
+            "other_percentage": 9.066866327725917
+        },
+        "urban": {
+            "population": 90646,
+            "white": 59393,
+            "black": 3644,
+            "asian": 3240,
+            "hispanic": 15953,
+            "other": 8386,
+            "white_percentage": 65.52192043774684,
+            "black_percentage": 4.020033978333296,
+            "asian_percentage": 3.574344151975818,
+            "hispanic_percentage": 17.599232177922907,
+            "other_percentage": 9.251373474836177
+        }
+    },
+    "summary": {
+        "rural": {
+            "population": 1781810,
+            "white": 1297308,
+            "black": 236025,
+            "asian": 21792,
+            "hispanic": 118358,
+            "other": 106537
+        },
+        "suburban": {
+            "population": 204412,
+            "white": 125340,
+            "black": 38415,
+            "asian": 7033,
+            "hispanic": 20055,
+            "other": 13506
+        },
+        "urban": {
+            "population": 270081,
+            "white": 179014,
+            "black": 41216,
+            "asian": 5408,
+            "hispanic": 26691,
+            "other": 17609
+        }
+    }
+}

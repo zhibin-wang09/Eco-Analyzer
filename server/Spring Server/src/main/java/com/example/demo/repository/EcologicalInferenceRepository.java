@@ -3,7 +3,6 @@ package com.example.demo.repository;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
 
 import com.example.demo.common.Category;
 import com.example.demo.model.EcologicalInference;

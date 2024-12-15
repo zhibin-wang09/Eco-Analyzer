@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.annotation.Id;
@@ -28,7 +27,7 @@ public class BoxPlot implements Serializable {
 
     private BoxPlotData boxPlot;
 
-    private List<Map<String, Object>> dots;
+    private Map<String, Object> dots;
 
     public static class BoxPlotData implements Serializable {
         private Double min;
@@ -76,6 +75,14 @@ public class BoxPlot implements Serializable {
         public void setMax(Double max) {
             this.max = max;
         }
+    }
+
+    public Map<String, Object> getDots() {
+        return this.dots;
+    }
+
+    public void setDots(Map<String, Object> dots) {
+        this.dots = dots;
     }
 
     public String getId() {

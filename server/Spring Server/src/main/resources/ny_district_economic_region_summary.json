@@ -1,0 +1,1226 @@
+{
+    "19": {
+        "rural": {
+            "total_household": 207257,
+            "average_income": 64763.94197059689,
+            "precinct_count": 507,
+            "income_ranges": {
+                "from_0_to_9999": 10772,
+                "from_10000_to_14999": 9199,
+                "from_15000_to_24999": 18689,
+                "from_25000_to_34999": 19117,
+                "from_35000_to_49999": 24916,
+                "from_50000_to_74999": 39286,
+                "from_75000_to_99999": 28347,
+                "from_100000_and_more": 56931
+            }
+        },
+        "suburban": {
+            "total_household": 12370,
+            "average_income": 63070.446160064675,
+            "precinct_count": 31,
+            "income_ranges": {
+                "from_0_to_9999": 958,
+                "from_10000_to_14999": 619,
+                "from_15000_to_24999": 1112,
+                "from_25000_to_34999": 1272,
+                "from_35000_to_49999": 1584,
+                "from_50000_to_74999": 2158,
+                "from_75000_to_99999": 1303,
+                "from_100000_and_more": 3364
+            }
+        },
+        "urban": {
+            "total_household": 54425,
+            "average_income": 53044.93170418007,
+            "precinct_count": 122,
+            "income_ranges": {
+                "from_0_to_9999": 5270,
+                "from_10000_to_14999": 3426,
+                "from_15000_to_24999": 6524,
+                "from_25000_to_34999": 5144,
+                "from_35000_to_49999": 7235,
+                "from_50000_to_74999": 8384,
+                "from_75000_to_99999": 6190,
+                "from_100000_and_more": 12252
+            }
+        }
+    },
+    "20": {
+        "rural": {
+            "total_household": 110084,
+            "average_income": 89196.6381853857,
+            "precinct_count": 220,
+            "income_ranges": {
+                "from_0_to_9999": 2798,
+                "from_10000_to_14999": 2616,
+                "from_15000_to_24999": 6541,
+                "from_25000_to_34999": 7071,
+                "from_35000_to_49999": 11267,
+                "from_50000_to_74999": 18721,
+                "from_75000_to_99999": 15140,
+                "from_100000_and_more": 45930
+            }
+        },
+        "suburban": {
+            "total_household": 34071,
+            "average_income": 85056.51973819378,
+            "precinct_count": 67,
+            "income_ranges": {
+                "from_0_to_9999": 1397,
+                "from_10000_to_14999": 1290,
+                "from_15000_to_24999": 2442,
+                "from_25000_to_34999": 1870,
+                "from_35000_to_49999": 3501,
+                "from_50000_to_74999": 5460,
+                "from_75000_to_99999": 4273,
+                "from_100000_and_more": 13838
+            }
+        },
+        "urban": {
+            "total_household": 150740,
+            "average_income": 69023.69431471407,
+            "precinct_count": 278,
+            "income_ranges": {
+                "from_0_to_9999": 9497,
+                "from_10000_to_14999": 7182,
+                "from_15000_to_24999": 12410,
+                "from_25000_to_34999": 13005,
+                "from_35000_to_49999": 18276,
+                "from_50000_to_74999": 25928,
+                "from_75000_to_99999": 19413,
+                "from_100000_and_more": 45029
+            }
+        }
+    },
+    "21": {
+        "rural": {
+            "total_household": 197209,
+            "average_income": 64361.205360810105,
+            "precinct_count": 467,
+            "income_ranges": {
+                "from_0_to_9999": 8494,
+                "from_10000_to_14999": 8566,
+                "from_15000_to_24999": 18031,
+                "from_25000_to_34999": 18734,
+                "from_35000_to_49999": 25140,
+                "from_50000_to_74999": 36918,
+                "from_75000_to_99999": 28063,
+                "from_100000_and_more": 53263
+            }
+        },
+        "suburban": {
+            "total_household": 11055,
+            "average_income": 57762.545092718225,
+            "precinct_count": 27,
+            "income_ranges": {
+                "from_0_to_9999": 693,
+                "from_10000_to_14999": 494,
+                "from_15000_to_24999": 986,
+                "from_25000_to_34999": 1313,
+                "from_35000_to_49999": 1656,
+                "from_50000_to_74999": 2095,
+                "from_75000_to_99999": 1383,
+                "from_100000_and_more": 2435
+            }
+        },
+        "urban": {
+            "total_household": 34094,
+            "average_income": 60851.85979937819,
+            "precinct_count": 72,
+            "income_ranges": {
+                "from_0_to_9999": 2213,
+                "from_10000_to_14999": 1931,
+                "from_15000_to_24999": 3167,
+                "from_25000_to_34999": 3224,
+                "from_35000_to_49999": 4703,
+                "from_50000_to_74999": 6668,
+                "from_75000_to_99999": 4459,
+                "from_100000_and_more": 7729
+            }
+        }
+    },
+    "1": {
+        "rural": {
+            "total_household": 128719,
+            "average_income": 88262.11014690915,
+            "precinct_count": 338,
+            "income_ranges": {
+                "from_0_to_9999": 8416,
+                "from_10000_to_14999": 5709,
+                "from_15000_to_24999": 9698,
+                "from_25000_to_34999": 8670,
+                "from_35000_to_49999": 11632,
+                "from_50000_to_74999": 16681,
+                "from_75000_to_99999": 15707,
+                "from_100000_and_more": 52206
+            }
+        },
+        "suburban": {
+            "total_household": 31703,
+            "average_income": 117296.04882818661,
+            "precinct_count": 70,
+            "income_ranges": {
+                "from_0_to_9999": 697,
+                "from_10000_to_14999": 886,
+                "from_15000_to_24999": 1598,
+                "from_25000_to_34999": 1352,
+                "from_35000_to_49999": 2203,
+                "from_50000_to_74999": 3526,
+                "from_75000_to_99999": 3340,
+                "from_100000_and_more": 18101
+            }
+        },
+        "urban": {
+            "total_household": 179762,
+            "average_income": 115150.07602274118,
+            "precinct_count": 342,
+            "income_ranges": {
+                "from_0_to_9999": 4873,
+                "from_10000_to_14999": 3102,
+                "from_15000_to_24999": 7800,
+                "from_25000_to_34999": 8066,
+                "from_35000_to_49999": 13405,
+                "from_50000_to_74999": 22046,
+                "from_75000_to_99999": 20574,
+                "from_100000_and_more": 99896
+            }
+        }
+    },
+    "26": {
+        "rural": {
+            "total_household": 48391,
+            "average_income": 74782.46961211796,
+            "precinct_count": 93,
+            "income_ranges": {
+                "from_0_to_9999": 2336,
+                "from_10000_to_14999": 1659,
+                "from_15000_to_24999": 3709,
+                "from_25000_to_34999": 3374,
+                "from_35000_to_49999": 5656,
+                "from_50000_to_74999": 8771,
+                "from_75000_to_99999": 6391,
+                "from_100000_and_more": 16495
+            }
+        },
+        "suburban": {
+            "total_household": 21914,
+            "average_income": 71324.5042894953,
+            "precinct_count": 47,
+            "income_ranges": {
+                "from_0_to_9999": 1318,
+                "from_10000_to_14999": 836,
+                "from_15000_to_24999": 1982,
+                "from_25000_to_34999": 2447,
+                "from_35000_to_49999": 2455,
+                "from_50000_to_74999": 4138,
+                "from_75000_to_99999": 2616,
+                "from_100000_and_more": 6122
+            }
+        },
+        "urban": {
+            "total_household": 177531,
+            "average_income": 57369.96499202956,
+            "precinct_count": 373,
+            "income_ranges": {
+                "from_0_to_9999": 15069,
+                "from_10000_to_14999": 10745,
+                "from_15000_to_24999": 20076,
+                "from_25000_to_34999": 16785,
+                "from_35000_to_49999": 23005,
+                "from_50000_to_74999": 30502,
+                "from_75000_to_99999": 22087,
+                "from_100000_and_more": 39262
+            }
+        }
+    },
+    "24": {
+        "rural": {
+            "total_household": 199996,
+            "average_income": 61885.253400068,
+            "precinct_count": 449,
+            "income_ranges": {
+                "from_0_to_9999": 10222,
+                "from_10000_to_14999": 8588,
+                "from_15000_to_24999": 18130,
+                "from_25000_to_34999": 18667,
+                "from_35000_to_49999": 27372,
+                "from_50000_to_74999": 39047,
+                "from_75000_to_99999": 29238,
+                "from_100000_and_more": 48732
+            }
+        },
+        "suburban": {
+            "total_household": 17988,
+            "average_income": 57900.446019568604,
+            "precinct_count": 43,
+            "income_ranges": {
+                "from_0_to_9999": 1106,
+                "from_10000_to_14999": 727,
+                "from_15000_to_24999": 1785,
+                "from_25000_to_34999": 1746,
+                "from_35000_to_49999": 3023,
+                "from_50000_to_74999": 3194,
+                "from_75000_to_99999": 2563,
+                "from_100000_and_more": 3844
+            }
+        },
+        "urban": {
+            "total_household": 46667,
+            "average_income": 53147.02888550796,
+            "precinct_count": 91,
+            "income_ranges": {
+                "from_0_to_9999": 2984,
+                "from_10000_to_14999": 2360,
+                "from_15000_to_24999": 5534,
+                "from_25000_to_34999": 4806,
+                "from_35000_to_49999": 6751,
+                "from_50000_to_74999": 9174,
+                "from_75000_to_99999": 6112,
+                "from_100000_and_more": 8946
+            }
+        }
+    },
+    "23": {
+        "rural": {
+            "total_household": 164015,
+            "average_income": 64560.54155412615,
+            "precinct_count": 362,
+            "income_ranges": {
+                "from_0_to_9999": 7386,
+                "from_10000_to_14999": 7066,
+                "from_15000_to_24999": 15138,
+                "from_25000_to_34999": 15045,
+                "from_35000_to_49999": 21642,
+                "from_50000_to_74999": 30668,
+                "from_75000_to_99999": 23185,
+                "from_100000_and_more": 43885
+            }
+        },
+        "suburban": {
+            "total_household": 32220,
+            "average_income": 73742.44450651768,
+            "precinct_count": 61,
+            "income_ranges": {
+                "from_0_to_9999": 1601,
+                "from_10000_to_14999": 1206,
+                "from_15000_to_24999": 3130,
+                "from_25000_to_34999": 2542,
+                "from_35000_to_49999": 3420,
+                "from_50000_to_74999": 6325,
+                "from_75000_to_99999": 4168,
+                "from_100000_and_more": 9828
+            }
+        },
+        "urban": {
+            "total_household": 79508,
+            "average_income": 63664.42441012225,
+            "precinct_count": 152,
+            "income_ranges": {
+                "from_0_to_9999": 5104,
+                "from_10000_to_14999": 4115,
+                "from_15000_to_24999": 7636,
+                "from_25000_to_34999": 8304,
+                "from_35000_to_49999": 9868,
+                "from_50000_to_74999": 13351,
+                "from_75000_to_99999": 10937,
+                "from_100000_and_more": 20193
+            }
+        }
+    },
+    "22": {
+        "rural": {
+            "total_household": 129996,
+            "average_income": 72268.8644189052,
+            "precinct_count": 268,
+            "income_ranges": {
+                "from_0_to_9999": 5013,
+                "from_10000_to_14999": 3812,
+                "from_15000_to_24999": 9932,
+                "from_25000_to_34999": 10348,
+                "from_35000_to_49999": 15072,
+                "from_50000_to_74999": 24683,
+                "from_75000_to_99999": 19708,
+                "from_100000_and_more": 41428
+            }
+        },
+        "suburban": {
+            "total_household": 25886,
+            "average_income": 67696.17689098354,
+            "precinct_count": 61,
+            "income_ranges": {
+                "from_0_to_9999": 1271,
+                "from_10000_to_14999": 804,
+                "from_15000_to_24999": 2436,
+                "from_25000_to_34999": 2403,
+                "from_35000_to_49999": 2987,
+                "from_50000_to_74999": 5174,
+                "from_75000_to_99999": 3507,
+                "from_100000_and_more": 7304
+            }
+        },
+        "urban": {
+            "total_household": 174390,
+            "average_income": 59646.061603302944,
+            "precinct_count": 361,
+            "income_ranges": {
+                "from_0_to_9999": 13355,
+                "from_10000_to_14999": 10027,
+                "from_15000_to_24999": 18666,
+                "from_25000_to_34999": 16134,
+                "from_35000_to_49999": 23150,
+                "from_50000_to_74999": 30741,
+                "from_75000_to_99999": 20453,
+                "from_100000_and_more": 41864
+            }
+        }
+    },
+    "25": {
+        "rural": {
+            "total_household": 72774,
+            "average_income": 77639.84466979966,
+            "precinct_count": 170,
+            "income_ranges": {
+                "from_0_to_9999": 3108,
+                "from_10000_to_14999": 2628,
+                "from_15000_to_24999": 5872,
+                "from_25000_to_34999": 6256,
+                "from_35000_to_49999": 8302,
+                "from_50000_to_74999": 11906,
+                "from_75000_to_99999": 9895,
+                "from_100000_and_more": 24807
+            }
+        },
+        "suburban": {
+            "total_household": 34946,
+            "average_income": 78830.88156012133,
+            "precinct_count": 71,
+            "income_ranges": {
+                "from_0_to_9999": 1293,
+                "from_10000_to_14999": 639,
+                "from_15000_to_24999": 2522,
+                "from_25000_to_34999": 2522,
+                "from_35000_to_49999": 4387,
+                "from_50000_to_74999": 6208,
+                "from_75000_to_99999": 4939,
+                "from_100000_and_more": 12436
+            }
+        },
+        "urban": {
+            "total_household": 240396,
+            "average_income": 65037.81177307443,
+            "precinct_count": 434,
+            "income_ranges": {
+                "from_0_to_9999": 15798,
+                "from_10000_to_14999": 11777,
+                "from_15000_to_24999": 23729,
+                "from_25000_to_34999": 22260,
+                "from_35000_to_49999": 29327,
+                "from_50000_to_74999": 42355,
+                "from_75000_to_99999": 29923,
+                "from_100000_and_more": 65227
+            }
+        }
+    },
+    "2": {
+        "rural": {
+            "total_household": 22214,
+            "average_income": 104350.58805257945,
+            "precinct_count": 55,
+            "income_ranges": {
+                "from_0_to_9999": 852,
+                "from_10000_to_14999": 646,
+                "from_15000_to_24999": 1144,
+                "from_25000_to_34999": 914,
+                "from_35000_to_49999": 1576,
+                "from_50000_to_74999": 3019,
+                "from_75000_to_99999": 2529,
+                "from_100000_and_more": 11534
+            }
+        },
+        "suburban": {
+            "total_household": 16681,
+            "average_income": 90987.84101672562,
+            "precinct_count": 40,
+            "income_ranges": {
+                "from_0_to_9999": 800,
+                "from_10000_to_14999": 370,
+                "from_15000_to_24999": 1123,
+                "from_25000_to_34999": 690,
+                "from_35000_to_49999": 1634,
+                "from_50000_to_74999": 2155,
+                "from_75000_to_99999": 1973,
+                "from_100000_and_more": 7936
+            }
+        },
+        "urban": {
+            "total_household": 196590,
+            "average_income": 103739.49446563915,
+            "precinct_count": 406,
+            "income_ranges": {
+                "from_0_to_9999": 6056,
+                "from_10000_to_14999": 4178,
+                "from_15000_to_24999": 10010,
+                "from_25000_to_34999": 10164,
+                "from_35000_to_49999": 15183,
+                "from_50000_to_74999": 24598,
+                "from_75000_to_99999": 25708,
+                "from_100000_and_more": 100693
+            }
+        }
+    },
+    "18": {
+        "rural": {
+            "total_household": 131975,
+            "average_income": 86043.56965334344,
+            "precinct_count": 291,
+            "income_ranges": {
+                "from_0_to_9999": 5911,
+                "from_10000_to_14999": 4535,
+                "from_15000_to_24999": 7839,
+                "from_25000_to_34999": 9355,
+                "from_35000_to_49999": 12780,
+                "from_50000_to_74999": 19244,
+                "from_75000_to_99999": 17127,
+                "from_100000_and_more": 55184
+            }
+        },
+        "suburban": {
+            "total_household": 27345,
+            "average_income": 82037.74891204973,
+            "precinct_count": 64,
+            "income_ranges": {
+                "from_0_to_9999": 1044,
+                "from_10000_to_14999": 1330,
+                "from_15000_to_24999": 1554,
+                "from_25000_to_34999": 1993,
+                "from_35000_to_49999": 2884,
+                "from_50000_to_74999": 4410,
+                "from_75000_to_99999": 3414,
+                "from_100000_and_more": 10716
+            }
+        },
+        "urban": {
+            "total_household": 84533,
+            "average_income": 71946.23742207185,
+            "precinct_count": 196,
+            "income_ranges": {
+                "from_0_to_9999": 4789,
+                "from_10000_to_14999": 3874,
+                "from_15000_to_24999": 7723,
+                "from_25000_to_34999": 6487,
+                "from_35000_to_49999": 9694,
+                "from_50000_to_74999": 13388,
+                "from_75000_to_99999": 11155,
+                "from_100000_and_more": 27423
+            }
+        }
+    },
+    "17": {
+        "rural": {
+            "total_household": 97015,
+            "average_income": 113384.4180796784,
+            "precinct_count": 224,
+            "income_ranges": {
+                "from_0_to_9999": 3201,
+                "from_10000_to_14999": 2139,
+                "from_15000_to_24999": 5230,
+                "from_25000_to_34999": 4554,
+                "from_35000_to_49999": 6229,
+                "from_50000_to_74999": 11974,
+                "from_75000_to_99999": 10561,
+                "from_100000_and_more": 53127
+            }
+        },
+        "suburban": {
+            "total_household": 30032,
+            "average_income": 104635.82372136388,
+            "precinct_count": 67,
+            "income_ranges": {
+                "from_0_to_9999": 972,
+                "from_10000_to_14999": 783,
+                "from_15000_to_24999": 1674,
+                "from_25000_to_34999": 1684,
+                "from_35000_to_49999": 2347,
+                "from_50000_to_74999": 3318,
+                "from_75000_to_99999": 3562,
+                "from_100000_and_more": 15692
+            }
+        },
+        "urban": {
+            "total_household": 187297,
+            "average_income": 100312.89667746947,
+            "precinct_count": 387,
+            "income_ranges": {
+                "from_0_to_9999": 6997,
+                "from_10000_to_14999": 5361,
+                "from_15000_to_24999": 11736,
+                "from_25000_to_34999": 12180,
+                "from_35000_to_49999": 15622,
+                "from_50000_to_74999": 24685,
+                "from_75000_to_99999": 20952,
+                "from_100000_and_more": 89764
+            }
+        }
+    },
+    "3": {
+        "rural": {
+            "total_household": 12892,
+            "average_income": 145223.230918399,
+            "precinct_count": 38,
+            "income_ranges": {
+                "from_0_to_9999": 344,
+                "from_10000_to_14999": 238,
+                "from_15000_to_24999": 417,
+                "from_25000_to_34999": 342,
+                "from_35000_to_49999": 453,
+                "from_50000_to_74999": 996,
+                "from_75000_to_99999": 1035,
+                "from_100000_and_more": 9067
+            }
+        },
+        "suburban": {
+            "total_household": 8638,
+            "average_income": 131031.61866172725,
+            "precinct_count": 24,
+            "income_ranges": {
+                "from_0_to_9999": 285,
+                "from_10000_to_14999": 92,
+                "from_15000_to_24999": 379,
+                "from_25000_to_34999": 344,
+                "from_35000_to_49999": 601,
+                "from_50000_to_74999": 801,
+                "from_75000_to_99999": 780,
+                "from_100000_and_more": 5356
+            }
+        },
+        "urban": {
+            "total_household": 209297,
+            "average_income": 115108.78935197351,
+            "precinct_count": 513,
+            "income_ranges": {
+                "from_0_to_9999": 6845,
+                "from_10000_to_14999": 3974,
+                "from_15000_to_24999": 8757,
+                "from_25000_to_34999": 9722,
+                "from_35000_to_49999": 14306,
+                "from_50000_to_74999": 23420,
+                "from_75000_to_99999": 23536,
+                "from_100000_and_more": 118737
+            }
+        }
+    },
+    "4": {
+        "rural": {
+            "total_household": 3736,
+            "average_income": 123539.29925053533,
+            "precinct_count": 15,
+            "income_ranges": {
+                "from_0_to_9999": 224,
+                "from_10000_to_14999": 216,
+                "from_15000_to_24999": 127,
+                "from_25000_to_34999": 87,
+                "from_35000_to_49999": 202,
+                "from_50000_to_74999": 436,
+                "from_75000_to_99999": 288,
+                "from_100000_and_more": 2156
+            }
+        },
+        "suburban": {
+            "total_household": 3381,
+            "average_income": 116934.21620822242,
+            "precinct_count": 9,
+            "income_ranges": {
+                "from_0_to_9999": 18,
+                "from_10000_to_14999": 8,
+                "from_15000_to_24999": 117,
+                "from_25000_to_34999": 92,
+                "from_35000_to_49999": 172,
+                "from_50000_to_74999": 222,
+                "from_75000_to_99999": 658,
+                "from_100000_and_more": 2094
+            }
+        },
+        "urban": {
+            "total_household": 229953,
+            "average_income": 111021.59085987137,
+            "precinct_count": 577,
+            "income_ranges": {
+                "from_0_to_9999": 6124,
+                "from_10000_to_14999": 4704,
+                "from_15000_to_24999": 11176,
+                "from_25000_to_34999": 11192,
+                "from_35000_to_49999": 16744,
+                "from_50000_to_74999": 27350,
+                "from_75000_to_99999": 26039,
+                "from_100000_and_more": 126624
+            }
+        }
+    },
+    "16": {
+        "rural": {
+            "total_household": 5647,
+            "average_income": 82191.75951832831,
+            "precinct_count": 30,
+            "income_ranges": {
+                "from_0_to_9999": 416,
+                "from_10000_to_14999": 183,
+                "from_15000_to_24999": 389,
+                "from_25000_to_34999": 262,
+                "from_35000_to_49999": 364,
+                "from_50000_to_74999": 540,
+                "from_75000_to_99999": 687,
+                "from_100000_and_more": 2806
+            }
+        },
+        "suburban": {
+            "total_household": 6408,
+            "average_income": 126253.97830836455,
+            "precinct_count": 16,
+            "income_ranges": {
+                "from_0_to_9999": 143,
+                "from_10000_to_14999": 118,
+                "from_15000_to_24999": 287,
+                "from_25000_to_34999": 319,
+                "from_35000_to_49999": 534,
+                "from_50000_to_74999": 658,
+                "from_75000_to_99999": 483,
+                "from_100000_and_more": 3866
+            }
+        },
+        "urban": {
+            "total_household": 294617,
+            "average_income": 80253.37879009018,
+            "precinct_count": 629,
+            "income_ranges": {
+                "from_0_to_9999": 18356,
+                "from_10000_to_14999": 12269,
+                "from_15000_to_24999": 22376,
+                "from_25000_to_34999": 21836,
+                "from_35000_to_49999": 28760,
+                "from_50000_to_74999": 41792,
+                "from_75000_to_99999": 33124,
+                "from_100000_and_more": 116104
+            }
+        }
+    },
+    "5": {
+        "rural": {
+            "total_household": 127,
+            "average_income": 93854.0,
+            "precinct_count": 16,
+            "income_ranges": {
+                "from_0_to_9999": 0,
+                "from_10000_to_14999": 0,
+                "from_15000_to_24999": 9,
+                "from_25000_to_34999": 9,
+                "from_35000_to_49999": 0,
+                "from_50000_to_74999": 12,
+                "from_75000_to_99999": 46,
+                "from_100000_and_more": 51
+            }
+        },
+        "suburban": {
+            "total_household": 441,
+            "average_income": 108492.6439909297,
+            "precinct_count": 2,
+            "income_ranges": {
+                "from_0_to_9999": 69,
+                "from_10000_to_14999": 0,
+                "from_15000_to_24999": 14,
+                "from_25000_to_34999": 7,
+                "from_35000_to_49999": 11,
+                "from_50000_to_74999": 44,
+                "from_75000_to_99999": 47,
+                "from_100000_and_more": 249
+            }
+        },
+        "urban": {
+            "total_household": 164707,
+            "average_income": 73671.71754084526,
+            "precinct_count": 364,
+            "income_ranges": {
+                "from_0_to_9999": 9965,
+                "from_10000_to_14999": 6989,
+                "from_15000_to_24999": 11434,
+                "from_25000_to_34999": 13007,
+                "from_35000_to_49999": 18113,
+                "from_50000_to_74999": 26789,
+                "from_75000_to_99999": 23708,
+                "from_100000_and_more": 54702
+            }
+        }
+    },
+    "7": {
+        "rural": {
+            "total_household": 92,
+            "average_income": 113005.41304347826,
+            "precinct_count": 22,
+            "income_ranges": {
+                "from_0_to_9999": 0,
+                "from_10000_to_14999": 0,
+                "from_15000_to_24999": 20,
+                "from_25000_to_34999": 4,
+                "from_35000_to_49999": 0,
+                "from_50000_to_74999": 0,
+                "from_75000_to_99999": 0,
+                "from_100000_and_more": 68
+            }
+        },
+        "suburban": {
+            "total_household": 103,
+            "average_income": 54649.12621359223,
+            "precinct_count": 2,
+            "income_ranges": {
+                "from_0_to_9999": 0,
+                "from_10000_to_14999": 4,
+                "from_15000_to_24999": 24,
+                "from_25000_to_34999": 4,
+                "from_35000_to_49999": 10,
+                "from_50000_to_74999": 25,
+                "from_75000_to_99999": 24,
+                "from_100000_and_more": 12
+            }
+        },
+        "urban": {
+            "total_household": 193732,
+            "average_income": 83825.29807672455,
+            "precinct_count": 377,
+            "income_ranges": {
+                "from_0_to_9999": 13650,
+                "from_10000_to_14999": 9030,
+                "from_15000_to_24999": 15636,
+                "from_25000_to_34999": 14119,
+                "from_35000_to_49999": 17658,
+                "from_50000_to_74999": 26705,
+                "from_75000_to_99999": 23026,
+                "from_100000_and_more": 73908
+            }
+        }
+    },
+    "6": {
+        "rural": {
+            "total_household": 0,
+            "average_income": 0,
+            "precinct_count": 10,
+            "income_ranges": {
+                "from_0_to_9999": 0,
+                "from_10000_to_14999": 0,
+                "from_15000_to_24999": 0,
+                "from_25000_to_34999": 0,
+                "from_35000_to_49999": 0,
+                "from_50000_to_74999": 0,
+                "from_75000_to_99999": 0,
+                "from_100000_and_more": 0
+            }
+        },
+        "suburban": {
+            "total_household": 261,
+            "average_income": 45424.0,
+            "precinct_count": 1,
+            "income_ranges": {
+                "from_0_to_9999": 31,
+                "from_10000_to_14999": 0,
+                "from_15000_to_24999": 44,
+                "from_25000_to_34999": 44,
+                "from_35000_to_49999": 14,
+                "from_50000_to_74999": 0,
+                "from_75000_to_99999": 65,
+                "from_100000_and_more": 63
+            }
+        },
+        "urban": {
+            "total_household": 175889,
+            "average_income": 69444.06973716378,
+            "precinct_count": 340,
+            "income_ranges": {
+                "from_0_to_9999": 11442,
+                "from_10000_to_14999": 7834,
+                "from_15000_to_24999": 16070,
+                "from_25000_to_34999": 15332,
+                "from_35000_to_49999": 18708,
+                "from_50000_to_74999": 27731,
+                "from_75000_to_99999": 22707,
+                "from_100000_and_more": 56065
+            }
+        }
+    },
+    "14": {
+        "rural": {
+            "total_household": 956,
+            "average_income": 38782.59309623431,
+            "precinct_count": 25,
+            "income_ranges": {
+                "from_0_to_9999": 245,
+                "from_10000_to_14999": 171,
+                "from_15000_to_24999": 189,
+                "from_25000_to_34999": 9,
+                "from_35000_to_49999": 16,
+                "from_50000_to_74999": 91,
+                "from_75000_to_99999": 72,
+                "from_100000_and_more": 163
+            }
+        },
+        "suburban": {
+            "total_household": 110,
+            "average_income": 42706.0,
+            "precinct_count": 1,
+            "income_ranges": {
+                "from_0_to_9999": 0,
+                "from_10000_to_14999": 61,
+                "from_15000_to_24999": 0,
+                "from_25000_to_34999": 12,
+                "from_35000_to_49999": 0,
+                "from_50000_to_74999": 16,
+                "from_75000_to_99999": 0,
+                "from_100000_and_more": 21
+            }
+        },
+        "urban": {
+            "total_household": 156665,
+            "average_income": 62532.0761944276,
+            "precinct_count": 345,
+            "income_ranges": {
+                "from_0_to_9999": 12502,
+                "from_10000_to_14999": 9236,
+                "from_15000_to_24999": 15790,
+                "from_25000_to_34999": 13850,
+                "from_35000_to_49999": 17912,
+                "from_50000_to_74999": 26069,
+                "from_75000_to_99999": 18271,
+                "from_100000_and_more": 43035
+            }
+        }
+    },
+    "12": {
+        "rural": {
+            "total_household": 17,
+            "average_income": 43754.05882352941,
+            "precinct_count": 13,
+            "income_ranges": {
+                "from_0_to_9999": 0,
+                "from_10000_to_14999": 0,
+                "from_15000_to_24999": 4,
+                "from_25000_to_34999": 0,
+                "from_35000_to_49999": 13,
+                "from_50000_to_74999": 0,
+                "from_75000_to_99999": 0,
+                "from_100000_and_more": 0
+            }
+        },
+        "suburban": {
+            "total_household": 343,
+            "average_income": 76296.50437317784,
+            "precinct_count": 4,
+            "income_ranges": {
+                "from_0_to_9999": 0,
+                "from_10000_to_14999": 17,
+                "from_15000_to_24999": 9,
+                "from_25000_to_34999": 0,
+                "from_35000_to_49999": 19,
+                "from_50000_to_74999": 0,
+                "from_75000_to_99999": 15,
+                "from_100000_and_more": 283
+            }
+        },
+        "urban": {
+            "total_household": 251204,
+            "average_income": 116273.52005143231,
+            "precinct_count": 374,
+            "income_ranges": {
+                "from_0_to_9999": 14685,
+                "from_10000_to_14999": 7076,
+                "from_15000_to_24999": 11506,
+                "from_25000_to_34999": 10289,
+                "from_35000_to_49999": 14803,
+                "from_50000_to_74999": 24154,
+                "from_75000_to_99999": 22926,
+                "from_100000_and_more": 145765
+            }
+        }
+    },
+    "9": {
+        "rural": {
+            "total_household": 4,
+            "average_income": 44805.0,
+            "precinct_count": 3,
+            "income_ranges": {
+                "from_0_to_9999": 0,
+                "from_10000_to_14999": 0,
+                "from_15000_to_24999": 0,
+                "from_25000_to_34999": 0,
+                "from_35000_to_49999": 0,
+                "from_50000_to_74999": 0,
+                "from_75000_to_99999": 0,
+                "from_100000_and_more": 4
+            }
+        },
+        "suburban": {
+            "total_household": 0,
+            "average_income": 0,
+            "precinct_count": 0,
+            "income_ranges": {}
+        },
+        "urban": {
+            "total_household": 190828,
+            "average_income": 63907.8766742826,
+            "precinct_count": 390,
+            "income_ranges": {
+                "from_0_to_9999": 13926,
+                "from_10000_to_14999": 11329,
+                "from_15000_to_24999": 16947,
+                "from_25000_to_34999": 16978,
+                "from_35000_to_49999": 22154,
+                "from_50000_to_74999": 29378,
+                "from_75000_to_99999": 23104,
+                "from_100000_and_more": 57012
+            }
+        }
+    },
+    "8": {
+        "rural": {
+            "total_household": 0,
+            "average_income": 0,
+            "precinct_count": 7,
+            "income_ranges": {
+                "from_0_to_9999": 0,
+                "from_10000_to_14999": 0,
+                "from_15000_to_24999": 0,
+                "from_25000_to_34999": 0,
+                "from_35000_to_49999": 0,
+                "from_50000_to_74999": 0,
+                "from_75000_to_99999": 0,
+                "from_100000_and_more": 0
+            }
+        },
+        "suburban": {
+            "total_household": 0,
+            "average_income": 0,
+            "precinct_count": 0,
+            "income_ranges": {}
+        },
+        "urban": {
+            "total_household": 197150,
+            "average_income": 57705.7111793051,
+            "precinct_count": 378,
+            "income_ranges": {
+                "from_0_to_9999": 23862,
+                "from_10000_to_14999": 15518,
+                "from_15000_to_24999": 20264,
+                "from_25000_to_34999": 16229,
+                "from_35000_to_49999": 21799,
+                "from_50000_to_74999": 28132,
+                "from_75000_to_99999": 20175,
+                "from_100000_and_more": 51171
+            }
+        }
+    },
+    "10": {
+        "rural": {
+            "total_household": 50,
+            "average_income": 39904.3,
+            "precinct_count": 17,
+            "income_ranges": {
+                "from_0_to_9999": 22,
+                "from_10000_to_14999": 0,
+                "from_15000_to_24999": 0,
+                "from_25000_to_34999": 0,
+                "from_35000_to_49999": 0,
+                "from_50000_to_74999": 5,
+                "from_75000_to_99999": 0,
+                "from_100000_and_more": 23
+            }
+        },
+        "suburban": {
+            "total_household": 0,
+            "average_income": 0,
+            "precinct_count": 0,
+            "income_ranges": {}
+        },
+        "urban": {
+            "total_household": 216690,
+            "average_income": 100714.31166643593,
+            "precinct_count": 384,
+            "income_ranges": {
+                "from_0_to_9999": 16021,
+                "from_10000_to_14999": 10671,
+                "from_15000_to_24999": 15590,
+                "from_25000_to_34999": 12442,
+                "from_35000_to_49999": 15210,
+                "from_50000_to_74999": 21677,
+                "from_75000_to_99999": 19622,
+                "from_100000_and_more": 105457
+            }
+        }
+    },
+    "11": {
+        "rural": {
+            "total_household": 2594,
+            "average_income": 101859.34464148033,
+            "precinct_count": 27,
+            "income_ranges": {
+                "from_0_to_9999": 193,
+                "from_10000_to_14999": 65,
+                "from_15000_to_24999": 166,
+                "from_25000_to_34999": 102,
+                "from_35000_to_49999": 183,
+                "from_50000_to_74999": 477,
+                "from_75000_to_99999": 291,
+                "from_100000_and_more": 1117
+            }
+        },
+        "suburban": {
+            "total_household": 868,
+            "average_income": 85464.80875576037,
+            "precinct_count": 3,
+            "income_ranges": {
+                "from_0_to_9999": 48,
+                "from_10000_to_14999": 163,
+                "from_15000_to_24999": 101,
+                "from_25000_to_34999": 28,
+                "from_35000_to_49999": 87,
+                "from_50000_to_74999": 66,
+                "from_75000_to_99999": 40,
+                "from_100000_and_more": 335
+            }
+        },
+        "urban": {
+            "total_household": 174496,
+            "average_income": 82701.0516401522,
+            "precinct_count": 338,
+            "income_ranges": {
+                "from_0_to_9999": 10006,
+                "from_10000_to_14999": 7482,
+                "from_15000_to_24999": 11872,
+                "from_25000_to_34999": 11539,
+                "from_35000_to_49999": 16881,
+                "from_50000_to_74999": 25116,
+                "from_75000_to_99999": 21389,
+                "from_100000_and_more": 70211
+            }
+        }
+    },
+    "13": {
+        "rural": {
+            "total_household": 0,
+            "average_income": 0,
+            "precinct_count": 9,
+            "income_ranges": {
+                "from_0_to_9999": 0,
+                "from_10000_to_14999": 0,
+                "from_15000_to_24999": 0,
+                "from_25000_to_34999": 0,
+                "from_35000_to_49999": 0,
+                "from_50000_to_74999": 0,
+                "from_75000_to_99999": 0,
+                "from_100000_and_more": 0
+            }
+        },
+        "suburban": {
+            "total_household": 0,
+            "average_income": 0,
+            "precinct_count": 0,
+            "income_ranges": {}
+        },
+        "urban": {
+            "total_household": 228958,
+            "average_income": 54060.42814402642,
+            "precinct_count": 363,
+            "income_ranges": {
+                "from_0_to_9999": 28889,
+                "from_10000_to_14999": 19237,
+                "from_15000_to_24999": 25847,
+                "from_25000_to_34999": 19096,
+                "from_35000_to_49999": 25335,
+                "from_50000_to_74999": 34695,
+                "from_75000_to_99999": 23735,
+                "from_100000_and_more": 52124
+            }
+        }
+    },
+    "15": {
+        "rural": {
+            "total_household": 551,
+            "average_income": 56645.7386569873,
+            "precinct_count": 12,
+            "income_ranges": {
+                "from_0_to_9999": 72,
+                "from_10000_to_14999": 0,
+                "from_15000_to_24999": 124,
+                "from_25000_to_34999": 102,
+                "from_35000_to_49999": 52,
+                "from_50000_to_74999": 35,
+                "from_75000_to_99999": 66,
+                "from_100000_and_more": 100
+            }
+        },
+        "suburban": {
+            "total_household": 0,
+            "average_income": 0,
+            "precinct_count": 0,
+            "income_ranges": {}
+        },
+        "urban": {
+            "total_household": 172280,
+            "average_income": 42651.58073485024,
+            "precinct_count": 350,
+            "income_ranges": {
+                "from_0_to_9999": 25355,
+                "from_10000_to_14999": 18776,
+                "from_15000_to_24999": 22632,
+                "from_25000_to_34999": 16154,
+                "from_35000_to_49999": 23259,
+                "from_50000_to_74999": 26898,
+                "from_75000_to_99999": 15282,
+                "from_100000_and_more": 23924
+            }
+        }
+    },
+    "summary": {
+        "rural": {
+            "total_household": 1536311,
+            "average_income": 75996.41155143718,
+            "precinct_count": 3688,
+            "income_ranges": {
+                "from_0_to_9999": 70025,
+                "from_10000_to_14999": 58036,
+                "from_15000_to_24999": 121398,
+                "from_25000_to_34999": 123022,
+                "from_35000_to_49999": 172867,
+                "from_50000_to_74999": 263510,
+                "from_75000_to_99999": 208376,
+                "from_100000_and_more": 519077
+            }
+        },
+        "suburban": {
+            "total_household": 316764,
+            "average_income": 85026.03244686897,
+            "precinct_count": 711,
+            "income_ranges": {
+                "from_0_to_9999": 13744,
+                "from_10000_to_14999": 10447,
+                "from_15000_to_24999": 23319,
+                "from_25000_to_34999": 22684,
+                "from_35000_to_49999": 33529,
+                "from_50000_to_74999": 49993,
+                "from_75000_to_99999": 39153,
+                "from_100000_and_more": 123895
+            }
+        },
+        "urban": {
+            "total_household": 4462399,
+            "average_income": 80115.00468223482,
+            "precinct_count": 8936,
+            "income_ranges": {
+                "from_0_to_9999": 303633,
+                "from_10000_to_14999": 212203,
+                "from_15000_to_24999": 360908,
+                "from_25000_to_34999": 328344,
+                "from_35000_to_49999": 447861,
+                "from_50000_to_74999": 641726,
+                "from_75000_to_99999": 514607,
+                "from_100000_and_more": 1653117
+            }
+        }
+    }
+}

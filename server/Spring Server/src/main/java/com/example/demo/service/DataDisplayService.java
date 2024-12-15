@@ -4,13 +4,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -436,7 +436,6 @@ public class DataDisplayService {
 		return boxplots;
 	}
 
-	@Cacheable(value = "boxplotByRange")
 	public List<BoxPlot> getBoxPlotByRange(int stateId, Category category, RegionType regionType, String range) {
 		List<BoxPlot> boxplots = boxPlotRepository.findBoxPlotByStateIdAndCategoryAndRegionTypeAndRange(stateId,
 				category, regionType, range);
@@ -450,6 +449,7 @@ public class DataDisplayService {
 			boxplot.setMedian(boxplot.getMedian() / totalPopulation * 100);
 			boxplot.setQ1(boxplot.getQ1() / totalPopulation * 100);
 			boxplot.setQ3(boxplot.getQ3() / totalPopulation * 100);
+			b.setDots(getBoxPlotDots(stateId, category, regionType, range, b.getGeoId()));
 		}
 		return boxplots;
 	}
@@ -467,35 +467,128 @@ public class DataDisplayService {
 		return totalPopulation;
 	}
 
-	public List<Map<String, Object>> getBoxPlotDots(int stateId, Category category, RegionType regionType,
-			String range) {
-		List<Map<String, Object>> result = new ArrayList<>();
-		List<Urbanicity> urbanicities = urbanicityRepository.findUrbanicityByStateId(stateId);
-		Map<String, Urbanicity> geoIdToUrbanicity = new HashMap<>();
-		for (Urbanicity u : urbanicities) {
-			geoIdToUrbanicity.put(u.getGeoId(), u);
+	public Map<String, Object> getBoxPlotDots(int stateId, Category category, RegionType regionType,
+			String range, String geoId) {
+		String stateAbbrev = (stateId == 36) ? "ny" : "ar";
+		StringBuilder jsonString = new StringBuilder();
+
+		// Read JSON file from resources
+		try (InputStream inputStream = getClass().getClassLoader()
+				.getResourceAsStream(
+						stateAbbrev + "_district_" + category.toString().toLowerCase() + "_region_summary.json")) {
+			if (inputStream == null) {
+				System.err.println("JSON file not found for state: " + stateAbbrev);
+				return new HashMap<>();
+			}
+			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+			String line;
+
+			while ((line = reader.readLine()) != null) {
+				jsonString.append(line);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			return new HashMap<>();
 		}
 
-		switch (category) {
-			case Category.DEMOGRAPHIC:
-				List<Demographic> demographics = demographicRepository.findDemographicByStateIdAndGeoType(stateId,
-						GeoType.PRECINCT);
-				urbanicities = filterUrbanicity(urbanicities, regionType);
-				int population = 0;
-				for (Demographic d : demographics) {
-					Urbanicity u = geoIdToUrbanicity.get(d.getGeoId());
-					if (u != null && u.getUrbanicity().getType().toLowerCase() == regionType
-							.toString().toLowerCase()) { // we got the desired precinct data
-						population += (Integer) d.getRace().get(range.toLowerCase());
-					}
+		// Parse JSON
+		JSONObject obj;
+		try {
+			obj = new JSONObject(jsonString.toString());
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return new HashMap<>();
+		}
+
+		if (regionType == RegionType.ALL) {
+			Map<String, Object> districtMap = new HashMap<>();
+			if (category == Category.DEMOGRAPHIC) {
+				double totalPopulation = 0;
+				double racePopulation = 0;
+				Map<String, Object> innerMap = new HashMap<>();
+				innerMap.put("regionType", "ALL");
+				obj = obj.optJSONObject(String.valueOf(Integer.valueOf(geoId)));
+				for (RegionType t : RegionType.values()) {
+					if (t == RegionType.ALL)
+						continue;
+					JSONObject info = obj.optJSONObject(t.toString().toLowerCase());
+					totalPopulation += info.optDouble("population",0);
+					racePopulation += info.optDouble(range,0);
 				}
-
-				break;
-
-			default:
-				break;
+				innerMap.put("percentage", racePopulation / totalPopulation * 100);
+				districtMap.put(String.valueOf(Integer.valueOf(geoId)), innerMap);
+			} else if (category == Category.ECONOMIC) {
+				double totalPopulation = 0;
+				double incomeRangePopulation = 0;
+				Map<String, Object> innerMap = new HashMap<>();
+				innerMap.put("regionType", "ALL");
+				obj = obj.optJSONObject(String.valueOf(Integer.valueOf(geoId)));
+				for (RegionType t : RegionType.values()) {
+					if (t == RegionType.ALL)
+						continue;
+					JSONObject info = obj.optJSONObject(t.toString().toLowerCase());
+					JSONObject incomeRanges = info.optJSONObject("income_ranges");
+					totalPopulation += info.optDouble("total_household",0);
+					incomeRangePopulation += incomeRanges.optDouble(range,0);
+				}
+				innerMap.put("percentage", incomeRangePopulation / totalPopulation * 100);
+				districtMap.put(String.valueOf(Integer.valueOf(geoId)), innerMap);
+			}
+			return districtMap;
 		}
-		return new ArrayList<>();
+
+		// Iterate over each district
+		Iterator<String> districts = obj.keys();
+		Map<String, Object> districtMap = new HashMap<>();
+		while (districts.hasNext()) {
+			String districtKey = districts.next();
+
+			// Skip if the key is "summary"
+			if (districtKey.equalsIgnoreCase("summary") || Integer.valueOf(districtKey) != Integer.valueOf(geoId)) {
+				continue;
+			}
+
+			JSONObject districtObj = obj.optJSONObject(districtKey);
+			if (districtObj == null) {
+				System.err.println("District data missing for key: " + districtKey);
+				continue;
+			}
+			Map<String, Object> innerMap = new HashMap<>();
+			// Get the specified region type (e.g., "rural")
+			String regionTypeKey = regionType.toString().toLowerCase(); // Convert enum to lowercase string
+			JSONObject regionObj = districtObj.optJSONObject(regionTypeKey);
+			if (regionObj == null) {
+				System.err.println("RegionType '" + regionTypeKey + "' not found in district '" + districtKey + "'");
+				continue;
+			}
+
+			// Initialize variables to store the required data
+			innerMap.put("regionType", regionType.toString());
+
+			if (category == Category.ECONOMIC) {
+				// Handle Income Data
+				JSONObject incomeRangesObj = regionObj.optJSONObject("income_ranges");
+				if (incomeRangesObj != null) {
+					double incomeRangePopulation = incomeRangesObj.optDouble(range, 0);
+					double totalHousehold = regionObj.optDouble("total_household", 0);
+					innerMap.put("percentage", incomeRangePopulation/totalHousehold * 100);
+				} else {
+					System.err.println("'income_ranges' not found in region '" + regionTypeKey + "' of district '"
+							+ districtKey + "'");
+					innerMap.put("incomeRange", 0);
+					innerMap.put("totalHousehold", regionObj.optInt("total_household", 0));
+				}
+			} else if (category == Category.DEMOGRAPHIC) {
+				// Handle Demographic Data
+				double percentage = regionObj.optDouble(range + "_percentage", 0.0);
+				innerMap.put("percentage", percentage);
+			}
+
+			// Create the outer map with district key
+			districtMap.put(districtKey, innerMap);
+		}
+
+		return districtMap;
 	}
 
 	public List<Urbanicity> filterUrbanicity(List<Urbanicity> urbanicity, RegionType regionType) {
