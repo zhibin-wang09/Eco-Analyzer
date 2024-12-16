@@ -87,7 +87,8 @@ const DistrictDetail = ({
     <Box
       overflowX="scroll"
       overflowY="scroll"
-      maxH="50vh"
+      minH="70vh"
+      maxH="75vh"
       p={1}
       borderWidth="1px"
       borderRadius="md"
@@ -203,7 +204,7 @@ const DistrictDetail = ({
               bg={(selectedDistrict === item.district) ? "blue.50" : "white"}
               _hover={{ cursor: "pointer", bg: "blue.100" }}
             >
-              <Td py={0.5} fontSize="xs">
+              <Td py={0.5} fontSize="xs" isNumeric>
                 {item.district}
               </Td>
               <Td py={0.5} fontSize="xs">

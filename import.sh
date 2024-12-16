@@ -28,7 +28,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Import the data into MongoDB using mongoimport
-mongoimport --drop --uri "$MONGO_URI" --collection "$COLLECTION_NAME" --file "$OUTPUT_FILE"
+mongoimport --uri "$MONGO_URI" --collection "$COLLECTION_NAME" --file "$OUTPUT_FILE"
 
 # Check if mongoimport command succeeded
 if [ $? -eq 0 ]; then

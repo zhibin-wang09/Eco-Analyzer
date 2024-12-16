@@ -328,7 +328,7 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
     }
   };
   return (
-    <VStack spacing={4} w="100%" p={4} bg="white" borderRadius="lg" boxShadow="sm">
+    <VStack spacing={4} w="100%" p={4} bg="white" borderRadius="lg" boxShadow="sm" minH="70vh" maxH="80vh">
       <HStack justify="space-between" w="100%" align="center">
         <Text fontSize="xl" fontWeight="bold">
           {selectedState} Precinct Analysis:{" "}
