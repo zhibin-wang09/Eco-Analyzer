@@ -166,7 +166,7 @@ const MainLayout = () => {
           <Flex
             direction={direction}
             w="100%"
-            gap={6} // Increased gap
+            gap={2} // Increased gap
             justify="space-between"
             alignItems="stretch" // Ensures children have the same height
             height="100%"
@@ -177,9 +177,9 @@ const MainLayout = () => {
             <Flex
               direction="column"
               width={
-                selectedState !== "State" ? { base: "100%", lg: "40%" } : "100%"
+                selectedState !== "State" ? { base: "50%", lg: "45%" } : "100%"
               }
-              gap={6} // Increased gap
+              gap={2} // Increased gap
             >
               <Box flex={1} minH={0}>
                 <USMap

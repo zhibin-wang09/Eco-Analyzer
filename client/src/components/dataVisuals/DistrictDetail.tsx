@@ -85,7 +85,7 @@ const DistrictDetail = ({
 
   return (
     <Box
-      overflowX="scroll"
+      overflowX="hidden"
       overflowY="scroll"
       minH="70vh"
       maxH="75vh"
@@ -151,7 +151,7 @@ const DistrictDetail = ({
               bg="white"
               zIndex="1"
             >
-              Poverty%
+              Poverty
             </Th>
             <Th textTransform="none"
               py={1}
@@ -161,7 +161,7 @@ const DistrictDetail = ({
               bg="white"
               zIndex="1"
             >
-              Rural Region%
+              Rural Region
             </Th>
             <Th textTransform="none"
               py={1}
@@ -171,7 +171,7 @@ const DistrictDetail = ({
               bg="white"
               zIndex="1"
             >
-              Suburban Region%
+              Suburban Region
             </Th>
             <Th textTransform="none"
               py={1}
@@ -181,7 +181,7 @@ const DistrictDetail = ({
               bg="white"
               zIndex="1"
             >
-              Urban Region%
+              Urban Region
             </Th>
             <Th textTransform="none"
               py={1}
