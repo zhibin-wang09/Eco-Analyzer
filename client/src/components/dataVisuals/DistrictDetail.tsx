@@ -101,7 +101,7 @@ const DistrictDetail = ({
       <Table variant="simple" size="sm">
         <Thead>
           <Tr>
-            <Th
+            <Th textTransform="none"
               py={1}
               fontSize="xs"
               position="sticky"
@@ -111,7 +111,7 @@ const DistrictDetail = ({
             >
               District
             </Th>
-            <Th
+            <Th textTransform="none"
               py={1}
               fontSize="xs"
               position="sticky"
@@ -121,7 +121,7 @@ const DistrictDetail = ({
             >
               Rep.
             </Th>
-            <Th
+            <Th textTransform="none"
               py={1}
               fontSize="xs"
               position="sticky"
@@ -131,7 +131,7 @@ const DistrictDetail = ({
             >
               Party
             </Th>
-            <Th
+            <Th textTransform="none"
               py={1}
               fontSize="xs"
               isNumeric
@@ -142,7 +142,7 @@ const DistrictDetail = ({
             >
               Average Household Income
             </Th>
-            <Th
+            <Th textTransform="none"
               py={1}
               fontSize="xs"
               isNumeric
@@ -153,7 +153,7 @@ const DistrictDetail = ({
             >
               Poverty%
             </Th>
-            <Th
+            <Th textTransform="none"
               py={1}
               fontSize="xs"
               position="sticky"
@@ -163,7 +163,7 @@ const DistrictDetail = ({
             >
               Rural Region%
             </Th>
-            <Th
+            <Th textTransform="none"
               py={1}
               fontSize="xs"
               position="sticky"
@@ -173,7 +173,7 @@ const DistrictDetail = ({
             >
               Suburban Region%
             </Th>
-            <Th
+            <Th textTransform="none"
               py={1}
               fontSize="xs"
               position="sticky"
@@ -183,7 +183,7 @@ const DistrictDetail = ({
             >
               Urban Region%
             </Th>
-            <Th
+            <Th textTransform="none"
               py={1}
               fontSize="xs"
               isNumeric

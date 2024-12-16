@@ -37,8 +37,8 @@ const StateSummary = ({
         <Table variant="simple" size="sm">
           <Thead>
             <Tr>
-              <Th fontSize="xs">Representative</Th>
-              <Th fontSize="xs">Party</Th>
+              <Th textTransform="none" fontSize="xs">Senator</Th>
+              <Th  textTransform="none" fontSize="xs">Party</Th>
             </Tr>
           </Thead>
           <Tbody>

@@ -146,23 +146,23 @@ const GinglesTable: React.FC<GinglesTableProps> = ({
         <Table variant="simple" size="sm">
           <Thead>
             <Tr>
-              <Th cursor="pointer" onClick={() => handleSort('geoId')}>
+              <Th textTransform="none" cursor="pointer" onClick={() => handleSort('geoId')}>
                 Precinct ID <SortIcon columnKey="geoId" />
               </Th>
-              <Th cursor="pointer" onClick={() => handleSort('totalPopulation')} isNumeric>
+              <Th textTransform="none" cursor="pointer" onClick={() => handleSort('totalPopulation')} isNumeric>
                 Total Population <SortIcon columnKey="totalPopulation" />
               </Th>
-              <Th>Region Type</Th>
-              <Th cursor="pointer" onClick={() => handleSort('demographic')} isNumeric>
+              <Th textTransform="none">Region Type</Th>
+              <Th textTransform="none" cursor="pointer" onClick={() => handleSort('demographic')} isNumeric>
                 {selectedDemographic} % <SortIcon columnKey="demographic" />
               </Th>
-              <Th cursor="pointer" onClick={() => handleSort('income')} isNumeric>
+              <Th textTransform="none" cursor="pointer" onClick={() => handleSort('income')} isNumeric>
                 Income <SortIcon columnKey="income" />
               </Th>
-              <Th cursor="pointer" onClick={() => handleSort('democraticVotes')} isNumeric>
+              <Th textTransform="none" cursor="pointer" onClick={() => handleSort('democraticVotes')} isNumeric>
                 Dem. Votes <SortIcon columnKey="democraticVotes" />
               </Th>
-              <Th cursor="pointer" onClick={() => handleSort('republicanVotes')} isNumeric>
+              <Th textTransform="none" cursor="pointer" onClick={() => handleSort('republicanVotes')} isNumeric>
                 Rep. Votes <SortIcon columnKey="republicanVotes" />
               </Th>
             </Tr>
