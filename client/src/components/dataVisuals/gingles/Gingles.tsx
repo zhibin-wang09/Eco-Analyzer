@@ -393,18 +393,18 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
               <ResponsiveContainer>
                 <ComposedChart margin={{ top: 20, right: 30, bottom: 60, left: 40 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
-                  <XAxis
+                    <XAxis
                     type="number"
                     dataKey="x"
                     domain={processedData.xDomain}
                     tickFormatter={
                       dataMode === "Income"
-                        ? (value) => `$${(value / 1000).toFixed(0)}k`
-                        : undefined
+                      ? (value) => `$${(value / 1000).toFixed(0)}k`
+                      : (value) => value.toFixed(1)
                     }
-                  >
+                    >
                     <Label value={getXAxisLabel()} position="bottom" offset={20} />
-                  </XAxis>
+                    </XAxis>
                   <YAxis
                     type="number"
                     dataKey="y"
