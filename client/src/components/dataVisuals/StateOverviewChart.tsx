@@ -81,7 +81,7 @@ const StateOverviewChart = ({
         {title}
       </Text>
       <Box height="calc(100% - 35px)">
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height={height == null ? height : "100%"}>
           <BarChart
             data={data}
             margin={{ top: 20, right: 45, bottom: 45, left: 45 }}  // Adjusted margins

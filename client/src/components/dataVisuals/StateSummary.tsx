@@ -19,7 +19,6 @@ interface StateSummaryProps {
   regionData: ChartDataItem[];
   totalPopulation: number;
   representatives?: Array<{ name: string; party: string }>;
-  ensembleSummary: EnsembleSummaryData | undefined;
 }
 
 const StateSummary = ({
@@ -29,7 +28,6 @@ const StateSummary = ({
   regionData,
   totalPopulation,
   representatives = [],
-  ensembleSummary
 }: StateSummaryProps) => {
   return (
     <Box p={5}>
@@ -88,9 +86,6 @@ const StateSummary = ({
         />
       </Box>
 
-      <Box mt={"100px"}>
-        {ensembleSummary == null ? <></> : <EnsembleSummary ensembleSummary={ensembleSummary}/>}
-      </Box>
     </Box>
   );
 };

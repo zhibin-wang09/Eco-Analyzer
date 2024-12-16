@@ -74,22 +74,22 @@ const BaseChart: React.FC<BaseChartProps> = ({
         setIsLoading(false);
       }
     };
-    const fetchEnsembleSummary = async (selectedState: string) => {
-      const query = new URLSearchParams({
-        state: stateConversion(selectedState),
-      }).toString();
-      const response = await fetch(
-        "http://localhost:8080/api/ensembleSummary?" + query
-      );
-      const json = await response.json();
-      setEnsembleSummary(json);
-      console.log(json);
-      return json;
-    };  
+    // const fetchEnsembleSummary = async (selectedState: string) => {
+    //   const query = new URLSearchParams({
+    //     state: stateConversion(selectedState),
+    //   }).toString();
+    //   const response = await fetch(
+    //     "http://localhost:8080/api/ensembleSummary?" + query
+    //   );
+    //   const json = await response.json();
+    //   setEnsembleSummary(json);
+    //   console.log(json);
+    //   return json;
+    // };  
 
     if (selectedState && selectedVisualization === "summary") {
       fetchStateSummary();
-      fetchEnsembleSummary(selectedState);
+      // fetchEnsembleSummary(selectedState);
     }
   }, [selectedState, selectedVisualization]);
 
@@ -163,7 +163,6 @@ const BaseChart: React.FC<BaseChartProps> = ({
             representatives={transformRepresentativesData(
               stateSummaryData["congressional representatives"]
             )}
-            ensembleSummary={ensembleSummary}
           />
         );
       case "districtDetail":

@@ -10,15 +10,15 @@ interface EnsembleSummaryProp {
 const EnsembleSummary = ({ensembleSummary}: EnsembleSummaryProp) => {
   
   return (
-    <Box minH="70vh">
-       <Text fontSize="lg" fontWeight="semibold" mb={3}>
+    <Box>
+       <Text fontSize="lg" fontWeight="semibold" >
         Total District Plan: {ensembleSummary.total_plans}
       </Text>
-      <Text fontSize="md" fontWeight="semibold" mb={3}>
+      <Text fontSize="md" fontWeight="semibold" >
         Population Threshold : {ensembleSummary.offset}
       </Text>
 
-      <Box height="250px">
+      <Box height="200px">
         <StateOverviewChart
         yaxis="Number of District Plans"
           data={Object.entries(ensembleSummary?.split_frequencies!).map(([name, value]) => ({
