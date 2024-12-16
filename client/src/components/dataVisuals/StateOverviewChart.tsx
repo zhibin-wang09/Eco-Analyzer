@@ -97,7 +97,7 @@ const StateOverviewChart = ({
                 value={xAxisLabel}
                 position="bottom"
                 offset={-39}
-                style={{ fontSize: '13px', fill: '#4A5568' }}
+                style={{ fontSize: '10px', fill: '#4A5568' }}
               />
             </XAxis>
             <YAxis
@@ -110,8 +110,8 @@ const StateOverviewChart = ({
                 value={yaxis}
                 angle={-90}
                 position="insideLeft"
-                offset={0}
-                style={{ fontSize: '13px', fill: '#4A5568' }}
+                offset={-10}
+                style={{ fontSize: '10px', fill: '#4A5568' }}
                 dy={50}
               />
             </YAxis>

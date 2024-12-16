@@ -33,7 +33,7 @@ const StateSummary = ({
       </Text>
       <Grid templateColumns="repeat(2, 1fr)" gap={4} alignItems="top">
         <Box bg="white" p={4} borderRadius="xl" boxShadow="sm">
-        <Text fontSize="md" fontWeight="semibold" mb={2} textAlign="left">
+          <Text fontSize="md" fontWeight="semibold" mb={2} textAlign="left">
             State Senate Rep.
           </Text>
           <Table variant="simple" size="sm">
@@ -165,7 +165,7 @@ const StateSummary = ({
                   Party
                 </Th>
                 <Th textTransform="none" fontSize="xs" isNumeric>
-                  Population
+                  Percentage
                 </Th>
               </Tr>
             </Thead>
@@ -176,7 +176,11 @@ const StateSummary = ({
                     {party.name.slice(0, 1).toUpperCase() + party.name.slice(1)}
                   </Td>
                   <Td fontSize="xs" isNumeric>
-                    {party.value.toLocaleString()}
+                    {(party.value /
+                      voteData.reduce(
+                        (a: number, b: ChartDataItem) => a + b.value,
+                        0
+                      ) * 100).toFixed(2).toLocaleString()}%
                   </Td>
                 </Tr>
               ))}
