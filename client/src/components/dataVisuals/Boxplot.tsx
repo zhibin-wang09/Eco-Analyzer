@@ -96,7 +96,7 @@ const BoxPlot = ({ selectedState }: { selectedState: string }) => {
   }, [category, range, regionType, selectedState]);
 
   return (
-    <VStack>
+    <VStack minH="70vh">
       <Box>
         <HStack>
           {/* Category Menu */}
