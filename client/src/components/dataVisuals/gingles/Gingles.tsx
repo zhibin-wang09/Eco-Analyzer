@@ -29,18 +29,15 @@ import { stateConversion } from "../../../utils/util";
 import { JSX } from "react/jsx-runtime";
 import GinglesTable from "./GinglesTable";
 
-
-// Define available categories and types
 type DemographicKey = "hispanic" | "white" | "black" | "asian" | "other";
 type UrbanityFilter = "all" | "urban" | "rural" | "suburban";
 type DataMode = "Demographic" | "Income" | "Income/Race";
 
-// Define the structure of precinct data
 type PrecinctData = {
   geoId: string;
-  demographicGroupPercentage: number; // Remove optional modifier
+  demographicGroupPercentage: number;
   totalPopulation: number;
-  averageHouseholdIncome: number; // Remove optional modifier
+  averageHouseholdIncome: number;
   normalizedValue?: number;
   urbanicity: string;
   electionData: {
@@ -67,7 +64,15 @@ interface GinglesProps {
   selectedState: string;
 }
 
-
+// Helper function to detect outlier points
+const isOutlierPoint = (points: any[], point: any) => {
+  const THRESHOLD = 0.1;
+  const similarPoints = points.filter(p => 
+    Math.abs(p.electionData.biden_ratio - point.electionData.biden_ratio) < THRESHOLD/100 ||
+    Math.abs(p.electionData.trump_ratio - point.electionData.trump_ratio) < THRESHOLD/100
+  );
+  return similarPoints.length > 50;
+};
 
 const CustomPoint = ({ cx, cy, fill, fillOpacity }: CustomPointProps) => {
   if (typeof cx !== "number" || typeof cy !== "number") return null;
@@ -84,8 +89,6 @@ const CustomPoint = ({ cx, cy, fill, fillOpacity }: CustomPointProps) => {
   );
 };
 
-
-
 const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
   const [selectedDemographic, setSelectedDemographic] = useState<DemographicKey>("hispanic");
   const [urbanityFilter, setUrbanityFilter] = useState<UrbanityFilter>("all");
@@ -94,8 +97,6 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'graph' | 'table'>('graph');
-
-
 
   const demographicOptions: Record<DemographicKey, { name: string; description: string }> = {
     hispanic: {
@@ -120,9 +121,7 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
     },
   };
 
-
-
-   const handleDemographicChange = (key: DemographicKey) => {
+  const handleDemographicChange = (key: DemographicKey) => {
     setSelectedDemographic(key);
   };
 
@@ -133,19 +132,16 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
       try {
         const url = new URL('http://localhost:8080/api/graph/gingles');
         url.searchParams.append('state', stateConversion(selectedState));
-        url.searchParams.append('demographicGroup', selectedDemographic.toLowerCase());
-        url.searchParams.append('includeIncome', 'true'); // Always include income data
-    
-        console.log('Fetching from URL:', url.toString()); // For debugging
-    
+        url.searchParams.append('demographicGroup', selectedDemographic);
+        url.searchParams.append('includeIncome', String(dataMode !== 'Demographic'));
+
         const response = await fetch(url.toString());
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-    
+
         const data = await response.json();
-        console.log('Received data:', data); // For debugging
         setRawData(data);
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
@@ -164,12 +160,13 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
   const processedData = useMemo(() => {
     if (!Array.isArray(rawData) || rawData.length === 0) return null;
   
+    // Filter by urbanicity first
     const filteredData = urbanityFilter === 'all' 
       ? rawData 
       : rawData.filter(precinct => 
           precinct.urbanicity?.toLowerCase() === urbanityFilter.toLowerCase()
         );
-  
+
     // Get x-axis value based on data mode
     const getXValue = (precinct: PrecinctData) => {
       switch (dataMode) {
@@ -181,17 +178,15 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
           return (precinct.demographicGroupPercentage || 0) * 100;
       }
     };
-  
-    // Transform data and filter out negative values
+
+    // Transform data for Democratic vote share with outlier detection
     const democraticPoints = filteredData
       .filter(precinct => {
         const xValue = getXValue(precinct);
-        return (
-          typeof xValue === 'number' &&
-          xValue >= 0 && // Filter out negative values
+        return typeof xValue === 'number' && 
           precinct.electionData?.biden_ratio != null &&
-          precinct.electionData.total_votes > 0
-        );
+          precinct.electionData.total_votes > 0 &&
+          !isOutlierPoint(filteredData, precinct);
       })
       .map(precinct => ({
         x: getXValue(precinct),
@@ -204,18 +199,17 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
         urbanicity: precinct.urbanicity,
         demographicName: dataMode === "Demographic" ? demographicOptions[selectedDemographic].name : undefined,
         income: precinct.averageHouseholdIncome,
-        isDataPoint: true,
+        isDataPoint: true
       }));
-  
+
+    // Transform data for Republican vote share with outlier detection
     const republicanPoints = filteredData
       .filter(precinct => {
         const xValue = getXValue(precinct);
-        return (
-          typeof xValue === 'number' &&
-          xValue >= 0 && // Filter out negative values
+        return typeof xValue === 'number' && 
           precinct.electionData?.trump_ratio != null &&
-          precinct.electionData.total_votes > 0
-        );
+          precinct.electionData.total_votes > 0 &&
+          !isOutlierPoint(filteredData, precinct);
       })
       .map(precinct => ({
         x: getXValue(precinct),
@@ -228,47 +222,43 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
         urbanicity: precinct.urbanicity,
         demographicName: dataMode === "Demographic" ? demographicOptions[selectedDemographic].name : undefined,
         income: precinct.averageHouseholdIncome,
-        isDataPoint: true,
+        isDataPoint: true
       }));
-  
-    // Calculate min and max x values from all points (will all be non-negative now)
+
+    // Calculate min and max x values for domain
     const allXValues = [...democraticPoints, ...republicanPoints].map(p => p.x);
     const minX = Math.min(...allXValues);
     const maxX = Math.max(...allXValues);
-  
-    // Add a small padding (5%) to the range
-    const xPadding = (maxX - minX) * 0.05;
-    const xDomain = [Math.max(0, minX - xPadding), maxX + xPadding]; // Ensure lower bound is never negative
-  
-    // Calculate trend lines using the dynamic range
+
+    // Calculate trend lines
     const calculateTrendLine = (points: any[]) => {
       if (points.length < 4) return [];
-  
+      
       const coefficients = regression(points, 3);
       if (!coefficients) return [];
-  
-      const step = (xDomain[1] - xDomain[0]) / 99; // 100 points for smooth curve
+
+      const step = (maxX - minX) / 99;
       
       return Array.from({ length: 100 }, (_, i) => {
-        const x = xDomain[0] + i * step;
+        const x = minX + i * step;
         const trendValue = coefficients.reduce(
           (sum, coeff, power) => sum + coeff * Math.pow(x, power),
           0
         );
         return {
           x,
-          trendValue: Math.min(Math.max(trendValue, 0), 100), // Ensure trend values stay within 0-100
-          isDataPoint: false,
+          trendValue: Math.min(Math.max(trendValue, 0), 100),
+          isDataPoint: false
         };
       });
     };
-  
+
     return {
       democratic: democraticPoints,
       republican: republicanPoints,
       demTrend: calculateTrendLine(democraticPoints),
       repTrend: calculateTrendLine(republicanPoints),
-      xDomain
+      xDomain: [minX, maxX]
     };
   }, [rawData, urbanityFilter, dataMode, selectedDemographic, demographicOptions]);
 
@@ -290,9 +280,7 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
       >
         <Text fontWeight="bold">{`Precinct: ${data.precinctId}`}</Text>
         {dataMode === "Demographic" && (
-          <Text>{`${data.demographicName} Population: ${data.x.toFixed(
-            1
-          )}%`}</Text>
+          <Text>{`${data.demographicName} Population: ${data.x.toFixed(1)}%`}</Text>
         )}
         {(dataMode === "Income" || dataMode === "Income/Race") && (
           <Text>{`${dataMode === "Income" ? "Income" : "Normalized Income"}: ${
@@ -307,9 +295,7 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
           </Text>
         )}
         <Text>{`Area Type: ${data.urbanicity || "Unknown"}`}</Text>
-        <Text>{`Total Population: ${
-          data.population?.toLocaleString() ?? "N/A"
-        }`}</Text>
+        <Text>{`Total Population: ${data.population?.toLocaleString() ?? "N/A"}`}</Text>
         {data.votes && (
           <Text>{`Votes: ${data.votes.toLocaleString()} / ${data.totalVotes.toLocaleString()}`}</Text>
         )}
@@ -327,16 +313,12 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
         return `${demographicOptions[selectedDemographic].name} Population Percentage`;
     }
   };
+
   return (
     <VStack spacing={4} w="100%" p={4} bg="white" borderRadius="lg" boxShadow="sm" minH="70vh" maxH="80vh">
       <HStack justify="space-between" w="100%" align="center">
         <Text fontSize="xl" fontWeight="bold">
-          {selectedState} Precinct Analysis:{" "}
-          {dataMode === "Demographic"
-            ? demographicOptions[selectedDemographic].name
-            : dataMode === "Income"
-            ? "Income Distribution"
-            : `${demographicOptions[selectedDemographic].name} Income Distribution`}
+          Gingles
         </Text>
         <HStack spacing={4}>
           <Menu>
@@ -353,7 +335,7 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
               </MenuItem>
             </MenuList>
           </Menu>
-  
+
           {(dataMode === "Demographic" || dataMode === "Income/Race") && (
             <Menu>
               <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
@@ -381,7 +363,7 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
           </Button>
         </HStack>
       </HStack>
-  
+
       {viewMode === 'graph' ? (
         <>
           <Box w="100%" h="450px" position="relative">
@@ -393,18 +375,18 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
               <ResponsiveContainer>
                 <ComposedChart margin={{ top: 20, right: 30, bottom: 60, left: 40 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
-                    <XAxis
+                  <XAxis
                     type="number"
                     dataKey="x"
                     domain={processedData.xDomain}
                     tickFormatter={
                       dataMode === "Income"
-                      ? (value) => `$${(value / 1000).toFixed(0)}k`
-                      : (value) => value.toFixed(1)
+                        ? (value) => `$${(value / 1000).toFixed(0)}k`
+                        : (value) => value.toFixed(1)
                     }
-                    >
+                  >
                     <Label value={getXAxisLabel()} position="bottom" offset={20} />
-                    </XAxis>
+                  </XAxis>
                   <YAxis
                     type="number"
                     dataKey="y"
@@ -424,7 +406,7 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
                     height={36}
                     wrapperStyle={{ fontSize: "11px" }}
                   />
-  
+
                   <Scatter
                     name="Dem. Vote Share"
                     data={processedData.democratic}
@@ -432,7 +414,8 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
                     fillOpacity={0.3}
                     shape={(props: JSX.IntrinsicAttributes & CustomPointProps) => (
                       <CustomPoint {...props} />
-                    )}                    dataKey="y"
+                    )}
+                    dataKey="y"
                   />
                   <Line
                     name="Dem. Trend"
@@ -444,7 +427,7 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
                     dot={false}
                     connectNulls
                   />
-  
+
                   <Scatter
                     name="Rep. Vote Share"
                     data={processedData.republican}
@@ -452,7 +435,8 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
                     fillOpacity={0.3}
                     shape={(props: JSX.IntrinsicAttributes & CustomPointProps) => (
                       <CustomPoint {...props} />
-                    )}                    dataKey="y"
+                    )}
+                    dataKey="y"
                   />
                   <Line
                     name="Rep. Trend"
@@ -468,7 +452,7 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
               </ResponsiveContainer>
             ) : null}
           </Box>
-  
+
           <ButtonGroup variant="outline" spacing={4} mt={-50}>
             <Button
               onClick={() => setUrbanityFilter("all")}
@@ -509,8 +493,7 @@ const Gingles: React.FC<GinglesProps> = ({ selectedState }) => {
       )}
     </VStack>
   );
-}
-
+};
 
 // Polynomial regression helper function
 const regression = (
