@@ -21,7 +21,7 @@ const BoxPlot = ({ selectedState }: { selectedState: string }) => {
   const [boxPlotData, setBoxPlotData] = useState<DataItem[]>([]);
   const [category, setCategory] = useState("Demographic");
   const [range, setRange] = useState("White");
-  const [regionType, setRegionTye] = useState("All");
+  const [regionType, setRegionTye] = useState(selectedState === 'New York' ? 'Urban' : 'Rural');
   const toast = useToast();
 
   const race = ["White", "Black", "Asian", "Hispanic", "Other"];
@@ -76,7 +76,7 @@ const BoxPlot = ({ selectedState }: { selectedState: string }) => {
       const result = await fetchStateSummary(
         selectedState,
         category,
-        category !== "Urbanicity" ? regionType : "All",
+        regionType,
         range
       );
       result.sort((a: DataItem, b: DataItem) => Number(a.geoId) - Number(b.geoId));
@@ -175,7 +175,6 @@ const BoxPlot = ({ selectedState }: { selectedState: string }) => {
             <Menu>
               <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>{regionType}</MenuButton>
               <MenuList>
-                <MenuItem onClick={() => setRegionTye("All")}>All</MenuItem>
                 <MenuItem onClick={() => setRegionTye("Rural")}>Rural</MenuItem>
                 <MenuItem onClick={() => setRegionTye("Suburban")}>
                   Suburban
