@@ -31,8 +31,11 @@ const StateSummary = ({
       <Text fontSize="lg" fontWeight="semibold" mb={3}>
         Total Population: {totalPopulation.toLocaleString()}
       </Text>
-      <Grid templateColumns="repeat(2, 1fr)" gap={4} alignItems="center">
+      <Grid templateColumns="repeat(2, 1fr)" gap={4} alignItems="top">
         <Box bg="white" p={4} borderRadius="xl" boxShadow="sm">
+        <Text fontSize="md" fontWeight="semibold" mb={2} textAlign="left">
+            State Senate Rep.
+          </Text>
           <Table variant="simple" size="sm">
             <Thead>
               <Tr>
