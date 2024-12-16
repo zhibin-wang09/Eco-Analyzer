@@ -10,7 +10,8 @@ import {
   MenuList, 
   MenuItem, 
   Button, 
-  useToast 
+  useToast, 
+  Text
 } from "@chakra-ui/react";
 import { stateConversion } from "../../utils/util";
 import { BoxplotWrapper } from "./BoxplotComponent/BoxplotWrapper";
@@ -189,7 +190,7 @@ const BoxPlot = ({ selectedState }: { selectedState: string }) => {
       {/* Boxplot Visualization */}
       <Box>
         <div>
-          <h2>Boxplot Visualization</h2>
+          <Text fontSize="lg" fontWeight="semibold">Boxplot Visualization</Text>
           <BoxplotWrapper
             yAxis={category + " percentage"}
             width={750}
