@@ -81,7 +81,6 @@ const MainLayout = () => {
     setTabIndex(index);
     const visualizations: VisualizationType[] = [
       "summary",
-      "ensembleSummary",
       "districtDetail",
       "gingles",
       "boxplot",

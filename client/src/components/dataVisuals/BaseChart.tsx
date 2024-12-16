@@ -85,14 +85,11 @@ const BaseChart: React.FC<BaseChartProps> = ({
       setEnsembleSummary(json);
       console.log(json);
       return json;
-    };
-
-    if (selectedState && selectedVisualization === "ensembleSummary") {
-      fetchEnsembleSummary(selectedState);
-    }
+    };  
 
     if (selectedState && selectedVisualization === "summary") {
       fetchStateSummary();
+      fetchEnsembleSummary(selectedState);
     }
   }, [selectedState, selectedVisualization]);
 
@@ -166,11 +163,9 @@ const BaseChart: React.FC<BaseChartProps> = ({
             representatives={transformRepresentativesData(
               stateSummaryData["congressional representatives"]
             )}
+            ensembleSummary={ensembleSummary}
           />
         );
-      case "ensembleSummary":
-        if (ensembleSummary == null) return null;
-        return <EnsembleSummary ensembleSummary={ensembleSummary} />;
       case "districtDetail":
         return (
           <DistrictDetail

@@ -15,12 +15,12 @@ const EnsembleSummary = ({ensembleSummary}: EnsembleSummaryProp) => {
         Total District Plan: {ensembleSummary.total_plans}
       </Text>
       <Text fontSize="md" fontWeight="semibold" mb={3}>
-        Ideal Population : {ensembleSummary.population_threshold} &#177; {ensembleSummary.offset}
+        Population Threshold : {ensembleSummary.offset}
       </Text>
 
-      <Box height="250px" mt="10">
+      <Box height="250px">
         <StateOverviewChart
-        yaxis="# District Plan"
+        yaxis="Number of District Plans"
           data={Object.entries(ensembleSummary?.split_frequencies!).map(([name, value]) => ({
             name,
             value,

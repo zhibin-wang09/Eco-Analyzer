@@ -3,6 +3,9 @@ import { Box, Grid, Text, VStack } from "@chakra-ui/react";
 import PieChartComponent from "./Pie";
 import StateOverviewChart from "./StateOverviewChart";
 import { Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
+import EcologicalInference from "./densityGraphComponent/EcologicalInference";
+import { EnsembleSummaryData } from "../../types/CongressionalDistrictData";
+import EnsembleSummary from "./EnsembleSummary";
 
 interface ChartDataItem {
   name: string;
@@ -16,6 +19,7 @@ interface StateSummaryProps {
   regionData: ChartDataItem[];
   totalPopulation: number;
   representatives?: Array<{ name: string; party: string }>;
+  ensembleSummary: EnsembleSummaryData | undefined;
 }
 
 const StateSummary = ({
@@ -25,6 +29,7 @@ const StateSummary = ({
   regionData,
   totalPopulation,
   representatives = [],
+  ensembleSummary
 }: StateSummaryProps) => {
   return (
     <Box p={5}>
@@ -81,6 +86,10 @@ const StateSummary = ({
           xAxisLabel="Race"
           height="350px"
         />
+      </Box>
+
+      <Box mt={"100px"}>
+        {ensembleSummary == null ? <></> : <EnsembleSummary ensembleSummary={ensembleSummary}/>}
       </Box>
     </Box>
   );

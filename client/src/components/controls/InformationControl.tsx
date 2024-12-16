@@ -52,8 +52,7 @@ const InformationControl = ({
             },
           }}
         >
-          <Tab fontSize="sm">State Summary</Tab>
-          <Tab fontSize="sm">Ensemble Summary</Tab>
+          <Tab fontSize="sm">Summary</Tab>
           <Tab fontSize="sm">Districts Detail</Tab>
           <Tab fontSize="sm">Gingles</Tab>
           <Tab fontSize="sm">Box & Whisker</Tab>

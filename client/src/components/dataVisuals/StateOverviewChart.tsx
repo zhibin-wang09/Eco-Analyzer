@@ -110,8 +110,9 @@ const StateOverviewChart = ({
                 value={yaxis}
                 angle={-90}
                 position="insideLeft"
-                offset={-15}
+                offset={0}
                 style={{ fontSize: '13px', fill: '#4A5568' }}
+                dy={50}
               />
             </YAxis>
             <Tooltip content={CustomTooltip} />
