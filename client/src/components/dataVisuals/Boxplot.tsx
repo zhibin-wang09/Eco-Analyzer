@@ -56,7 +56,7 @@ const BoxPlot = ({ selectedState }: { selectedState: string }) => {
       const query = new URLSearchParams({
         state: stateConversion(selectedState),
         category: category.toLowerCase(),
-        regionType: regionType.toLowerCase(),
+        regionType: category === "Urbanicity" ? 'all': regionType,
       });
       range = range.toLowerCase();
       if (category === "Economic") {
