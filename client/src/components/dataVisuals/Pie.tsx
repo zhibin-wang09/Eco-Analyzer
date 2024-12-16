@@ -10,8 +10,8 @@ import {
 } from "recharts";
 
 const COLORS = [
-  "#1E88E5", // Bright Blue
   "#D81B60", // Deep Pink
+  "#1E88E5", // Bright Blue
   "#43A047", // Forest Green
   "#FB8C00", // Vibrant Orange
   "#8E24AA", // Rich Purple
