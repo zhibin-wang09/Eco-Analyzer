@@ -18,7 +18,7 @@ const EnsembleSummary = ({ensembleSummary}: EnsembleSummaryProp) => {
         Population Threshold : {ensembleSummary.offset}
       </Text>
 
-      <Box height="200px">
+      <Box height="220px" overflow="hidden">
         <StateOverviewChart
         yaxis="Number of District Plans"
           data={Object.entries(ensembleSummary?.split_frequencies!).map(([name, value]) => ({

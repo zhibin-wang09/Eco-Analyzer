@@ -67,7 +67,7 @@ const StateOverviewChart = ({
       boxShadow="sm"
       border="1px"
       borderColor={borderColor}
-      height="350px "  // Fixed height that works well with the layout
+      height="300px"  // Fixed height that works well with the layout
       transition="transform 0.2s"
       _hover={{ transform: 'translateY(-2px)', boxShadow: 'md' }}
     >
@@ -80,8 +80,8 @@ const StateOverviewChart = ({
       >
         {title}
       </Text>
-      <Box height="calc(100% - 35px)">
-        <ResponsiveContainer width="100%" height={height == null ? height : "100%"}>
+      <Box height="calc(100% - 35px)" marginTop="2px">
+        <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={data}
             margin={{ top: 20, right: 45, bottom: 45, left: 45 }}  // Adjusted margins
