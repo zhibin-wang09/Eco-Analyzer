@@ -4,3 +4,4 @@ AR Election.json
 
 **/.DS_Store
 server/set_env.sh
+server/Spring Server/dump.rdb
