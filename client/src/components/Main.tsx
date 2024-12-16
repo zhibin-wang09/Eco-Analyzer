@@ -143,7 +143,6 @@ const MainLayout = () => {
   return (
     <Frame>
       <Container maxW="100%" px={4} minH="calc(100vh - 60px)">
-        {" "}
         {/* Increased minimum height */}
         <VStack spacing={4} align="stretch" w="100%" minH="calc(100vh - 80px)">
           <Box>

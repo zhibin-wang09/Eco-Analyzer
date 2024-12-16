@@ -24,7 +24,7 @@ interface CongressionalDistrictData {
       urban: number;
       suburban: number;
     };
-    voteMargin: number;
+    voteMargin: string;
 }
 
 export interface SplitFrequencies {

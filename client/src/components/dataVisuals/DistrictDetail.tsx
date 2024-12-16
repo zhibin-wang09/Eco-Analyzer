@@ -52,6 +52,7 @@ const DistrictDetail = ({
         setDistrictTable(
           rawDistrictTable
             .map((rawDistrictDetail: CongressionalDistrictDataJson) => {
+              const totalVotes = rawDistrictDetail.data.trumpVotes + rawDistrictDetail.data.bidenVotes;
               const districtDetail: CongressionalDistrictData = {
                 district: Number(rawDistrictDetail.geoId),
                 representative: rawDistrictDetail.data.rep,
@@ -63,10 +64,7 @@ const DistrictDetail = ({
                   suburban: parseInt(rawDistrictDetail.data.subUrbanPercentage),
                   urban: parseInt(rawDistrictDetail.data.urbanPercentage),
                 },
-                voteMargin: Math.abs(
-                  rawDistrictDetail.data.trumpVotes -
-                    rawDistrictDetail.data.bidenVotes
-                ),
+                voteMargin: `${(rawDistrictDetail.data.trumpVotes/totalVotes*100).toFixed(1)}%-${(rawDistrictDetail.data.bidenVotes/totalVotes*100).toFixed(1)}%`,
               };
               return districtDetail;
             })
@@ -211,7 +209,7 @@ const DistrictDetail = ({
                 {item.representative}
               </Td>
               <Td py={0.5} fontSize="xs">
-                {item.party}
+                {item.party.slice(0,3)}.
               </Td>
               <Td py={0.5} fontSize="xs" isNumeric>
                 ${item.averageHouseholdIncome.toLocaleString()}
@@ -228,8 +226,8 @@ const DistrictDetail = ({
               <Td py={0.5} fontSize="xs" isNumeric>
                 {item.regionType.urban}%
               </Td>
-              <Td py={0.5} fontSize="xs" isNumeric>
-                {item.voteMargin.toFixed(1)}
+              <Td py={0.5} fontSize="xs">
+                {item.voteMargin}
               </Td>
             </Tr>
           ))}
