@@ -35,7 +35,7 @@ interface USMapProps {
   heatmapType: HeatmapType;
   selectedDistrict: number | null;
   selectedDemographic: string;
-  onDistrictSelect?: (district: string | null) => void;
+  onDistrictSelect: (district: string | null) => void;
 }
 
 const USMap: React.FC<USMapProps> = ({
@@ -233,7 +233,9 @@ const USMap: React.FC<USMapProps> = ({
           });
         }
       });
+    }
 
+    if (!selectedDistrict) {
       // if no district is selected zoom back out to the state level
       if (selectedState === "Arkansas") {
         map?.flyToBounds(
@@ -475,6 +477,8 @@ const USMap: React.FC<USMapProps> = ({
             layer.on({
               mouseover: highlightFeatures,
               mouseout: (e) => resetHighlight(e, geoLayerRef.current!),
+              click: (e) =>
+                onDistrictSelect(e.target.feature.properties.geoId!),
             });
           },
         }).addTo(map);

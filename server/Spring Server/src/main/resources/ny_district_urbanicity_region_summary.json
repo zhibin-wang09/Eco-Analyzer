@@ -1,0 +1,158 @@
+{
+    "19": {
+        "rural": 502,
+        "urban": 123,
+        "suburban": 31,
+        "total": 656
+    },
+    "21": {
+        "rural": 467,
+        "urban": 71,
+        "suburban": 27,
+        "total": 565
+    },
+    "20": {
+        "rural": 220,
+        "urban": 278,
+        "suburban": 67,
+        "total": 565
+    },
+    "1": {
+        "rural": 337,
+        "urban": 342,
+        "suburban": 70,
+        "total": 749
+    },
+    "26": {
+        "rural": 93,
+        "urban": 373,
+        "suburban": 47,
+        "total": 513
+    },
+    "24": {
+        "rural": 449,
+        "urban": 91,
+        "suburban": 43,
+        "total": 583
+    },
+    "23": {
+        "rural": 359,
+        "urban": 154,
+        "suburban": 61,
+        "total": 574
+    },
+    "18": {
+        "rural": 294,
+        "urban": 197,
+        "suburban": 63,
+        "total": 554
+    },
+    "25": {
+        "rural": 171,
+        "urban": 434,
+        "suburban": 71,
+        "total": 676
+    },
+    "22": {
+        "rural": 268,
+        "urban": 361,
+        "suburban": 61,
+        "total": 690
+    },
+    "2": {
+        "rural": 55,
+        "urban": 406,
+        "suburban": 40,
+        "total": 501
+    },
+    "17": {
+        "rural": 224,
+        "urban": 387,
+        "suburban": 67,
+        "total": 678
+    },
+    "3": {
+        "rural": 38,
+        "urban": 513,
+        "suburban": 24,
+        "total": 575
+    },
+    "4": {
+        "rural": 15,
+        "urban": 577,
+        "suburban": 9,
+        "total": 601
+    },
+    "16": {
+        "rural": 31,
+        "urban": 629,
+        "suburban": 16,
+        "total": 676
+    },
+    "5": {
+        "rural": 16,
+        "urban": 364,
+        "suburban": 2,
+        "total": 382
+    },
+    "7": {
+        "rural": 22,
+        "urban": 377,
+        "suburban": 2,
+        "total": 401
+    },
+    "6": {
+        "rural": 10,
+        "urban": 340,
+        "suburban": 1,
+        "total": 351
+    },
+    "14": {
+        "rural": 25,
+        "urban": 345,
+        "suburban": 1,
+        "total": 371
+    },
+    "12": {
+        "rural": 13,
+        "urban": 374,
+        "suburban": 4,
+        "total": 391
+    },
+    "9": {
+        "rural": 3,
+        "urban": 390,
+        "suburban": 0,
+        "total": 393
+    },
+    "8": {
+        "rural": 7,
+        "urban": 378,
+        "suburban": 0,
+        "total": 385
+    },
+    "10": {
+        "rural": 17,
+        "urban": 384,
+        "suburban": 0,
+        "total": 401
+    },
+    "11": {
+        "rural": 27,
+        "urban": 338,
+        "suburban": 3,
+        "total": 368
+    },
+    "13": {
+        "rural": 9,
+        "urban": 363,
+        "suburban": 0,
+        "total": 372
+    },
+    "15": {
+        "rural": 12,
+        "urban": 350,
+        "suburban": 0,
+        "total": 362
+    }
+}

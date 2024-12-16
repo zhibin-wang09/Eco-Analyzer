@@ -438,6 +438,7 @@ public class DataDisplayService {
 	public List<BoxPlot> getBoxPlotByRange(int stateId, Category category, RegionType regionType, String range) {
 		List<BoxPlot> boxplots = boxPlotRepository.findBoxPlotByStateIdAndCategoryAndRegionTypeAndRange(stateId,
 				category, regionType, range);
+		System.out.println(boxplots);
 		double totalPopulation = getTotalPopulation(stateId, category);
 		for (BoxPlot b : boxplots) {
 			BoxPlotData boxplot = b.getBoxPlot();
@@ -517,8 +518,7 @@ public class DataDisplayService {
 					if (t == RegionType.ALL)
 						continue;
 					JSONObject info = obj.optJSONObject(t.toString().toLowerCase());
-					totalPopulation += info.optDouble("population",0);
-					racePopulation += info.optDouble(range,0);
+					racePopulation += info.optDouble(range, 0);
 				}
 				innerMap.put("percentage", racePopulation / totalPopulation * 100);
 				districtMap.put(String.valueOf(Integer.valueOf(geoId)), innerMap);
@@ -532,10 +532,16 @@ public class DataDisplayService {
 						continue;
 					JSONObject info = obj.optJSONObject(t.toString().toLowerCase());
 					JSONObject incomeRanges = info.optJSONObject("income_ranges");
-					totalPopulation += info.optDouble("total_household",0);
-					incomeRangePopulation += incomeRanges.optDouble(range,0);
+					incomeRangePopulation += incomeRanges.optDouble(range, 0);
 				}
 				innerMap.put("percentage", incomeRangePopulation / totalPopulation * 100);
+				districtMap.put(String.valueOf(Integer.valueOf(geoId)), innerMap);
+			} else if (category == Category.URBANICITY) {
+				Map<String, Object> innerMap = new HashMap<>();
+				obj = obj.optJSONObject(String.valueOf(Integer.valueOf(geoId)));
+				innerMap.put("regionType", "ALL");
+				innerMap.put("percentage", obj.optDouble(range.toLowerCase()) / totalPopulation * 100);
+				System.out.println(innerMap);
 				districtMap.put(String.valueOf(Integer.valueOf(geoId)), innerMap);
 			}
 			return districtMap;
@@ -574,7 +580,7 @@ public class DataDisplayService {
 				JSONObject incomeRangesObj = regionObj.optJSONObject("income_ranges");
 				if (incomeRangesObj != null) {
 					double incomeRangePopulation = incomeRangesObj.optDouble(range, 0);
-					innerMap.put("percentage", incomeRangePopulation/totalPopulation * 100);
+					innerMap.put("percentage", incomeRangePopulation / totalPopulation * 100);
 				} else {
 					System.err.println("'income_ranges' not found in region '" + regionTypeKey + "' of district '"
 							+ districtKey + "'");

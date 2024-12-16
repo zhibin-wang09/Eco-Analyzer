@@ -14,8 +14,8 @@ const EnsembleSummary = ({ensembleSummary}: EnsembleSummaryProp) => {
        <Text fontSize="lg" fontWeight="semibold" mb={3}>
         Total District Plan: {ensembleSummary.total_plans}
       </Text>
-      <Text>
-        Ideal Population : {ensembleSummary.population_threshold}
+      <Text fontSize="md" fontWeight="semibold" mb={3}>
+        Ideal Population : {ensembleSummary.population_threshold} &#177; {ensembleSummary.offset}
       </Text>
 
       <Box height="250px">

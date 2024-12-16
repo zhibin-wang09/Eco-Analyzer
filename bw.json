@@ -1,0 +1,3512 @@
+[
+  {
+    "geoId": "01",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_0_to_9999",
+    "boxPlot": {
+      "min": 1160.551959913281,
+      "q1": 3024.757626307957,
+      "median": 5132.486096739036,
+      "q3": 9460.533154881565,
+      "max": 17406.160030373852,
+      "mean": 6754.181515826273
+    }
+  },
+  {
+    "geoId": "01",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_10000_to_14999",
+    "boxPlot": {
+      "min": 1116.4801963354403,
+      "q1": 2478.2018421206444,
+      "median": 4692.158787503548,
+      "q3": 8557.301681788122,
+      "max": 11812.7878529966,
+      "mean": 5448.186862728058
+    }
+  },
+  {
+    "geoId": "01",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_15000_to_24999",
+    "boxPlot": {
+      "min": 3473.2761026674157,
+      "q1": 4140.522638632006,
+      "median": 8663.875563276268,
+      "q3": 13442.529116494126,
+      "max": 16810.896677676647,
+      "mean": 8966.890189933349
+    }
+  },
+  {
+    "geoId": "01",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_25000_to_34999",
+    "boxPlot": {
+      "min": 3369.3503099451386,
+      "q1": 4855.149314183147,
+      "median": 9890.14994706882,
+      "q3": 15258.040751417775,
+      "max": 18988.217028180425,
+      "mean": 10400.283621944876
+    }
+  },
+  {
+    "geoId": "01",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_35000_to_49999",
+    "boxPlot": {
+      "min": 3817.4625567159346,
+      "q1": 6687.606983274754,
+      "median": 13885.7783783384,
+      "q3": 23653.085061763846,
+      "max": 29246.273366646303,
+      "mean": 15038.14425833806
+    }
+  },
+  {
+    "geoId": "01",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_50000_to_74999",
+    "boxPlot": {
+      "min": 9577.452753678257,
+      "q1": 10978.079570512227,
+      "median": 22000.49883255487,
+      "q3": 35898.81665639345,
+      "max": 51541.14802973747,
+      "mean": 24016.812969189756
+    }
+  },
+  {
+    "geoId": "01",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_75000_to_99999",
+    "boxPlot": {
+      "min": 5891.343299462025,
+      "q1": 8555.799225541747,
+      "median": 15927.037114856908,
+      "q3": 25153.02609542288,
+      "max": 30235.589775332468,
+      "mean": 16878.242307997443
+    }
+  },
+  {
+    "geoId": "01",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_100000_and_more",
+    "boxPlot": {
+      "min": 18111.030933844613,
+      "q1": 26746.147246963632,
+      "median": 53460.54959469166,
+      "q3": 99719.80103902481,
+      "max": 165320.67326493893,
+      "mean": 67925.22429778895
+    }
+  },
+  {
+    "geoId": "01",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "average_income",
+    "boxPlot": {
+      "min": null,
+      "q1": null,
+      "median": null,
+      "q3": null,
+      "max": null,
+      "mean": null
+    }
+  },
+  {
+    "geoId": "02",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_0_to_9999",
+    "boxPlot": {
+      "min": 380.63113799174573,
+      "q1": 860.4066365161575,
+      "median": 2832.7511735624466,
+      "q3": 7177.857182458394,
+      "max": 11601.162401949186,
+      "mean": 4025.919958715965
+    }
+  },
+  {
+    "geoId": "02",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_10000_to_14999",
+    "boxPlot": {
+      "min": 390.1525974176032,
+      "q1": 659.9780578657159,
+      "median": 1526.0370945311092,
+      "q3": 4554.564922471995,
+      "max": 8792.542784932768,
+      "mean": 2666.376913020654
+    }
+  },
+  {
+    "geoId": "02",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_15000_to_24999",
+    "boxPlot": {
+      "min": 510.24854555211084,
+      "q1": 1163.7385511566933,
+      "median": 3453.7772218122027,
+      "q3": 10227.1605694755,
+      "max": 16949.039828562087,
+      "mean": 5626.326033226082
+    }
+  },
+  {
+    "geoId": "02",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_25000_to_34999",
+    "boxPlot": {
+      "min": 289.5780104671349,
+      "q1": 894.8780064380616,
+      "median": 3049.0552530472232,
+      "q3": 8894.140268971596,
+      "max": 15039.410071180442,
+      "mean": 4922.347127906596
+    }
+  },
+  {
+    "geoId": "02",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_35000_to_49999",
+    "boxPlot": {
+      "min": 683.2389503627061,
+      "q1": 1506.9735291727916,
+      "median": 4354.138118534546,
+      "q3": 17688.452349518524,
+      "max": 32018.10405472401,
+      "mean": 9495.075625520478
+    }
+  },
+  {
+    "geoId": "02",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_50000_to_74999",
+    "boxPlot": {
+      "min": 1163.3604921446383,
+      "q1": 3189.0910476521985,
+      "median": 7747.892150387463,
+      "q3": 27708.588925664553,
+      "max": 49150.87635732593,
+      "mean": 15259.978570316123
+    }
+  },
+  {
+    "geoId": "02",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_75000_to_99999",
+    "boxPlot": {
+      "min": 828.5198440585742,
+      "q1": 2073.1930466579365,
+      "median": 5881.398169750954,
+      "q3": 22622.997768957335,
+      "max": 42993.329137040775,
+      "mean": 12356.672677153552
+    }
+  },
+  {
+    "geoId": "02",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_100000_and_more",
+    "boxPlot": {
+      "min": 4129.655575406481,
+      "q1": 12161.270102714569,
+      "median": 30647.010698255697,
+      "q3": 113919.6422205182,
+      "max": 211229.31941624632,
+      "mean": 62646.09830181887
+    }
+  },
+  {
+    "geoId": "02",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "average_income",
+    "boxPlot": {
+      "min": null,
+      "q1": null,
+      "median": null,
+      "q3": null,
+      "max": null,
+      "mean": null
+    }
+  },
+  {
+    "geoId": "03",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_0_to_9999",
+    "boxPlot": {
+      "min": 115.67813329798771,
+      "q1": 300.48459225874706,
+      "median": 1672.0389212880082,
+      "q3": 8079.692659902168,
+      "max": 14117.897723369384,
+      "mean": 4010.6677776968017
+    }
+  },
+  {
+    "geoId": "03",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_10000_to_14999",
+    "boxPlot": {
+      "min": 70.07331748721846,
+      "q1": 233.89486966165794,
+      "median": 1262.6759855462783,
+      "q3": 3701.1640699780305,
+      "max": 6734.359487465183,
+      "mean": 2044.0955226938852
+    }
+  },
+  {
+    "geoId": "03",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_15000_to_24999",
+    "boxPlot": {
+      "min": 197.67725052708187,
+      "q1": 467.68645701406354,
+      "median": 2205.7615706123447,
+      "q3": 10405.700080091188,
+      "max": 17923.356073834806,
+      "mean": 5209.964001123201
+    }
+  },
+  {
+    "geoId": "03",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_25000_to_34999",
+    "boxPlot": {
+      "min": 132.5529902281672,
+      "q1": 284.2279075608502,
+      "median": 1545.8728405366728,
+      "q3": 12319.593633762861,
+      "max": 24068.30678105111,
+      "mean": 6047.424627742794
+    }
+  },
+  {
+    "geoId": "03",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_35000_to_49999",
+    "boxPlot": {
+      "min": 238.2250043952358,
+      "q1": 519.6618245372757,
+      "median": 2840.3110889047302,
+      "q3": 15758.312041834077,
+      "max": 25481.2749901967,
+      "mean": 7612.7196114286035
+    }
+  },
+  {
+    "geoId": "03",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_50000_to_74999",
+    "boxPlot": {
+      "min": 550.63399136783,
+      "q1": 942.1537689423245,
+      "median": 5227.522290483168,
+      "q3": 21166.803339770388,
+      "max": 33827.09381341716,
+      "mean": 10516.133542544696
+    }
+  },
+  {
+    "geoId": "03",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_75000_to_99999",
+    "boxPlot": {
+      "min": 389.9088957676172,
+      "q1": 978.1351215863468,
+      "median": 4808.033402932087,
+      "q3": 28403.807229325685,
+      "max": 48243.37887982497,
+      "mean": 13667.068761814444
+    }
+  },
+  {
+    "geoId": "03",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_100000_and_more",
+    "boxPlot": {
+      "min": 2570.220775628532,
+      "q1": 9343.851472480635,
+      "median": 32842.73481313449,
+      "q3": 142733.6483350021,
+      "max": 241362.64955153948,
+      "mean": 72452.36146376673
+    }
+  },
+  {
+    "geoId": "03",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "average_income",
+    "boxPlot": {
+      "min": null,
+      "q1": null,
+      "median": null,
+      "q3": null,
+      "max": null,
+      "mean": null
+    }
+  },
+  {
+    "geoId": "04",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_0_to_9999",
+    "boxPlot": {
+      "min": 74.47041573854045,
+      "q1": 149.3808781410242,
+      "median": 1608.1942849087675,
+      "q3": 7363.988698325366,
+      "max": 11870.437806830061,
+      "mean": 3586.9886389626945
+    }
+  },
+  {
+    "geoId": "04",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_10000_to_14999",
+    "boxPlot": {
+      "min": 113.38155761279467,
+      "q1": 215.71166294808447,
+      "median": 671.9263522507762,
+      "q3": 4216.959517382022,
+      "max": 7617.662894810962,
+      "mean": 2087.3255810408527
+    }
+  },
+  {
+    "geoId": "04",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_15000_to_24999",
+    "boxPlot": {
+      "min": 54.66883879132487,
+      "q1": 126.98316311705847,
+      "median": 2578.2665489440024,
+      "q3": 14076.116701628707,
+      "max": 23739.359361378378,
+      "mean": 6819.290166892961
+    }
+  },
+  {
+    "geoId": "04",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_25000_to_34999",
+    "boxPlot": {
+      "min": 34.598307358917616,
+      "q1": 70.91641941793426,
+      "median": 2390.893252862623,
+      "q3": 15377.709337281707,
+      "max": 29651.658866136775,
+      "mean": 7623.864380525425
+    }
+  },
+  {
+    "geoId": "04",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_35000_to_49999",
+    "boxPlot": {
+      "min": 59.41510555732611,
+      "q1": 163.71677759170467,
+      "median": 2541.04874292268,
+      "q3": 23062.4358215594,
+      "max": 44816.353343250536,
+      "mean": 11118.821488078589
+    }
+  },
+  {
+    "geoId": "04",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_50000_to_74999",
+    "boxPlot": {
+      "min": 142.40951392544048,
+      "q1": 469.12580911817145,
+      "median": 4070.0564720919915,
+      "q3": 29651.531914567022,
+      "max": 51615.55781824004,
+      "mean": 13942.750312460068
+    }
+  },
+  {
+    "geoId": "04",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_75000_to_99999",
+    "boxPlot": {
+      "min": 97.22700988426092,
+      "q1": 208.556677669192,
+      "median": 3192.04497546602,
+      "q3": 23468.007726137483,
+      "max": 42208.37299842389,
+      "mean": 11065.915412831884
+    }
+  },
+  {
+    "geoId": "04",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_100000_and_more",
+    "boxPlot": {
+      "min": 1009.5637041924592,
+      "q1": 2041.3416068964434,
+      "median": 22641.152201520104,
+      "q3": 167470.08601168782,
+      "max": 337852.46613845084,
+      "mean": 82972.66801516103
+    }
+  },
+  {
+    "geoId": "04",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "average_income",
+    "boxPlot": {
+      "min": null,
+      "q1": null,
+      "median": null,
+      "q3": null,
+      "max": null,
+      "mean": null
+    }
+  },
+  {
+    "geoId": "05",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_0_to_9999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 2364.685161899455,
+      "q3": 13218.555446454935,
+      "max": 23542.868206360148,
+      "mean": 6352.788408475732
+    }
+  },
+  {
+    "geoId": "05",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_10000_to_14999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 1971.8230172318988,
+      "q3": 9402.72467189514,
+      "max": 16096.629249366915,
+      "mean": 4584.7092831353375
+    }
+  },
+  {
+    "geoId": "05",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_15000_to_24999",
+    "boxPlot": {
+      "min": 3.1919119904376436,
+      "q1": 9.05037534179963,
+      "median": 1651.526190779505,
+      "q3": 15154.212151086773,
+      "max": 27580.889555432102,
+      "mean": 7114.229814268682
+    }
+  },
+  {
+    "geoId": "05",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_25000_to_34999",
+    "boxPlot": {
+      "min": 3.782604990164549,
+      "q1": 8.00219984190934,
+      "median": 2570.2445846910787,
+      "q3": 12467.932745842565,
+      "max": 19470.504327315375,
+      "mean": 5912.9603411021935
+    }
+  },
+  {
+    "geoId": "05",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_35000_to_49999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 2646.0775272905,
+      "q3": 19928.920545710665,
+      "max": 34800.78452254208,
+      "mean": 9372.775254724922
+    }
+  },
+  {
+    "geoId": "05",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_50000_to_74999",
+    "boxPlot": {
+      "min": 5.9915706438426986,
+      "q1": 12.406026171851577,
+      "median": 6065.248016603547,
+      "q3": 37431.48745392279,
+      "max": 64119.4612332611,
+      "mean": 17443.95783741563
+    }
+  },
+  {
+    "geoId": "05",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_75000_to_99999",
+    "boxPlot": {
+      "min": 9.242879049420969,
+      "q1": 30.82760891885105,
+      "median": 3978.7353040434623,
+      "q3": 26520.67969641414,
+      "max": 46961.79841193947,
+      "mean": 12766.084305355786
+    }
+  },
+  {
+    "geoId": "05",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_100000_and_more",
+    "boxPlot": {
+      "min": 13.061135300615566,
+      "q1": 44.98854758291837,
+      "median": 9403.505642705211,
+      "q3": 50171.22623264637,
+      "max": 90732.74803119308,
+      "mean": 24480.258133848973
+    }
+  },
+  {
+    "geoId": "05",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "average_income",
+    "boxPlot": {
+      "min": null,
+      "q1": null,
+      "median": null,
+      "q3": null,
+      "max": null,
+      "mean": null
+    }
+  },
+  {
+    "geoId": "06",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_0_to_9999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 1369.4276801813894,
+      "q3": 12279.784190900655,
+      "max": 21208.397478715426,
+      "mean": 5670.2186848783585
+    }
+  },
+  {
+    "geoId": "06",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_10000_to_14999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 965.6963451061212,
+      "q3": 8073.31602485925,
+      "max": 15603.013057749835,
+      "mean": 3862.777948894714
+    }
+  },
+  {
+    "geoId": "06",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_15000_to_24999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 3816.738590344146,
+      "q3": 15607.019521915394,
+      "max": 23470.66833060289,
+      "mean": 7464.543456030042
+    }
+  },
+  {
+    "geoId": "06",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_25000_to_34999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 2086.1404031374277,
+      "q3": 17108.049786011805,
+      "max": 35443.16107543377,
+      "mean": 8435.743490194891
+    }
+  },
+  {
+    "geoId": "06",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_35000_to_49999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 4833.032150549526,
+      "q3": 19776.173168433583,
+      "max": 30819.841846102765,
+      "mean": 9504.394011122728
+    }
+  },
+  {
+    "geoId": "06",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_50000_to_74999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 5246.152634714061,
+      "q3": 38829.46659712391,
+      "max": 72620.80781536596,
+      "mean": 18494.919443651746
+    }
+  },
+  {
+    "geoId": "06",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_75000_to_99999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 6094.095709507482,
+      "q3": 29820.39587152256,
+      "max": 48738.38993923401,
+      "mean": 14368.163274053717
+    }
+  },
+  {
+    "geoId": "06",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_100000_and_more",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 7641.027780815011,
+      "q3": 49445.768610014115,
+      "max": 87666.01154062798,
+      "mean": 23218.514998955266
+    }
+  },
+  {
+    "geoId": "06",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "average_income",
+    "boxPlot": {
+      "min": null,
+      "q1": null,
+      "median": null,
+      "q3": null,
+      "max": null,
+      "mean": null
+    }
+  },
+  {
+    "geoId": "07",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_0_to_9999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 2428.2308774105286,
+      "q3": 18205.675245161732,
+      "max": 35240.44566440448,
+      "mean": 8931.382697663223
+    }
+  },
+  {
+    "geoId": "07",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_10000_to_14999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 2204.655494455776,
+      "q3": 11742.383425531381,
+      "max": 19685.72012569681,
+      "mean": 5530.526493172641
+    }
+  },
+  {
+    "geoId": "07",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_15000_to_24999",
+    "boxPlot": {
+      "min": 4.932647649359483,
+      "q1": 13.111798592907599,
+      "median": 2470.2130306475674,
+      "q3": 18626.840812799965,
+      "max": 33831.21454192659,
+      "mean": 8828.202391406481
+    }
+  },
+  {
+    "geoId": "07",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_25000_to_34999",
+    "boxPlot": {
+      "min": 1.3784793576535448,
+      "q1": 4.068571979552666,
+      "median": 4100.699600314187,
+      "q3": 18341.13584539166,
+      "max": 30198.31126534976,
+      "mean": 8906.182429275785
+    }
+  },
+  {
+    "geoId": "07",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_35000_to_49999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 2371.8565894579324,
+      "q3": 14880.10927947026,
+      "max": 28541.940399389816,
+      "mean": 7350.7286404607585
+    }
+  },
+  {
+    "geoId": "07",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_50000_to_74999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 3142.9146649900467,
+      "q3": 23329.23641469389,
+      "max": 43950.77295489008,
+      "mean": 11318.374758620796
+    }
+  },
+  {
+    "geoId": "07",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_75000_to_99999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 2430.7952063914427,
+      "q3": 20066.45030199026,
+      "max": 34939.29195444561,
+      "mean": 9241.813043266928
+    }
+  },
+  {
+    "geoId": "07",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_100000_and_more",
+    "boxPlot": {
+      "min": 15.226086589270126,
+      "q1": 60.92568607038234,
+      "median": 10385.680675191132,
+      "q3": 65171.12191266484,
+      "max": 110323.3106602949,
+      "mean": 30903.84225848238
+    }
+  },
+  {
+    "geoId": "07",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "average_income",
+    "boxPlot": {
+      "min": null,
+      "q1": null,
+      "median": null,
+      "q3": null,
+      "max": null,
+      "mean": null
+    }
+  },
+  {
+    "geoId": "08",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_0_to_9999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 7658.984260733105,
+      "q3": 28487.908895043525,
+      "max": 45189.38840046539,
+      "mean": 13942.49745258981
+    }
+  },
+  {
+    "geoId": "08",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_10000_to_14999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 3611.066200777082,
+      "q3": 21087.766642720904,
+      "max": 36974.826657899655,
+      "mean": 10042.006448889797
+    }
+  },
+  {
+    "geoId": "08",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_15000_to_24999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 4371.192884329774,
+      "q3": 21321.879301641784,
+      "max": 39221.882034958355,
+      "mean": 10700.11410784635
+    }
+  },
+  {
+    "geoId": "08",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_25000_to_34999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 2134.0601004047967,
+      "q3": 14472.575530552996,
+      "max": 27415.78273998003,
+      "mean": 7015.316033675267
+    }
+  },
+  {
+    "geoId": "08",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_35000_to_49999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 6990.680265800408,
+      "q3": 28335.508323225757,
+      "max": 51067.00589873694,
+      "mean": 14384.324851001531
+    }
+  },
+  {
+    "geoId": "08",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_50000_to_74999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 5128.104501165789,
+      "q3": 35442.99411118694,
+      "max": 60213.637411156706,
+      "mean": 16538.486426186857
+    }
+  },
+  {
+    "geoId": "08",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_75000_to_99999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 2646.5931986760957,
+      "q3": 25225.020693285893,
+      "max": 46151.90185229351,
+      "mean": 11742.169998354188
+    }
+  },
+  {
+    "geoId": "08",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_100000_and_more",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 15504.83024703386,
+      "q3": 63173.20013722897,
+      "max": 114025.9589559755,
+      "mean": 31806.27100017669
+    }
+  },
+  {
+    "geoId": "08",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "average_income",
+    "boxPlot": {
+      "min": null,
+      "q1": null,
+      "median": null,
+      "q3": null,
+      "max": null,
+      "mean": null
+    }
+  },
+  {
+    "geoId": "09",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_0_to_9999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 1741.1884285007993,
+      "q3": 15867.451685500862,
+      "max": 30716.78198721346,
+      "mean": 7561.307321057973
+    }
+  },
+  {
+    "geoId": "09",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_10000_to_14999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 2078.580384550959,
+      "q3": 12298.127538817967,
+      "max": 20349.91121184345,
+      "mean": 5803.920195181374
+    }
+  },
+  {
+    "geoId": "09",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_15000_to_24999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 5294.39578517212,
+      "q3": 20567.77417348137,
+      "max": 31928.019420431094,
+      "mean": 9939.269980334753
+    }
+  },
+  {
+    "geoId": "09",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_25000_to_34999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 3757.1608749213797,
+      "q3": 17605.535767335936,
+      "max": 29991.28719706846,
+      "mean": 8604.232439966676
+    }
+  },
+  {
+    "geoId": "09",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_35000_to_49999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 3650.7783799323665,
+      "q3": 19031.982063881034,
+      "max": 34568.0243869415,
+      "mean": 9427.323292996845
+    }
+  },
+  {
+    "geoId": "09",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_50000_to_74999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 4596.379007991974,
+      "q3": 29511.86798113761,
+      "max": 54528.02681347797,
+      "mean": 14260.560635496091
+    }
+  },
+  {
+    "geoId": "09",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_75000_to_99999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 3895.2524273588106,
+      "q3": 30651.13128609726,
+      "max": 53197.465644705684,
+      "mean": 14207.44966807382
+    }
+  },
+  {
+    "geoId": "09",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_100000_and_more",
+    "boxPlot": {
+      "min": 1.5424651332373254,
+      "q1": 3.8667799175134094,
+      "median": 8949.5220225123,
+      "q3": 55248.92521796272,
+      "max": 90974.39242548807,
+      "mean": 25739.2212443482
+    }
+  },
+  {
+    "geoId": "09",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "average_income",
+    "boxPlot": {
+      "min": null,
+      "q1": null,
+      "median": null,
+      "q3": null,
+      "max": null,
+      "mean": null
+    }
+  },
+  {
+    "geoId": "10",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_0_to_9999",
+    "boxPlot": {
+      "min": 10.847465619219292,
+      "q1": 21.82802827716439,
+      "median": 2606.3922390929115,
+      "q3": 17689.923503162256,
+      "max": 35389.44477693673,
+      "mean": 8738.66409645135
+    }
+  },
+  {
+    "geoId": "10",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_10000_to_14999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 1540.0895594482813,
+      "q3": 9143.442120474585,
+      "max": 17299.297596618115,
+      "mean": 4519.0938324965355
+    }
+  },
+  {
+    "geoId": "10",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_15000_to_24999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 2087.065080981266,
+      "q3": 17811.70900311866,
+      "max": 34563.974903023285,
+      "mean": 8542.029862684209
+    }
+  },
+  {
+    "geoId": "10",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_25000_to_34999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 2986.015416887508,
+      "q3": 12718.441340364932,
+      "max": 21907.12865893982,
+      "mean": 6281.079812187643
+    }
+  },
+  {
+    "geoId": "10",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_35000_to_49999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 2916.055119866142,
+      "q3": 20273.091501224237,
+      "max": 37509.00868022546,
+      "mean": 9635.215459734576
+    }
+  },
+  {
+    "geoId": "10",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_50000_to_74999",
+    "boxPlot": {
+      "min": 2.0647340306518243,
+      "q1": 5.232817542127104,
+      "median": 3930.3307446391455,
+      "q3": 26953.089600524305,
+      "max": 54508.841177882874,
+      "mean": 13336.002785262845
+    }
+  },
+  {
+    "geoId": "10",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_75000_to_99999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 6353.058100715203,
+      "q3": 23727.09252809968,
+      "max": 41655.55320067156,
+      "mean": 12034.347361395678
+    }
+  },
+  {
+    "geoId": "10",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_100000_and_more",
+    "boxPlot": {
+      "min": 6.427561458688439,
+      "q1": 18.07387583301294,
+      "median": 17432.78389148433,
+      "q3": 96654.50557874251,
+      "max": 152909.77378900303,
+      "mean": 45517.177146317634
+    }
+  },
+  {
+    "geoId": "10",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "average_income",
+    "boxPlot": {
+      "min": null,
+      "q1": null,
+      "median": null,
+      "q3": null,
+      "max": null,
+      "mean": null
+    }
+  },
+  {
+    "geoId": "11",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_0_to_9999",
+    "boxPlot": {
+      "min": 67.75062891680774,
+      "q1": 192.6739362130487,
+      "median": 2047.560160979275,
+      "q3": 9877.775104278873,
+      "max": 17905.133121074334,
+      "mean": 4892.399128590385
+    }
+  },
+  {
+    "geoId": "11",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_10000_to_14999",
+    "boxPlot": {
+      "min": 16.780093718841712,
+      "q1": 51.811279122704704,
+      "median": 1295.2051218172344,
+      "q3": 8072.184833039006,
+      "max": 13629.431492346406,
+      "mean": 3786.9376396288053
+    }
+  },
+  {
+    "geoId": "11",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_15000_to_24999",
+    "boxPlot": {
+      "min": 60.55091139834075,
+      "q1": 131.42908634782614,
+      "median": 3246.7737369467986,
+      "q3": 13475.845662457517,
+      "max": 21346.85111395783,
+      "mean": 6545.646997215039
+    }
+  },
+  {
+    "geoId": "11",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_25000_to_34999",
+    "boxPlot": {
+      "min": 36.011274651934514,
+      "q1": 77.94597981531764,
+      "median": 2842.029770648848,
+      "q3": 12893.27065016491,
+      "max": 23173.657367078926,
+      "mean": 6394.027899019617
+    }
+  },
+  {
+    "geoId": "11",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_35000_to_49999",
+    "boxPlot": {
+      "min": 90.6410446820758,
+      "q1": 194.6116428401706,
+      "median": 2773.0150822477362,
+      "q3": 15325.419828369373,
+      "max": 29376.744064567498,
+      "mean": 7680.196143774681
+    }
+  },
+  {
+    "geoId": "11",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_50000_to_74999",
+    "boxPlot": {
+      "min": 167.69085615353967,
+      "q1": 473.6452868812937,
+      "median": 6070.0137080657705,
+      "q3": 29185.588888377122,
+      "max": 50808.65387300378,
+      "mean": 14350.808982508292
+    }
+  },
+  {
+    "geoId": "11",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_75000_to_99999",
+    "boxPlot": {
+      "min": 110.90300858778231,
+      "q1": 285.8329491823265,
+      "median": 5356.515600207184,
+      "q3": 28211.163347719063,
+      "max": 52698.59421750406,
+      "mean": 14134.410115214287
+    }
+  },
+  {
+    "geoId": "11",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_100000_and_more",
+    "boxPlot": {
+      "min": 465.20962099728985,
+      "q1": 1202.547736772764,
+      "median": 12950.10884954355,
+      "q3": 93621.81501680045,
+      "max": 169507.78174568934,
+      "mean": 45199.35823772042
+    }
+  },
+  {
+    "geoId": "11",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "average_income",
+    "boxPlot": {
+      "min": null,
+      "q1": null,
+      "median": null,
+      "q3": null,
+      "max": null,
+      "mean": null
+    }
+  },
+  {
+    "geoId": "12",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_0_to_9999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 2290.032438568645,
+      "q3": 17996.011479159046,
+      "max": 34063.61031104769,
+      "mean": 8584.211616951205
+    }
+  },
+  {
+    "geoId": "12",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_10000_to_14999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 1252.7130356884566,
+      "q3": 7452.504877032947,
+      "max": 13836.594505551877,
+      "mean": 3611.884446731167
+    }
+  },
+  {
+    "geoId": "12",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_15000_to_24999",
+    "boxPlot": {
+      "min": 0.9993466146639848,
+      "q1": 3.6157127863750445,
+      "median": 2666.0647060096376,
+      "q3": 14257.968708128697,
+      "max": 24060.929166815204,
+      "mean": 6865.6551328441365
+    }
+  },
+  {
+    "geoId": "12",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_25000_to_34999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 1503.2054732738231,
+      "q3": 8480.68750973776,
+      "max": 15451.686867272987,
+      "mean": 4200.019747876695
+    }
+  },
+  {
+    "geoId": "12",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_35000_to_49999",
+    "boxPlot": {
+      "min": 3.3440806785762502,
+      "q1": 10.488679868117476,
+      "median": 2021.2159165504113,
+      "q3": 17658.479184160708,
+      "max": 33723.59036511795,
+      "mean": 8415.312458800594
+    }
+  },
+  {
+    "geoId": "12",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_50000_to_74999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 6005.751304727063,
+      "q3": 31321.28868566081,
+      "max": 50679.67506657647,
+      "mean": 14960.701117950905
+    }
+  },
+  {
+    "geoId": "12",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_75000_to_99999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 6937.278610587158,
+      "q3": 29536.824246934608,
+      "max": 53132.75981900362,
+      "mean": 14761.445293755009
+    }
+  },
+  {
+    "geoId": "12",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_100000_and_more",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 26947.322567721854,
+      "q3": 193142.76284072018,
+      "max": 366801.3306772313,
+      "mean": 93223.82144844552
+    }
+  },
+  {
+    "geoId": "12",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "average_income",
+    "boxPlot": {
+      "min": null,
+      "q1": null,
+      "median": null,
+      "q3": null,
+      "max": null,
+      "mean": null
+    }
+  },
+  {
+    "geoId": "13",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_0_to_9999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 4596.5567497417305,
+      "q3": 30157.22264276922,
+      "max": 57291.00733802764,
+      "mean": 14874.413569600792
+    }
+  },
+  {
+    "geoId": "13",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_10000_to_14999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 2853.1283904049524,
+      "q3": 25766.94191463226,
+      "max": 50604.778918388314,
+      "mean": 12407.630297884605
+    }
+  },
+  {
+    "geoId": "13",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_15000_to_24999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 4157.71175601073,
+      "q3": 35174.04234098754,
+      "max": 68801.17182753052,
+      "mean": 16947.061804433346
+    }
+  },
+  {
+    "geoId": "13",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_25000_to_34999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 4001.064014684544,
+      "q3": 25417.800369587432,
+      "max": 44585.38781787147,
+      "mean": 11946.221446479633
+    }
+  },
+  {
+    "geoId": "13",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_35000_to_49999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 4472.946664360199,
+      "q3": 23133.589770795264,
+      "max": 37347.16467201554,
+      "mean": 10975.811950041862
+    }
+  },
+  {
+    "geoId": "13",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_50000_to_74999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 5233.875590445457,
+      "q3": 35630.18531548466,
+      "max": 68451.58736002701,
+      "mean": 17324.891016564932
+    }
+  },
+  {
+    "geoId": "13",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_75000_to_99999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 5069.748782540075,
+      "q3": 32959.17587060066,
+      "max": 67179.7248933203,
+      "mean": 16346.859623120225
+    }
+  },
+  {
+    "geoId": "13",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_100000_and_more",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 8618.656490159154,
+      "q3": 49539.57617252186,
+      "max": 92492.38979340179,
+      "mean": 24145.095358456627
+    }
+  },
+  {
+    "geoId": "13",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "average_income",
+    "boxPlot": {
+      "min": null,
+      "q1": null,
+      "median": null,
+      "q3": null,
+      "max": null,
+      "mean": null
+    }
+  },
+  {
+    "geoId": "14",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_0_to_9999",
+    "boxPlot": {
+      "min": 63.42697507712534,
+      "q1": 167.4613484452089,
+      "median": 2683.204036731723,
+      "q3": 15368.79155275301,
+      "max": 24674.974859235168,
+      "mean": 7271.745575601097
+    }
+  },
+  {
+    "geoId": "14",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_10000_to_14999",
+    "boxPlot": {
+      "min": 105.80112221665836,
+      "q1": 173.88716285398033,
+      "median": 2235.1824940639112,
+      "q3": 10525.028126708554,
+      "max": 20030.163551032063,
+      "mean": 5365.513881652471
+    }
+  },
+  {
+    "geoId": "14",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_15000_to_24999",
+    "boxPlot": {
+      "min": 76.6358642935438,
+      "q1": 203.9761300079727,
+      "median": 4265.528032945189,
+      "q3": 19816.310250097544,
+      "max": 37440.26066838665,
+      "mean": 10096.310668791495
+    }
+  },
+  {
+    "geoId": "14",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_25000_to_34999",
+    "boxPlot": {
+      "min": 2.8642009233461407,
+      "q1": 6.499995263054478,
+      "median": 2709.72254954487,
+      "q3": 13674.249483198093,
+      "max": 25691.656495904233,
+      "mean": 6770.691263004924
+    }
+  },
+  {
+    "geoId": "14",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_35000_to_49999",
+    "boxPlot": {
+      "min": 5.435260116882056,
+      "q1": 12.68386166209855,
+      "median": 4188.6234669465375,
+      "q3": 18879.288349176284,
+      "max": 35453.50001948535,
+      "mean": 9502.491056703773
+    }
+  },
+  {
+    "geoId": "14",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_50000_to_74999",
+    "boxPlot": {
+      "min": 46.25684347702486,
+      "q1": 96.20066667417177,
+      "median": 4123.230774307791,
+      "q3": 27441.365760615023,
+      "max": 54121.567128765644,
+      "mean": 13519.759130604147
+    }
+  },
+  {
+    "geoId": "14",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_75000_to_99999",
+    "boxPlot": {
+      "min": 19.91307601036118,
+      "q1": 71.34318599841856,
+      "median": 3363.2209176186434,
+      "q3": 23304.229793287643,
+      "max": 43828.07905548335,
+      "mean": 11424.72417213367
+    }
+  },
+  {
+    "geoId": "14",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_100000_and_more",
+    "boxPlot": {
+      "min": 62.02396311370236,
+      "q1": 127.0464529277969,
+      "median": 7395.084474672379,
+      "q3": 44659.16848683162,
+      "max": 74120.66111659132,
+      "mean": 20822.86077701773
+    }
+  },
+  {
+    "geoId": "14",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "average_income",
+    "boxPlot": {
+      "min": null,
+      "q1": null,
+      "median": null,
+      "q3": null,
+      "max": null,
+      "mean": null
+    }
+  },
+  {
+    "geoId": "15",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_0_to_9999",
+    "boxPlot": {
+      "min": 23.17065028660014,
+      "q1": 72.57559036810804,
+      "median": 4432.77883926309,
+      "q3": 27332.967310896798,
+      "max": 43905.60190420694,
+      "mean": 12857.825117630757
+    }
+  },
+  {
+    "geoId": "15",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_10000_to_14999",
+    "boxPlot": {
+      "min": 0,
+      "q1": 0,
+      "median": 2781.5446141355787,
+      "q3": 16297.143859717813,
+      "max": 30070.5537720182,
+      "mean": 7865.37077258584
+    }
+  },
+  {
+    "geoId": "15",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_15000_to_24999",
+    "boxPlot": {
+      "min": 35.22433776955895,
+      "q1": 91.66129474069696,
+      "median": 4523.338209167759,
+      "q3": 26606.563368228075,
+      "max": 49387.21744685633,
+      "mean": 13005.363270653852
+    }
+  },
+  {
+    "geoId": "15",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_25000_to_34999",
+    "boxPlot": {
+      "min": 47.544467693944846,
+      "q1": 101.28532973641778,
+      "median": 3107.1003647592074,
+      "q3": 20927.595118385583,
+      "max": 41183.74930946777,
+      "mean": 10357.093064142604
+    }
+  },
+  {
+    "geoId": "15",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_35000_to_49999",
+    "boxPlot": {
+      "min": 33.46121750357888,
+      "q1": 58.966404113014505,
+      "median": 3431.774238584978,
+      "q3": 24992.129881895118,
+      "max": 42362.035032299915,
+      "mean": 11472.259448077359
+    }
+  },
+  {
+    "geoId": "15",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_50000_to_74999",
+    "boxPlot": {
+      "min": 8.831804697481127,
+      "q1": 26.46461114373129,
+      "median": 4306.1542201116945,
+      "q3": 25794.97961922735,
+      "max": 44127.55256167224,
+      "mean": 12370.33144935614
+    }
+  },
+  {
+    "geoId": "15",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_75000_to_99999",
+    "boxPlot": {
+      "min": 37.14906654816681,
+      "q1": 70.97935267020789,
+      "median": 1749.6336584722021,
+      "q3": 14630.101172327124,
+      "max": 25428.854880342325,
+      "mean": 6806.0007632091165
+    }
+  },
+  {
+    "geoId": "15",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_100000_and_more",
+    "boxPlot": {
+      "min": 25.47043395397264,
+      "q1": 90.92764278764385,
+      "median": 5114.585808970567,
+      "q3": 31904.152016937314,
+      "max": 53062.00675552118,
+      "mean": 14943.687271539777
+    }
+  },
+  {
+    "geoId": "15",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "average_income",
+    "boxPlot": {
+      "min": null,
+      "q1": null,
+      "median": null,
+      "q3": null,
+      "max": null,
+      "mean": null
+    }
+  },
+  {
+    "geoId": "16",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_0_to_9999",
+    "boxPlot": {
+      "min": 138.62954614711185,
+      "q1": 435.89759510705113,
+      "median": 4761.728298828349,
+      "q3": 25809.115515767633,
+      "max": 51337.45325354819,
+      "mean": 13040.356740219508
+    }
+  },
+  {
+    "geoId": "16",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_10000_to_14999",
+    "boxPlot": {
+      "min": 84.69440547211252,
+      "q1": 143.21645260063877,
+      "median": 2378.790111501211,
+      "q3": 14615.136931209301,
+      "max": 25103.177462918604,
+      "mean": 6995.7240508997465
+    }
+  },
+  {
+    "geoId": "16",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_15000_to_24999",
+    "boxPlot": {
+      "min": 129.0472601041815,
+      "q1": 276.24505218891545,
+      "median": 4798.865246969723,
+      "q3": 23476.78787774011,
+      "max": 42802.05190853255,
+      "mean": 11616.535851916764
+    }
+  },
+  {
+    "geoId": "16",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_25000_to_34999",
+    "boxPlot": {
+      "min": 102.25338723388943,
+      "q1": 273.63086156441335,
+      "median": 5347.634751728754,
+      "q3": 24691.734854036968,
+      "max": 44288.263639765064,
+      "mean": 12367.893337915177
+    }
+  },
+  {
+    "geoId": "16",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_35000_to_49999",
+    "boxPlot": {
+      "min": 143.91441402167447,
+      "q1": 288.90598988705847,
+      "median": 7606.891746551533,
+      "q3": 39220.17315032345,
+      "max": 63346.63744773749,
+      "mean": 18525.54391500187
+    }
+  },
+  {
+    "geoId": "16",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_50000_to_74999",
+    "boxPlot": {
+      "min": 116.94154894870596,
+      "q1": 399.26295872263347,
+      "median": 9763.080710390326,
+      "q3": 47140.29290119374,
+      "max": 85230.16283328581,
+      "mean": 23295.246182713996
+    }
+  },
+  {
+    "geoId": "16",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_75000_to_99999",
+    "boxPlot": {
+      "min": 262.9345154111588,
+      "q1": 478.9860060341138,
+      "median": 6873.00172671364,
+      "q3": 40092.88500316234,
+      "max": 73163.49090598396,
+      "mean": 19642.747697766
+    }
+  },
+  {
+    "geoId": "16",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_100000_and_more",
+    "boxPlot": {
+      "min": 853.5121721015045,
+      "q1": 2340.723465607588,
+      "median": 23562.525970532828,
+      "q3": 116570.10911567067,
+      "max": 223002.27143533868,
+      "mean": 59489.20741080716
+    }
+  },
+  {
+    "geoId": "16",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "average_income",
+    "boxPlot": {
+      "min": null,
+      "q1": null,
+      "median": null,
+      "q3": null,
+      "max": null,
+      "mean": null
+    }
+  },
+  {
+    "geoId": "17",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_0_to_9999",
+    "boxPlot": {
+      "min": 1339.03426819184,
+      "q1": 2505.2685071400565,
+      "median": 4498.595439107472,
+      "q3": 8725.036129577731,
+      "max": 14547.31119427193,
+      "mean": 5852.770955031013
+    }
+  },
+  {
+    "geoId": "17",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_10000_to_14999",
+    "boxPlot": {
+      "min": 745.7781053633321,
+      "q1": 1909.4057757092824,
+      "median": 3673.9502268879883,
+      "q3": 7093.807740028691,
+      "max": 11658.751459863694,
+      "mean": 4597.0122263415715
+    }
+  },
+  {
+    "geoId": "17",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_15000_to_24999",
+    "boxPlot": {
+      "min": 2226.0488157614427,
+      "q1": 2853.919905173959,
+      "median": 5499.793967324067,
+      "q3": 11221.544370268584,
+      "max": 18490.849164091043,
+      "mean": 7492.543700817967
+    }
+  },
+  {
+    "geoId": "17",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_25000_to_34999",
+    "boxPlot": {
+      "min": 2486.714029617836,
+      "q1": 4576.9467507715435,
+      "median": 6955.169676126179,
+      "q3": 16837.366822348034,
+      "max": 32421.177990786815,
+      "mean": 10917.074776833506
+    }
+  },
+  {
+    "geoId": "17",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_35000_to_49999",
+    "boxPlot": {
+      "min": 2132.5897552168785,
+      "q1": 5117.445731768562,
+      "median": 8796.806716493435,
+      "q3": 16213.462427466007,
+      "max": 30216.24713916691,
+      "mean": 11411.803183736101
+    }
+  },
+  {
+    "geoId": "17",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_50000_to_74999",
+    "boxPlot": {
+      "min": 3919.4731185086534,
+      "q1": 8441.396892580175,
+      "median": 18279.36268232219,
+      "q3": 32467.584219272343,
+      "max": 54734.60103222701,
+      "mean": 22214.10267559247
+    }
+  },
+  {
+    "geoId": "17",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_75000_to_99999",
+    "boxPlot": {
+      "min": 2788.25573200372,
+      "q1": 8996.868482324295,
+      "median": 16481.67876505881,
+      "q3": 28403.58742228688,
+      "max": 45921.26204435873,
+      "mean": 19434.37765481017
+    }
+  },
+  {
+    "geoId": "17",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_100000_and_more",
+    "boxPlot": {
+      "min": 21081.740260543407,
+      "q1": 39589.312451547805,
+      "median": 81585.24784012919,
+      "q3": 138521.31467738608,
+      "max": 185918.95000482159,
+      "mean": 88690.41451412083
+    }
+  },
+  {
+    "geoId": "17",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "average_income",
+    "boxPlot": {
+      "min": null,
+      "q1": null,
+      "median": null,
+      "q3": null,
+      "max": null,
+      "mean": null
+    }
+  },
+  {
+    "geoId": "18",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_0_to_9999",
+    "boxPlot": {
+      "min": 1365.267301417275,
+      "q1": 2197.543763161385,
+      "median": 6016.796616896214,
+      "q3": 10019.735816436143,
+      "max": 14762.98955702906,
+      "mean": 6449.266759679063
+    }
+  },
+  {
+    "geoId": "18",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_10000_to_14999",
+    "boxPlot": {
+      "min": 1335.459357239461,
+      "q1": 2400.9613920839597,
+      "median": 4300.970255543122,
+      "q3": 6280.59077081905,
+      "max": 8169.344984750914,
+      "mean": 4507.925952894281
+    }
+  },
+  {
+    "geoId": "18",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_15000_to_24999",
+    "boxPlot": {
+      "min": 2292.095198414469,
+      "q1": 3697.1939133322862,
+      "median": 7759.554234097854,
+      "q3": 12172.740072864512,
+      "max": 21354.359454723923,
+      "mean": 8593.487936903613
+    }
+  },
+  {
+    "geoId": "18",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_25000_to_34999",
+    "boxPlot": {
+      "min": 1709.3701470024344,
+      "q1": 3516.6815322989687,
+      "median": 7251.02559458255,
+      "q3": 11523.073585438122,
+      "max": 20472.613251346756,
+      "mean": 8273.440737273713
+    }
+  },
+  {
+    "geoId": "18",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_35000_to_49999",
+    "boxPlot": {
+      "min": 3042.36247480825,
+      "q1": 4115.160355617317,
+      "median": 8465.685060151614,
+      "q3": 12936.262896726785,
+      "max": 20590.685714205054,
+      "mean": 8999.75544181682
+    }
+  },
+  {
+    "geoId": "18",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_50000_to_74999",
+    "boxPlot": {
+      "min": 4203.997986094416,
+      "q1": 9415.93938344381,
+      "median": 15819.589009921026,
+      "q3": 24145.746463768475,
+      "max": 39640.16772505994,
+      "mean": 17729.00908721093
+    }
+  },
+  {
+    "geoId": "18",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_75000_to_99999",
+    "boxPlot": {
+      "min": 4212.091024693153,
+      "q1": 7708.792565818248,
+      "median": 11757.24960762334,
+      "q3": 23658.800048735615,
+      "max": 45120.80431467706,
+      "mean": 16733.570552607467
+    }
+  },
+  {
+    "geoId": "18",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_100000_and_more",
+    "boxPlot": {
+      "min": 8327.48339900069,
+      "q1": 21044.76209030733,
+      "median": 42220.042738902725,
+      "q3": 74729.66364611927,
+      "max": 115522.11082818445,
+      "mean": 49401.87626743456
+    }
+  },
+  {
+    "geoId": "18",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "average_income",
+    "boxPlot": {
+      "min": null,
+      "q1": null,
+      "median": null,
+      "q3": null,
+      "max": null,
+      "mean": null
+    }
+  },
+  {
+    "geoId": "19",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_0_to_9999",
+    "boxPlot": {
+      "min": 2699.605000708675,
+      "q1": 4702.017546257601,
+      "median": 7586.30958246923,
+      "q3": 13954.701690332295,
+      "max": 23824.751628816924,
+      "mean": 9923.54502422595
+    }
+  },
+  {
+    "geoId": "19",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_10000_to_14999",
+    "boxPlot": {
+      "min": 1374.3915207267457,
+      "q1": 2568.8102338902486,
+      "median": 4111.505450888108,
+      "q3": 9861.115685048178,
+      "max": 17462.066087144125,
+      "mean": 6118.3599511832235
+    }
+  },
+  {
+    "geoId": "19",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_15000_to_24999",
+    "boxPlot": {
+      "min": 1567.9079460901153,
+      "q1": 4230.512364514083,
+      "median": 8395.151616886817,
+      "q3": 20570.355584200974,
+      "max": 39722.52016492252,
+      "mean": 12848.02538433125
+    }
+  },
+  {
+    "geoId": "19",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_25000_to_34999",
+    "boxPlot": {
+      "min": 1546.8776559670732,
+      "q1": 4067.307590603737,
+      "median": 9330.39284360615,
+      "q3": 25142.213338701786,
+      "max": 46232.53708271239,
+      "mean": 15072.650357180619
+    }
+  },
+  {
+    "geoId": "19",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_35000_to_49999",
+    "boxPlot": {
+      "min": 2916.271606609265,
+      "q1": 7132.029319810873,
+      "median": 11600.273878208265,
+      "q3": 22523.115214851492,
+      "max": 35256.08039323844,
+      "mean": 14582.444913394585
+    }
+  },
+  {
+    "geoId": "19",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_50000_to_74999",
+    "boxPlot": {
+      "min": 4587.420473092431,
+      "q1": 8636.04341104132,
+      "median": 17768.048737027857,
+      "q3": 43347.02030601277,
+      "max": 72282.0722977923,
+      "mean": 25923.370524409565
+    }
+  },
+  {
+    "geoId": "19",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_75000_to_99999",
+    "boxPlot": {
+      "min": 1952.442423131613,
+      "q1": 6317.11127444379,
+      "median": 12669.874816372729,
+      "q3": 28939.789517385765,
+      "max": 48287.98609997756,
+      "mean": 17613.676496509008
+    }
+  },
+  {
+    "geoId": "19",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_100000_and_more",
+    "boxPlot": {
+      "min": 3778.361429050889,
+      "q1": 12797.723670404968,
+      "median": 22175.624471676685,
+      "q3": 50407.72382265958,
+      "max": 94358.54703528705,
+      "mean": 32686.063770313544
+    }
+  },
+  {
+    "geoId": "19",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "average_income",
+    "boxPlot": {
+      "min": null,
+      "q1": null,
+      "median": null,
+      "q3": null,
+      "max": null,
+      "mean": null
+    }
+  },
+  {
+    "geoId": "20",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_0_to_9999",
+    "boxPlot": {
+      "min": 1306.8734404263985,
+      "q1": 2772.341114321665,
+      "median": 4577.531874836737,
+      "q3": 12729.350497245861,
+      "max": 25114.826985638105,
+      "mean": 7850.454034040167
+    }
+  },
+  {
+    "geoId": "20",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_10000_to_14999",
+    "boxPlot": {
+      "min": 843.5692343208271,
+      "q1": 2495.681877115739,
+      "median": 4975.045624659731,
+      "q3": 8626.856725816697,
+      "max": 13047.211172738977,
+      "mean": 5759.720703444028
+    }
+  },
+  {
+    "geoId": "20",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_15000_to_24999",
+    "boxPlot": {
+      "min": 3454.2638302292667,
+      "q1": 3992.75623302442,
+      "median": 8658.319313460604,
+      "q3": 13711.934257296103,
+      "max": 21093.912454213856,
+      "mean": 9307.079238290757
+    }
+  },
+  {
+    "geoId": "20",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_25000_to_34999",
+    "boxPlot": {
+      "min": 2488.5715509056117,
+      "q1": 4061.3472172432166,
+      "median": 7887.855841389391,
+      "q3": 13527.591317741295,
+      "max": 22311.278893242277,
+      "mean": 9600.756277282335
+    }
+  },
+  {
+    "geoId": "20",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_35000_to_49999",
+    "boxPlot": {
+      "min": 3935.6938785685684,
+      "q1": 7258.191700204554,
+      "median": 13730.0747399995,
+      "q3": 22086.581772668345,
+      "max": 32308.041429502293,
+      "mean": 15014.908272006747
+    }
+  },
+  {
+    "geoId": "20",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_50000_to_74999",
+    "boxPlot": {
+      "min": 8645.654509478105,
+      "q1": 11995.456458741883,
+      "median": 25893.6940036662,
+      "q3": 44455.272540615,
+      "max": 61444.06449643082,
+      "mean": 27962.47667526514
+    }
+  },
+  {
+    "geoId": "20",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_75000_to_99999",
+    "boxPlot": {
+      "min": 4398.113956626637,
+      "q1": 7099.926131523511,
+      "median": 20867.1966722913,
+      "q3": 37655.03898152421,
+      "max": 50078.01790778099,
+      "mean": 22450.239662644162
+    }
+  },
+  {
+    "geoId": "20",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_100000_and_more",
+    "boxPlot": {
+      "min": 12646.574622859373,
+      "q1": 22678.22346971427,
+      "median": 50408.917911578515,
+      "q3": 80936.46919313786,
+      "max": 97814.15020601035,
+      "mean": 51882.942389049116
+    }
+  },
+  {
+    "geoId": "20",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "average_income",
+    "boxPlot": {
+      "min": null,
+      "q1": null,
+      "median": null,
+      "q3": null,
+      "max": null,
+      "mean": null
+    }
+  },
+  {
+    "geoId": "21",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_0_to_9999",
+    "boxPlot": {
+      "min": 776.556587109622,
+      "q1": 1853.2121186734685,
+      "median": 3371.438982148,
+      "q3": 9065.153508275951,
+      "max": 15358.583019937156,
+      "mean": 5352.485553564995
+    }
+  },
+  {
+    "geoId": "21",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_10000_to_14999",
+    "boxPlot": {
+      "min": 823.2516900299172,
+      "q1": 1395.9428597207784,
+      "median": 3587.017553589839,
+      "q3": 10267.573886547469,
+      "max": 17360.71519675191,
+      "mean": 5827.104372469331
+    }
+  },
+  {
+    "geoId": "21",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_15000_to_24999",
+    "boxPlot": {
+      "min": 1002.8500722446944,
+      "q1": 2634.024870367832,
+      "median": 5926.976086376841,
+      "q3": 17596.46988420142,
+      "max": 33109.29876707191,
+      "mean": 10153.344893722577
+    }
+  },
+  {
+    "geoId": "21",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_25000_to_34999",
+    "boxPlot": {
+      "min": 719.0895981010233,
+      "q1": 2378.9546800416065,
+      "median": 7372.133427359374,
+      "q3": 26206.452343733596,
+      "max": 50435.15456006607,
+      "mean": 14393.753100859782
+    }
+  },
+  {
+    "geoId": "21",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_35000_to_49999",
+    "boxPlot": {
+      "min": 1680.0233710745636,
+      "q1": 4254.961712206535,
+      "median": 9515.455229663148,
+      "q3": 34484.46236925089,
+      "max": 58498.68014797559,
+      "mean": 18502.75819178597
+    }
+  },
+  {
+    "geoId": "21",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_50000_to_74999",
+    "boxPlot": {
+      "min": 1412.808508644059,
+      "q1": 5409.442180400577,
+      "median": 14247.773113892232,
+      "q3": 35554.72184326924,
+      "max": 67082.23827509722,
+      "mean": 21108.157304574026
+    }
+  },
+  {
+    "geoId": "21",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_75000_to_99999",
+    "boxPlot": {
+      "min": 951.8600021414542,
+      "q1": 3051.5736074190763,
+      "median": 8844.640438750244,
+      "q3": 37789.80942375455,
+      "max": 64345.55121086899,
+      "mean": 19571.715978468324
+    }
+  },
+  {
+    "geoId": "21",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_100000_and_more",
+    "boxPlot": {
+      "min": 2795.9687863467398,
+      "q1": 5366.730400796761,
+      "median": 11795.117951641114,
+      "q3": 51116.90251928821,
+      "max": 87832.5844070037,
+      "mean": 26637.177829104457
+    }
+  },
+  {
+    "geoId": "21",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "average_income",
+    "boxPlot": {
+      "min": null,
+      "q1": null,
+      "median": null,
+      "q3": null,
+      "max": null,
+      "mean": null
+    }
+  },
+  {
+    "geoId": "22",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_0_to_9999",
+    "boxPlot": {
+      "min": 2135.6474432897353,
+      "q1": 5235.9514172887475,
+      "median": 9751.329023778882,
+      "q3": 17425.511201821188,
+      "max": 28586.367224728114,
+      "mean": 11718.096110779104
+    }
+  },
+  {
+    "geoId": "22",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_10000_to_14999",
+    "boxPlot": {
+      "min": 1642.8209017767128,
+      "q1": 2939.803761277598,
+      "median": 5096.873874078444,
+      "q3": 11397.502734331321,
+      "max": 20971.219735831186,
+      "mean": 7395.83878367054
+    }
+  },
+  {
+    "geoId": "22",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_15000_to_24999",
+    "boxPlot": {
+      "min": 1994.3684693160076,
+      "q1": 5857.620224122014,
+      "median": 10670.18409013244,
+      "q3": 22210.493849081766,
+      "max": 37976.511891606184,
+      "mean": 14780.943554402937
+    }
+  },
+  {
+    "geoId": "22",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_25000_to_34999",
+    "boxPlot": {
+      "min": 5511.567953744354,
+      "q1": 9633.970475939397,
+      "median": 13170.922110598076,
+      "q3": 19227.239055739843,
+      "max": 29339.223853887746,
+      "mean": 14755.141199399848
+    }
+  },
+  {
+    "geoId": "22",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_35000_to_49999",
+    "boxPlot": {
+      "min": 5506.847377216009,
+      "q1": 9340.60653604757,
+      "median": 20411.090030347677,
+      "q3": 35692.13564485195,
+      "max": 47881.0391658105,
+      "mean": 21933.57503565537
+    }
+  },
+  {
+    "geoId": "22",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_50000_to_74999",
+    "boxPlot": {
+      "min": 15604.785675982996,
+      "q1": 19411.940097595318,
+      "median": 32831.31299986529,
+      "q3": 49632.973729950965,
+      "max": 69912.42454575702,
+      "mean": 35516.386876044075
+    }
+  },
+  {
+    "geoId": "22",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_75000_to_99999",
+    "boxPlot": {
+      "min": 7046.583718862415,
+      "q1": 10076.153924059796,
+      "median": 19016.400066443053,
+      "q3": 32514.761337408672,
+      "max": 48630.583393782385,
+      "mean": 21403.78920292964
+    }
+  },
+  {
+    "geoId": "22",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_100000_and_more",
+    "boxPlot": {
+      "min": 12479.09572291626,
+      "q1": 17352.02451606037,
+      "median": 40298.61601487955,
+      "q3": 70723.36059987333,
+      "max": 110373.60078996577,
+      "mean": 45942.77834042827
+    }
+  },
+  {
+    "geoId": "22",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "average_income",
+    "boxPlot": {
+      "min": null,
+      "q1": null,
+      "median": null,
+      "q3": null,
+      "max": null,
+      "mean": null
+    }
+  },
+  {
+    "geoId": "23",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_0_to_9999",
+    "boxPlot": {
+      "min": 2120.6253751068734,
+      "q1": 3573.253300811518,
+      "median": 6365.957764142262,
+      "q3": 10001.794345031973,
+      "max": 13465.80400012264,
+      "mean": 6783.953367865103
+    }
+  },
+  {
+    "geoId": "23",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_10000_to_14999",
+    "boxPlot": {
+      "min": 1495.5344995260164,
+      "q1": 2438.35067822783,
+      "median": 4201.5297874678035,
+      "q3": 9114.903365689766,
+      "max": 18535.576446832125,
+      "mean": 6419.1179905766785
+    }
+  },
+  {
+    "geoId": "23",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_15000_to_24999",
+    "boxPlot": {
+      "min": 1815.0135991047975,
+      "q1": 4152.871313736859,
+      "median": 9910.234752956763,
+      "q3": 14774.810247801146,
+      "max": 24228.766086080388,
+      "mean": 10583.888007950012
+    }
+  },
+  {
+    "geoId": "23",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_25000_to_34999",
+    "boxPlot": {
+      "min": 3900.918853669484,
+      "q1": 5449.234452793136,
+      "median": 8683.08696771381,
+      "q3": 13133.909463884076,
+      "max": 20079.220457331114,
+      "mean": 9901.481917046423
+    }
+  },
+  {
+    "geoId": "23",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_35000_to_49999",
+    "boxPlot": {
+      "min": 3658.7842617410456,
+      "q1": 6958.555208889687,
+      "median": 14964.932800344592,
+      "q3": 22841.57064586884,
+      "max": 35169.32531264069,
+      "mean": 16048.92296587475
+    }
+  },
+  {
+    "geoId": "23",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_50000_to_74999",
+    "boxPlot": {
+      "min": 5814.716845264307,
+      "q1": 10354.438325756078,
+      "median": 15855.78616013717,
+      "q3": 28666.93328440556,
+      "max": 40173.160160910644,
+      "mean": 19257.398580892735
+    }
+  },
+  {
+    "geoId": "23",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_75000_to_99999",
+    "boxPlot": {
+      "min": 3284.1310627523058,
+      "q1": 7260.11051345373,
+      "median": 12551.583255882506,
+      "q3": 32190.25223204929,
+      "max": 64242.44742998169,
+      "mean": 20564.156064342264
+    }
+  },
+  {
+    "geoId": "23",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_100000_and_more",
+    "boxPlot": {
+      "min": 8233.56291965579,
+      "q1": 17042.468095753113,
+      "median": 28148.456666364185,
+      "q3": 46206.51841130064,
+      "max": 68315.63553727801,
+      "mean": 31736.69429141024
+    }
+  },
+  {
+    "geoId": "23",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "average_income",
+    "boxPlot": {
+      "min": null,
+      "q1": null,
+      "median": null,
+      "q3": null,
+      "max": null,
+      "mean": null
+    }
+  },
+  {
+    "geoId": "24",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_0_to_9999",
+    "boxPlot": {
+      "min": 1098.9222850974443,
+      "q1": 2081.8613233502815,
+      "median": 4000.7078224714396,
+      "q3": 14381.114739934466,
+      "max": 26500.551167745998,
+      "mean": 8006.637878407468
+    }
+  },
+  {
+    "geoId": "24",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_10000_to_14999",
+    "boxPlot": {
+      "min": 1032.5901314144799,
+      "q1": 1910.1882468761714,
+      "median": 3580.781564176854,
+      "q3": 7762.77280042075,
+      "max": 12455.946941783597,
+      "mean": 4896.705593088326
+    }
+  },
+  {
+    "geoId": "24",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_15000_to_24999",
+    "boxPlot": {
+      "min": 1919.2685547463698,
+      "q1": 5031.1037660866,
+      "median": 8070.87151690825,
+      "q3": 20768.952059448988,
+      "max": 36072.22801005843,
+      "mean": 12689.831394995354
+    }
+  },
+  {
+    "geoId": "24",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_25000_to_34999",
+    "boxPlot": {
+      "min": 1463.2771650905122,
+      "q1": 3417.349223237476,
+      "median": 8559.703910759874,
+      "q3": 23162.949849104454,
+      "max": 38249.03388239115,
+      "mean": 13236.368726336546
+    }
+  },
+  {
+    "geoId": "24",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_35000_to_49999",
+    "boxPlot": {
+      "min": 2508.1685419135583,
+      "q1": 4689.765044054769,
+      "median": 10528.262878149759,
+      "q3": 22195.333614337404,
+      "max": 40172.189122742515,
+      "mean": 14097.27418849516
+    }
+  },
+  {
+    "geoId": "24",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_50000_to_74999",
+    "boxPlot": {
+      "min": 2900.0308337496917,
+      "q1": 6464.1010291292605,
+      "median": 14692.65939359104,
+      "q3": 39495.457334102866,
+      "max": 72418.13231171644,
+      "mean": 23294.24160112761
+    }
+  },
+  {
+    "geoId": "24",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_75000_to_99999",
+    "boxPlot": {
+      "min": 1927.4592625276966,
+      "q1": 4413.168272137588,
+      "median": 11239.673887926347,
+      "q3": 37430.08792354593,
+      "max": 68992.25241672207,
+      "mean": 20698.797370870914
+    }
+  },
+  {
+    "geoId": "24",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_100000_and_more",
+    "boxPlot": {
+      "min": 4274.79903273234,
+      "q1": 8193.395572186317,
+      "median": 21557.85728140035,
+      "q3": 57966.8042484132,
+      "max": 91496.2049706974,
+      "mean": 32432.103846442595
+    }
+  },
+  {
+    "geoId": "24",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "average_income",
+    "boxPlot": {
+      "min": null,
+      "q1": null,
+      "median": null,
+      "q3": null,
+      "max": null,
+      "mean": null
+    }
+  },
+  {
+    "geoId": "25",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_0_to_9999",
+    "boxPlot": {
+      "min": 1172.412413671396,
+      "q1": 2434.680548797125,
+      "median": 5950.738019518647,
+      "q3": 14197.080725092997,
+      "max": 23242.371908476078,
+      "mean": 8359.352080002713
+    }
+  },
+  {
+    "geoId": "25",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_10000_to_14999",
+    "boxPlot": {
+      "min": 928.6712752746954,
+      "q1": 2116.2126965113316,
+      "median": 4226.332004553224,
+      "q3": 12519.631621073575,
+      "max": 20519.270111290785,
+      "mean": 7124.969657231006
+    }
+  },
+  {
+    "geoId": "25",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_15000_to_24999",
+    "boxPlot": {
+      "min": 2435.919110646362,
+      "q1": 5311.812017434712,
+      "median": 11211.100968783514,
+      "q3": 29241.926044332962,
+      "max": 51985.20377266515,
+      "mean": 17584.287628874776
+    }
+  },
+  {
+    "geoId": "25",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_25000_to_34999",
+    "boxPlot": {
+      "min": 1904.6069305673595,
+      "q1": 4055.9587103288686,
+      "median": 8222.043125887418,
+      "q3": 21601.75043298991,
+      "max": 40777.80382573678,
+      "mean": 13196.656167627953
+    }
+  },
+  {
+    "geoId": "25",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_35000_to_49999",
+    "boxPlot": {
+      "min": 2523.400389592539,
+      "q1": 7613.866812434477,
+      "median": 15521.484371828701,
+      "q3": 41254.423292803185,
+      "max": 69413.71110366372,
+      "mean": 23899.685132222774
+    }
+  },
+  {
+    "geoId": "25",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_50000_to_74999",
+    "boxPlot": {
+      "min": 3878.592178804167,
+      "q1": 8776.989357014827,
+      "median": 17804.0550812622,
+      "q3": 55109.48347383604,
+      "max": 100004.87382391428,
+      "mean": 31483.451162336125
+    }
+  },
+  {
+    "geoId": "25",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_75000_to_99999",
+    "boxPlot": {
+      "min": 2710.945570338654,
+      "q1": 7407.8872755917,
+      "median": 16274.957692097774,
+      "q3": 29511.12024229588,
+      "max": 49609.021875385624,
+      "mean": 19341.956713607025
+    }
+  },
+  {
+    "geoId": "25",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_100000_and_more",
+    "boxPlot": {
+      "min": 5494.285931994192,
+      "q1": 16535.360973564842,
+      "median": 32445.315572058393,
+      "q3": 78641.0011006005,
+      "max": 152323.58875831706,
+      "mean": 48535.28151730541
+    }
+  },
+  {
+    "geoId": "25",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "average_income",
+    "boxPlot": {
+      "min": null,
+      "q1": null,
+      "median": null,
+      "q3": null,
+      "max": null,
+      "mean": null
+    }
+  },
+  {
+    "geoId": "26",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_0_to_9999",
+    "boxPlot": {
+      "min": 526.94437982012,
+      "q1": 2015.1020334212662,
+      "median": 5210.511631447316,
+      "q3": 14622.227015088603,
+      "max": 24161.265067350472,
+      "mean": 8107.059124948183
+    }
+  },
+  {
+    "geoId": "26",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_10000_to_14999",
+    "boxPlot": {
+      "min": 701.3792740807858,
+      "q1": 1623.7810747438375,
+      "median": 4259.659017800985,
+      "q3": 9173.128144793336,
+      "max": 15107.43179390414,
+      "mean": 5496.234104601159
+    }
+  },
+  {
+    "geoId": "26",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_15000_to_24999",
+    "boxPlot": {
+      "min": 1463.4936247943617,
+      "q1": 3569.0869672660583,
+      "median": 7425.137720084143,
+      "q3": 21882.566426062192,
+      "max": 43032.39764810203,
+      "mean": 12820.276107320979
+    }
+  },
+  {
+    "geoId": "26",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_25000_to_34999",
+    "boxPlot": {
+      "min": 1151.0248792301895,
+      "q1": 2448.246302046558,
+      "median": 7019.897290645485,
+      "q3": 17401.808166665985,
+      "max": 28793.780782059755,
+      "mean": 10025.320820541277
+    }
+  },
+  {
+    "geoId": "26",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_35000_to_49999",
+    "boxPlot": {
+      "min": 1294.4956195265806,
+      "q1": 3980.6948387597604,
+      "median": 10699.766613827782,
+      "q3": 30481.411166336085,
+      "max": 56632.39962046829,
+      "mean": 17599.04410723073
+    }
+  },
+  {
+    "geoId": "26",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_50000_to_74999",
+    "boxPlot": {
+      "min": 3605.4817055072012,
+      "q1": 7060.080464326666,
+      "median": 12899.427452210228,
+      "q3": 38633.05913287544,
+      "max": 75650.48222888657,
+      "mean": 23098.468752867728
+    }
+  },
+  {
+    "geoId": "26",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_75000_to_99999",
+    "boxPlot": {
+      "min": 2504.51924223634,
+      "q1": 6810.295304601654,
+      "median": 12754.496450215904,
+      "q3": 28908.098867118628,
+      "max": 53188.89915989129,
+      "mean": 17986.697933475436
+    }
+  },
+  {
+    "geoId": "26",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "from_100000_and_more",
+    "boxPlot": {
+      "min": 5242.529877010824,
+      "q1": 10157.44118266908,
+      "median": 19373.849953627192,
+      "q3": 51981.974918254426,
+      "max": 105861.71937563321,
+      "mean": 32141.485030882952
+    }
+  },
+  {
+    "geoId": "26",
+    "stateId": 5,
+    "regionType": "ALL",
+    "category": "URBANICITY",
+    "range": "average_income",
+    "boxPlot": {
+      "min": null,
+      "q1": null,
+      "median": null,
+      "q3": null,
+      "max": null,
+      "mean": null
+    }
+  }
+]

@@ -76,7 +76,7 @@ export const BoxplotWrapper = ({
       {
         type: "dot",
         color: DOT_COLOR,
-        label: "Dots: Enacted Plan",
+        label: "Enacted",
       },
       // Future legend items can be added here
     ];
@@ -117,7 +117,7 @@ export const BoxplotWrapper = ({
             >
               <circle
                 cx={xScale.bandwidth() / 2} // Center within the box
-                cy={yScale(dot.percentage) + (Math.random() - 0.5) * 2} // Slight vertical jitter
+                cy={yScale(dot.percentage)} // Slight vertical jitter
                 r={DOT_RADIUS}
                 fill={DOT_COLOR}
                 stroke="black"
@@ -130,11 +130,11 @@ export const BoxplotWrapper = ({
   }, [groups, data, xScale, yScale]);
 
   // Calculate Legend Position (Lower Right)
-  const legendX = boundsWidth - 200; // Adjust based on legend width
+  const legendX = boundsWidth-60; // Adjust based on legend width
   const legendY = boundsHeight - (legendItems.length * LEGEND_SPACING) - LEGEND_PADDING; // Positioned above the bottom
 
   // Determine legend box dimensions
-  const legendWidth = 180; // Fixed width for the legend box
+  const legendWidth = 90; // Fixed width for the legend box
   const legendHeight = legendItems.length * LEGEND_SPACING + LEGEND_PADDING * 2; // Dynamic height based on number of items
 
   return (

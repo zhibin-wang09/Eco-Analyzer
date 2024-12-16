@@ -9,6 +9,7 @@ interface InformationControlProps {
   selectedVisualization: VisualizationType;
   handleSelectDistrict: (district: number | null) => void;
   selectedState: string;
+  selectedDistrict: number | null;
 }
 
 const InformationControl = ({
@@ -17,6 +18,7 @@ const InformationControl = ({
   selectedVisualization,
   handleSelectDistrict,
   selectedState,
+  selectedDistrict
 }: InformationControlProps) => {
   return (
     <Box
@@ -73,6 +75,7 @@ const InformationControl = ({
           selectedState={selectedState}
           selectedVisualization={selectedVisualization}
           onSelectDistrict={handleSelectDistrict}
+          selectedDistrict={selectedDistrict}
         />
       </Box>
     </Box>

@@ -9,12 +9,14 @@ interface DistrictDetailProps {
   onSelectDistrict: (district: number | null) => void;
   selectedState: string;
   chosenDistrict?: string;
+  district: number | null;
 }
 
 const DistrictDetail = ({
   onSelectDistrict,
   selectedState,
   chosenDistrict,
+  district
 }: DistrictDetailProps) => {
   const [selectedDistrict, setSelectedDistrict] = useState<number | null>(null);
   const [districtTable, setDistrictTable] = useState<
@@ -198,7 +200,7 @@ const DistrictDetail = ({
             <Tr
               key={item.district}
               onClick={() => handleRowClick(item.district)}
-              bg={selectedDistrict === item.district ? "blue.50" : "white"}
+              bg={(selectedDistrict === item.district) ? "blue.50" : "white"}
               _hover={{ cursor: "pointer", bg: "blue.100" }}
             >
               <Td py={0.5} fontSize="xs">

@@ -1,0 +1,158 @@
+{
+    "19": {
+        "biden_votes": 203536,
+        "trump_votes": 190037,
+        "other_votes": 8893,
+        "total_votes": 402466
+    },
+    "21": {
+        "biden_votes": 146780,
+        "trump_votes": 177646,
+        "other_votes": 6596,
+        "total_votes": 331022
+    },
+    "20": {
+        "biden_votes": 220800,
+        "trump_votes": 158991,
+        "other_votes": 8517,
+        "total_votes": 388308
+    },
+    "1": {
+        "biden_votes": 221973,
+        "trump_votes": 272643,
+        "other_votes": 9824,
+        "total_votes": 504440
+    },
+    "23": {
+        "biden_votes": 139283,
+        "trump_votes": 208783,
+        "other_votes": 7728,
+        "total_votes": 355794
+    },
+    "18": {
+        "biden_votes": 184753,
+        "trump_votes": 158512,
+        "other_votes": 5757,
+        "total_votes": 349022
+    },
+    "26": {
+        "biden_votes": 221087,
+        "trump_votes": 146285,
+        "other_votes": 6552,
+        "total_votes": 373924
+    },
+    "25": {
+        "biden_votes": 185601,
+        "trump_votes": 136624,
+        "other_votes": 8756,
+        "total_votes": 330981
+    },
+    "22": {
+        "biden_votes": 205107,
+        "trump_votes": 297486,
+        "other_votes": 10524,
+        "total_votes": 513117
+    },
+    "24": {
+        "biden_votes": 139028,
+        "trump_votes": 204857,
+        "other_votes": 7463,
+        "total_votes": 351348
+    },
+    "17": {
+        "biden_votes": 196880,
+        "trump_votes": 199720,
+        "other_votes": 5300,
+        "total_votes": 401900
+    },
+    "5": {
+        "biden_votes": 182759,
+        "trump_votes": 45963,
+        "other_votes": 1824,
+        "total_votes": 230546
+    },
+    "7": {
+        "biden_votes": 187268,
+        "trump_votes": 39057,
+        "other_votes": 3020,
+        "total_votes": 229345
+    },
+    "6": {
+        "biden_votes": 129544,
+        "trump_votes": 66946,
+        "other_votes": 2244,
+        "total_votes": 198734
+    },
+    "3": {
+        "biden_votes": 215137,
+        "trump_votes": 221779,
+        "other_votes": 6235,
+        "total_votes": 443151
+    },
+    "14": {
+        "biden_votes": 144651,
+        "trump_votes": 41045,
+        "other_votes": 1868,
+        "total_votes": 187564
+    },
+    "9": {
+        "biden_votes": 161737,
+        "trump_votes": 50948,
+        "other_votes": 2010,
+        "total_votes": 214695
+    },
+    "8": {
+        "biden_votes": 152624,
+        "trump_votes": 41233,
+        "other_votes": 1941,
+        "total_votes": 195798
+    },
+    "10": {
+        "biden_votes": 171432,
+        "trump_votes": 36641,
+        "other_votes": 2924,
+        "total_votes": 210997
+    },
+    "11": {
+        "biden_votes": 101258,
+        "trump_votes": 127073,
+        "other_votes": 2689,
+        "total_votes": 231020
+    },
+    "12": {
+        "biden_votes": 199901,
+        "trump_votes": 32101,
+        "other_votes": 3342,
+        "total_votes": 235344
+    },
+    "13": {
+        "biden_votes": 169119,
+        "trump_votes": 21486,
+        "other_votes": 2057,
+        "total_votes": 192662
+    },
+    "15": {
+        "biden_votes": 136353,
+        "trump_votes": 23921,
+        "other_votes": 1333,
+        "total_votes": 161607
+    },
+    "16": {
+        "biden_votes": 303605,
+        "trump_votes": 71303,
+        "other_votes": 3925,
+        "total_votes": 378833
+    },
+    "2": {
+        "biden_votes": 181668,
+        "trump_votes": 220591,
+        "other_votes": 6567,
+        "total_votes": 408826
+    },
+    "4": {
+        "biden_votes": 265660,
+        "trump_votes": 124322,
+        "other_votes": 3620,
+        "total_votes": 393602
+    }
+}

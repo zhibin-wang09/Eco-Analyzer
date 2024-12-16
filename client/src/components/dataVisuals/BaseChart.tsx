@@ -33,12 +33,14 @@ interface BaseChartProps {
   selectedState: string;
   selectedVisualization?: VisualizationType;
   onSelectDistrict: (district: number | null) => void;
+  selectedDistrict: number | null;
 }
 
 const BaseChart: React.FC<BaseChartProps> = ({
   selectedState,
   selectedVisualization = "summary",
   onSelectDistrict,
+  selectedDistrict
 }) => {
   const [stateSummaryData, setStateSummaryData] =
     React.useState<SummaryData | null>(null);
@@ -85,7 +87,7 @@ const BaseChart: React.FC<BaseChartProps> = ({
       return json;
     };
 
-    if(selectedState && selectedVisualization === 'ensembleSummary'){
+    if (selectedState && selectedVisualization === "ensembleSummary") {
       fetchEnsembleSummary(selectedState);
     }
 
@@ -167,13 +169,14 @@ const BaseChart: React.FC<BaseChartProps> = ({
           />
         );
       case "ensembleSummary":
-       if(ensembleSummary == null) return null;
-       return <EnsembleSummary ensembleSummary={ensembleSummary}/>;
+        if (ensembleSummary == null) return null;
+        return <EnsembleSummary ensembleSummary={ensembleSummary} />;
       case "districtDetail":
         return (
           <DistrictDetail
             onSelectDistrict={onSelectDistrict}
             selectedState={selectedState}
+            district={selectedDistrict}
           />
         );
       case "gingles":

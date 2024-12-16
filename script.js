@@ -1018,15 +1018,14 @@ async function processBoxWhisker(file1, sortByRegion) {
       }
     }
 
-    await fsp.writeFile(
-      "./boxplots/ready_data/" + file1.toLowerCase().slice(11),
-      JSON.stringify(result, null, 2)
-    );
+    await fsp.writeFile("bw.json", JSON.stringify(result, null, 2));
     console.log("success");
   } catch (e) {
     console.log(e);
   }
 }
+
+processBoxWhisker("./AR_District_Income_Summary.json", false);
 
 // const fileNames = ["_district_region_summaries","_district_region_race_income_summary","_district_summaries_income","_district_summaries_race"];
 // const states = ["AR", "NY"];
@@ -1209,18 +1208,16 @@ async function regionTypeHeatMap(file) {
     } else {
       return "#2953a0";
     }
-  }
+  };
 
-  const data = await fsp.readFile(file, 'utf8');
+  const data = await fsp.readFile(file, "utf8");
 
   const dataJson = JSON.parse(data);
 
-  for(let data of dataJson){
-    data['urbanicity']['shading'] = getColor(data['urbanicity']['type']);
+  for (let data of dataJson) {
+    data["urbanicity"]["shading"] = getColor(data["urbanicity"]["type"]);
   }
 
-  await fsp.writeFile(file, JSON.stringify(dataJson,null ,2));
+  await fsp.writeFile(file, JSON.stringify(dataJson, null, 2));
   console.log("success");
 }
-
-regionTypeHeatMap('AR Urbanicity.json')

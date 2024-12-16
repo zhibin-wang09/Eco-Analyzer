@@ -93,6 +93,14 @@ const MainLayout = () => {
     }
   };
 
+  const onDistrictSelect = (district: string | null) =>{
+    if(selectedDistrict === Number(district)){
+      setSelectedDistrict(null);
+    }else{
+      setSelectedDistrict(Number(district));
+    }
+  }
+
   const transformRegionData = (data: any) => {
     if (!data) return [];
     const regionData = data["population percentage by region"];
@@ -157,6 +165,7 @@ const MainLayout = () => {
                     heatmapType={heatmapType}
                     selectedDistrict={selectedDistrict}
                     selectedDemographic={selectedDemographic}
+                    onDistrictSelect={onDistrictSelect}
                   />
                 </Box>
   
@@ -205,6 +214,7 @@ const MainLayout = () => {
                           handleTabChange={handleTabChange}
                           selectedVisualization={selectedVisualization}
                           selectedState={selectedState}
+                          selectedDistrict={selectedDistrict}
                         />
                       </Box>
                     </ScaleFade>

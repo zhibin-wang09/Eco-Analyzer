@@ -1,0 +1,26 @@
+{
+    "3": {
+        "rural": 315,
+        "urban": 57,
+        "suburban": 48,
+        "total": 420
+    },
+    "4": {
+        "rural": 825,
+        "urban": 87,
+        "suburban": 22,
+        "total": 934
+    },
+    "2": {
+        "rural": 297,
+        "urban": 40,
+        "suburban": 41,
+        "total": 378
+    },
+    "1": {
+        "rural": 926,
+        "urban": 48,
+        "suburban": 41,
+        "total": 1015
+    }
+}
