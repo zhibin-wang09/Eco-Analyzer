@@ -56,3 +56,14 @@ Start redis server
 
 Then in the same directory that the script was ran in run the following command to start the project:
 `./mvnw spring-boot:run`
+
+# Visualizer Preview
+
+![Demographic Heatmap](./Images/DemographicHeatmap.png)
+![New York Box And Whisker](./Images/NewyorkBW.png)
+![New York District Detail Table](./Images/NewyorkDistrictDetail.png)
+![New York Ecological Inference](./Images/DemographicHeatmap.png)
+![New York Gingles](./Images/NewyorkGingles.png)
+![New York Ginlges Table](./Images/NewyorkGinglesTable.png)
+![New York Summary](./Images/NewyorkSummary.png)
+![New York Political Income Heatmap](./Images/PoliticalIncomeHeatmap.png)
